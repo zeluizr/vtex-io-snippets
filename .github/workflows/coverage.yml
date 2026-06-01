@@ -1,0 +1,57 @@
+name: Coverage Audit
+
+# Audita a cobertura dos blocos nativos VTEX contra o store/interfaces.json
+# de cada app (ground-truth). Roda semanalmente, sob demanda, e quando os
+# dados/script de cobertura mudam.
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1' # toda segunda-feira, 06:00 UTC
+  push:
+    branches: [main]
+    paths:
+      - 'data/blocks.json'
+      - 'schemas/vtex-blocks.schema.json'
+      - 'scripts/check-coverage.js'
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Rodar auditoria de cobertura
+        run: node scripts/check-coverage.js
+
+      - name: Publicar relatório no resumo do run
+        run: cat docs/coverage-report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload do relatório (artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            docs/coverage-report.md
+            data/coverage.json
+
+      - name: Commitar relatório atualizado (se mudou)
+        run: |
+          if [[ -n "$(git status --porcelain docs/coverage-report.md data/coverage.json)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add docs/coverage-report.md data/coverage.json
+            git commit -m "chore: atualiza relatório de cobertura [skip ci]"
+            git push
+          else
+            echo "Relatório de cobertura sem alterações."
+          fi
