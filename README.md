@@ -71,7 +71,7 @@ Dentro de `"props": { }` de un bloque, presiona `Ctrl+Espacio` y el editor lista
 
 ### Navegar entre bloques
 
-En los archivos de `store/blocks/**`, los ids de bloque se vuelven navegables:
+En los archivos de tema bajo `store/**` (incluye `store/blocks/**`, `store/home.jsonc`, `store/blocks.jsonc` y subcarpetas), los ids de bloque se vuelven navegables:
 
 - **Ir a la definición** (`Cmd/Ctrl+clic` o `F12`): desde una referencia en `children`/`blocks`/`before`/`after`/`around` salta a donde el bloque está definido (`"id": { … }`), incluso en otro archivo.
 - **Buscar todas las referencias** (`Shift+F12`): lista todos los usos del bloque en el tema.

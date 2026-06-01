@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.5
+
+- **Navegação entre blocos agora cobre todo o `store/**`** (não só `store/blocks/**`): inclui `store/home.jsonc`, `store/blocks.jsonc`, subpastas e blocos definidos fora de `store/blocks/`. Arquivos que não declaram blocos (`interfaces.json`, `routes.json`, `manifest.json`, `widgets.json`, `content-types.json`, `content-schemas.json`, `sender.json`, `plugins.json`) são ignorados na indexação para não gerar definições falsas.
+
 ## 2.1.4
 
 - **Navegação entre blocos** (a extensão agora tem runtime — `extension.js`):

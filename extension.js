@@ -19,8 +19,24 @@
 const vscode = require('vscode')
 
 // Arquivos onde blocos sao definidos/referenciados num tema VTEX IO.
-const FILE_GLOB = '**/store/blocks/**/*.{json,jsonc}'
+// Cobre todo o store/** (store/blocks/**, store/home.jsonc, store/blocks.jsonc,
+// subpastas...), nao so store/blocks/.
+const FILE_GLOB = '**/store/**/*.{json,jsonc}'
 const EXCLUDE_GLOB = '**/node_modules/**'
+
+// Arquivos sob store/ que NAO declaram blocos — ignorados na indexacao para
+// nao gerar definicoes/refs falsas (ex.: chaves de interfaces.json).
+const NON_BLOCK_FILES = new Set([
+  'interfaces.json', 'routes.json', 'manifest.json', 'widgets.json',
+  'content-types.json', 'content-schemas.json', 'sender.json', 'plugins.json',
+])
+
+function isThemeBlockFile(uri) {
+  const path = uri.path
+  if (!path.includes('/store/')) return false
+  const base = path.slice(path.lastIndexOf('/') + 1)
+  return !NON_BLOCK_FILES.has(base)
+}
 
 // Token de um id de bloco (sem aspas): rich-text, flex-layout.row#hero-banner, store.home...
 const TOKEN_RE = /[A-Za-z0-9_][A-Za-z0-9_.#-]*/
@@ -56,6 +72,7 @@ async function buildIndex() {
   }
 
   for (const uri of uris) {
+    if (!isThemeBlockFile(uri)) continue
     let doc
     try {
       doc = await vscode.workspace.openTextDocument(uri)
@@ -155,7 +172,7 @@ function activate(context) {
   )
 
   // Invalida o indice quando arquivos de tema mudam.
-  const watcher = vscode.workspace.createFileSystemWatcher('**/store/blocks/**/*.{json,jsonc}')
+  const watcher = vscode.workspace.createFileSystemWatcher(FILE_GLOB)
   watcher.onDidCreate(invalidateIndex)
   watcher.onDidChange(invalidateIndex)
   watcher.onDidDelete(invalidateIndex)
@@ -163,7 +180,7 @@ function activate(context) {
 
   context.subscriptions.push(
     vscode.workspace.onDidChangeTextDocument((e) => {
-      if (e.document.uri.path.includes('/store/blocks/')) invalidateIndex()
+      if (isThemeBlockFile(e.document.uri)) invalidateIndex()
     }),
   )
 }
