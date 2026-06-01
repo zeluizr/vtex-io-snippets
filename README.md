@@ -61,6 +61,7 @@ Dentro de `"props": { }` de un bloque, presiona `Ctrl+Espacio` y el editor lista
 
 - `store/blocks.json` / `store/blocks.jsonc`
 - `store/blocks/**/*.json` / `store/blocks/**/*.jsonc`
+- cualquier `*.jsonc` bajo `store/**` (p. ej. `store/home.jsonc`)
 
 > Para que las sugerencias aparezcan **mientras escribes** (y no solo con `Ctrl+Espacio`), activa las sugerencias en strings en tu `settings.json`:
 > ```json

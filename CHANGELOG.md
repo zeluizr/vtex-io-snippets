@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.6
+
+- **Autocomplete/validação de props (JSON Schema) agora também em `store/home.jsonc`** e qualquer `*.jsonc` sob `store/**` (antes só `blocks.json`/`blocks.jsonc` e `store/blocks/**`). Os `.json` continuam restritos a `store/blocks/**`, de propósito, para não aplicar o schema de blocos em `interfaces.json`/`routes.json` (que são `.json` e o `jsonValidation` não tem exclude).
+
 ## 2.1.5
 
 - **Navegação entre blocos agora cobre todo o `store/**`** (não só `store/blocks/**`): inclui `store/home.jsonc`, `store/blocks.jsonc`, subpastas e blocos definidos fora de `store/blocks/`. Arquivos que não declaram blocos (`interfaces.json`, `routes.json`, `manifest.json`, `widgets.json`, `content-types.json`, `content-schemas.json`, `sender.json`, `plugins.json`) são ignorados na indexação para não gerar definições falsas.
