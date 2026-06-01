@@ -177,6 +177,14 @@ async function main() {
 
   const globalPct = totReq ? Math.round((totCovReq / totReq) * 100) : 100
 
+  // baseline de gaps aceitos (intencionalmente não cobertos): data/coverage-accepted.json
+  const acceptedPath = path.join(ROOT, 'data', 'coverage-accepted.json')
+  let accepted = []
+  try { accepted = JSON.parse(fs.readFileSync(acceptedPath, 'utf8')) } catch {}
+  const acceptedSet = new Set(accepted)
+  const allMissing = [...new Set(perApp.flatMap((a) => a.missing))].sort()
+  const newGaps = allMissing.filter((id) => !acceptedSet.has(id))
+
   // ---- 5. Relatório ----
   const machine = {
     generatedFrom: 'store/interfaces.json (raw.githubusercontent.com/vtex-apps)',
@@ -187,10 +195,14 @@ async function main() {
       coveragePct: globalPct,
       missingApps: missingApps.length,
       orphanBlocks: orphans.length,
+      acceptedGaps: accepted.length,
+      newGaps: newGaps.length,
     },
     perApp,
     missingApps,
     orphans,
+    allMissing,
+    newGaps,
     appsWithoutInterfaces: noInterfaces.sort(),
   }
   fs.writeFileSync(REPORT_JSON, JSON.stringify(machine, null, 2))
@@ -261,6 +273,7 @@ async function main() {
   console.log(`Apps analisados: ${Object.keys(apps).length}`)
   console.log(`Cobertura global (exigidos): ${totCovReq}/${totReq} = ${globalPct}%`)
   console.log(`Faltantes: ${totalMissing} | Apps ausentes: ${missingApps.length} | Órfãos: ${orphans.length}`)
+  console.log(`Gaps aceitos (baseline): ${accepted.length} | NOVOS gaps: ${newGaps.length}${newGaps.length ? ' -> ' + newGaps.join(', ') : ''}`)
   console.log(`Relatório: ${path.relative(ROOT, REPORT_MD)}`)
 }
 

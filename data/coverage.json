@@ -6,7 +6,9 @@
     "coveredRequired": 366,
     "coveragePct": 93,
     "missingApps": 3,
-    "orphanBlocks": 2
+    "orphanBlocks": 2,
+    "acceptedGaps": 27,
+    "newGaps": 0
   },
   "perApp": [
     {
@@ -887,6 +889,36 @@
     "login",
     "login-content"
   ],
+  "allMissing": [
+    "blog-all-posts",
+    "blog-breadcrumb",
+    "blog-category-list",
+    "blog-category-preview",
+    "blog-latest-posts-preview",
+    "blog-page-details",
+    "blog-post-container",
+    "blog-post-details",
+    "blog-post-navigation",
+    "blog-related-posts",
+    "blog-related-products",
+    "blog-search",
+    "blog-search-list",
+    "filter-navigator",
+    "filter-navigator.v1",
+    "filter-navigator.v2",
+    "offline-warning",
+    "order-by",
+    "promotion-banner",
+    "sandbox",
+    "sandbox.order",
+    "sandbox.product",
+    "search-blog-articles-list",
+    "search-blog-articles-preview",
+    "store.offline",
+    "store.product.sellertest",
+    "total-products"
+  ],
+  "newGaps": [],
   "appsWithoutInterfaces": [
     "vtex.address-form",
     "vtex.apps-graphql",

@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   audit:
@@ -43,6 +44,28 @@ jobs:
           path: |
             docs/coverage-report.md
             data/coverage.json
+
+      - name: Abrir/atualizar issue se houver gap novo
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          COUNT=$(node -e "console.log((require('./data/coverage.json').newGaps||[]).length)")
+          if [ "$COUNT" -gt 0 ]; then
+            LIST=$(node -e "console.log((require('./data/coverage.json').newGaps||[]).map(x=>'- \`'+x+'\`').join('\n'))")
+            BODY=$(printf 'A auditoria de cobertura detectou **%s** bloco(s) nativo(s) novo(s) sem cobertura:\n\n%s\n\nVeja `docs/coverage-report.md` (artifact do run). \n\nPara **fechar o gap**: rode a extração de props e regenere o schema. \nPara **aceitar** (não cobrir): adicione o ID em `data/coverage-accepted.json`.' "$COUNT" "$LIST")
+            gh label create coverage-gap --color F71963 --description "Novo bloco nativo VTEX sem cobertura" --force || true
+            EXIST=$(gh issue list --label coverage-gap --state open --json number --jq '.[0].number')
+            if [ -n "$EXIST" ]; then
+              gh issue comment "$EXIST" --body "$BODY"
+              echo "Comentado na issue #$EXIST"
+            else
+              gh issue create --title "Cobertura: $COUNT novo(s) bloco(s) nativo(s) sem cobertura" --label coverage-gap --body "$BODY"
+            fi
+          else
+            echo "Nenhum gap novo. Fechando issue aberta, se houver."
+            EXIST=$(gh issue list --label coverage-gap --state open --json number --jq '.[0].number')
+            if [ -n "$EXIST" ]; then gh issue close "$EXIST" --comment "Sem gaps novos na última auditoria — fechando automaticamente."; fi
+          fi
 
       - name: Commitar relatório atualizado (se mudou)
         run: |
