@@ -1,0 +1,10 @@
+.vscode/**
+.github/**
+data/**
+scripts/**
+node_modules/**
+**/*.vsix
+**/*.map
+.gitignore
+.gitattributes
+.git/**

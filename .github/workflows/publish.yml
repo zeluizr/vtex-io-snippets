@@ -1,0 +1,36 @@
+name: Publish Extension
+
+# Publica no VS Code Marketplace ao enviar uma tag de versao (ex.: v2.0.0).
+# Requer o secret VSCE_PAT (Azure DevOps PAT, escopo Marketplace > Manage).
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Package (.vsix)
+        run: npx --yes @vscode/vsce package
+
+      - name: Publish to VS Code Marketplace
+        run: npx --yes @vscode/vsce publish -p "$VSCE_PAT"
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Upload .vsix to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: '*.vsix'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

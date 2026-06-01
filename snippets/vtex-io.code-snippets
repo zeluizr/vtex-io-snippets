@@ -1,0 +1,1007 @@
+{
+  // ============================================================
+  //  VTEX IO STORE FRAMEWORK — SNIPPETS DE BLOCOS NATIVOS
+  //  Prefixos: digite o nome do bloco (ex.: "flex-layout.row")
+  //  ou o atalho curto "v-" (ex.: "v-flex-row").
+  //  Use Tab para navegar entre os placeholders.
+  // ============================================================
+
+  // ----------------------------------------------------------------
+  //  PAGE BLOCKS (templates de página)
+  // ----------------------------------------------------------------
+  "store.home": {
+    "prefix": ["store.home", "v-page-home"],
+    "body": [
+      "\"store.home\": {",
+      "  \"blocks\": [",
+      "    \"${1:flex-layout.row#home}\"",
+      "  ]",
+      "}"
+    ],
+    "description": "Template da Home"
+  },
+  "store.product": {
+    "prefix": ["store.product", "v-page-product"],
+    "body": [
+      "\"store.product\": {",
+      "  \"children\": [",
+      "    \"${1:flex-layout.row#product}\"",
+      "  ]",
+      "}"
+    ],
+    "description": "Template do PDP (página de produto)"
+  },
+  "store.search": {
+    "prefix": ["store.search", "v-page-search"],
+    "body": [
+      "\"store.search\": {",
+      "  \"blocks\": [\"${1:search-result-layout}\"]",
+      "}"
+    ],
+    "description": "Template da página de busca/categoria (SRP)"
+  },
+  "store.custom": {
+    "prefix": ["store.custom", "v-page-custom"],
+    "body": [
+      "\"store.custom#${1:id}\": {",
+      "  \"blocks\": [\"${2:flex-layout.row#${1:id}}\"]",
+      "}"
+    ],
+    "description": "Template de página customizada (institucional/landing)"
+  },
+  "store.institutional": {
+    "prefix": ["store.institutional", "v-page-institutional"],
+    "body": [
+      "\"store.institutional#${1:id}\": {",
+      "  \"blocks\": [\"${2:rich-text#${1:id}}\"]",
+      "}"
+    ],
+    "description": "Template de página institucional"
+  },
+  "store.notfound": {
+    "prefix": ["store.notfound", "v-page-notfound"],
+    "body": [
+      "\"store.notfound#${1:home}\": {",
+      "  \"blocks\": [\"${2:not-found}\"]",
+      "}"
+    ],
+    "description": "Template da página 404"
+  },
+
+  // ----------------------------------------------------------------
+  //  ROUTES (store/routes.json)
+  // ----------------------------------------------------------------
+  "route store.custom": {
+    "prefix": ["route store.custom", "v-route-custom"],
+    "body": [
+      "\"store.custom#${1:about}\": {",
+      "  \"path\": \"/${2:institucional/sobre}\"",
+      "}"
+    ],
+    "description": "Rota customizada simples"
+  },
+  "route institutional context": {
+    "prefix": ["route institutional", "v-route-institutional"],
+    "body": [
+      "\"store.custom#${1:about}\": {",
+      "  \"path\": \"/${2:institucional/sobre}\",",
+      "  \"context\": \"vtex.store-resources/InstitutionalPageContext\"",
+      "}"
+    ],
+    "description": "Rota institucional com InstitutionalPageContext"
+  },
+
+  // ----------------------------------------------------------------
+  //  LAYOUT — flex-layout
+  // ----------------------------------------------------------------
+  "flex-layout.row": {
+    "prefix": ["flex-layout.row", "v-flex-row"],
+    "body": [
+      "\"flex-layout.row#${1:id}\": {",
+      "  \"children\": [",
+      "    \"${2}\"",
+      "  ],",
+      "  \"props\": {",
+      "    \"blockClass\": \"${3:id}\",",
+      "    \"preventHorizontalStretch\": ${4|false,true|},",
+      "    \"horizontalAlign\": \"${5|left,center,right|}\",",
+      "    \"colGap\": ${6:0},",
+      "    \"rowGap\": ${7:0}",
+      "  }",
+      "}"
+    ],
+    "description": "Linha horizontal de layout (flex-layout.row)"
+  },
+  "flex-layout.col": {
+    "prefix": ["flex-layout.col", "v-flex-col"],
+    "body": [
+      "\"flex-layout.col#${1:id}\": {",
+      "  \"children\": [",
+      "    \"${2}\"",
+      "  ],",
+      "  \"props\": {",
+      "    \"blockClass\": \"${3:id}\",",
+      "    \"width\": \"${4:grow}\",",
+      "    \"verticalAlign\": \"${5|top,middle,bottom|}\",",
+      "    \"horizontalAlign\": \"${6|left,center,right|}\",",
+      "    \"rowGap\": ${7:0}",
+      "  }",
+      "}"
+    ],
+    "description": "Coluna vertical de layout (flex-layout.col)"
+  },
+
+  // ----------------------------------------------------------------
+  //  LAYOUT — responsive-layout
+  // ----------------------------------------------------------------
+  "responsive-layout": {
+    "prefix": ["responsive-layout", "v-responsive"],
+    "body": [
+      "\"responsive-layout.desktop#${1:id}\": {",
+      "  \"children\": [\"${2}\"]",
+      "},",
+      "\"responsive-layout.mobile#${1:id}\": {",
+      "  \"children\": [\"${3}\"]",
+      "}"
+    ],
+    "description": "Bloco responsivo desktop/mobile"
+  },
+
+  // ----------------------------------------------------------------
+  //  LAYOUT — slider-layout (carrossel)
+  // ----------------------------------------------------------------
+  "slider-layout": {
+    "prefix": ["slider-layout", "v-slider"],
+    "body": [
+      "\"slider-layout#${1:id}\": {",
+      "  \"children\": [",
+      "    \"${2}\"",
+      "  ],",
+      "  \"props\": {",
+      "    \"itemsPerPage\": {",
+      "      \"desktop\": ${3:5},",
+      "      \"tablet\": ${4:3},",
+      "      \"phone\": ${5:1}",
+      "    },",
+      "    \"infinite\": ${6|true,false|},",
+      "    \"showNavigationArrows\": \"${7|always,mobileOnly,desktopOnly,never|}\",",
+      "    \"showPaginationDots\": \"${8|always,mobileOnly,desktopOnly,never|}\",",
+      "    \"blockClass\": \"${9:id}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Carrossel/slider de itens (slider-layout)"
+  },
+
+  // ----------------------------------------------------------------
+  //  LAYOUT — list-context
+  // ----------------------------------------------------------------
+  "list-context.image-list": {
+    "prefix": ["list-context.image-list", "v-image-list"],
+    "body": [
+      "\"list-context.image-list#${1:id}\": {",
+      "  \"children\": [\"slider-layout#${1:id}\"],",
+      "  \"props\": {",
+      "    \"height\": ${2:420},",
+      "    \"images\": [",
+      "      {",
+      "        \"image\": \"${3:/arquivos/banner.png}\",",
+      "        \"mobileImage\": \"${4:/arquivos/banner-mobile.png}\",",
+      "        \"description\": \"${5:banner}\",",
+      "        \"link\": { \"url\": \"${6:/}\" }",
+      "      }",
+      "    ]",
+      "  }",
+      "}"
+    ],
+    "description": "Lista de imagens para slider-layout (banners)"
+  },
+  "list-context.product-list": {
+    "prefix": ["list-context.product-list", "v-product-list"],
+    "body": [
+      "\"list-context.product-list#${1:id}\": {",
+      "  \"blocks\": [\"product-summary.shelf\"],",
+      "  \"children\": [\"slider-layout#${1:id}\"],",
+      "  \"props\": {",
+      "    \"orderBy\": \"${2|OrderByTopSaleDESC,OrderByPriceDESC,OrderByPriceASC,OrderByReleaseDateDESC,OrderByBestDiscountDESC|}\",",
+      "    \"collection\": ${3:0},",
+      "    \"category\": \"${4}\",",
+      "    \"maxItems\": ${5:10}",
+      "  }",
+      "}"
+    ],
+    "description": "Prateleira de produtos (list-context.product-list)"
+  },
+
+  // ----------------------------------------------------------------
+  //  LAYOUT — sticky / condition / tab / disclosure / modal
+  // ----------------------------------------------------------------
+  "sticky-layout": {
+    "prefix": ["sticky-layout", "v-sticky"],
+    "body": [
+      "\"sticky-layout#${1:id}\": {",
+      "  \"children\": [\"${2}\"],",
+      "  \"props\": {",
+      "    \"verticalSpacing\": ${3:0},",
+      "    \"position\": \"${4|top,bottom|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Bloco fixo ao rolar (sticky-layout)"
+  },
+  "condition-layout.product": {
+    "prefix": ["condition-layout.product", "v-condition-product"],
+    "body": [
+      "\"condition-layout.product#${1:id}\": {",
+      "  \"props\": {",
+      "    \"conditions\": [",
+      "      {",
+      "        \"subject\": \"${2|productClusters,categoryId,brandId,selectedItemId,productId,specificationProperties,hasCurrentSku,areAllVariationsSelected|}\",",
+      "        \"arguments\": { \"id\": \"${3}\" }",
+      "      }",
+      "    ],",
+      "    \"matchType\": \"${4|all,any,none|}\"",
+      "  },",
+      "  \"then\": [{ \"block\": \"${5}\" }],",
+      "  \"else\": [{ \"block\": \"${6}\" }]",
+      "}"
+    ],
+    "description": "Renderização condicional por produto (condition-layout.product)"
+  },
+  "condition-layout.binding": {
+    "prefix": ["condition-layout.binding", "v-condition-binding"],
+    "body": [
+      "\"condition-layout.binding#${1:id}\": {",
+      "  \"props\": {",
+      "    \"conditions\": [",
+      "      {",
+      "        \"subject\": \"bindingId\",",
+      "        \"arguments\": { \"id\": \"${2}\" }",
+      "      }",
+      "    ],",
+      "    \"matchType\": \"${3|all,any,none|}\"",
+      "  },",
+      "  \"then\": [{ \"block\": \"${4}\" }],",
+      "  \"else\": [{ \"block\": \"${5}\" }]",
+      "}"
+    ],
+    "description": "Renderização condicional por binding (condition-layout.binding)"
+  },
+  "tab-layout": {
+    "prefix": ["tab-layout", "v-tab-layout"],
+    "body": [
+      "\"tab-layout#${1:id}\": {",
+      "  \"children\": [\"tab-list#${1:id}\", \"tab-content#${1:id}\"],",
+      "  \"props\": { \"blockClass\": \"${1:id}\", \"defaultActiveTab\": \"${2:tab1}\" }",
+      "},",
+      "\"tab-list#${1:id}\": {",
+      "  \"children\": [\"tab-list.item#tab1\", \"tab-list.item#tab2\"]",
+      "},",
+      "\"tab-list.item#tab1\": {",
+      "  \"props\": { \"tabId\": \"tab1\", \"label\": \"${3:Aba 1}\", \"defaultActiveTab\": true }",
+      "},",
+      "\"tab-list.item#tab2\": {",
+      "  \"props\": { \"tabId\": \"tab2\", \"label\": \"${4:Aba 2}\" }",
+      "},",
+      "\"tab-content#${1:id}\": {",
+      "  \"children\": [\"tab-content.item#tab1\", \"tab-content.item#tab2\"]",
+      "},",
+      "\"tab-content.item#tab1\": {",
+      "  \"children\": [\"${5}\"],",
+      "  \"props\": { \"tabId\": \"tab1\" }",
+      "},",
+      "\"tab-content.item#tab2\": {",
+      "  \"children\": [\"${6}\"],",
+      "  \"props\": { \"tabId\": \"tab2\" }",
+      "}"
+    ],
+    "description": "Sistema de abas completo (tab-layout)"
+  },
+  "disclosure-layout": {
+    "prefix": ["disclosure-layout", "v-disclosure"],
+    "body": [
+      "\"disclosure-layout#${1:id}\": {",
+      "  \"children\": [\"disclosure-trigger#${1:id}\", \"disclosure-content#${1:id}\"],",
+      "  \"props\": { \"openOnHover\": ${2|false,true|} }",
+      "},",
+      "\"disclosure-trigger#${1:id}\": {",
+      "  \"children\": [\"${3}\"]",
+      "},",
+      "\"disclosure-content#${1:id}\": {",
+      "  \"children\": [\"${4}\"]",
+      "}"
+    ],
+    "description": "Conteúdo expansível (disclosure-layout / accordion)"
+  },
+  "modal-layout": {
+    "prefix": ["modal-layout", "v-modal"],
+    "body": [
+      "\"modal-trigger#${1:id}\": {",
+      "  \"children\": [\"${2}\"]",
+      "},",
+      "\"modal-layout#${1:id}\": {",
+      "  \"children\": [\"${3}\"],",
+      "  \"props\": { \"blockClass\": \"${1:id}\" }",
+      "}"
+    ],
+    "description": "Modal com gatilho (modal-trigger + modal-layout)"
+  },
+
+  // ----------------------------------------------------------------
+  //  CONTEÚDO — rich-text, image, info-card, cta, newsletter
+  // ----------------------------------------------------------------
+  "rich-text": {
+    "prefix": ["rich-text", "v-rich-text"],
+    "body": [
+      "\"rich-text#${1:id}\": {",
+      "  \"props\": {",
+      "    \"text\": \"${2:Texto em **Markdown**}\",",
+      "    \"textAlignment\": \"${3|CENTER,LEFT,RIGHT|}\",",
+      "    \"textPosition\": \"${4|CENTER,LEFT,RIGHT|}\",",
+      "    \"font\": \"${5:t-heading-3}\",",
+      "    \"blockClass\": \"${6:id}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Texto em Markdown (rich-text)"
+  },
+  "image": {
+    "prefix": ["image", "v-image"],
+    "body": [
+      "\"image#${1:id}\": {",
+      "  \"props\": {",
+      "    \"src\": \"${2:/arquivos/imagem.png}\",",
+      "    \"alt\": \"${3:descrição}\",",
+      "    \"maxWidth\": \"${4:100%}\",",
+      "    \"link\": { \"url\": \"${5:/}\", \"noFollow\": false, \"openNewTab\": false }",
+      "  }",
+      "}"
+    ],
+    "description": "Imagem única (image)"
+  },
+  "info-card": {
+    "prefix": ["info-card", "v-info-card"],
+    "body": [
+      "\"info-card#${1:id}\": {",
+      "  \"props\": {",
+      "    \"isFullModeStyle\": ${2|false,true|},",
+      "    \"imageUrl\": \"${3:/arquivos/card.png}\",",
+      "    \"headline\": \"${4:Título}\",",
+      "    \"subhead\": \"${5:Subtítulo}\",",
+      "    \"callToActionText\": \"${6:Saiba mais}\",",
+      "    \"callToActionUrl\": \"${7:/}\",",
+      "    \"textPosition\": \"${8|left,center,right|}\",",
+      "    \"imagePosition\": \"${9|left,right|}\",",
+      "    \"blockClass\": \"${10:id}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Card de informação com imagem e CTA (info-card)"
+  },
+  "call-to-action": {
+    "prefix": ["call-to-action", "v-cta"],
+    "body": [
+      "\"call-to-action#${1:id}\": {",
+      "  \"props\": {",
+      "    \"title\": \"${2:Título}\",",
+      "    \"text\": \"${3:Texto}\",",
+      "    \"textAlignment\": \"${4|center,left,right|}\",",
+      "    \"buttonText\": \"${5:Comprar}\",",
+      "    \"buttonUrl\": \"${6:/}\",",
+      "    \"buttonPosition\": \"${7|center,left,right|}\",",
+      "    \"blockClass\": \"${8:id}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Chamada para ação (call-to-action)"
+  },
+  "newsletter": {
+    "prefix": ["newsletter", "v-newsletter"],
+    "body": [
+      "\"newsletter#${1:id}\": {",
+      "  \"children\": [",
+      "    \"rich-text#newsletter-title\",",
+      "    \"newsletter-input-email\",",
+      "    \"newsletter-submit\"",
+      "  ]",
+      "}"
+    ],
+    "description": "Formulário de newsletter (newsletter)"
+  },
+
+  // ----------------------------------------------------------------
+  //  HEADER / NAVEGAÇÃO
+  // ----------------------------------------------------------------
+  "header-layout": {
+    "prefix": ["header-layout", "v-header"],
+    "body": [
+      "\"header-layout.desktop\": {",
+      "  \"children\": [\"flex-layout.row#header-desktop\"]",
+      "},",
+      "\"header-layout.mobile\": {",
+      "  \"children\": [\"flex-layout.row#header-mobile\"]",
+      "}"
+    ],
+    "description": "Layout do header desktop/mobile (header-layout)"
+  },
+  "logo": {
+    "prefix": ["logo", "v-logo"],
+    "body": [
+      "\"logo#${1:desktop}\": {",
+      "  \"props\": {",
+      "    \"url\": \"${2:/arquivos/logo.png}\",",
+      "    \"width\": ${3:150},",
+      "    \"height\": ${4:50},",
+      "    \"title\": \"${5:Logo da loja}\",",
+      "    \"href\": \"/\"",
+      "  }",
+      "}"
+    ],
+    "description": "Logo da loja (logo)"
+  },
+  "search-bar": {
+    "prefix": ["search-bar", "v-search-bar"],
+    "body": [
+      "\"search-bar\": {",
+      "  \"props\": {",
+      "    \"placeholder\": \"${1:Buscar produtos...}\",",
+      "    \"emptyPlaceholder\": \"${2:O que você procura?}\",",
+      "    \"displayMode\": \"${3|clear-button,search-and-clear-buttons,search-button|}\",",
+      "    \"minSearchTermLength\": ${4:2},",
+      "    \"autocompleteFullWidth\": ${5|false,true|}",
+      "  }",
+      "}"
+    ],
+    "description": "Barra de busca (search-bar)"
+  },
+  "minicart.v2": {
+    "prefix": ["minicart.v2", "v-minicart"],
+    "body": [
+      "\"minicart.v2\": {",
+      "  \"props\": {",
+      "    \"variation\": \"${1|drawer,popup,link|}\",",
+      "    \"openOnHover\": ${2|false,true|},",
+      "    \"maxDrawerWidth\": ${3:400},",
+      "    \"drawerSlideDirection\": \"${4|rightToLeft,leftToRight|}\"",
+      "  },",
+      "  \"children\": [\"minicart-product-list\", \"flex-layout.row#minicart-checkout-button\"]",
+      "}"
+    ],
+    "description": "Minicart drawer/popup (minicart.v2)"
+  },
+  "login": {
+    "prefix": ["login", "v-login"],
+    "body": [
+      "\"login\": {",
+      "  \"props\": {",
+      "    \"showIconProfile\": ${1|true,false|},",
+      "    \"iconLabel\": \"${2:Minha conta}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Login / minha conta (login)"
+  },
+  "menu": {
+    "prefix": ["menu", "v-menu"],
+    "body": [
+      "\"menu#${1:main}\": {",
+      "  \"children\": [\"menu-item#${2:home}\"],",
+      "  \"props\": {",
+      "    \"orientation\": \"${3|horizontal,vertical|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Menu de navegação (menu)"
+  },
+  "menu-item": {
+    "prefix": ["menu-item", "v-menu-item"],
+    "body": [
+      "\"menu-item#${1:id}\": {",
+      "  \"props\": {",
+      "    \"id\": \"${1:id}\",",
+      "    \"type\": \"${2|custom,category,brand,department|}\",",
+      "    \"highlight\": ${3|false,true|},",
+      "    \"itemProps\": {",
+      "      \"type\": \"${4|internal,external|}\",",
+      "      \"href\": \"${5:/}\",",
+      "      \"noFollow\": false,",
+      "      \"tagTitle\": \"${6:título}\",",
+      "      \"text\": \"${7:Item}\"",
+      "    }",
+      "  }",
+      "}"
+    ],
+    "description": "Item de menu (menu-item)"
+  },
+  "drawer": {
+    "prefix": ["drawer", "v-drawer"],
+    "body": [
+      "\"drawer\": {",
+      "  \"children\": [\"drawer-header\", \"menu#drawer\"],",
+      "  \"props\": {",
+      "    \"slideDirection\": \"${1|horizontal,vertical,rightToLeft,leftToRight|}\",",
+      "    \"maxWidth\": ${2:300},",
+      "    \"backdropMode\": \"${3|visible,none|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Gaveta lateral de menu (drawer)"
+  },
+
+  // ----------------------------------------------------------------
+  //  FOOTER
+  // ----------------------------------------------------------------
+  "footer-layout": {
+    "prefix": ["footer-layout", "v-footer"],
+    "body": [
+      "\"footer-layout.desktop\": {",
+      "  \"children\": [\"flex-layout.row#footer-desktop\"]",
+      "},",
+      "\"footer-layout.mobile\": {",
+      "  \"children\": [\"flex-layout.col#footer-mobile\"]",
+      "}"
+    ],
+    "description": "Layout do footer desktop/mobile (footer-layout)"
+  },
+
+  // ----------------------------------------------------------------
+  //  PDP — PRODUTO
+  // ----------------------------------------------------------------
+  "breadcrumb": {
+    "prefix": ["breadcrumb", "v-breadcrumb"],
+    "body": [
+      "\"breadcrumb\": {",
+      "  \"props\": {",
+      "    \"showOnMobile\": ${1|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Breadcrumb (trilha de navegação)"
+  },
+  "product-images": {
+    "prefix": ["product-images", "v-product-images"],
+    "body": [
+      "\"product-images\": {",
+      "  \"props\": {",
+      "    \"displayThumbnailsArrows\": ${1|true,false|},",
+      "    \"thumbnailsOrientation\": \"${2|vertical,horizontal|}\",",
+      "    \"zoomMode\": \"${3|in-page-click,in-page-hover,disabled|}\",",
+      "    \"zoomFactor\": ${4:2},",
+      "    \"aspectRatio\": { \"desktop\": \"${5:auto}\", \"phone\": \"${6:auto}\" }",
+      "  }",
+      "}"
+    ],
+    "description": "Galeria de imagens do produto (product-images)"
+  },
+  "product-name": {
+    "prefix": ["product-name", "v-product-name"],
+    "body": [
+      "\"product-name\": {",
+      "  \"props\": {",
+      "    \"showBrandName\": ${1|false,true|},",
+      "    \"showSku\": ${2|false,true|},",
+      "    \"tag\": \"${3|h1,h2,h3,div,span|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Nome do produto (product-name)"
+  },
+  "product-identifier": {
+    "prefix": ["product-identifier", "v-product-identifier"],
+    "body": [
+      "\"product-identifier.product\": {",
+      "  \"props\": {",
+      "    \"label\": \"${1:default}\",",
+      "    \"showLabel\": ${2|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Identificador/SKU do produto (product-identifier)"
+  },
+  "product-price": {
+    "prefix": ["product-price", "v-product-price"],
+    "body": [
+      "\"product-selling-price\": {",
+      "  \"props\": { \"markers\": [\"discount\"] }",
+      "},",
+      "\"product-list-price\": {",
+      "  \"props\": { \"markers\": [\"strikethrough\"] }",
+      "},",
+      "\"product-installments\": {",
+      "  \"props\": { \"markers\": [\"installments\"] }",
+      "}"
+    ],
+    "description": "Bloco de preço composto (selling/list/installments)"
+  },
+  "product-selling-price": {
+    "prefix": ["product-selling-price", "v-selling-price"],
+    "body": [
+      "\"product-selling-price\": {",
+      "  \"props\": { \"markers\": [\"${1:discount}\"] }",
+      "}"
+    ],
+    "description": "Preço de venda (product-selling-price)"
+  },
+  "product-list-price": {
+    "prefix": ["product-list-price", "v-list-price"],
+    "body": [
+      "\"product-list-price\": {",
+      "  \"props\": { \"markers\": [\"${1:strikethrough}\"] }",
+      "}"
+    ],
+    "description": "Preço de tabela / 'de' (product-list-price)"
+  },
+  "product-installments": {
+    "prefix": ["product-installments", "v-installments"],
+    "body": [
+      "\"product-installments\": {",
+      "  \"props\": {",
+      "    \"markers\": [\"installments\"],",
+      "    \"message\": \"${1:{installmentsNumber} x de {installmentValue} {interestRate}}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Parcelamento (product-installments)"
+  },
+  "product-price-savings": {
+    "prefix": ["product-price-savings", "v-price-savings"],
+    "body": [
+      "\"product-price-savings\": {",
+      "  \"props\": {",
+      "    \"markers\": [\"discount\"],",
+      "    \"message\": \"${1:Economize {savingsWithTax}}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Economia/desconto (product-price-savings)"
+  },
+  "product-quantity": {
+    "prefix": ["product-quantity", "v-product-quantity"],
+    "body": [
+      "\"product-quantity\": {",
+      "  \"props\": {",
+      "    \"selectorType\": \"${1|stepper,select|}\",",
+      "    \"showLabel\": ${2|true,false|},",
+      "    \"showUnit\": ${3|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Seletor de quantidade (product-quantity)"
+  },
+  "sku-selector": {
+    "prefix": ["sku-selector", "v-sku-selector"],
+    "body": [
+      "\"sku-selector\": {",
+      "  \"props\": {",
+      "    \"variationsSpacing\": ${1:3},",
+      "    \"showValueNameForImageVariation\": ${2|true,false|},",
+      "    \"hideImpossibleCombinations\": ${3|true,false|},",
+      "    \"showVariationsLabels\": ${4|true,false|},",
+      "    \"initialSelection\": \"${5|complete,image,empty|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Seletor de SKU/variações (sku-selector)"
+  },
+  "buy-button": {
+    "prefix": ["buy-button", "v-buy-button"],
+    "body": [
+      "\"buy-button\": {",
+      "  \"props\": {",
+      "    \"isOneClickBuy\": ${1|false,true|},",
+      "    \"customToastUrl\": \"${2:/checkout/#/cart}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Botão de compra (buy-button)"
+  },
+  "product-description": {
+    "prefix": ["product-description", "v-product-description"],
+    "body": [
+      "\"product-description\": {",
+      "  \"props\": {",
+      "    \"collapseContent\": ${1|false,true|}",
+      "  }",
+      "}"
+    ],
+    "description": "Descrição do produto (product-description)"
+  },
+  "product-specifications": {
+    "prefix": ["product-specifications", "v-product-specifications"],
+    "body": [
+      "\"product-specification-group#${1:all}\": {",
+      "  \"props\": {",
+      "    \"specificationGroupName\": \"${2:allSpecifications}\",",
+      "    \"hiddenSpecifications\": [],",
+      "    \"visibleSpecifications\": []",
+      "  },",
+      "  \"children\": [\"product-specification-text\"]",
+      "}"
+    ],
+    "description": "Especificações técnicas (product-specification-group)"
+  },
+  "product-bookmark": {
+    "prefix": ["product-bookmark", "v-product-bookmark"],
+    "body": [
+      "\"product-bookmark\": {",
+      "  \"props\": {",
+      "    \"showBookmark\": ${1|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Favoritar produto (product-bookmark)"
+  },
+  "share": {
+    "prefix": ["share", "v-share"],
+    "body": [
+      "\"share#${1:default}\": {",
+      "  \"props\": {",
+      "    \"social\": {",
+      "      \"Facebook\": ${2|true,false|},",
+      "      \"WhatsApp\": ${3|true,false|},",
+      "      \"Twitter\": ${4|true,false|},",
+      "      \"Pinterest\": ${5|true,false|}",
+      "    }",
+      "  }",
+      "}"
+    ],
+    "description": "Compartilhar produto (share)"
+  },
+  "availability-subscriber": {
+    "prefix": ["availability-subscriber", "v-availability-subscriber"],
+    "body": [
+      "\"availability-subscriber\": {}"
+    ],
+    "description": "Avise-me quando chegar (availability-subscriber)"
+  },
+  "product-gifts": {
+    "prefix": ["product-gifts", "v-product-gifts"],
+    "body": [
+      "\"product-gifts\": {}"
+    ],
+    "description": "Brindes do produto (product-gifts)"
+  },
+
+  // ----------------------------------------------------------------
+  //  PRODUCT SUMMARY / SHELF (prateleira)
+  // ----------------------------------------------------------------
+  "product-summary.shelf": {
+    "prefix": ["product-summary.shelf", "shelf", "v-shelf"],
+    "body": [
+      "\"product-summary.shelf\": {",
+      "  \"children\": [",
+      "    \"product-summary-image#shelf\",",
+      "    \"product-summary-name\",",
+      "    \"product-summary-price\",",
+      "    \"product-summary-buy-button\"",
+      "  ]",
+      "}"
+    ],
+    "description": "Prateleira / card de produto (product-summary.shelf)"
+  },
+  "product-summary-name": {
+    "prefix": ["product-summary-name", "v-summary-name"],
+    "body": [
+      "\"product-summary-name\": {",
+      "  \"props\": {",
+      "    \"showBrandName\": ${1|false,true|}",
+      "  }",
+      "}"
+    ],
+    "description": "Nome no card (product-summary-name)"
+  },
+  "product-summary-image": {
+    "prefix": ["product-summary-image", "v-summary-image"],
+    "body": [
+      "\"product-summary-image#${1:shelf}\": {",
+      "  \"props\": {",
+      "    \"showBadge\": ${2|true,false|},",
+      "    \"aspectRatio\": \"${3:1:1}\",",
+      "    \"display\": \"${4|block,inline|}\",",
+      "    \"hoverImageLabel\": \"${5}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Imagem no card (product-summary-image)"
+  },
+  "product-summary-buy-button": {
+    "prefix": ["product-summary-buy-button", "v-summary-buy"],
+    "body": [
+      "\"product-summary-buy-button\": {",
+      "  \"props\": {",
+      "    \"isOneClickBuy\": ${1|false,true|},",
+      "    \"buyButtonText\": \"${2:Comprar}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Botão comprar no card (product-summary-buy-button)"
+  },
+  "add-to-cart-button": {
+    "prefix": ["add-to-cart-button", "v-add-to-cart"],
+    "body": [
+      "\"add-to-cart-button\": {",
+      "  \"props\": {",
+      "    \"isOneClickBuy\": ${1|false,true|},",
+      "    \"text\": \"${2:Adicionar ao carrinho}\",",
+      "    \"unavailableText\": \"${3:Indisponível}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Botão adicionar ao carrinho (add-to-cart-button)"
+  },
+  "discount-collection": {
+    "prefix": ["discount-collection", "v-discount-collection"],
+    "body": [
+      "\"discount-collection\": {}"
+    ],
+    "description": "Selo de desconto (discount-collection)"
+  },
+  "product-rating-inline": {
+    "prefix": ["product-rating-inline", "v-rating-inline"],
+    "body": [
+      "\"product-rating-inline\": {}"
+    ],
+    "description": "Avaliação resumida inline (vtex.product-review)"
+  },
+  "product-rating-summary": {
+    "prefix": ["product-rating-summary", "v-rating-summary"],
+    "body": [
+      "\"product-rating-summary\": {}"
+    ],
+    "description": "Resumo de avaliações (vtex.product-review)"
+  },
+  "product-reviews": {
+    "prefix": ["product-reviews", "v-product-reviews"],
+    "body": [
+      "\"product-reviews\": {}"
+    ],
+    "description": "Lista de avaliações do produto (vtex.product-review)"
+  },
+
+  // ----------------------------------------------------------------
+  //  SEARCH / SRP
+  // ----------------------------------------------------------------
+  "search-result-layout": {
+    "prefix": ["search-result-layout", "v-search-result"],
+    "body": [
+      "\"search-result-layout\": {",
+      "  \"blocks\": [",
+      "    \"search-result-layout.desktop\",",
+      "    \"search-result-layout.mobile\"",
+      "  ]",
+      "}"
+    ],
+    "description": "Layout de resultados de busca (search-result-layout)"
+  },
+  "search-result-layout.desktop": {
+    "prefix": ["search-result-layout.desktop", "v-search-desktop"],
+    "body": [
+      "\"search-result-layout.desktop\": {",
+      "  \"children\": [",
+      "    \"flex-layout.row#searchbread\",",
+      "    \"flex-layout.row#result\"",
+      "  ],",
+      "  \"props\": {",
+      "    \"pagination\": \"${1|show-more,infinite-scroll|}\",",
+      "    \"preventRouteChange\": ${2|false,true|},",
+      "    \"mobileLayout\": { \"mode1\": \"normal\", \"mode2\": \"small\" }",
+      "  }",
+      "}"
+    ],
+    "description": "Resultados de busca desktop (search-result-layout.desktop)"
+  },
+  "gallery": {
+    "prefix": ["gallery", "v-gallery"],
+    "body": [
+      "\"gallery\": {",
+      "  \"props\": {",
+      "    \"layouts\": [",
+      "      {",
+      "        \"name\": \"${1:default}\",",
+      "        \"component\": \"${2:GridSummary}\",",
+      "        \"itemsPerRow\": ${3:4}",
+      "      }",
+      "    ]",
+      "  }",
+      "}"
+    ],
+    "description": "Grade de produtos da busca (gallery)"
+  },
+  "filter-navigator.v3": {
+    "prefix": ["filter-navigator.v3", "v-filter-navigator"],
+    "body": [
+      "\"filter-navigator.v3\": {",
+      "  \"props\": {",
+      "    \"layout\": \"${1|responsive,desktop|}\",",
+      "    \"openFiltersMode\": \"${2|many,one|}\",",
+      "    \"initiallyCollapsed\": ${3|false,true|},",
+      "    \"maxItemsDepartment\": ${4:8},",
+      "    \"maxItemsCategory\": ${5:8}",
+      "  }",
+      "}"
+    ],
+    "description": "Filtros de busca (filter-navigator.v3)"
+  },
+  "order-by.v2": {
+    "prefix": ["order-by.v2", "v-order-by"],
+    "body": [
+      "\"order-by.v2\": {",
+      "  \"props\": {",
+      "    \"showOrderTitle\": ${1|true,false|},",
+      "    \"hiddenOptions\": [\"${2|OrderByReleaseDateDESC,OrderByBestDiscountDESC,OrderByPriceDESC,OrderByPriceASC,OrderByTopSaleDESC,OrderByNameASC,OrderByNameDESC|}\"]",
+      "  }",
+      "}"
+    ],
+    "description": "Ordenação dos resultados (order-by.v2)"
+  },
+  "search-fetch-more": {
+    "prefix": ["search-fetch-more", "v-fetch-more"],
+    "body": [
+      "\"search-fetch-more\": {}"
+    ],
+    "description": "Botão 'ver mais' (search-fetch-more)"
+  },
+  "search-fetch-previous": {
+    "prefix": ["search-fetch-previous", "v-fetch-previous"],
+    "body": [
+      "\"search-fetch-previous\": {}"
+    ],
+    "description": "Botão 'ver anteriores' (search-fetch-previous)"
+  },
+  "total-products.v2": {
+    "prefix": ["total-products.v2", "v-total-products"],
+    "body": [
+      "\"total-products.v2\": {",
+      "  \"props\": {",
+      "    \"showProductsCount\": ${1|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Contagem total de produtos (total-products.v2)"
+  },
+  "search-not-found-layout": {
+    "prefix": ["search-not-found-layout", "v-search-not-found"],
+    "body": [
+      "\"search-not-found-layout\": {",
+      "  \"blocks\": [\"${1:flex-layout.row#not-found}\"]",
+      "}"
+    ],
+    "description": "Layout de 'nenhum resultado' (search-not-found-layout)"
+  },
+  "not-found": {
+    "prefix": ["not-found", "v-not-found"],
+    "body": [
+      "\"not-found#${1:home}\": {",
+      "  \"blocks\": [\"${2:rich-text#not-found}\"]",
+      "}"
+    ],
+    "description": "Conteúdo de página 404 (not-found)"
+  },
+
+  // ----------------------------------------------------------------
+  //  PROPS / CONTENT SCHEMAS — utilitários
+  // ----------------------------------------------------------------
+  "contentSchema field": {
+    "prefix": ["contentSchema", "v-content-schema"],
+    "body": [
+      "\"${1:block#id}\": {",
+      "  \"type\": \"object\",",
+      "  \"properties\": {",
+      "    \"${2:text}\": {",
+      "      \"type\": \"string\",",
+      "      \"title\": \"${3:Label}\",",
+      "      \"widget\": { \"ui:widget\": \"${4|textarea,text,image-uploader,color|}\" }",
+      "    }",
+      "  }",
+      "}"
+    ],
+    "description": "Campo editável no Site Editor (contentSchemas.json)"
+  },
+  "responsive prop": {
+    "prefix": ["responsive-value", "v-responsive-value"],
+    "body": [
+      "{ \"desktop\": ${1:5}, \"tablet\": ${2:3}, \"phone\": ${3:1} }"
+    ],
+    "description": "Valor responsivo desktop/tablet/phone"
+  }
+}

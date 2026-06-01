@@ -1,0 +1,934 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "VTEX IO Store Framework — blocks",
+  "description": "Autocomplete e validacao de props dos blocos nativos VTEX IO.",
+  "type": "object",
+  "$defs": {
+    "blockBase": {
+      "type": "object",
+      "properties": {
+        "children": { "type": "array", "items": { "type": "string" }, "description": "Blocos filhos renderizados nesta ordem." },
+        "blocks": { "type": "array", "items": { "type": "string" }, "description": "Blocos exigidos pela interface (slots)." },
+        "title": { "type": "string", "description": "Titulo exibido no Site Editor." },
+        "before": { "type": "array", "items": { "type": "string" } },
+        "after": { "type": "array", "items": { "type": "string" } },
+        "around": { "type": "array", "items": { "type": "string" } },
+        "props": { "type": "object" }
+      }
+    },
+    "responsiveNumber": {
+      "type": "object",
+      "properties": {
+        "desktop": { "type": "number" },
+        "tablet": { "type": "number" },
+        "phone": { "type": "number" }
+      }
+    },
+    "link": {
+      "type": "object",
+      "properties": {
+        "url": { "type": "string" },
+        "noFollow": { "type": "boolean" },
+        "openNewTab": { "type": "boolean" },
+        "title": { "type": "string" }
+      }
+    }
+  },
+  "patternProperties": {
+    "^flex-layout\\.row(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "blockClass": { "type": "string", "description": "Classe CSS para customizacao." },
+            "preventHorizontalStretch": { "type": "boolean", "default": false },
+            "preventVerticalStretch": { "type": "boolean", "default": false },
+            "fullWidth": { "type": "boolean", "default": false },
+            "horizontalAlign": { "type": "string", "enum": ["left", "center", "right"], "default": "left" },
+            "verticalAlign": { "type": "string", "enum": ["top", "middle", "bottom"], "default": "stretch" },
+            "colSizing": { "type": "string", "enum": ["equal", "auto"], "default": "equal" },
+            "colGap": { "type": "number", "description": "Espacamento horizontal entre colunas (0-10)." },
+            "rowGap": { "type": "number", "description": "Espacamento vertical (0-10)." },
+            "marginTop": { "type": "number" },
+            "marginBottom": { "type": "number" },
+            "paddingTop": { "type": "number" },
+            "paddingBottom": { "type": "number" }
+          }
+        }
+      }
+    },
+    "^flex-layout\\.col(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "blockClass": { "type": "string" },
+            "width": { "description": "Largura da coluna: 'grow', 'auto' ou valor (ex.: '30%').", "type": ["string", "number"] },
+            "verticalAlign": { "type": "string", "enum": ["top", "middle", "bottom"] },
+            "horizontalAlign": { "type": "string", "enum": ["left", "center", "right"] },
+            "rowGap": { "type": "number" },
+            "preserveLayoutOnMobile": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^slider-layout(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "blockClass": { "type": "string" },
+            "itemsPerPage": { "$ref": "#/$defs/responsiveNumber" },
+            "infinite": { "type": "boolean", "default": false },
+            "showNavigationArrows": { "type": "string", "enum": ["always", "mobileOnly", "desktopOnly", "never"], "default": "always" },
+            "showPaginationDots": { "type": "string", "enum": ["always", "mobileOnly", "desktopOnly", "never"], "default": "always" },
+            "usePagination": { "type": "boolean", "default": true },
+            "fullWidth": { "type": "boolean", "default": true },
+            "arrowSize": { "type": "number" },
+            "centerMode": { "type": "string", "enum": ["center", "to-the-left", "disabled"] },
+            "autoplay": {
+              "type": "object",
+              "properties": {
+                "timeout": { "type": "number" },
+                "stopOnHover": { "type": "boolean" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "^rich-text(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "text": { "type": "string", "description": "Texto em Markdown." },
+            "font": { "type": "string", "description": "Token de tipografia (ex.: t-heading-3)." },
+            "textColor": { "type": "string", "description": "Token de cor (ex.: c-on-base)." },
+            "textAlignment": { "type": "string", "enum": ["LEFT", "CENTER", "RIGHT"], "default": "LEFT" },
+            "textPosition": { "type": "string", "enum": ["LEFT", "CENTER", "RIGHT"], "default": "LEFT" },
+            "blockClass": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^image(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "src": { "type": "string", "description": "URL da imagem (ex.: /arquivos/banner.png)." },
+            "alt": { "type": "string" },
+            "title": { "type": "string" },
+            "width": { "type": ["string", "number"] },
+            "height": { "type": ["string", "number"] },
+            "maxWidth": { "type": ["string", "number"] },
+            "maxHeight": { "type": ["string", "number"] },
+            "blockClass": { "type": "string" },
+            "experimentalPreventLayoutShift": { "type": "boolean" },
+            "link": { "$ref": "#/$defs/link" }
+          }
+        }
+      }
+    },
+    "^info-card(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "isFullModeStyle": { "type": "boolean", "default": false },
+            "imageUrl": { "type": "string" },
+            "mobileImageUrl": { "type": "string" },
+            "htmlId": { "type": "string" },
+            "headline": { "type": "string" },
+            "subhead": { "type": "string" },
+            "callToActionText": { "type": "string" },
+            "callToActionUrl": { "type": "string" },
+            "callToActionMode": { "type": "string", "enum": ["button", "link"] },
+            "textPosition": { "type": "string", "enum": ["left", "center", "right"] },
+            "imagePosition": { "type": "string", "enum": ["left", "right"] },
+            "textAlignment": { "type": "string", "enum": ["left", "center", "right"] },
+            "blockClass": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^call-to-action(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "title": { "type": "string" },
+            "text": { "type": "string" },
+            "textAlignment": { "type": "string", "enum": ["left", "center", "right"] },
+            "buttonText": { "type": "string" },
+            "buttonUrl": { "type": "string" },
+            "buttonPosition": { "type": "string", "enum": ["left", "center", "right"] },
+            "mode": { "type": "string", "enum": ["primary", "secondary"] },
+            "blockClass": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^product-images(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "displayThumbnailsArrows": { "type": "boolean", "default": false },
+            "thumbnailsOrientation": { "type": "string", "enum": ["vertical", "horizontal"], "default": "vertical" },
+            "position": { "type": "string", "enum": ["left", "right"] },
+            "zoomMode": { "type": "string", "enum": ["in-page-click", "in-page-hover", "open-modal", "disabled"], "default": "in-page-click" },
+            "zoomFactor": { "type": "number", "default": 2 },
+            "aspectRatio": {
+              "type": "object",
+              "properties": {
+                "desktop": { "type": "string" },
+                "phone": { "type": "string" }
+              }
+            },
+            "maxHeight": { "type": "number" },
+            "showNavigationArrows": { "type": "boolean" },
+            "showPaginationDots": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^product-name(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showBrandName": { "type": "boolean", "default": false },
+            "showSku": { "type": "boolean", "default": false },
+            "showProductReference": { "type": "boolean", "default": false },
+            "tag": { "type": "string", "enum": ["h1", "h2", "h3", "h4", "h5", "h6", "div", "span", "p"], "default": "h1" }
+          }
+        }
+      }
+    },
+    "^product-identifier\\.product(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string", "default": "default" },
+            "showLabel": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    },
+    "^product-selling-price(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "markers": { "type": "array", "items": { "type": "string" } },
+            "message": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^product-list-price(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "markers": { "type": "array", "items": { "type": "string" } },
+            "message": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^product-installments(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "markers": { "type": "array", "items": { "type": "string" } },
+            "message": { "type": "string", "description": "Ex.: {installmentsNumber} x de {installmentValue} {interestRate}" },
+            "installmentOptionsToShow": { "type": "string", "enum": ["all", "max", "default"] }
+          }
+        }
+      }
+    },
+    "^product-price-savings(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "markers": { "type": "array", "items": { "type": "string" } },
+            "message": { "type": "string" },
+            "percentageStyle": { "type": "string", "enum": ["default", "inline"] },
+            "minimumPercentage": { "type": "number" }
+          }
+        }
+      }
+    },
+    "^product-quantity(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "selectorType": { "type": "string", "enum": ["stepper", "select"], "default": "stepper" },
+            "showLabel": { "type": "boolean", "default": true },
+            "showUnit": { "type": "boolean", "default": true },
+            "selectStepLength": { "type": "number" }
+          }
+        }
+      }
+    },
+    "^sku-selector(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "variationsSpacing": { "type": "number" },
+            "showValueNameForImageVariation": { "type": "boolean", "default": false },
+            "imageHeight": { "type": "number" },
+            "imageWidth": { "type": "number" },
+            "thumbnailImage": { "type": "string" },
+            "visibleVariations": { "type": "array", "items": { "type": "string" } },
+            "showVariationsLabels": { "type": "boolean", "default": true },
+            "variationsSelector": { "type": "string", "enum": ["show", "hide", "show-error"] },
+            "hideImpossibleCombinations": { "type": "boolean", "default": true },
+            "showVariationsErrorMessage": { "type": "boolean" },
+            "initialSelection": { "type": "string", "enum": ["complete", "image", "empty"], "default": "empty" },
+            "maxSkuPrices": { "type": "number" }
+          }
+        }
+      }
+    },
+    "^(buy-button|add-to-cart-button)(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "isOneClickBuy": { "type": "boolean", "default": false },
+            "text": { "type": "string" },
+            "unavailableText": { "type": "string" },
+            "customToastUrl": { "type": "string" },
+            "customOneClickBuyLink": { "type": "string" },
+            "available": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^product-description(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "collapseContent": { "type": "boolean", "default": false },
+            "showTitle": { "type": "boolean" },
+            "title": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^product-summary-image(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showBadge": { "type": "boolean", "default": true },
+            "badgeText": { "type": "string" },
+            "aspectRatio": { "type": "string" },
+            "maxHeight": { "type": "number" },
+            "display": { "type": "string", "enum": ["block", "inline", "inline-block"] },
+            "showCollections": { "type": "boolean" },
+            "hoverImageLabel": { "type": "string" },
+            "placeholder": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^product-summary-name(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showBrandName": { "type": "boolean", "default": false },
+            "tag": { "type": "string", "enum": ["h1", "h2", "h3", "div", "span"] }
+          }
+        }
+      }
+    },
+    "^product-summary-buy-button(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "isOneClickBuy": { "type": "boolean", "default": false },
+            "buyButtonText": { "type": "string" },
+            "displayBuyButton": { "type": "string", "enum": ["displayButtonAlways", "displayButtonHover"] }
+          }
+        }
+      }
+    },
+    "^search-result-layout\\.(desktop|mobile)(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "pagination": { "type": "string", "enum": ["show-more", "infinite-scroll"], "default": "show-more" },
+            "preventRouteChange": { "type": "boolean", "default": false },
+            "mobileLayout": {
+              "type": "object",
+              "properties": {
+                "mode1": { "type": "string", "enum": ["normal", "small", "inline"] },
+                "mode2": { "type": "string", "enum": ["normal", "small", "inline"] }
+              }
+            },
+            "showInfiniteScrollError": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^gallery(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "layouts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "component": { "type": "string" },
+                  "itemsPerRow": { "oneOf": [{ "type": "number" }, { "$ref": "#/$defs/responsiveNumber" }] }
+                }
+              }
+            },
+            "showSparseFilters": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^filter-navigator\\.v3(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "layout": { "type": "string", "enum": ["responsive", "desktop"], "default": "responsive" },
+            "openFiltersMode": { "type": "string", "enum": ["many", "one"], "default": "many" },
+            "appliedFiltersOverview": { "type": "string", "enum": ["show", "hide"], "default": "hide" },
+            "categoryFiltersMode": { "type": "string", "enum": ["default", "search"] },
+            "priceRangeLayout": { "type": "string", "enum": ["slider", "list"], "default": "slider" },
+            "initiallyCollapsed": { "type": "boolean", "default": false },
+            "closeOnOutsideClick": { "type": "boolean", "default": false },
+            "showClearByFilter": { "type": "boolean", "default": false },
+            "showClearAllFiltersOnDesktop": { "type": "boolean", "default": false },
+            "filtersTitleHtmlTag": { "type": "string", "enum": ["h1", "h2", "h3", "h4", "h5", "p", "span"] },
+            "maxItemsDepartment": { "type": "number", "default": 8 },
+            "maxItemsCategory": { "type": "number", "default": 8 },
+            "truncateFilters": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^order-by\\.v2(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showOrderTitle": { "type": "boolean", "default": true },
+            "hiddenOptions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["OrderByReleaseDateDESC", "OrderByBestDiscountDESC", "OrderByPriceDESC", "OrderByPriceASC", "OrderByTopSaleDESC", "OrderByNameASC", "OrderByNameDESC", "OrderByScoreDESC"]
+              }
+            }
+          }
+        }
+      }
+    },
+    "^total-products\\.v2(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showProductsCount": { "type": "boolean", "default": true }
+          }
+        }
+      }
+    },
+    "^logo(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "url": { "type": "string" },
+            "width": { "type": ["number", "object"] },
+            "height": { "type": ["number", "object"] },
+            "title": { "type": "string" },
+            "href": { "type": "string", "default": "/" },
+            "mobileWidth": { "type": "number" },
+            "mobileHeight": { "type": "number" }
+          }
+        }
+      }
+    },
+    "^search-bar(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "placeholder": { "type": "string" },
+            "emptyPlaceholder": { "type": "string" },
+            "displayMode": { "type": "string", "enum": ["clear-button", "search-and-clear-buttons", "search-button"] },
+            "minSearchTermLength": { "type": "number", "default": 1 },
+            "autocompleteFullWidth": { "type": "boolean", "default": false },
+            "openAutocompleteOnFocus": { "type": "boolean" },
+            "blurOnSubmit": { "type": "boolean" },
+            "submitOnIconClick": { "type": "boolean" },
+            "customSearchPageUrl": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^minicart\\.v2(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "variation": { "type": "string", "enum": ["drawer", "popup", "popupWithLink", "link", "block"], "default": "drawer" },
+            "openOnHover": { "type": "boolean", "default": false },
+            "linkVariationUrl": { "type": "string" },
+            "maxDrawerWidth": { "type": ["number", "string"], "default": 440 },
+            "drawerSlideDirection": { "type": "string", "enum": ["rightToLeft", "leftToRight"], "default": "rightToLeft" },
+            "quantityDisplay": { "type": "string", "enum": ["always", "not-empty", "never"] },
+            "itemCountMode": { "type": "string", "enum": ["total", "distinct", "totalAvailable"] },
+            "customPixelEventId": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^login(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showIconProfile": { "type": "boolean", "default": true },
+            "iconLabel": { "type": "string" },
+            "labelClasses": { "type": "string" },
+            "mirrorTooltipToRight": { "type": "boolean" },
+            "fillColor": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^menu(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "orientation": { "type": "string", "enum": ["horizontal", "vertical"], "default": "horizontal" }
+          }
+        }
+      }
+    },
+    "^menu-item(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "id": { "type": "string" },
+            "type": { "type": "string", "enum": ["custom", "category", "brand", "department"] },
+            "highlight": { "type": "boolean", "default": false },
+            "iconId": { "type": "string" },
+            "itemProps": {
+              "type": "object",
+              "properties": {
+                "type": { "type": "string", "enum": ["internal", "external", "category", "brand", "department"] },
+                "href": { "type": "string" },
+                "noFollow": { "type": "boolean" },
+                "tagTitle": { "type": "string" },
+                "text": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "^drawer(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "slideDirection": { "type": "string", "enum": ["horizontal", "vertical", "rightToLeft", "leftToRight"], "default": "horizontal" },
+            "maxWidth": { "type": ["number", "string"], "default": 450 },
+            "isFullWidth": { "type": "boolean" },
+            "backdropMode": { "type": "string", "enum": ["visible", "none"], "default": "visible" },
+            "showCloseButton": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^breadcrumb(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showOnMobile": { "type": "boolean", "default": false },
+            "homeIconSize": { "type": "number" },
+            "caretIconSize": { "type": "number" }
+          }
+        }
+      }
+    },
+    "^share(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "social": {
+              "type": "object",
+              "properties": {
+                "Facebook": { "type": "boolean" },
+                "WhatsApp": { "type": "boolean" },
+                "Twitter": { "type": "boolean" },
+                "Pinterest": { "type": "boolean" }
+              }
+            },
+            "option": {
+              "type": "object",
+              "properties": {
+                "size": { "type": "number" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "^sticky-layout(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "verticalSpacing": { "type": "number", "default": 0 },
+            "position": { "type": "string", "enum": ["top", "bottom"], "default": "top" }
+          }
+        }
+      }
+    },
+    "^condition-layout\\.(product|binding|search|userInfo)(#.*)?$": {
+      "type": "object",
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "conditions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "subject": { "type": "string" },
+                  "arguments": { "type": "object" },
+                  "toBe": {}
+                }
+              }
+            },
+            "matchType": { "type": "string", "enum": ["all", "any", "none"], "default": "all" },
+            "Else": { "type": "string" }
+          }
+        },
+        "then": { "type": "array", "items": { "type": "object" } },
+        "else": { "type": "array", "items": { "type": "object" } }
+      }
+    },
+    "^list-context\\.image-list(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "height": { "type": "number" },
+            "preload": { "type": "boolean" },
+            "images": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "image": { "type": "string" },
+                  "mobileImage": { "type": "string" },
+                  "description": { "type": "string" },
+                  "externalRoute": { "type": "boolean" },
+                  "link": { "$ref": "#/$defs/link" }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "^list-context\\.product-list(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "category": { "type": ["string", "number"] },
+            "collection": { "type": ["string", "number"] },
+            "specificationFilters": { "type": "array", "items": { "type": "object" } },
+            "orderBy": { "type": "string", "enum": ["OrderByTopSaleDESC", "OrderByReleaseDateDESC", "OrderByBestDiscountDESC", "OrderByPriceDESC", "OrderByPriceASC", "OrderByNameASC", "OrderByNameDESC", "OrderByScoreDESC", ""] },
+            "hideUnavailableItems": { "type": "boolean", "default": false },
+            "maxItems": { "type": "number", "default": 10 },
+            "skusFilter": { "type": "string", "enum": ["ALL_AVAILABLE", "ALL", "FIRST_AVAILABLE"] },
+            "installmentCriteria": { "type": "string", "enum": ["MAX_WITHOUT_INTEREST", "MAX_WITH_INTEREST"] },
+            "queryField": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^shelf(\\.[a-zA-Z0-9-]+)?(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "category": { "type": ["string", "number"] },
+            "collection": { "type": ["string", "number"] },
+            "specificationFilters": { "type": "array", "items": { "type": "object" } },
+            "orderBy": { "type": "string", "enum": ["OrderByTopSaleDESC", "OrderByReleaseDateDESC", "OrderByBestDiscountDESC", "OrderByPriceDESC", "OrderByPriceASC", "OrderByNameASC", "OrderByNameDESC", ""] },
+            "hideUnavailableItems": { "type": "boolean", "default": false },
+            "maxItems": { "type": "number", "default": 10 },
+            "itemsPerPage": { "type": "number", "default": 5 },
+            "paginationDotsVisibility": { "type": "string", "enum": ["visible", "hidden", "desktopOnly", "mobileOnly"] },
+            "arrows": { "type": "boolean", "default": true },
+            "scroll": { "type": "string", "enum": ["BY_PAGE", "ONE_BY_ONE"] },
+            "gap": { "type": "string", "enum": ["ph0", "ph2", "ph3", "ph4", "ph5", "ph6", "ph7"] },
+            "minItemsPerPage": { "type": "number" }
+          }
+        }
+      }
+    },
+    "^product-specification-group(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "specificationGroupName": { "type": "string", "description": "Nome do grupo (ex.: allSpecifications)." },
+            "hiddenSpecifications": { "type": "array", "items": { "type": "string" } },
+            "visibleSpecifications": { "type": "array", "items": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "^product-specification-(text|values?)(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "message": { "type": "string", "description": "Mascara de exibicao (ex.: {specificationName}: {specificationValues})." },
+            "specificationName": { "type": "string" },
+            "blockClass": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^product-specification-badges(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "specificationGroupName": { "type": "string" },
+            "specificationName": { "type": "string" },
+            "visibleWhen": { "type": "string" },
+            "orientation": { "type": "string", "enum": ["vertical", "horizontal"] },
+            "displayValue": { "type": "string", "enum": ["SPECIFICATION_NAME", "SPECIFICATION_VALUE"] },
+            "blockClass": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^login-content(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "defaultOption": { "type": "number", "enum": [0, 1], "description": "0 = codigo de acesso, 1 = email e senha." },
+            "optionsTitle": { "type": "string" },
+            "emailAndPasswordTitle": { "type": "string" },
+            "accessCodeTitle": { "type": "string" },
+            "emailPlaceholder": { "type": "string" },
+            "passwordPlaceholder": { "type": "string" },
+            "showPasswordVerificationIntoTooltip": { "type": "boolean" },
+            "termsAndConditions": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^category-menu(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showAllDepartments": { "type": "boolean", "default": true },
+            "showSubcategories": { "type": "boolean", "default": true },
+            "showDepartmentsCategory": { "type": "boolean" },
+            "menuDisposition": { "type": "string", "enum": ["left", "center", "right"], "default": "center" },
+            "departments": { "type": "array", "items": { "type": "object" } }
+          }
+        }
+      }
+    },
+    "^carousel(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "autoplay": { "type": "boolean", "default": true },
+            "autoplaySpeed": { "type": "number", "default": 5 },
+            "height": { "type": "number", "default": 420 },
+            "showArrows": { "type": "boolean", "default": true },
+            "showDots": { "type": "boolean", "default": true },
+            "banners": { "type": "array", "items": { "type": "object" } }
+          }
+        }
+      }
+    },
+    "^newsletter(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "blockClass": { "type": "string" },
+            "ErrorState": { "type": "string" },
+            "SuccessState": { "type": "string" },
+            "LoadingState": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^newsletter-input-email(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "placeholder": { "type": "string" },
+            "inputLabel": { "type": "string" },
+            "errorMessage": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^newsletter-submit(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "submitButtonLabel": { "type": "string" },
+            "loadingSubmitButtonLabel": { "type": "string" }
+          }
+        }
+      }
+    },
+    "^stack-layout(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "blockClass": { "type": "string" },
+            "zIndexOrder": { "type": "string", "enum": ["asc", "desc"], "default": "asc" }
+          }
+        }
+      }
+    },
+    "^modal-trigger(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "trigger": { "type": "string", "enum": ["click", "load", "load-session", "scroll"], "default": "click" }
+          }
+        }
+      }
+    },
+    "^modal-layout(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "blockClass": { "type": "string" },
+            "showCloseButton": { "type": "boolean", "default": true },
+            "backdrop": { "type": "string", "enum": ["clickable", "static", "none"], "default": "clickable" },
+            "disableEscapeKeyDown": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^product-summary\\.shelf(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }],
+      "properties": {
+        "props": {
+          "type": "object",
+          "properties": {
+            "showBadge": { "type": "boolean" },
+            "displayMode": { "type": "string", "enum": ["normal", "small", "inline", "inlinePrice"] },
+            "showCollections": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "^store\\.(home|product|search|custom|institutional|notfound|account|orderplaced|login|storedetail|storelocator|search-category|search-brand|search-department|search-subcategory)(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }]
+    },
+    "^(responsive-layout\\.(desktop|mobile)|header-layout\\.(desktop|mobile)|footer-layout\\.(desktop|mobile)|tab-layout|tab-list|tab-content|tab-list\\.item|tab-content\\.item|disclosure-layout|disclosure-trigger|disclosure-content|modal-trigger|modal-layout|list-context\\.[a-z-]+|search-result-layout|search-not-found-layout|not-found)(#.*)?$": {
+      "allOf": [{ "$ref": "#/$defs/blockBase" }]
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/blockBase"
+  }
+}
