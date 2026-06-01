@@ -29,9 +29,9 @@ Você é um engenheiro front-end sênior. Crie uma **landing page de produto** c
 
 ## Links reais (use exatamente estes)
 
-- Marketplace: `https://marketplace.visualstudio.com/items?itemName=integram.vtex-io-snippets`
+- Marketplace: `https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-snippets`
 - GitHub: `https://github.com/zeluizr/vtex-io-snippets`
-- Identificador da extensão: `integram.vtex-io-snippets`
+- Identificador da extensão: `commenteme.vtex-io-snippets`
 
 ## Estrutura da página (seções, em ordem)
 
@@ -45,7 +45,7 @@ Você é um engenheiro front-end sênior. Crie uma **landing page de produto** c
 - Headline grande: **"Autocomplete e IntelliSense para os blocos do VTEX IO"**.
 - Subtítulo: "Escreva temas VTEX IO mais rápido — snippets dos blocos e autocomplete de props (com enums e validação) direto no VS Code."
 - Dois CTAs: "Instalar no VS Code" (Marketplace) e "Ver no GitHub".
-- Badges: versão do Marketplace, instalações, licença MIT (use shields.io apontando para `integram.vtex-io-snippets`).
+- Badges: versão do Marketplace, instalações, licença MIT (use shields.io apontando para `commenteme.vtex-io-snippets`).
 - À direita/abaixo: um **mockup de editor** (janela estilo VS Code) mostrando um dropdown de autocomplete dentro de um `store/blocks.jsonc`, com props sendo sugeridos (ex.: `filter-navigator.v3` com `layout`, `openFiltersMode`...). Pode ser SVG/HTML estilizado simulando o editor.
 
 ### 3. Recursos (cards) — "Duas camadas de autocomplete"
@@ -109,7 +109,7 @@ Subseção **C) Dica — autocomplete enquanto digita:**
 
 ### 8. CTA final + Footer
 - Bloco grande com gradiente rosa: "Comece agora — instale e ganhe velocidade nos seus temas VTEX." + botão Marketplace.
-- Footer: links (Marketplace, GitHub, Issues), licença MIT, "feito por Integram".
+- Footer: links (Marketplace, GitHub, Issues), licença MIT, "feito por Commente".
 
 ## Entregáveis
 - Projeto React Router v7 funcional (`npm run dev` e `npm run build` sem erros).
