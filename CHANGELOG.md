@@ -1,5 +1,15 @@
 # Changelog
 
+## 2.1.0
+
+- **Fechamento de gaps de cobertura**: auditoria determinística contra o `store/interfaces.json` de cada app (ground-truth) elevou a cobertura de **71% → 93%** dos blocos nativos exigidos (366/393).
+- **+85 blocos** novos, incluindo apps antes ausentes: `product-details`, `product-gifts`, `product-highlights`, `overlay-layout`, `store-video`, `product-bookmark`, `reviews-and-ratings` (`.vtex`), `delivery-promise-components`, `shipping-option-components`, `modal`, `shop-review-interfaces`.
+- **Templates de página** reincluídos: `store.home`, `store.product`, `store.search`, `store.custom`, `store.account`, etc.
+- Blocos faltantes em apps já cobertos: `store-components` (autocomplete-result-list, product-separator, user-address, product-services, notification…), `store-header`, `store-footer`, `menu`, `store-image`, `product-summary`.
+- **Correção:** `product-specification-value` → `product-specification-values` (nome correto).
+- Ferramentas novas no repo: `scripts/check-coverage.js` (auditoria) e `docs/coverage-report.md`.
+- Fora de escopo (intencional): blog (`vtex.blog-interfaces`), `sandbox`, `pwa-components` e versões legadas `filter-navigator.v1/v2`/`order-by`/`total-products`.
+
 ## 2.0.0
 
 - **Cobertura completa**: schema + snippets gerados automaticamente a partir da documentação oficial VTEX, cobrindo **286 blocos** (~1088 props) de 55 apps do Store Framework.

@@ -4328,12 +4328,6 @@
   },
   {
     "appName": "vtex.product-specifications",
-    "blockName": "product-specification-value",
-    "description": "Renders the product specification value. Should be declared as a child of product-specification. Supports HTML rendering. It is a context provider component with no configurable props — it iterates over each specification value and exposes it to child blocks (e.g., product-specification-text).",
-    "props": []
-  },
-  {
-    "appName": "vtex.product-specifications",
     "blockName": "product-specification-text",
     "description": "Renders the text of a product specification, supporting ICU message format with variables like groupName, specificationName, and specificationValue.",
     "props": [
@@ -9154,5 +9148,1900 @@
     "blockName": "product-rating-inline",
     "description": "Exibe a avaliação média do produto em formato inline, destinado ao uso em prateleiras de produto (product shelves). Não expõe props configuráveis no nível do bloco — o comportamento é controlado pelas configurações do app no Admin.",
     "props": []
+  },
+  {
+    "appName": "vtex.breadcrumb",
+    "blockName": "breadcrumb.product",
+    "description": "Breadcrumb block for product detail pages, displaying the navigation path based on the product's category tree.",
+    "props": [
+      {
+        "name": "showOnMobile",
+        "type": "boolean",
+        "default": "false",
+        "description": "Determines whether the breadcrumb should also be displayed on mobile devices."
+      },
+      {
+        "name": "homeIconSize",
+        "type": "number",
+        "default": "26",
+        "description": "Controls the size property of the IconHome icon rendered at the start of the breadcrumb."
+      },
+      {
+        "name": "caretIconSize",
+        "type": "number",
+        "default": "8",
+        "description": "Controls the size property of the IconCaret separator icon rendered between breadcrumb items."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.condition-layout",
+    "blockName": "condition-layout",
+    "description": "Renders child blocks conditionally based on a set of evaluated conditions within a context (product, binding, category, telemarketing). Never used directly — always via a context variant such as condition-layout.product.",
+    "props": [
+      {
+        "name": "conditions",
+        "type": "array",
+        "description": "List of condition objects to be evaluated; each object defines subject, arguments (v2) or verb/object (v1), and toBe."
+      },
+      {
+        "name": "matchType",
+        "type": "enum",
+        "enumValues": [
+          "all",
+          "any",
+          "none"
+        ],
+        "default": "all",
+        "description": "Determines how many conditions must be satisfied for the layout to render: all, any, or none."
+      },
+      {
+        "name": "Then",
+        "type": "string",
+        "description": "Block ID to render when the conditions are satisfied; if not provided, child blocks are rendered instead."
+      },
+      {
+        "name": "Else",
+        "type": "string",
+        "description": "Block ID to render when the conditions are not satisfied."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "shopper-location-setter",
+    "description": "Block that renders a location input control (postal code setter) in the store header, enabling the Delivery Promise feature by capturing the shopper's location.",
+    "props": [
+      {
+        "name": "required",
+        "type": "boolean",
+        "default": "false",
+        "description": "When true, opens a non-dismissible postal code modal until a valid code is set; when false, uses the popover flow."
+      },
+      {
+        "name": "mode",
+        "type": "enum",
+        "enumValues": [
+          "default",
+          "icon"
+        ],
+        "default": "default",
+        "description": "Display mode of the location setter control."
+      },
+      {
+        "name": "showLocationDetectorButton",
+        "type": "boolean",
+        "default": "false",
+        "description": "Shows a button that uses the browser geolocation API to suggest the postal code automatically."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "shipping-method-selector",
+    "description": "Displays a selector for the shopper to choose between delivery or pickup shipping methods, complementing the location setter in the storefront header.",
+    "props": [
+      {
+        "name": "required",
+        "type": "boolean",
+        "default": "false",
+        "description": "When true, the shipping method modal cannot be dismissed until a method is selected after a postal code is entered."
+      },
+      {
+        "name": "mode",
+        "type": "enum",
+        "enumValues": [
+          "default",
+          "icon"
+        ],
+        "default": "default",
+        "description": "Controls the display mode of the shipping method selector trigger."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "pickup-point-selector",
+    "description": "Optional block that allows shoppers to select which pickup point to use after a location is set. Should be paired with shopper-location-setter in the header.",
+    "props": [
+      {
+        "name": "mode",
+        "type": "enum",
+        "enumValues": [
+          "default",
+          "icon"
+        ],
+        "default": "default",
+        "description": "Display mode for the pickup point selector UI."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "availability-badges",
+    "description": "Displays product-summary badges driven by delivery promise data. Has no content schema; relies on ProductSummaryContext and useDeliveryPromiseState for delivery information.",
+    "props": []
+  },
+  {
+    "appName": "vtex.flex-layout",
+    "blockName": "flex-layout",
+    "description": "Namespace container for the Flex Layout app. Should never be used directly — use flex-layout.row or flex-layout.col instead. Has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.list-context",
+    "blockName": "list-context",
+    "description": "Base interface block that creates a list context to be extended by other apps (e.g., list-context.product-list, list-context.image-list). It has no configurable props of its own; all customization is done in the extending block or in list-context-renderer.",
+    "props": []
+  },
+  {
+    "appName": "vtex.menu",
+    "blockName": "menu-link",
+    "description": "Renders a list of navigation links in the store menu. Each link can point to an internal page or an external URL.",
+    "props": [
+      {
+        "name": "links",
+        "type": "array",
+        "default": "[]",
+        "description": "Array of link objects to be displayed in the menu, each with text, route, and position configuration."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.menu",
+    "blockName": "submenu.accordion",
+    "description": "Accordion-style submenu container that collapses/expands its children based on the isOpen state. Used inside menu-item blocks on mobile/responsive layouts.",
+    "props": [
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "description": "Controls whether the accordion submenu is expanded (true) or collapsed (false)."
+      },
+      {
+        "name": "blockClass",
+        "type": "string",
+        "description": "Custom CSS class handle suffix used to override default CSS handles for this block instance."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.menu",
+    "blockName": "submenu-col",
+    "description": "Layout column container used inside a submenu block to group menu items into columns. It has no configurable props — it accepts only children via block composition.",
+    "props": []
+  },
+  {
+    "appName": "vtex.minicart",
+    "blockName": "minicart",
+    "description": "Minicart block that displays a shopping cart icon with a drawer, popup, or inline cart view.",
+    "props": [
+      {
+        "name": "variation",
+        "type": "enum",
+        "enumValues": [
+          "popup",
+          "drawer",
+          "link",
+          "popupWithLink",
+          "block"
+        ],
+        "default": "drawer",
+        "description": "Minicart behavior when rendered."
+      },
+      {
+        "name": "drawerSlideDirection",
+        "type": "enum",
+        "enumValues": [
+          "rightToLeft",
+          "leftToRight"
+        ],
+        "default": "rightToLeft",
+        "description": "Slide direction for the drawer Minicart opening."
+      },
+      {
+        "name": "linkVariationUrl",
+        "type": "string",
+        "default": "undefined",
+        "description": "Link associated with the link Minicart variation."
+      },
+      {
+        "name": "maxDrawerWidth",
+        "type": "number",
+        "default": "440",
+        "description": "Maximum width in pixels for the drawer Minicart when opened."
+      },
+      {
+        "name": "openOnHover",
+        "type": "boolean",
+        "default": "false",
+        "description": "Indicates whether the popup Minicart should open when the user hovers over it."
+      },
+      {
+        "name": "quantityDisplay",
+        "type": "enum",
+        "enumValues": [
+          "always",
+          "not-empty",
+          "never"
+        ],
+        "default": "not-empty",
+        "description": "Controls whether the quantity badge is shown even when the cart is empty."
+      },
+      {
+        "name": "itemCountMode",
+        "type": "enum",
+        "enumValues": [
+          "total",
+          "distinct",
+          "totalAvailable",
+          "distinctAvailable"
+        ],
+        "default": "distinct",
+        "description": "Determines how the item count in the cart badge is calculated."
+      },
+      {
+        "name": "backdropMode",
+        "type": "enum",
+        "enumValues": [
+          "visible",
+          "none"
+        ],
+        "default": "none",
+        "description": "Controls whether a backdrop is displayed when the drawer Minicart is opened."
+      },
+      {
+        "name": "customPixelEventId",
+        "type": "string",
+        "default": "undefined",
+        "description": "Store event ID that triggers the minicart to automatically open."
+      },
+      {
+        "name": "customPixelEventName",
+        "type": "string",
+        "default": "undefined",
+        "description": "Store event name that triggers the minicart to automatically open."
+      },
+      {
+        "name": "classes",
+        "type": "object",
+        "default": "undefined",
+        "description": "Used to override default CSS handles via React component import (CustomCSSClasses)."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.modal",
+    "blockName": "modal",
+    "description": "Displays a button that, when clicked, opens a modal with its children blocks rendered inside. Deprecated in favor of vtex.modal-layout.",
+    "props": [
+      {
+        "name": "centered",
+        "type": "boolean",
+        "default": "false",
+        "description": "Set to true if the modal component should be centered on screen."
+      },
+      {
+        "name": "closeOnEsc",
+        "type": "boolean",
+        "default": "true",
+        "description": "Set to true if the modal should close when the Esc key is pressed."
+      },
+      {
+        "name": "closeOnOverlayClick",
+        "type": "boolean",
+        "default": "true",
+        "description": "Set to true if the modal should close when clicking outside the modal area."
+      },
+      {
+        "name": "showCloseIcon",
+        "type": "boolean",
+        "default": "true",
+        "description": "Set to true if the modal should display a close icon button."
+      },
+      {
+        "name": "buttonLabel",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Label text displayed on the button that opens the modal."
+      },
+      {
+        "name": "buttonClass",
+        "type": "string",
+        "description": "Extra Tachyons classes to apply to the button container."
+      },
+      {
+        "name": "blockClass",
+        "type": "string",
+        "description": "Unique class name appended to the block's CSS classes for custom styling."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.order-placed",
+    "blockName": "op-order-takeaway-packages",
+    "description": "Renders the takeaway packages section of an order confirmation page, displaying takeaway parcels and their products. Receives no configurable props — all data is consumed from OrderContext via the useOrder() hook.",
+    "props": []
+  },
+  {
+    "appName": "vtex.overlay-layout",
+    "blockName": "overlay-trigger",
+    "description": "Wrapper block that defines which element triggers the overlay content. Not rendered visually itself — it accepts children blocks, one of which acts as the visible trigger that opens the overlay layout.",
+    "props": [
+      {
+        "name": "trigger",
+        "type": "enum",
+        "enumValues": [
+          "click",
+          "hover"
+        ],
+        "default": "click",
+        "description": "Defines whether the popover-layout will be opened by click or by hovering over the trigger element."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.overlay-layout",
+    "blockName": "overlay-layout",
+    "description": "Block that renders a content overlay positioned relative to its trigger component, supporting dropdown, select, or tooltip patterns.",
+    "props": [
+      {
+        "name": "placement",
+        "type": "enum",
+        "enumValues": [
+          "bottom",
+          "left",
+          "right",
+          "top"
+        ],
+        "default": "bottom",
+        "description": "Defines the overlay content placement relative to the trigger component positioning, with automatic fallback if space is unavailable."
+      },
+      {
+        "name": "scrollBehavior",
+        "type": "enum",
+        "enumValues": [
+          "lock-page-scroll",
+          "close-on-scroll",
+          "default"
+        ],
+        "default": "default",
+        "description": "Controls overlay behavior during page scroll: lock page scrolling, close the overlay on scroll, or remain unaffected."
+      },
+      {
+        "name": "backdrop",
+        "type": "enum",
+        "enumValues": [
+          "visible",
+          "none"
+        ],
+        "default": "none",
+        "description": "Determines whether a backdrop overlay is displayed when the content is rendered; a visible backdrop closes the overlay on click."
+      },
+      {
+        "name": "showArrow",
+        "type": "boolean",
+        "default": "false",
+        "description": "Controls whether an arrow pointing toward the trigger component is displayed on the overlay."
+      },
+      {
+        "name": "offsets",
+        "type": "object",
+        "default": "{ skidding: 0, distance: 0 }",
+        "description": "Positions the overlay relative to the trigger using skidding (side-by-side offset in px) and distance (gap in px, negative values cause overlap)."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-bookmark-interfaces",
+    "blockName": "product-bookmark",
+    "description": "Interface block that provides an extensible placeholder for wishlist/bookmark functionality. It renders a Noop component and is designed to be extended by theme or wishlist apps. It has no configurable props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-customizer",
+    "blockName": "product-details.customizer",
+    "description": "Page-level container block that assembles the product details customizer page. It is a structural template (mapped to the index component) that composes required child blocks such as product-name, product-images, product-price, buy-button, sku-selector, and others. It has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "product-details",
+    "description": "Block that assembles the product details page, configuring product images, price, name, specifications, and highlights display areas.",
+    "props": [
+      {
+        "name": "displayVertically",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether to display the preview images vertically or not."
+      },
+      {
+        "name": "showSpecificationsTab",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether to display the product specification in tab mode or not."
+      },
+      {
+        "name": "price",
+        "type": "object",
+        "description": "Configures the product price area (showListPrice, showLabels, showInstallments, showSavings, labelSellingPrice)."
+      },
+      {
+        "name": "name",
+        "type": "object",
+        "description": "Configures the product name area (showProductReference, showBrandName, showSku)."
+      },
+      {
+        "name": "showHighlights",
+        "type": "boolean",
+        "description": "Whether to show the highlights of the product."
+      },
+      {
+        "name": "defaultHighlight",
+        "type": "boolean",
+        "default": "true",
+        "description": "Indicates whether the highlight group will contain all product properties or only a typed group entry."
+      },
+      {
+        "name": "highlightGroup",
+        "type": "object",
+        "description": "Defines the highlight group configuration for the product."
+      },
+      {
+        "name": "showSpecifications",
+        "type": "boolean",
+        "description": "Whether to show the specifications of the product."
+      },
+      {
+        "name": "specificationGroups",
+        "type": "object",
+        "description": "Defines whether all specifications or a subset will be displayed."
+      },
+      {
+        "name": "viewMode",
+        "type": "string",
+        "description": "Defines the current view mode for the specifications display."
+      },
+      {
+        "name": "typeSpecifications",
+        "type": "string",
+        "description": "Indicates which specifications will be displayed for the product."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "product-quantity-selector",
+    "description": "Displays a quantity selector that allows users to specify how many units of the displayed product they want before adding to cart, within a product details page context.",
+    "props": [
+      {
+        "name": "warningQuantityThreshold",
+        "type": "number",
+        "default": "0",
+        "description": "Displays remaining stock count only when available quantity is less than or equal to this value; set to 0 to never show the warning."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "product-add-to-list-button",
+    "description": "Button that allows users to add products to a list (wishlist). The block is accepted by store.product but has no documented configurable props in the official VTEX IO developer portal for vtex.product-details.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "addon-details-btn",
+    "description": "Extension point block that accepts any component as a child within the product-add-to-list-button. Defined as a wildcard interface (\"component\": \"*\") with no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "product-gifts",
+    "description": "Renders the list of gift products associated with a promotion on the product page.",
+    "props": [
+      {
+        "name": "maxVisibleItems",
+        "type": "string",
+        "default": "\"showAll\"",
+        "description": "Maximum number of gifts displayed at once; accepts a number (as string) or the value 'showAll' to display all available gifts."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "product-gift-list",
+    "description": "Renders the available gifts in a list format and provides context for its child blocks (gift-name, gift-image, gift-description). No configurable props documented.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-name",
+    "description": "Renders the name of a gift product within the Product Gifts app, with options to link to the product page and choose between product name or SKU name.",
+    "props": [
+      {
+        "name": "linkToProductPage",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether or not the gift-name block should be a link to the gift's product page."
+      },
+      {
+        "name": "nameType",
+        "type": "enum",
+        "enumValues": [
+          "productName",
+          "skuName"
+        ],
+        "default": "skuName",
+        "description": "Determines which name displays with the gift: the product name or the SKU name."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-image",
+    "description": "Renders the gift product image inside the product-gifts layout. If no imageLabel is defined, uses the first available image from the product SKU.",
+    "props": [
+      {
+        "name": "maxWidth",
+        "type": "number",
+        "default": "125",
+        "description": "Gift image maximum width."
+      },
+      {
+        "name": "maxHeight",
+        "type": "number",
+        "default": "125",
+        "description": "Gift image maximum height."
+      },
+      {
+        "name": "minWidth",
+        "type": "number",
+        "default": "125",
+        "description": "Gift image minimum width."
+      },
+      {
+        "name": "minHeight",
+        "type": "number",
+        "default": "125",
+        "description": "Gift image minimum height."
+      },
+      {
+        "name": "imageLabel",
+        "type": "string",
+        "description": "Label of the image variant that should be rendered; if not set, the first available SKU image is used."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-text",
+    "description": "Reads Catalog data regarding the product's gifts and renders a customizable text using ICU pattern with gift-related variables.",
+    "props": [
+      {
+        "name": "text",
+        "type": "string",
+        "default": "{exceedingItems, plural, =0{ } one {+ # gift} other {+ # gifts}}",
+        "description": "Translatable string (ICU pattern) with variables (exceedingItems, totalGifts, visibleItems) used to render gift-related text."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-description",
+    "description": "Renders the gift's description provided by the product-gift-list block. No configurable props are documented for this block.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-highlights",
+    "blockName": "product-highlights",
+    "description": "Displays product highlight tags (collection, promotion, or teaser) on a product page, filtering or showing specific highlight names.",
+    "props": [
+      {
+        "name": "type",
+        "type": "enum",
+        "enumValues": [
+          "collection",
+          "promotion",
+          "teaser"
+        ],
+        "default": "collection",
+        "description": "Specifies which category of product highlight to display: collection, promotion, or teaser (restricted promotions only)."
+      },
+      {
+        "name": "filter",
+        "type": "object",
+        "default": "undefined",
+        "description": "Controls which highlights are displayed or hidden by specifying inclusion/exclusion rules via highlightNames (array) and type (hide|show)."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-highlights",
+    "blockName": "product-highlight-wrapper",
+    "description": "Renders a div HTML tag and its children blocks, used to display other components alongside highlight names with CSS customization support.",
+    "props": [
+      {
+        "name": "blockClass",
+        "type": "string",
+        "description": "Block ID of your choosing to be used in CSS customization.",
+        "default": "undefined"
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-highlights",
+    "blockName": "product-highlight-text",
+    "description": "Renders a span HTML element with the product highlight name, supporting text customization, optional link, CSS customization via blockClass, and Site Editor customization via markers.",
+    "props": [
+      {
+        "name": "blockClass",
+        "type": "string",
+        "default": "undefined",
+        "description": "The block ID you chose to be used for CSS customization."
+      },
+      {
+        "name": "message",
+        "type": "string",
+        "default": "undefined",
+        "description": "Defines the block default text message to be rendered in the UI; supports ICU Message Format and the highlightName variable."
+      },
+      {
+        "name": "markers",
+        "type": "array",
+        "default": "[]",
+        "description": "IDs you chose to identify the block's rendered text message and customize it using the Admin Site Editor."
+      },
+      {
+        "name": "link",
+        "type": "string",
+        "default": "undefined",
+        "description": "If set, wraps the highlight text in a link; supports interpolation of highlightText and highlightId variables (e.g. /collection/{highlightId})."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-identifier",
+    "blockName": "product-identifier",
+    "description": "Displays a product identifier such as product reference, product ID, SKU EAN, or SKU reference ID on the storefront.",
+    "props": [
+      {
+        "name": "label",
+        "type": "enum",
+        "enumValues": [
+          "default",
+          "custom",
+          "hide"
+        ],
+        "default": "default",
+        "description": "Controls how the label is displayed: use the default label, a custom text, or hide it entirely."
+      },
+      {
+        "name": "customLabel",
+        "type": "string",
+        "description": "Custom text used as the label when the label prop is set to 'custom'."
+      },
+      {
+        "name": "idField",
+        "type": "enum",
+        "enumValues": [
+          "itemId",
+          "productId",
+          "productReference",
+          "skuEan",
+          "skuReferenceId"
+        ],
+        "description": "Determines which product identifier type is displayed (item ID, product ID, product reference, SKU EAN, or SKU reference ID)."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-identifier",
+    "blockName": "product-identifier.summary",
+    "description": "Displays a product identifier (such as product reference, product ID, SKU EAN, or SKU reference) inside a product summary context.",
+    "props": [
+      {
+        "name": "idField",
+        "type": "enum",
+        "enumValues": [
+          "productReference",
+          "productId",
+          "skuEan",
+          "skuReferenceId",
+          "itemId"
+        ],
+        "default": "productReference",
+        "description": "Which product identifier field to display."
+      },
+      {
+        "name": "label",
+        "type": "enum",
+        "enumValues": [
+          "default",
+          "custom",
+          "hide"
+        ],
+        "default": "default",
+        "description": "Controls the label text: show the default label, use a custom label, or hide it entirely."
+      },
+      {
+        "name": "customLabel",
+        "type": "string",
+        "description": "Custom label text to display when label is set to 'custom'."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-list",
+    "blockName": "manual-pricing",
+    "description": "Renders a manual price input for cart items, allowing overrides via a modal. Receives all data through React context (useItemContext) and has no configurable block-level props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-specifications",
+    "blockName": "product-specification-values",
+    "description": "Renders the product specification values. Must be declared as a child of product-specification and expects product-specification-text as its children. No configurable props are documented for this block.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary",
+    "description": "Main Product Summary block (product-summary.shelf) that provides the structure for the Product Summary component, used to display product information such as name, image, and price in contexts like shelves and search results.",
+    "props": [
+      {
+        "name": "priceBehavior",
+        "type": "enum",
+        "enumValues": [
+          "async",
+          "default"
+        ],
+        "default": "default",
+        "description": "Determines whether the component should fetch the most up-to-date price asynchronously or use the default behavior."
+      },
+      {
+        "name": "trackListName",
+        "type": "boolean",
+        "default": "true",
+        "description": "Controls whether the list name is sent to the product page when a product is clicked, enabling GTM productDetail event tracking."
+      },
+      {
+        "name": "sponsoredBadgeLabel",
+        "type": "string",
+        "default": "store/sponsored-badge.label",
+        "description": "Text content displayed on the sponsored badge when the product is a sponsored result."
+      },
+      {
+        "name": "sponsoredBadgePosition",
+        "type": "enum",
+        "enumValues": [
+          "titleTop",
+          "containerTopLeft",
+          "none"
+        ],
+        "default": "containerTopLeft",
+        "description": "Defines the position of the sponsored badge on the product summary component."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-column",
+    "description": "A simple layout column container used inside product-summary.shelf that wraps child blocks; it has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary.unstable--flex",
+    "description": "Flex layout variant of Product Summary that renders product information (image, name, price, etc.) in a flex container. Maps to the ProductSummaryCustom component and accepts children blocks for composable layouts.",
+    "props": [
+      {
+        "name": "priceBehavior",
+        "type": "enum",
+        "enumValues": [
+          "async",
+          "asyncOnly1P",
+          "default"
+        ],
+        "default": "default",
+        "description": "Controls whether the client requests the price simulation API for all sellers (async), only for the 1P seller (asyncOnly1P), or skips the API call (default)."
+      },
+      {
+        "name": "trackListName",
+        "type": "boolean",
+        "default": "true",
+        "description": "Whether the listName should be sent to product pages via querystring for analytics tracking."
+      },
+      {
+        "name": "sponsoredBadgePosition",
+        "type": "enum",
+        "enumValues": [
+          "titleTop",
+          "containerTopLeft",
+          "none"
+        ],
+        "default": "containerTopLeft",
+        "description": "Predefined position of the sponsored badge displayed on the product card, if applicable."
+      },
+      {
+        "name": "sponsoredBadgeLabel",
+        "type": "string",
+        "default": "store/sponsored-badge.label",
+        "description": "Label text for the sponsored badge displayed on the product card."
+      },
+      {
+        "name": "placement",
+        "type": "string",
+        "description": "Indicates where this ProductSummary is being shown, used for analytics (e.g. 'search' or 'shelf')."
+      },
+      {
+        "name": "classes",
+        "type": "object",
+        "description": "Custom CSS handles object to override default CSS handle classes (container, containerNormal, element, clearLink)."
+      },
+      {
+        "name": "extraProductProps",
+        "type": "object",
+        "description": "Extra data attributes spread onto the section element; all keys must start with 'data-' (e.g. data-af-category)."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-space",
+    "description": "A flex-grow spacer block with no configurable props. It renders an empty div that expands to fill available space in a flex container, used to push sibling blocks apart within product summary layouts.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-specification-badges",
+    "description": "Renders badges based on product specifications inside a product summary layout.",
+    "props": [
+      {
+        "name": "specificationGroupName",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Name of the specification group in which the desired specifications are."
+      },
+      {
+        "name": "specificationName",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Name of the specification to target; if empty, targets all specifications in the group."
+      },
+      {
+        "name": "visibleWhen",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Displays the badge only when the specification has this exact matching value."
+      },
+      {
+        "name": "displayValue",
+        "type": "enum",
+        "enumValues": [
+          "SPECIFICATION_NAME",
+          "SPECIFICATION_VALUE"
+        ],
+        "default": "null",
+        "description": "Value displayed on the badge when the specification condition is met; accepts SPECIFICATION_NAME, SPECIFICATION_VALUE, or a custom string."
+      },
+      {
+        "name": "specificationsOptions",
+        "type": "array",
+        "default": "null",
+        "description": "Array of Option objects to individually control display conditions for specific specifications."
+      },
+      {
+        "name": "orientation",
+        "type": "enum",
+        "enumValues": [
+          "vertical",
+          "horizontal"
+        ],
+        "default": "\"vertical\"",
+        "description": "Determines whether the group of specification badges is displayed vertically or horizontally."
+      },
+      {
+        "name": "blockClass",
+        "type": "string",
+        "default": "null",
+        "description": "Custom name appended to the component CSS classes for targeted styling."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-add-to-list-button",
+    "description": "Renders a button inside the product summary that allows users to add the product to a wishlist/list. It is a context-driven wrapper with no configurable props — product data is sourced internally from ProductSummaryContext.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "addon-summary-btn",
+    "description": "Extension point block in vtex.product-summary that acts as a slot/placeholder for addon buttons (such as add-to-list from vtex.wish-list). It is defined with component \"*\" in interfaces.json, meaning it accepts any component. No configurable props are declared at the base block level in the official documentation.",
+    "props": []
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "list-context.product-list-static",
+    "description": "Renders a static list of products in the Product Summary component without running a GraphQL query, receiving products directly via props.",
+    "props": [
+      {
+        "name": "products",
+        "type": "array",
+        "description": "Array of products to be rendered in the static list."
+      },
+      {
+        "name": "listName",
+        "type": "string",
+        "description": "Name of the list property sent in Google Analytics events."
+      },
+      {
+        "name": "preferredSKU",
+        "type": "enum",
+        "enumValues": [
+          "FIRST_AVAILABLE",
+          "LAST_AVAILABLE",
+          "PRICE_ASC",
+          "PRICE_DESC"
+        ],
+        "default": "FIRST_AVAILABLE",
+        "description": "Controls which SKU will be initially selected in the product summary."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.responsive-layout",
+    "blockName": "responsive-layout",
+    "description": "Container block that renders its children only when the current screen size matches the declared breakpoint variant (desktop, tablet, phone, mobile). Has no configurable props — behavior is entirely determined by which variant suffix is used in store/blocks.json.",
+    "props": []
+  },
+  {
+    "appName": "vtex.reviews-and-ratings",
+    "blockName": "product-reviews.vtex",
+    "description": "Renders a paginated list of reviews for the product being viewed and a form for the customer to add a new review. The block has no configurable props — all settings are managed via the app's admin configuration (AppSettings) consumed internally through GraphQL.",
+    "props": []
+  },
+  {
+    "appName": "vtex.reviews-and-ratings",
+    "blockName": "product-rating-summary.vtex",
+    "description": "Renders the average rating and total review count for the product being viewed on the product page (store.product). Behavior is controlled via app-level admin settings, not block-level props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.reviews-and-ratings",
+    "blockName": "product-rating-inline.vtex",
+    "description": "Displays the product average rating inline, intended for use in product shelves. The component has no configurable block-level props — all behavior is controlled by app-level settings.",
+    "props": []
+  },
+  {
+    "appName": "vtex.search-result",
+    "blockName": "search-result",
+    "description": "Legacy structural container block for the search results page. Requires a gallery child block and allows filter-navigator, total-products, order-by, breadcrumb, not-found, search-title, rich-text, and search-products-progress-bar as children. Configurable props are exposed via the search-result-layout family of blocks (search-result-layout.desktop, search-result-layout.mobile, search-not-found-layout), not directly on this block. No first-level props are documented for the search-result block itself.",
+    "props": []
+  },
+  {
+    "appName": "vtex.search-result",
+    "blockName": "search-title",
+    "description": "Displays a title for the performed search on the search results page. The block (mapped to SearchTitle component) has no user-configurable props documented in the official VTEX IO documentation; breadcrumb and wrapperClass are internal/injected props, not store/blocks.json-level props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.shelf",
+    "blockName": "shelf.tabbed",
+    "description": "Renders a tabbed shelf of products, allowing multiple product lists organized into navigable tabs (up to 6 tabs).",
+    "props": [
+      {
+        "name": "isEnabled",
+        "type": "boolean",
+        "default": "false",
+        "description": "Controls whether the tabbed shelf component is visible/enabled."
+      },
+      {
+        "name": "headline",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Main heading text displayed above the tabbed shelf."
+      },
+      {
+        "name": "bottomText",
+        "type": "string",
+        "default": "\"\"",
+        "description": "Footer text displayed below the tabbed shelf."
+      },
+      {
+        "name": "tabs",
+        "type": "array",
+        "default": "[]",
+        "description": "Array of tab configuration objects (max 6), each with an id (category ID) and __editorItemTitle (tab label)."
+      },
+      {
+        "name": "shelf",
+        "type": "object",
+        "default": "{}",
+        "description": "Shelf component configuration object, inheriting props from the shelf block schema."
+      },
+      {
+        "name": "buttonText",
+        "type": "string",
+        "description": "Label text for the call-to-action button displayed on the shelf."
+      },
+      {
+        "name": "buttunUrl",
+        "type": "string",
+        "description": "Navigation URL for the call-to-action button (note: original code contains this typo)."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.shipping-option-components",
+    "blockName": "shipping-option-location-selector",
+    "description": "Renders a set of components that allow users to add their location and/or select a store for pickup, typically declared as a child of the store header block.",
+    "props": [
+      {
+        "name": "callToAction",
+        "type": "enum",
+        "enumValues": [
+          "modal",
+          "popover-input",
+          "popover-button"
+        ],
+        "default": "popover-input",
+        "description": "Defines the type of overlay that opens when the page loads."
+      },
+      {
+        "name": "compactMode",
+        "type": "boolean",
+        "default": "false",
+        "description": "When enabled, hides the button label and displays only the current location value."
+      },
+      {
+        "name": "dismissible",
+        "type": "boolean",
+        "default": "true",
+        "description": "Controls whether the modal can be dismissed without entering a postal code."
+      },
+      {
+        "name": "shippingSelection",
+        "type": "enum",
+        "enumValues": [
+          "delivery-and-pickup",
+          "only-pickup"
+        ],
+        "default": "delivery-and-pickup",
+        "description": "Defines which shipping option selector is displayed (both delivery and pickup, or only pickup)."
+      },
+      {
+        "name": "showLocationDetectorButton",
+        "type": "boolean",
+        "default": "false",
+        "description": "When enabled, displays a geolocation button that automatically detects the user's current location and sets the postal code."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.shop-review-interfaces",
+    "blockName": "shop-review-form",
+    "description": "Abstract interface block for shop review forms. Defined as a Noop component with extensible: public — it is a placeholder with no configurable props; implementing apps (e.g. vtex.reviews-and-ratings) override this interface and may expose their own props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.shop-review-interfaces",
+    "blockName": "shop-review-badge",
+    "description": "Abstract interface block (Noop component) that serves as a public extensibility point for shop-level review badge widgets. It has no configurable props of its own; concrete props are defined by the implementing app (e.g., vtex.trustpilot's trustpilot-widget).",
+    "props": []
+  },
+  {
+    "appName": "vtex.shop-review-interfaces",
+    "blockName": "shop-review-summary",
+    "description": "Abstract interface block (Noop component, extensible: public) that acts as a slot for merchant review summary implementations. It has no configurable props of its own — third-party apps implement this interface to render store-level review summaries.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.home",
+    "description": "Page-level home template block in vtex.store. Acts as a container that wraps the homepage with homeWrapper; all content customization is done via child blocks declared inside it. No user-facing configurable props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.account",
+    "description": "Page template block for the account area (/account route). Acts as a container that requires the my-account block and wraps content with the challenge.profile block. Has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.login",
+    "description": "Login block that renders the login button and handles authentication flows in the VTEX IO storefront.",
+    "props": [
+      {
+        "name": "optionsTitle",
+        "type": "string",
+        "description": "Text to entitle the login options."
+      },
+      {
+        "name": "emailAndPasswordTitle",
+        "type": "string",
+        "description": "Text to display the email-and-password option."
+      },
+      {
+        "name": "accessCodeTitle",
+        "type": "string",
+        "description": "Text to display the access-code option."
+      },
+      {
+        "name": "emailPlaceholder",
+        "type": "string",
+        "description": "Text to be displayed as placeholder to the email input."
+      },
+      {
+        "name": "passwordPlaceholder",
+        "type": "string",
+        "description": "Text to be displayed as placeholder to the password input."
+      },
+      {
+        "name": "acessCodePlaceholder",
+        "type": "string",
+        "description": "Text to be displayed as placeholder to the access code input."
+      },
+      {
+        "name": "showPasswordVerificationIntoTooltip",
+        "type": "boolean",
+        "default": "true",
+        "description": "Whether a tooltip responsible for checking the password format should be shown."
+      },
+      {
+        "name": "showIconProfile",
+        "type": "boolean",
+        "default": "true",
+        "description": "Whether the profile icon should be displayed on the Login component."
+      },
+      {
+        "name": "iconLabel",
+        "type": "string",
+        "description": "Text string to entitle the Login icon."
+      },
+      {
+        "name": "hideIconLabel",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether the text string defined for the Login icon should be hidden."
+      },
+      {
+        "name": "labelClasses",
+        "type": "array",
+        "description": "Login icon's classnames."
+      },
+      {
+        "name": "providerPasswordButtonLabel",
+        "type": "string",
+        "description": "Text to be displayed as the password button label."
+      },
+      {
+        "name": "identifierPlaceholder",
+        "type": "string",
+        "description": "Text to be displayed as placeholder to the extension input."
+      },
+      {
+        "name": "invalidIdentifierError",
+        "type": "string",
+        "description": "Error message for invalid user identifier."
+      },
+      {
+        "name": "mirrorTooltipToRight",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether the Login tooltip should open towards the right side."
+      },
+      {
+        "name": "logInButtonBehavior",
+        "type": "enum",
+        "enumValues": [
+          "popover",
+          "link"
+        ],
+        "default": "popover",
+        "description": "Expected behavior of the Login component when clicked on."
+      },
+      {
+        "name": "accountOptionsButtonBehavior",
+        "type": "enum",
+        "enumValues": [
+          "popover",
+          "link"
+        ],
+        "default": "popover",
+        "description": "Expected behavior of the My Account button when clicked on."
+      },
+      {
+        "name": "accountOptionLinks",
+        "type": "array",
+        "description": "Creates custom links to replace the default account page link."
+      },
+      {
+        "name": "termsAndConditions",
+        "type": "string",
+        "description": "Text to be displayed below the login options regarding terms and conditions."
+      },
+      {
+        "name": "hasGoogleOneTap",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether Google's One-tap sign-up and auto sign-in solution should be enabled."
+      },
+      {
+        "name": "googleOneTapAlignment",
+        "type": "enum",
+        "enumValues": [
+          "Left",
+          "Right"
+        ],
+        "default": "Right",
+        "description": "Defines pop-up alignment for the Google One-tap login."
+      },
+      {
+        "name": "googleOneTapMarginTop",
+        "type": "string",
+        "default": "3rem",
+        "description": "Defines the pop-up top margin for the Google One-tap login."
+      },
+      {
+        "name": "disabledEmailInputs",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether user email editing should be allowed."
+      },
+      {
+        "name": "blockOAuthAutoRedirect",
+        "type": "boolean",
+        "default": "false",
+        "description": "If true, login will not auto-redirect when only one OAuth provider is active."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.orderplaced",
+    "description": "Page template block for the Order Placed page. Acts as a top-level container that renders the order-placed child block; has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.product-review-form",
+    "description": "Interface placeholder block (Noop) defined in vtex.product-review-interfaces. It has no configurable props of its own — it acts as an extensibility contract that third-party review apps implement.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-home",
+    "description": "Blog homepage route template provided by the vtex.wordpress-integration app. Acts as a page container that can be extended (e.g. store.blog-home#custom) to create additional custom blog pages; it has no directly configurable first-level props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-category",
+    "description": "Page template block for the blog category route (/blog/category/:categoryslug_id). It is a route container with no configurable props of its own; content is composed via child blocks.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-post",
+    "description": "Page route template for individual blog post pages (path: /blog/post/:slug_id). It is a container block with no configurable props of its own — content is rendered by child blocks such as blog-post-container.wordpress and blog-post-details.wordpress-post-details.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-search-result",
+    "description": "Page-level template block for blog search results pages. Defined in vtex.store interfaces.json as a container that renders header.full before the page and requires blog-search-list as a child block. It has no configurable props of its own — configuration is done by composing child blocks inside it.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.not-found",
+    "description": "Page template block rendered when the server returns a 404 error; acts as a container for child blocks and has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "promo-bar",
+    "description": "Layout slot/container block defined in vtex.store with component: \"*\". Acts as a named region in the store header layout with no configurable props of its own; content is provided by child blocks such as notification.bar.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.custom",
+    "description": "Page template block used to define custom routes in a Store Theme app. It acts as a container with no first-level configurable props of its own; layout and content are composed entirely via child blocks declared in store/blocks.json and routed through store/routes.json.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "autocomplete-result-list",
+    "description": "Renders the autocomplete result list dropdown for the search bar, integrating with Downshift to display suggested search results as the user types.",
+    "props": [
+      {
+        "name": "attemptPageTypeSearch",
+        "type": "boolean",
+        "description": "Uses the input term to try to navigate to the proper page type (e.g. a department, a brand, a category) if true."
+      },
+      {
+        "name": "classes",
+        "type": "object",
+        "default": "undefined",
+        "description": "Overrides default CSS handles for custom styling."
+      },
+      {
+        "name": "closeMenu",
+        "type": "object",
+        "description": "Function that closes the autocomplete dropdown menu (Downshift-related)."
+      },
+      {
+        "name": "customSearchPageUrl",
+        "type": "string",
+        "description": "Template for a custom URL; accepts ${term} as placeholder to interpolate the searched term."
+      },
+      {
+        "name": "data",
+        "type": "object",
+        "default": "{}",
+        "description": "GraphQL data response containing the autocomplete results."
+      },
+      {
+        "name": "highlightedIndex",
+        "type": "number",
+        "description": "The index of the item that should be highlighted in the autocomplete list (Downshift-related)."
+      },
+      {
+        "name": "getItemProps",
+        "type": "object",
+        "description": "Returns the props for every menu item element being rendered (Downshift-related)."
+      },
+      {
+        "name": "getMenuProps",
+        "type": "object",
+        "description": "Returns the props for the ul or root element of the autocomplete menu (Downshift-related)."
+      },
+      {
+        "name": "inputValue",
+        "type": "string",
+        "description": "The current search query text typed by the user."
+      },
+      {
+        "name": "onClearInput",
+        "type": "object",
+        "description": "Function that clears the search input field."
+      },
+      {
+        "name": "isOpen",
+        "type": "boolean",
+        "description": "Determines whether the autocomplete dropdown menu should be displayed."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "product-images.high-quality-image",
+    "description": "Renders a high-quality image inside a modal zoom context for the Product Images block, with control over size, aspect ratio, and zoom behavior.",
+    "props": [
+      {
+        "name": "aspectRatio",
+        "type": "string",
+        "default": "auto",
+        "description": "Aspect ratio for the modal image display, using notation like 1:1 or 3:4."
+      },
+      {
+        "name": "defaultSize",
+        "type": "number",
+        "default": "1200",
+        "description": "Default image size in pixels used when rendering the high-quality image."
+      },
+      {
+        "name": "imageSizes",
+        "type": "array",
+        "description": "Array of pixel sizes used to build the responsive srcset attribute for the image."
+      },
+      {
+        "name": "maxSize",
+        "type": "number",
+        "default": "4096",
+        "description": "Maximum rendering size in pixels for the high-quality image."
+      },
+      {
+        "name": "zoomFactor",
+        "type": "number",
+        "default": "2",
+        "description": "Multiplier that sets how much the zoom increases the image size."
+      },
+      {
+        "name": "zoomMode",
+        "type": "enum",
+        "enumValues": [
+          "disabled",
+          "in-place-click",
+          "in-place-hover"
+        ],
+        "default": "disabled",
+        "description": "Defines the zoom interaction type applied to the high-quality image."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "product-separator",
+    "description": "Renders a simple horizontal rule (hr) as a visual separator on product pages. This block is deprecated and has no configurable props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "user-address",
+    "description": "Displays the current user's shipping address with configurable display options. Supports inline or bar layout variations.",
+    "props": [
+      {
+        "name": "variation",
+        "type": "enum",
+        "enumValues": [
+          "inline",
+          "bar"
+        ],
+        "description": "Layout variation: 'inline' renders address on a single line, 'bar' renders it as a block."
+      },
+      {
+        "name": "showStreet",
+        "type": "boolean",
+        "default": "true",
+        "description": "Whether to display the street name in the address."
+      },
+      {
+        "name": "showCityAndState",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether to display city and state in the address."
+      },
+      {
+        "name": "showPostalCode",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether to display the postal code in the address."
+      },
+      {
+        "name": "showPrefix",
+        "type": "boolean",
+        "default": "true",
+        "description": "Whether to display the address type prefix label (e.g. pickup/delivery)."
+      },
+      {
+        "name": "showIfEmpty",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether to render the component and show an 'Add address' option when no address exists."
+      },
+      {
+        "name": "showIfMasked",
+        "type": "boolean",
+        "default": "false",
+        "description": "Whether to render the address string when it contains masked characters (asterisks)."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "product-services",
+    "description": "Block not found in vtex.store-components official documentation or repository. No props are publicly documented for this block.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "notification",
+    "description": "Displays a notification bar with a text message across the top of the store page.",
+    "props": [
+      {
+        "name": "content",
+        "type": "string",
+        "default": "''",
+        "description": "Text to be displayed in the notification bar."
+      },
+      {
+        "name": "classes",
+        "type": "object",
+        "default": "undefined",
+        "description": "Allows overriding default CSS handles when using this block as a React component."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-footer",
+    "blockName": "footer-layout",
+    "description": "Container block for the store footer layout. Acts as a pure composition wrapper that accepts child blocks (footer-row, social-networks, accepted-payment-methods, powered-by, etc.) with no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-footer",
+    "blockName": "footer-row",
+    "description": "A layout row container for the store footer that renders children with optional full-width and color-inversion settings.",
+    "props": [
+      {
+        "name": "fullWidth",
+        "type": "boolean",
+        "default": "false",
+        "description": "Define if the row should take the full width of its container."
+      },
+      {
+        "name": "inverted",
+        "type": "boolean",
+        "default": "true",
+        "description": "Define if background and text colors should be inverted."
+      },
+      {
+        "name": "blockClass",
+        "type": "string",
+        "description": "Custom CSS class identifier used for styling overrides via CSS handles."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-footer",
+    "blockName": "footer-spacer",
+    "description": "Simple deprecated spacer block that renders a flex-grow div to fill available horizontal space inside a footer row. It accepts no configurable props.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-form",
+    "blockName": "form-input",
+    "description": "Base container block for form input variants in vtex.store-form. Defined as a no-operation component (\"nop\") that acts as a namespace for form-input.text, form-input.textarea, form-input.checkbox, form-input.radiogroup, form-input.dropdown, and form-input.upload. Has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header",
+    "description": "Top-level header container block that accepts header-layout.desktop and header-layout.mobile as children. Has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header.full",
+    "description": "Container block that composes the full store header by nesting header-layout.desktop and header-layout.mobile blocks. It has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header-layout",
+    "description": "Container block that defines the Header layout for desktop and mobile devices through header-row blocks. It has no configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header-layout.desktop-scroll",
+    "description": "Container block that defines the Header layout for desktop devices when in scroll mode. It is a variant of header-layout.desktop with no configurable props of its own — it acts as a composition host for header-row children blocks.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header-layout.mobile-scroll",
+    "description": "Device-specific mobile-scroll variant of the header layout container. Defined as an empty interface in store/interfaces.json, it inherits from header-layout with no additional configurable props of its own.",
+    "props": []
+  },
+  {
+    "appName": "vtex.store-image",
+    "blockName": "image-new",
+    "description": "Renders a single image with link, loading strategy, fetch priority, and optional analytics/promotion tracking. Defined in store/interfaces.json referencing the Image component and app:vtex.store-image#/definitions/Image schema.",
+    "props": [
+      {
+        "name": "src",
+        "type": "string",
+        "description": "Image source URL (uses image-uploader widget in Site Editor)."
+      },
+      {
+        "name": "alt",
+        "type": "string",
+        "default": "",
+        "description": "Alternative text for the image, used for accessibility."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": "Image title attribute shown on hover."
+      },
+      {
+        "name": "link",
+        "type": "object",
+        "description": "Object with url, noFollow, openNewTab, and title fields to link the image to a URL."
+      },
+      {
+        "name": "width",
+        "type": "string",
+        "description": "Image width in px or % (e.g. '100%' or '300px')."
+      },
+      {
+        "name": "height",
+        "type": "string",
+        "description": "Image height in px or % (e.g. '200px')."
+      },
+      {
+        "name": "maxWidth",
+        "type": "string",
+        "description": "Maximum width constraint for the image."
+      },
+      {
+        "name": "maxHeight",
+        "type": "string",
+        "description": "Maximum height constraint for the image."
+      },
+      {
+        "name": "minWidth",
+        "type": "string",
+        "description": "Minimum width constraint for the image."
+      },
+      {
+        "name": "minHeight",
+        "type": "string",
+        "description": "Minimum height constraint for the image."
+      },
+      {
+        "name": "srcSet",
+        "type": "string",
+        "default": "",
+        "description": "Responsive image sources for different viewport sizes."
+      },
+      {
+        "name": "sizes",
+        "type": "string",
+        "default": "",
+        "description": "Responsive image sizes descriptor used with srcSet."
+      },
+      {
+        "name": "loading",
+        "type": "enum",
+        "enumValues": [
+          "eager",
+          "lazy"
+        ],
+        "default": "eager",
+        "description": "Native browser loading strategy for the image."
+      },
+      {
+        "name": "fetchpriority",
+        "type": "enum",
+        "enumValues": [
+          "high",
+          "low",
+          "auto"
+        ],
+        "default": "auto",
+        "description": "Fetch priority hint to help the browser prioritize image loading."
+      },
+      {
+        "name": "preload",
+        "type": "boolean",
+        "description": "When true, adds a preload link tag to prioritize loading this image."
+      },
+      {
+        "name": "analyticsProperties",
+        "type": "enum",
+        "enumValues": [
+          "provided",
+          "none"
+        ],
+        "default": "none",
+        "description": "Whether to send promotion analytics events when the image is clicked."
+      },
+      {
+        "name": "promotionId",
+        "type": "string",
+        "description": "Promotion identifier sent in analytics events (requires analyticsProperties=provided)."
+      },
+      {
+        "name": "promotionName",
+        "type": "string",
+        "description": "Promotion name sent in analytics events (requires analyticsProperties=provided)."
+      },
+      {
+        "name": "promotionPosition",
+        "type": "string",
+        "description": "Creative slot name sent in analytics events (requires analyticsProperties=provided)."
+      },
+      {
+        "name": "promotionProductId",
+        "type": "string",
+        "description": "Associated product ID sent in analytics events (requires analyticsProperties=provided)."
+      },
+      {
+        "name": "promotionProductName",
+        "type": "string",
+        "description": "Associated product name sent in analytics events (requires analyticsProperties=provided)."
+      },
+      {
+        "name": "blockClass",
+        "type": "string",
+        "description": "Custom CSS block class name to apply extra CSS handles for styling."
+      },
+      {
+        "name": "experimentalPreventLayoutShift",
+        "type": "boolean",
+        "description": "Wraps the image in a span to minimize cumulative layout shift (CLS) during load."
+      },
+      {
+        "name": "experimentalSetExplicitDimensions",
+        "type": "boolean",
+        "description": "Sets explicit width/height HTML attributes on the img element when dimensions are provided in px."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-image",
+    "blockName": "image-slider",
+    "description": "Renders a slider of images using the list-context.image-list content and the Slider Layout engine.",
+    "props": [
+      {
+        "name": "images",
+        "type": "array",
+        "description": "Array of image objects to be rendered in the slider."
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "description": "Height in pixels applied to all images in the slider."
+      },
+      {
+        "name": "sliderLayoutConfig",
+        "type": "object",
+        "description": "Slider behaviour settings passed to the underlying Slider Layout (itemsPerPage, infinite, showNavigationArrows, showPaginationDots, usePagination).",
+        "default": "{\"itemsPerPage\":{\"desktop\":1,\"tablet\":1,\"phone\":1},\"infinite\":true,\"showNavigationArrows\":\"always\",\"showPaginationDots\":\"always\",\"usePagination\":true}"
+      },
+      {
+        "name": "preload",
+        "type": "boolean",
+        "description": "Preloads the first image in the slider, prioritising its display over other assets.",
+        "default": "false"
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-image",
+    "blockName": "image-list",
+    "description": "Renders a list of images that can be composed with other list-context blocks (e.g., slider-layout) to build image carousels and banners.",
+    "props": [
+      {
+        "name": "images",
+        "type": "array",
+        "description": "Array of objects declaring all images to be rendered, each with url, description, link, dimensions, loading strategy, and analytics properties."
+      },
+      {
+        "name": "height",
+        "type": "number",
+        "description": "Image height in px applied to all images declared in the images array."
+      },
+      {
+        "name": "experimentalPreventLayoutShift",
+        "type": "boolean",
+        "description": "Wraps each image in a span tag with preset width and/or height to minimize cumulative layout shift during page loading."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.store-video",
+    "blockName": "video",
+    "description": "Renders a video player on the storefront, supporting YouTube, Vimeo, and self-hosted HTML5 video URLs with configurable controls, autoplay, mute, loop, and accessibility metadata.",
+    "props": [
+      {
+        "name": "src",
+        "type": "string",
+        "description": "URL of the video to be displayed; accepts YouTube, Vimeo, or self-hosted video URLs."
+      },
+      {
+        "name": "name",
+        "type": "string",
+        "description": "Video name used for SEO and accessibility purposes."
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "Video description used for SEO and accessibility purposes."
+      },
+      {
+        "name": "type",
+        "type": "string",
+        "description": "MIME type of the video (e.g., video/mp4)."
+      },
+      {
+        "name": "poster",
+        "type": "string",
+        "description": "Cover image URL displayed before video playback begins."
+      },
+      {
+        "name": "controlsType",
+        "type": "enum",
+        "enumValues": [
+          "custom-vtex",
+          "native",
+          "none"
+        ],
+        "description": "Type of player controls to display; custom-vtex only works with HTML5 videos."
+      },
+      {
+        "name": "autoPlay",
+        "type": "boolean",
+        "default": "false",
+        "description": "Automatically starts video playback after loading; also sets muted to true."
+      },
+      {
+        "name": "muted",
+        "type": "boolean",
+        "default": "false",
+        "description": "Starts the video with audio off when set to true."
+      },
+      {
+        "name": "loop",
+        "type": "boolean",
+        "default": "false",
+        "description": "Replays the video continuously when set to true."
+      },
+      {
+        "name": "playsInline",
+        "type": "boolean",
+        "default": "false",
+        "description": "Plays the video inline (within the element) rather than fullscreen on mobile."
+      },
+      {
+        "name": "width",
+        "type": "string",
+        "description": "Display area width in pixels or percentage."
+      },
+      {
+        "name": "height",
+        "type": "string",
+        "description": "Display area height in pixels or percentage."
+      },
+      {
+        "name": "PlayIcon",
+        "type": "string",
+        "default": "icon-play",
+        "description": "Custom play icon ID used when controlsType is custom-vtex."
+      },
+      {
+        "name": "PauseIcon",
+        "type": "string",
+        "default": "icon-pause",
+        "description": "Custom pause icon ID used when controlsType is custom-vtex."
+      },
+      {
+        "name": "VolumeOnIcon",
+        "type": "string",
+        "default": "icon-volume-on",
+        "description": "Custom volume-on icon ID used when controlsType is custom-vtex."
+      },
+      {
+        "name": "VolumeOffIcon",
+        "type": "string",
+        "default": "icon-volume-off",
+        "description": "Custom volume-off icon ID used when controlsType is custom-vtex."
+      },
+      {
+        "name": "FullscreenIcon",
+        "type": "string",
+        "default": "icon-extend",
+        "description": "Custom fullscreen icon ID used when controlsType is custom-vtex."
+      },
+      {
+        "name": "classes",
+        "type": "object",
+        "description": "Overrides default CSS handles; useful when the block is imported as a React component."
+      }
+    ]
   }
 ]

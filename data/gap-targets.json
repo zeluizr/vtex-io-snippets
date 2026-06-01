@@ -1,0 +1,350 @@
+[
+  {
+    "appName": "vtex.breadcrumb",
+    "blockName": "breadcrumb.product"
+  },
+  {
+    "appName": "vtex.condition-layout",
+    "blockName": "condition-layout"
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "shopper-location-setter"
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "shipping-method-selector"
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "pickup-point-selector"
+  },
+  {
+    "appName": "vtex.delivery-promise-components",
+    "blockName": "availability-badges"
+  },
+  {
+    "appName": "vtex.flex-layout",
+    "blockName": "flex-layout"
+  },
+  {
+    "appName": "vtex.list-context",
+    "blockName": "list-context"
+  },
+  {
+    "appName": "vtex.menu",
+    "blockName": "menu-link"
+  },
+  {
+    "appName": "vtex.menu",
+    "blockName": "submenu.accordion"
+  },
+  {
+    "appName": "vtex.menu",
+    "blockName": "submenu-col"
+  },
+  {
+    "appName": "vtex.minicart",
+    "blockName": "minicart"
+  },
+  {
+    "appName": "vtex.modal",
+    "blockName": "modal"
+  },
+  {
+    "appName": "vtex.order-placed",
+    "blockName": "op-order-takeaway-packages"
+  },
+  {
+    "appName": "vtex.overlay-layout",
+    "blockName": "overlay-trigger"
+  },
+  {
+    "appName": "vtex.overlay-layout",
+    "blockName": "overlay-layout"
+  },
+  {
+    "appName": "vtex.product-bookmark-interfaces",
+    "blockName": "product-bookmark"
+  },
+  {
+    "appName": "vtex.product-customizer",
+    "blockName": "product-details.customizer"
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "product-details"
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "product-quantity-selector"
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "product-add-to-list-button"
+  },
+  {
+    "appName": "vtex.product-details",
+    "blockName": "addon-details-btn"
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "product-gifts"
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "product-gift-list"
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-name"
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-image"
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-text"
+  },
+  {
+    "appName": "vtex.product-gifts",
+    "blockName": "gift-description"
+  },
+  {
+    "appName": "vtex.product-highlights",
+    "blockName": "product-highlights"
+  },
+  {
+    "appName": "vtex.product-highlights",
+    "blockName": "product-highlight-wrapper"
+  },
+  {
+    "appName": "vtex.product-highlights",
+    "blockName": "product-highlight-text"
+  },
+  {
+    "appName": "vtex.product-identifier",
+    "blockName": "product-identifier"
+  },
+  {
+    "appName": "vtex.product-identifier",
+    "blockName": "product-identifier.summary"
+  },
+  {
+    "appName": "vtex.product-list",
+    "blockName": "manual-pricing"
+  },
+  {
+    "appName": "vtex.product-specifications",
+    "blockName": "product-specification-values"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-column"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary.unstable--flex"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-space"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-specification-badges"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "product-summary-add-to-list-button"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "addon-summary-btn"
+  },
+  {
+    "appName": "vtex.product-summary",
+    "blockName": "list-context.product-list-static"
+  },
+  {
+    "appName": "vtex.responsive-layout",
+    "blockName": "responsive-layout"
+  },
+  {
+    "appName": "vtex.reviews-and-ratings",
+    "blockName": "product-reviews.vtex"
+  },
+  {
+    "appName": "vtex.reviews-and-ratings",
+    "blockName": "product-rating-summary.vtex"
+  },
+  {
+    "appName": "vtex.reviews-and-ratings",
+    "blockName": "product-rating-inline.vtex"
+  },
+  {
+    "appName": "vtex.search-result",
+    "blockName": "search-result"
+  },
+  {
+    "appName": "vtex.search-result",
+    "blockName": "search-title"
+  },
+  {
+    "appName": "vtex.shelf",
+    "blockName": "shelf.tabbed"
+  },
+  {
+    "appName": "vtex.shipping-option-components",
+    "blockName": "shipping-option-location-selector"
+  },
+  {
+    "appName": "vtex.shipping-option-components",
+    "blockName": "availability-badges"
+  },
+  {
+    "appName": "vtex.shop-review-interfaces",
+    "blockName": "shop-review-form"
+  },
+  {
+    "appName": "vtex.shop-review-interfaces",
+    "blockName": "shop-review-badge"
+  },
+  {
+    "appName": "vtex.shop-review-interfaces",
+    "blockName": "shop-review-summary"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.home"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.account"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.login"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.orderplaced"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.product-review-form"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-home"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-category"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-post"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.blog-search-result"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.not-found"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "promo-bar"
+  },
+  {
+    "appName": "vtex.store",
+    "blockName": "store.custom"
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "autocomplete-result-list"
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "product-images.high-quality-image"
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "product-separator"
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "product-highlights"
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "user-address"
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "product-services"
+  },
+  {
+    "appName": "vtex.store-components",
+    "blockName": "notification"
+  },
+  {
+    "appName": "vtex.store-footer",
+    "blockName": "footer-layout"
+  },
+  {
+    "appName": "vtex.store-footer",
+    "blockName": "footer-row"
+  },
+  {
+    "appName": "vtex.store-footer",
+    "blockName": "footer-spacer"
+  },
+  {
+    "appName": "vtex.store-form",
+    "blockName": "form-input"
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header"
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header.full"
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header-layout"
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header-layout.desktop-scroll"
+  },
+  {
+    "appName": "vtex.store-header",
+    "blockName": "header-layout.mobile-scroll"
+  },
+  {
+    "appName": "vtex.store-image",
+    "blockName": "image-new"
+  },
+  {
+    "appName": "vtex.store-image",
+    "blockName": "image-slider"
+  },
+  {
+    "appName": "vtex.store-image",
+    "blockName": "image-list"
+  },
+  {
+    "appName": "vtex.store-video",
+    "blockName": "video"
+  }
+]

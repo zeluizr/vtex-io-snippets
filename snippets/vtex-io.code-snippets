@@ -1,7 +1,7 @@
 {
   // ============================================================
   //  VTEX IO STORE FRAMEWORK — SNIPPETS (auto-gerado da doc oficial)
-  //  286 blocos. Digite o nome do bloco ou o atalho "v-".
+  //  370 blocos. Digite o nome do bloco ou o atalho "v-".
   //  Os props sao autocompletados pelo JSON Schema da extensao.
   // ============================================================
   "accepted-payment-methods": {
@@ -51,6 +51,30 @@
       "}"
     ],
     "description": "Button that adds a product to the wishlist, rendering a heart icon on product shelves and product pages. (vtex.wish-list)"
+  },
+  "addon-details-btn": {
+    "prefix": [
+      "addon-details-btn",
+      "v-addon-details-btn"
+    ],
+    "body": [
+      "\"addon-details-btn#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Extension point block that accepts any component as a child within the product-add-to-list-button. Defined as a wildcard interface (\"component\": \"*\") with no configurable props of its own. (vtex.product-details)"
+  },
+  "addon-summary-btn": {
+    "prefix": [
+      "addon-summary-btn",
+      "v-addon-summary-btn"
+    ],
+    "body": [
+      "\"addon-summary-btn#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Extension point block in vtex.product-summary that acts as a slot/placeholder for addon buttons (such as add-to-list from vtex.wish-list). It is defined with component \"*\" in interfaces.json, meaning it accepts any component. No configurable props are declared at the base block level in the official documentation. (vtex.product-summary)"
   },
   "assembly-option-input-values": {
     "prefix": [
@@ -141,6 +165,25 @@
     ],
     "description": "Renders a quantity selector for an assembly option item. The component is fully driven by React context (useProductAssemblyItem, useProductAssemblyGroupState, useProductAssemblyGroupDispatch) and exposes no configurable props in the official documentation or source code. (vtex.product-customizer)"
   },
+  "autocomplete-result-list": {
+    "prefix": [
+      "autocomplete-result-list",
+      "v-autocomplete-result-list"
+    ],
+    "body": [
+      "\"autocomplete-result-list#${1:id}\": {",
+      "  \"props\": {",
+      "    \"attemptPageTypeSearch\": ${2|true,false|},",
+      "    \"classes\": { ${3} },",
+      "    \"closeMenu\": { ${4} },",
+      "    \"customSearchPageUrl\": \"${5}\",",
+      "    \"data\": { ${6} },",
+      "    \"highlightedIndex\": ${7:0}",
+      "  }",
+      "}"
+    ],
+    "description": "Renders the autocomplete result list dropdown for the search bar, integrating with Downshift to display suggested search results as the user types. (vtex.store-components)"
+  },
   "autocomplete-result-list.v2": {
     "prefix": [
       "autocomplete-result-list.v2",
@@ -159,6 +202,18 @@
       "}"
     ],
     "description": "Renders the autocomplete result list with top searches, search history, suggested terms, and suggested products. (vtex.search)"
+  },
+  "availability-badges": {
+    "prefix": [
+      "availability-badges",
+      "v-availability-badges"
+    ],
+    "body": [
+      "\"availability-badges#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Displays product-summary badges driven by delivery promise data. Has no content schema; relies on ProductSummaryContext and useDeliveryPromiseState for delivery information. (vtex.delivery-promise-components)"
   },
   "availability-subscriber": {
     "prefix": [
@@ -202,6 +257,22 @@
       "}"
     ],
     "description": "Breadcrumb navigation block that shows a user's browsing history up to their current location in the store. (vtex.breadcrumb)"
+  },
+  "breadcrumb.product": {
+    "prefix": [
+      "breadcrumb.product",
+      "v-breadcrumb-product"
+    ],
+    "body": [
+      "\"breadcrumb.product#${1:id}\": {",
+      "  \"props\": {",
+      "    \"showOnMobile\": ${2|true,false|},",
+      "    \"homeIconSize\": ${3:0},",
+      "    \"caretIconSize\": ${4:0}",
+      "  }",
+      "}"
+    ],
+    "description": "Breadcrumb block for product detail pages, displaying the navigation path based on the product's category tree. (vtex.breadcrumb)"
   },
   "breadcrumb.search": {
     "prefix": [
@@ -306,6 +377,23 @@
       "}"
     ],
     "description": "Compact version of the checkout summary block, displaying order totalizers in a condensed format for use within Minicart or similar interfaces. (vtex.checkout-summary)"
+  },
+  "condition-layout": {
+    "prefix": [
+      "condition-layout",
+      "v-condition-layout"
+    ],
+    "body": [
+      "\"condition-layout#${1:id}\": {",
+      "  \"props\": {",
+      "    \"conditions\": [${2}],",
+      "    \"matchType\": \"${3|all,any,none|}\",",
+      "    \"Then\": \"${4}\",",
+      "    \"Else\": \"${5}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders child blocks conditionally based on a set of evaluated conditions within a context (product, binding, category, telemarketing). Never used directly — always via a context variant such as condition-layout.product. (vtex.condition-layout)"
   },
   "condition-layout.binding": {
     "prefix": [
@@ -561,6 +649,18 @@
     ],
     "description": "Renders the search filters (facets) navigation panel. Supports responsive layout, collapsible filters, mobile drawer, price range slider, and custom facet ordering. (vtex.search-result)"
   },
+  "flex-layout": {
+    "prefix": [
+      "flex-layout",
+      "v-flex-layout"
+    ],
+    "body": [
+      "\"flex-layout#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Namespace container for the Flex Layout app. Should never be used directly — use flex-layout.row or flex-layout.col instead. Has no configurable props of its own. (vtex.flex-layout)"
+  },
   "flex-layout.col": {
     "prefix": [
       "flex-layout.col",
@@ -615,6 +715,18 @@
     ],
     "description": "Footer block for VTEX IO stores. Renders address, social networks, payment methods, and custom links. Supports both a legacy layout (via props) and a composable layout using footer-layout child blocks. (vtex.store-footer)"
   },
+  "footer-layout": {
+    "prefix": [
+      "footer-layout",
+      "v-footer-layout"
+    ],
+    "body": [
+      "\"footer-layout#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Container block for the store footer layout. Acts as a pure composition wrapper that accepts child blocks (footer-row, social-networks, accepted-payment-methods, powered-by, etc.) with no configurable props of its own. (vtex.store-footer)"
+  },
   "footer-layout.desktop": {
     "prefix": [
       "footer-layout.desktop",
@@ -638,6 +750,34 @@
       "}"
     ],
     "description": "Device-specific footer layout container for mobile. It is a variant of footer-layout with device=mobile. The FooterLayout React component accepts only children (PropsWithChildren<{}>) with no configurable first-level props. (vtex.store-footer)"
+  },
+  "footer-row": {
+    "prefix": [
+      "footer-row",
+      "v-footer-row"
+    ],
+    "body": [
+      "\"footer-row#${1:id}\": {",
+      "  \"props\": {",
+      "    \"fullWidth\": ${2|true,false|},",
+      "    \"inverted\": ${3|true,false|},",
+      "    \"blockClass\": \"${4}\"",
+      "  }",
+      "}"
+    ],
+    "description": "A layout row container for the store footer that renders children with optional full-width and color-inversion settings. (vtex.store-footer)"
+  },
+  "footer-spacer": {
+    "prefix": [
+      "footer-spacer",
+      "v-footer-spacer"
+    ],
+    "body": [
+      "\"footer-spacer#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Simple deprecated spacer block that renders a flex-grow div to fill available horizontal space inside a footer row. It accepts no configurable props. (vtex.store-footer)"
   },
   "form": {
     "prefix": [
@@ -668,6 +808,18 @@
       "}"
     ],
     "description": "Block that groups form fields based on a JSON schema path, allowing validation and custom rendering of sub-properties. (vtex.store-form)"
+  },
+  "form-input": {
+    "prefix": [
+      "form-input",
+      "v-form-input"
+    ],
+    "body": [
+      "\"form-input#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Base container block for form input variants in vtex.store-form. Defined as a no-operation component (\"nop\") that acts as a namespace for form-input.text, form-input.textarea, form-input.checkbox, form-input.radiogroup, form-input.dropdown, and form-input.upload. Has no configurable props of its own. (vtex.store-form)"
   },
   "form-input.checkbox": {
     "prefix": [
@@ -832,6 +984,77 @@
     ],
     "description": "Logical block that allows users to switch between the available gallery layouts. Receives no props and expects gallery-layout-option blocks as children. (vtex.search-result)"
   },
+  "gift-description": {
+    "prefix": [
+      "gift-description",
+      "v-gift-description"
+    ],
+    "body": [
+      "\"gift-description#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders the gift's description provided by the product-gift-list block. No configurable props are documented for this block. (vtex.product-gifts)"
+  },
+  "gift-image": {
+    "prefix": [
+      "gift-image",
+      "v-gift-image"
+    ],
+    "body": [
+      "\"gift-image#${1:id}\": {",
+      "  \"props\": {",
+      "    \"maxWidth\": ${2:0},",
+      "    \"maxHeight\": ${3:0},",
+      "    \"minWidth\": ${4:0},",
+      "    \"minHeight\": ${5:0},",
+      "    \"imageLabel\": \"${6}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders the gift product image inside the product-gifts layout. If no imageLabel is defined, uses the first available image from the product SKU. (vtex.product-gifts)"
+  },
+  "gift-name": {
+    "prefix": [
+      "gift-name",
+      "v-gift-name"
+    ],
+    "body": [
+      "\"gift-name#${1:id}\": {",
+      "  \"props\": {",
+      "    \"linkToProductPage\": ${2|true,false|},",
+      "    \"nameType\": \"${3|productName,skuName|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders the name of a gift product within the Product Gifts app, with options to link to the product page and choose between product name or SKU name. (vtex.product-gifts)"
+  },
+  "gift-text": {
+    "prefix": [
+      "gift-text",
+      "v-gift-text"
+    ],
+    "body": [
+      "\"gift-text#${1:id}\": {",
+      "  \"props\": {",
+      "    \"text\": \"${2}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Reads Catalog data regarding the product's gifts and renders a customizable text using ICU pattern with gift-related variables. (vtex.product-gifts)"
+  },
+  "header": {
+    "prefix": [
+      "header",
+      "v-header"
+    ],
+    "body": [
+      "\"header#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Top-level header container block that accepts header-layout.desktop and header-layout.mobile as children. Has no configurable props of its own. (vtex.store-header)"
+  },
   "header-border": {
     "prefix": [
       "header-border",
@@ -860,6 +1083,18 @@
     ],
     "description": "Centralizes its child blocks within a header row. Deprecated — use vtex.sticky-layout and inline elements instead. (vtex.store-header)"
   },
+  "header-layout": {
+    "prefix": [
+      "header-layout",
+      "v-header-layout"
+    ],
+    "body": [
+      "\"header-layout#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Container block that defines the Header layout for desktop and mobile devices through header-row blocks. It has no configurable props of its own. (vtex.store-header)"
+  },
   "header-layout.desktop": {
     "prefix": [
       "header-layout.desktop",
@@ -872,6 +1107,18 @@
     ],
     "description": "Defines the Header layout for desktop devices through header-row blocks. This block itself has no documented props — all configuration is done via its header-row children. (vtex.store-header)"
   },
+  "header-layout.desktop-scroll": {
+    "prefix": [
+      "header-layout.desktop-scroll",
+      "v-header-layout-desktop-scroll"
+    ],
+    "body": [
+      "\"header-layout.desktop-scroll#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Container block that defines the Header layout for desktop devices when in scroll mode. It is a variant of header-layout.desktop with no configurable props of its own — it acts as a composition host for header-row children blocks. (vtex.store-header)"
+  },
   "header-layout.mobile": {
     "prefix": [
       "header-layout.mobile",
@@ -883,6 +1130,18 @@
       "}"
     ],
     "description": "Defines the Header layout for mobile devices through header-row blocks. This block has no documented first-level props of its own; it acts as a layout container composed entirely of header-row children. (vtex.store-header)"
+  },
+  "header-layout.mobile-scroll": {
+    "prefix": [
+      "header-layout.mobile-scroll",
+      "v-header-layout-mobile-scroll"
+    ],
+    "body": [
+      "\"header-layout.mobile-scroll#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Device-specific mobile-scroll variant of the header layout container. Defined as an empty interface in store/interfaces.json, it inherits from header-layout with no additional configurable props of its own. (vtex.store-header)"
   },
   "header-row": {
     "prefix": [
@@ -912,6 +1171,18 @@
       "}"
     ],
     "description": "Adds a flexible space between blocks in a header row. Blocks declared before header-spacer are pushed to the left, and blocks declared after are pushed to the right. No configurable props are documented for this block. (vtex.store-header)"
+  },
+  "header.full": {
+    "prefix": [
+      "header.full",
+      "v-header-full"
+    ],
+    "body": [
+      "\"header.full#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Container block that composes the full store header by nesting header-layout.desktop and header-layout.mobile blocks. It has no configurable props of its own. (vtex.store-header)"
   },
   "icon": {
     "prefix": [
@@ -1616,6 +1887,58 @@
     ],
     "description": "Renders an image with optional hyperlink, alt text, title, size constraints, and responsive srcSet support. (vtex.store-components)"
   },
+  "image-list": {
+    "prefix": [
+      "image-list",
+      "v-image-list"
+    ],
+    "body": [
+      "\"image-list#${1:id}\": {",
+      "  \"props\": {",
+      "    \"images\": [${2}],",
+      "    \"height\": ${3:0},",
+      "    \"experimentalPreventLayoutShift\": ${4|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a list of images that can be composed with other list-context blocks (e.g., slider-layout) to build image carousels and banners. (vtex.store-image)"
+  },
+  "image-new": {
+    "prefix": [
+      "image-new",
+      "v-image-new"
+    ],
+    "body": [
+      "\"image-new#${1:id}\": {",
+      "  \"props\": {",
+      "    \"src\": \"${2}\",",
+      "    \"alt\": \"${3}\",",
+      "    \"title\": \"${4}\",",
+      "    \"link\": { ${5} },",
+      "    \"width\": \"${6}\",",
+      "    \"height\": \"${7}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a single image with link, loading strategy, fetch priority, and optional analytics/promotion tracking. Defined in store/interfaces.json referencing the Image component and app:vtex.store-image#/definitions/Image schema. (vtex.store-image)"
+  },
+  "image-slider": {
+    "prefix": [
+      "image-slider",
+      "v-image-slider"
+    ],
+    "body": [
+      "\"image-slider#${1:id}\": {",
+      "  \"props\": {",
+      "    \"images\": [${2}],",
+      "    \"height\": ${3:0},",
+      "    \"sliderLayoutConfig\": { ${4} },",
+      "    \"preload\": ${5|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a slider of images using the list-context.image-list content and the Slider Layout engine. (vtex.store-image)"
+  },
   "info-card": {
     "prefix": [
       "info-card",
@@ -1687,6 +2010,18 @@
     ],
     "description": "Renders a link inside a product context, supporting anchor and button display modes. Shares all props with the base link block. (vtex.store-link)"
   },
+  "list-context": {
+    "prefix": [
+      "list-context",
+      "v-list-context"
+    ],
+    "body": [
+      "\"list-context#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Base interface block that creates a list context to be extended by other apps (e.g., list-context.product-list, list-context.image-list). It has no configurable props of its own; all customization is done in the extending block or in list-context-renderer. (vtex.list-context)"
+  },
   "list-context-renderer": {
     "prefix": [
       "list-context-renderer",
@@ -1737,6 +2072,22 @@
       "}"
     ],
     "description": "Renders a list of product summaries using list context, supporting filtering, sorting, and SKU control. (vtex.product-summary)"
+  },
+  "list-context.product-list-static": {
+    "prefix": [
+      "list-context.product-list-static",
+      "v-list-context-product-list-static"
+    ],
+    "body": [
+      "\"list-context.product-list-static#${1:id}\": {",
+      "  \"props\": {",
+      "    \"products\": [${2}],",
+      "    \"listName\": \"${3}\",",
+      "    \"preferredSKU\": \"${4|FIRST_AVAILABLE,LAST_AVAILABLE,PRICE_ASC,PRICE_DESC|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a static list of products in the Product Summary component without running a GraphQL query, receiving products directly via props. (vtex.product-summary)"
   },
   "list-context.wishlist": {
     "prefix": [
@@ -1821,6 +2172,18 @@
     ],
     "description": "Displays the store logo as an image with optional hyperlink and label. (vtex.store-components)"
   },
+  "manual-pricing": {
+    "prefix": [
+      "manual-pricing",
+      "v-manual-pricing"
+    ],
+    "body": [
+      "\"manual-pricing#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders a manual price input for cart items, allowing overrides via a modal. Receives all data through React context (useItemContext) and has no configurable block-level props. (vtex.product-list)"
+  },
   "menu": {
     "prefix": [
       "menu",
@@ -1859,6 +2222,20 @@
     ],
     "description": "Renders a menu item that can be of type category or custom, supporting icons, submenus, and custom CSS handles. (vtex.menu)"
   },
+  "menu-link": {
+    "prefix": [
+      "menu-link",
+      "v-menu-link"
+    ],
+    "body": [
+      "\"menu-link#${1:id}\": {",
+      "  \"props\": {",
+      "    \"links\": [${2}]",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a list of navigation links in the store menu. Each link can point to an internal page or an external URL. (vtex.menu)"
+  },
   "message": {
     "prefix": [
       "message",
@@ -1872,6 +2249,25 @@
       "}"
     ],
     "description": "Renders an availability message for products in the product list, positioned according to the layout configuration. (vtex.product-list)"
+  },
+  "minicart": {
+    "prefix": [
+      "minicart",
+      "v-minicart"
+    ],
+    "body": [
+      "\"minicart#${1:id}\": {",
+      "  \"props\": {",
+      "    \"variation\": \"${2|popup,drawer,link,popupWithLink,block|}\",",
+      "    \"drawerSlideDirection\": \"${3|rightToLeft,leftToRight|}\",",
+      "    \"linkVariationUrl\": \"${4}\",",
+      "    \"maxDrawerWidth\": ${5:0},",
+      "    \"openOnHover\": ${6|true,false|},",
+      "    \"quantityDisplay\": \"${7|always,not-empty,never|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Minicart block that displays a shopping cart icon with a drawer, popup, or inline cart view. (vtex.minicart)"
   },
   "minicart-base-content": {
     "prefix": [
@@ -1964,6 +2360,25 @@
       "}"
     ],
     "description": "Minicart v2 block — displays the shopping cart summary with configurable drawer, popup, or inline variations. (vtex.minicart)"
+  },
+  "modal": {
+    "prefix": [
+      "modal",
+      "v-modal"
+    ],
+    "body": [
+      "\"modal#${1:id}\": {",
+      "  \"props\": {",
+      "    \"centered\": ${2|true,false|},",
+      "    \"closeOnEsc\": ${3|true,false|},",
+      "    \"closeOnOverlayClick\": ${4|true,false|},",
+      "    \"showCloseIcon\": ${5|true,false|},",
+      "    \"buttonLabel\": \"${6}\",",
+      "    \"buttonClass\": \"${7}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Displays a button that, when clicked, opens a modal with its children blocks rendered inside. Deprecated in favor of vtex.modal-layout. (vtex.modal)"
   },
   "modal-actions": {
     "prefix": [
@@ -2330,6 +2745,21 @@
     ],
     "description": "Block that renders a \"not found\" message when a search returns no products. It must be declared as a child of search-not-found-layout. The component has no configurable props exposed at the theme block level — content and search term are derived internally from SearchPageContext. (vtex.search-result)"
   },
+  "notification": {
+    "prefix": [
+      "notification",
+      "v-notification"
+    ],
+    "body": [
+      "\"notification#${1:id}\": {",
+      "  \"props\": {",
+      "    \"content\": \"${2}\",",
+      "    \"classes\": { ${3} }",
+      "  }",
+      "}"
+    ],
+    "description": "Displays a notification bar with a text message across the top of the store page. (vtex.store-components)"
+  },
   "notification.bar": {
     "prefix": [
       "notification.bar",
@@ -2569,6 +2999,18 @@
     ],
     "description": "Renders a message with the number of packages of an order if the order was split in more than one package. Must be placed inside an op-order block. Accepts no props. (vtex.order-placed)"
   },
+  "op-order-takeaway-packages": {
+    "prefix": [
+      "op-order-takeaway-packages",
+      "v-op-order-takeaway-packages"
+    ],
+    "body": [
+      "\"op-order-takeaway-packages#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders the takeaway packages section of an order confirmation page, displaying takeaway parcels and their products. Receives no configurable props — all data is consumed from OrderContext via the useOrder() hook. (vtex.order-placed)"
+  },
   "op-order-total": {
     "prefix": [
       "op-order-total",
@@ -2651,6 +3093,52 @@
     ],
     "description": "Renders the Order Placed confirmation page. Accepts children blocks but has no configurable props of its own. (vtex.order-placed)"
   },
+  "overlay-layout": {
+    "prefix": [
+      "overlay-layout",
+      "v-overlay-layout"
+    ],
+    "body": [
+      "\"overlay-layout#${1:id}\": {",
+      "  \"props\": {",
+      "    \"placement\": \"${2|bottom,left,right,top|}\",",
+      "    \"scrollBehavior\": \"${3|lock-page-scroll,close-on-scroll,default|}\",",
+      "    \"backdrop\": \"${4|visible,none|}\",",
+      "    \"showArrow\": ${5|true,false|},",
+      "    \"offsets\": { ${6} }",
+      "  }",
+      "}"
+    ],
+    "description": "Block that renders a content overlay positioned relative to its trigger component, supporting dropdown, select, or tooltip patterns. (vtex.overlay-layout)"
+  },
+  "overlay-trigger": {
+    "prefix": [
+      "overlay-trigger",
+      "v-overlay-trigger"
+    ],
+    "body": [
+      "\"overlay-trigger#${1:id}\": {",
+      "  \"props\": {",
+      "    \"trigger\": \"${2|click,hover|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Wrapper block that defines which element triggers the overlay content. Not rendered visually itself — it accepts children blocks, one of which acts as the visible trigger that opens the overlay layout. (vtex.overlay-layout)"
+  },
+  "pickup-point-selector": {
+    "prefix": [
+      "pickup-point-selector",
+      "v-pickup-point-selector"
+    ],
+    "body": [
+      "\"pickup-point-selector#${1:id}\": {",
+      "  \"props\": {",
+      "    \"mode\": \"${2|default,icon|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Optional block that allows shoppers to select which pickup point to use after a location is set. Should be paired with shopper-location-setter in the header. (vtex.delivery-promise-components)"
+  },
   "powered-by": {
     "prefix": [
       "powered-by",
@@ -2679,6 +3167,18 @@
       "}"
     ],
     "description": "Bloco que exibe o preço do produto na lista de produtos do carrinho. (vtex.product-list)"
+  },
+  "product-add-to-list-button": {
+    "prefix": [
+      "product-add-to-list-button",
+      "v-product-add-to-list-button"
+    ],
+    "body": [
+      "\"product-add-to-list-button#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Button that allows users to add products to a list (wishlist). The block is accepted by store.product but has no documented configurable props in the official VTEX IO developer portal for vtex.product-details. (vtex.product-details)"
   },
   "product-assembly-options": {
     "prefix": [
@@ -2709,6 +3209,18 @@
       "}"
     ],
     "description": "Displays availability messages for a product based on its stock quantity, supporting low-stock and high-stock message thresholds. (vtex.product-availability)"
+  },
+  "product-bookmark": {
+    "prefix": [
+      "product-bookmark",
+      "v-product-bookmark"
+    ],
+    "body": [
+      "\"product-bookmark#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Interface block that provides an extensible placeholder for wishlist/bookmark functionality. It renders a Noop component and is designed to be extended by theme or wishlist apps. It has no configurable props. (vtex.product-bookmark-interfaces)"
   },
   "product-brand": {
     "prefix": [
@@ -2746,6 +3258,125 @@
     ],
     "description": "Displays the description of a product. Supports collapsible content and optional title display. (vtex.store-components)"
   },
+  "product-details": {
+    "prefix": [
+      "product-details",
+      "v-product-details"
+    ],
+    "body": [
+      "\"product-details#${1:id}\": {",
+      "  \"props\": {",
+      "    \"displayVertically\": ${2|true,false|},",
+      "    \"showSpecificationsTab\": ${3|true,false|},",
+      "    \"price\": { ${4} },",
+      "    \"name\": { ${5} },",
+      "    \"showHighlights\": ${6|true,false|},",
+      "    \"defaultHighlight\": ${7|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Block that assembles the product details page, configuring product images, price, name, specifications, and highlights display areas. (vtex.product-details)"
+  },
+  "product-details.customizer": {
+    "prefix": [
+      "product-details.customizer",
+      "v-product-details-customizer"
+    ],
+    "body": [
+      "\"product-details.customizer#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page-level container block that assembles the product details customizer page. It is a structural template (mapped to the index component) that composes required child blocks such as product-name, product-images, product-price, buy-button, sku-selector, and others. It has no configurable props of its own. (vtex.product-customizer)"
+  },
+  "product-gift-list": {
+    "prefix": [
+      "product-gift-list",
+      "v-product-gift-list"
+    ],
+    "body": [
+      "\"product-gift-list#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders the available gifts in a list format and provides context for its child blocks (gift-name, gift-image, gift-description). No configurable props documented. (vtex.product-gifts)"
+  },
+  "product-gifts": {
+    "prefix": [
+      "product-gifts",
+      "v-product-gifts"
+    ],
+    "body": [
+      "\"product-gifts#${1:id}\": {",
+      "  \"props\": {",
+      "    \"maxVisibleItems\": \"${2}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders the list of gift products associated with a promotion on the product page. (vtex.product-gifts)"
+  },
+  "product-highlight-text": {
+    "prefix": [
+      "product-highlight-text",
+      "v-product-highlight-text"
+    ],
+    "body": [
+      "\"product-highlight-text#${1:id}\": {",
+      "  \"props\": {",
+      "    \"blockClass\": \"${2}\",",
+      "    \"message\": \"${3}\",",
+      "    \"markers\": [${4}],",
+      "    \"link\": \"${5}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a span HTML element with the product highlight name, supporting text customization, optional link, CSS customization via blockClass, and Site Editor customization via markers. (vtex.product-highlights)"
+  },
+  "product-highlight-wrapper": {
+    "prefix": [
+      "product-highlight-wrapper",
+      "v-product-highlight-wrapper"
+    ],
+    "body": [
+      "\"product-highlight-wrapper#${1:id}\": {",
+      "  \"props\": {",
+      "    \"blockClass\": \"${2}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a div HTML tag and its children blocks, used to display other components alongside highlight names with CSS customization support. (vtex.product-highlights)"
+  },
+  "product-highlights": {
+    "prefix": [
+      "product-highlights",
+      "v-product-highlights"
+    ],
+    "body": [
+      "\"product-highlights#${1:id}\": {",
+      "  \"props\": {",
+      "    \"type\": \"${2|collection,promotion,teaser|}\",",
+      "    \"filter\": { ${3} }",
+      "  }",
+      "}"
+    ],
+    "description": "Displays product highlight tags (collection, promotion, or teaser) on a product page, filtering or showing specific highlight names. (vtex.product-highlights)"
+  },
+  "product-identifier": {
+    "prefix": [
+      "product-identifier",
+      "v-product-identifier"
+    ],
+    "body": [
+      "\"product-identifier#${1:id}\": {",
+      "  \"props\": {",
+      "    \"label\": \"${2|default,custom,hide|}\",",
+      "    \"customLabel\": \"${3}\",",
+      "    \"idField\": \"${4|itemId,productId,productReference,skuEan,skuReferenceId|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Displays a product identifier such as product reference, product ID, SKU EAN, or SKU reference ID on the storefront. (vtex.product-identifier)"
+  },
   "product-identifier.product": {
     "prefix": [
       "product-identifier.product",
@@ -2761,6 +3392,22 @@
       "}"
     ],
     "description": "Displays a product identifier (such as Product ID, SKU EAN, or Product Reference) on the product page, with configurable label and field options. (vtex.product-identifier)"
+  },
+  "product-identifier.summary": {
+    "prefix": [
+      "product-identifier.summary",
+      "v-product-identifier-summary"
+    ],
+    "body": [
+      "\"product-identifier.summary#${1:id}\": {",
+      "  \"props\": {",
+      "    \"idField\": \"${2|productReference,productId,skuEan,skuReferenceId,itemId|}\",",
+      "    \"label\": \"${3|default,custom,hide|}\",",
+      "    \"customLabel\": \"${4}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Displays a product identifier (such as product reference, product ID, SKU EAN, or SKU reference) inside a product summary context. (vtex.product-identifier)"
   },
   "product-images": {
     "prefix": [
@@ -2780,6 +3427,25 @@
       "}"
     ],
     "description": "Renders the product images and videos, supporting carousel, thumbnails, zoom, and other display configurations. (vtex.store-components)"
+  },
+  "product-images.high-quality-image": {
+    "prefix": [
+      "product-images.high-quality-image",
+      "v-product-images-high-quality-image"
+    ],
+    "body": [
+      "\"product-images.high-quality-image#${1:id}\": {",
+      "  \"props\": {",
+      "    \"aspectRatio\": \"${2}\",",
+      "    \"defaultSize\": ${3:0},",
+      "    \"imageSizes\": [${4}],",
+      "    \"maxSize\": ${5:0},",
+      "    \"zoomFactor\": ${6:0},",
+      "    \"zoomMode\": \"${7|disabled,in-place-click,in-place-hover|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a high-quality image inside a modal zoom context for the Product Images block, with control over size, aspect ratio, and zoom behavior. (vtex.store-components)"
   },
   "product-installments": {
     "prefix": [
@@ -3042,6 +3708,20 @@
     ],
     "description": "Renders a product label that displays the number of items added to the cart. This block has no documented configurable props. (vtex.product-list)"
   },
+  "product-quantity-selector": {
+    "prefix": [
+      "product-quantity-selector",
+      "v-product-quantity-selector"
+    ],
+    "body": [
+      "\"product-quantity-selector#${1:id}\": {",
+      "  \"props\": {",
+      "    \"warningQuantityThreshold\": ${2:0}",
+      "  }",
+      "}"
+    ],
+    "description": "Displays a quantity selector that allows users to specify how many units of the displayed product they want before adding to cart, within a product details page context. (vtex.product-details)"
+  },
   "product-questions-and-answers": {
     "prefix": [
       "product-questions-and-answers",
@@ -3066,6 +3746,18 @@
     ],
     "description": "Displays the product's average rating inline, intended for use in product shelves. It is a public extensible interface with no configurable props — all data is derived from the VTEX product context. (vtex.product-review-interfaces)"
   },
+  "product-rating-inline.vtex": {
+    "prefix": [
+      "product-rating-inline.vtex",
+      "v-product-rating-inline-vtex"
+    ],
+    "body": [
+      "\"product-rating-inline.vtex#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Displays the product average rating inline, intended for use in product shelves. The component has no configurable block-level props — all behavior is controlled by app-level settings. (vtex.reviews-and-ratings)"
+  },
   "product-rating-summary": {
     "prefix": [
       "product-rating-summary",
@@ -3077,6 +3769,18 @@
       "}"
     ],
     "description": "Renders the average rating and total review count for the current product. This block is an abstract interface (Noop component) in vtex.product-review-interfaces — concrete behavior is implemented by review apps such as vtex.reviews-and-ratings. No block-level props are documented or defined; all display settings are configured at the app level via Admin settings. (vtex.product-review-interfaces)"
+  },
+  "product-rating-summary.vtex": {
+    "prefix": [
+      "product-rating-summary.vtex",
+      "v-product-rating-summary-vtex"
+    ],
+    "body": [
+      "\"product-rating-summary.vtex#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders the average rating and total review count for the product being viewed on the product page (store.product). Behavior is controlled via app-level admin settings, not block-level props. (vtex.reviews-and-ratings)"
   },
   "product-reference": {
     "prefix": [
@@ -3116,6 +3820,18 @@
       "}"
     ],
     "description": "Interface block that provides an extensible contract for product review implementations. Concrete review apps (e.g. vtex.reviews-and-ratings) depend on this interface and extend it. The interface itself defines no configurable props — the official documentation page (developers.vtex.com/docs/apps/vtex.product-review-interfaces) and the GitHub repository contain no props table for this block. (vtex.product-review-interfaces)"
+  },
+  "product-reviews.vtex": {
+    "prefix": [
+      "product-reviews.vtex",
+      "v-product-reviews-vtex"
+    ],
+    "body": [
+      "\"product-reviews.vtex#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders a paginated list of reviews for the product being viewed and a form for the customer to add a new review. The block has no configurable props — all settings are managed via the app's admin configuration (AppSettings) consumed internally through GraphQL. (vtex.reviews-and-ratings)"
   },
   "product-seller-name": {
     "prefix": [
@@ -3166,6 +3882,30 @@
       "}"
     ],
     "description": "Displays the selling price range of a product, showing the minimum and maximum selling prices across all available SKUs. (vtex.product-price)"
+  },
+  "product-separator": {
+    "prefix": [
+      "product-separator",
+      "v-product-separator"
+    ],
+    "body": [
+      "\"product-separator#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders a simple horizontal rule (hr) as a visual separator on product pages. This block is deprecated and has no configurable props. (vtex.store-components)"
+  },
+  "product-services": {
+    "prefix": [
+      "product-services",
+      "v-product-services"
+    ],
+    "body": [
+      "\"product-services#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Block not found in vtex.store-components official documentation or repository. No props are publicly documented for this block. (vtex.store-components)"
   },
   "product-sku-attributes": {
     "prefix": [
@@ -3242,17 +3982,17 @@
     ],
     "description": "Renders the text of a product specification, supporting ICU message format with variables like groupName, specificationName, and specificationValue. (vtex.product-specifications)"
   },
-  "product-specification-value": {
+  "product-specification-values": {
     "prefix": [
-      "product-specification-value",
-      "v-product-specification-value"
+      "product-specification-values",
+      "v-product-specification-values"
     ],
     "body": [
-      "\"product-specification-value#${1:id}\": {",
+      "\"product-specification-values#${1:id}\": {",
       "  \"props\": {}",
       "}"
     ],
-    "description": "Renders the product specification value. Should be declared as a child of product-specification. Supports HTML rendering. It is a context provider component with no configurable props — it iterates over each specification value and exposes it to child blocks (e.g., product-specification-text). (vtex.product-specifications)"
+    "description": "Renders the product specification values. Must be declared as a child of product-specification and expects product-specification-text as its children. No configurable props are documented for this block. (vtex.product-specifications)"
   },
   "product-specifications": {
     "prefix": [
@@ -3306,6 +4046,35 @@
     ],
     "description": "Displays savings between the spot price and the list price, typically used to highlight discounts on product pages. (vtex.product-price)"
   },
+  "product-summary": {
+    "prefix": [
+      "product-summary",
+      "v-product-summary"
+    ],
+    "body": [
+      "\"product-summary#${1:id}\": {",
+      "  \"props\": {",
+      "    \"priceBehavior\": \"${2|async,default|}\",",
+      "    \"trackListName\": ${3|true,false|},",
+      "    \"sponsoredBadgeLabel\": \"${4}\",",
+      "    \"sponsoredBadgePosition\": \"${5|titleTop,containerTopLeft,none|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Main Product Summary block (product-summary.shelf) that provides the structure for the Product Summary component, used to display product information such as name, image, and price in contexts like shelves and search results. (vtex.product-summary)"
+  },
+  "product-summary-add-to-list-button": {
+    "prefix": [
+      "product-summary-add-to-list-button",
+      "v-product-summary-add-to-list-button"
+    ],
+    "body": [
+      "\"product-summary-add-to-list-button#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Renders a button inside the product summary that allows users to add the product to a wishlist/list. It is a context-driven wrapper with no configurable props — product data is sourced internally from ProductSummaryContext. (vtex.product-summary)"
+  },
   "product-summary-attachment-list": {
     "prefix": [
       "product-summary-attachment-list",
@@ -3353,6 +4122,18 @@
       "}"
     ],
     "description": "Buy button displayed in the product summary, allowing users to add products to cart or be redirected to checkout directly from the product shelf. (vtex.product-summary)"
+  },
+  "product-summary-column": {
+    "prefix": [
+      "product-summary-column",
+      "v-product-summary-column"
+    ],
+    "body": [
+      "\"product-summary-column#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "A simple layout column container used inside product-summary.shelf that wraps child blocks; it has no configurable props of its own. (vtex.product-summary)"
   },
   "product-summary-description": {
     "prefix": [
@@ -3472,6 +4253,37 @@
     ],
     "description": "Renders a SKU Selector inside the Product Summary block, allowing users to select product variations (color, size, etc.). Uses the same props as the vtex.store-components SKU Selector. (vtex.product-summary)"
   },
+  "product-summary-space": {
+    "prefix": [
+      "product-summary-space",
+      "v-product-summary-space"
+    ],
+    "body": [
+      "\"product-summary-space#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "A flex-grow spacer block with no configurable props. It renders an empty div that expands to fill available space in a flex container, used to push sibling blocks apart within product summary layouts. (vtex.product-summary)"
+  },
+  "product-summary-specification-badges": {
+    "prefix": [
+      "product-summary-specification-badges",
+      "v-product-summary-specification-badges"
+    ],
+    "body": [
+      "\"product-summary-specification-badges#${1:id}\": {",
+      "  \"props\": {",
+      "    \"specificationGroupName\": \"${2}\",",
+      "    \"specificationName\": \"${3}\",",
+      "    \"visibleWhen\": \"${4}\",",
+      "    \"displayValue\": \"${5|SPECIFICATION_NAME,SPECIFICATION_VALUE|}\",",
+      "    \"specificationsOptions\": [${6}],",
+      "    \"orientation\": \"${7|vertical,horizontal|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders badges based on product specifications inside a product summary layout. (vtex.product-summary)"
+  },
   "product-summary.shelf": {
     "prefix": [
       "product-summary.shelf",
@@ -3488,6 +4300,25 @@
       "}"
     ],
     "description": "Bloco principal do Product Summary app, contendo os blocos filhos necessários para exibir resumos de produtos nas lojas. (vtex.product-summary)"
+  },
+  "product-summary.unstable--flex": {
+    "prefix": [
+      "product-summary.unstable--flex",
+      "v-product-summary-unstable--flex"
+    ],
+    "body": [
+      "\"product-summary.unstable--flex#${1:id}\": {",
+      "  \"props\": {",
+      "    \"priceBehavior\": \"${2|async,asyncOnly1P,default|}\",",
+      "    \"trackListName\": ${3|true,false|},",
+      "    \"sponsoredBadgePosition\": \"${4|titleTop,containerTopLeft,none|}\",",
+      "    \"sponsoredBadgeLabel\": \"${5}\",",
+      "    \"placement\": \"${6}\",",
+      "    \"classes\": { ${7} }",
+      "  }",
+      "}"
+    ],
+    "description": "Flex layout variant of Product Summary that renders product information (image, name, price, etc.) in a flex container. Maps to the ProductSummaryCustom component and accepts children blocks for composable layouts. (vtex.product-summary)"
   },
   "product-variations": {
     "prefix": [
@@ -3557,6 +4388,18 @@
     ],
     "description": "Extension point that renders inside the profile editing form, allowing child blocks (profile-input) to inject custom fields. Passes registerValidator and registerSubmitter to child components so they can hook into the form's validation and submission lifecycle. (vtex.my-account)"
   },
+  "promo-bar": {
+    "prefix": [
+      "promo-bar",
+      "v-promo-bar"
+    ],
+    "body": [
+      "\"promo-bar#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Layout slot/container block defined in vtex.store with component: \"*\". Acts as a named region in the store header layout with no configurable props of its own; content is provided by child blocks such as notification.bar. (vtex.store)"
+  },
   "quantity-selector": {
     "prefix": [
       "quantity-selector",
@@ -3586,6 +4429,18 @@
       "}"
     ],
     "description": "Button used to remove items from the product list (minicart/cart). (vtex.product-list)"
+  },
+  "responsive-layout": {
+    "prefix": [
+      "responsive-layout",
+      "v-responsive-layout"
+    ],
+    "body": [
+      "\"responsive-layout#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Container block that renders its children only when the current screen size matches the declared breakpoint variant (desktop, tablet, phone, mobile). Has no configurable props — behavior is entirely determined by which variant suffix is used in store/blocks.json. (vtex.responsive-layout)"
   },
   "responsive-layout.desktop": {
     "prefix": [
@@ -3784,6 +4639,18 @@
     ],
     "description": "Shows a progress bar of search results. When declared, this block does not need any props. (vtex.search-result)"
   },
+  "search-result": {
+    "prefix": [
+      "search-result",
+      "v-search-result"
+    ],
+    "body": [
+      "\"search-result#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Legacy structural container block for the search results page. Requires a gallery child block and allows filter-navigator, total-products, order-by, breadcrumb, not-found, search-title, rich-text, and search-products-progress-bar as children. Configurable props are exposed via the search-result-layout family of blocks (search-result-layout.desktop, search-result-layout.mobile, search-not-found-layout), not directly on this block. No first-level props are documented for the search-result block itself. (vtex.search-result)"
+  },
   "search-result-layout": {
     "prefix": [
       "search-result-layout",
@@ -3873,6 +4740,18 @@
       "}"
     ],
     "description": "Displays search term suggestions related to the current query, with optional custom page routing for suggestion links. (vtex.search)"
+  },
+  "search-title": {
+    "prefix": [
+      "search-title",
+      "v-search-title"
+    ],
+    "body": [
+      "\"search-title#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Displays a title for the performed search on the search results page. The block (mapped to SearchTitle component) has no user-configurable props documented in the official VTEX IO documentation; breadcrumb and wrapperClass are internal/injected props, not store/blocks.json-level props. (vtex.search-result)"
   },
   "search-title.v2": {
     "prefix": [
@@ -4079,6 +4958,58 @@
     ],
     "description": "Displays a shelf with related products based on a recommendation type (similars, suggestions, accessories, etc.). (vtex.shelf)"
   },
+  "shelf.tabbed": {
+    "prefix": [
+      "shelf.tabbed",
+      "v-shelf-tabbed"
+    ],
+    "body": [
+      "\"shelf.tabbed#${1:id}\": {",
+      "  \"props\": {",
+      "    \"isEnabled\": ${2|true,false|},",
+      "    \"headline\": \"${3}\",",
+      "    \"bottomText\": \"${4}\",",
+      "    \"tabs\": [${5}],",
+      "    \"shelf\": { ${6} },",
+      "    \"buttonText\": \"${7}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a tabbed shelf of products, allowing multiple product lists organized into navigable tabs (up to 6 tabs). (vtex.shelf)"
+  },
+  "shipping-method-selector": {
+    "prefix": [
+      "shipping-method-selector",
+      "v-shipping-method-selector"
+    ],
+    "body": [
+      "\"shipping-method-selector#${1:id}\": {",
+      "  \"props\": {",
+      "    \"required\": ${2|true,false|},",
+      "    \"mode\": \"${3|default,icon|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Displays a selector for the shopper to choose between delivery or pickup shipping methods, complementing the location setter in the storefront header. (vtex.delivery-promise-components)"
+  },
+  "shipping-option-location-selector": {
+    "prefix": [
+      "shipping-option-location-selector",
+      "v-shipping-option-location-selector"
+    ],
+    "body": [
+      "\"shipping-option-location-selector#${1:id}\": {",
+      "  \"props\": {",
+      "    \"callToAction\": \"${2|modal,popover-input,popover-button|}\",",
+      "    \"compactMode\": ${3|true,false|},",
+      "    \"dismissible\": ${4|true,false|},",
+      "    \"shippingSelection\": \"${5|delivery-and-pickup,only-pickup|}\",",
+      "    \"showLocationDetectorButton\": ${6|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a set of components that allow users to add their location and/or select a store for pickup, typically declared as a child of the store header block. (vtex.shipping-option-components)"
+  },
   "shipping-simulator": {
     "prefix": [
       "shipping-simulator",
@@ -4095,6 +5026,58 @@
       "}"
     ],
     "description": "Simulates shipping costs for a given SKU and seller, allowing shoppers to enter their postal code and see available delivery options. (vtex.store-components)"
+  },
+  "shop-review-badge": {
+    "prefix": [
+      "shop-review-badge",
+      "v-shop-review-badge"
+    ],
+    "body": [
+      "\"shop-review-badge#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Abstract interface block (Noop component) that serves as a public extensibility point for shop-level review badge widgets. It has no configurable props of its own; concrete props are defined by the implementing app (e.g., vtex.trustpilot's trustpilot-widget). (vtex.shop-review-interfaces)"
+  },
+  "shop-review-form": {
+    "prefix": [
+      "shop-review-form",
+      "v-shop-review-form"
+    ],
+    "body": [
+      "\"shop-review-form#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Abstract interface block for shop review forms. Defined as a Noop component with extensible: public — it is a placeholder with no configurable props; implementing apps (e.g. vtex.reviews-and-ratings) override this interface and may expose their own props. (vtex.shop-review-interfaces)"
+  },
+  "shop-review-summary": {
+    "prefix": [
+      "shop-review-summary",
+      "v-shop-review-summary"
+    ],
+    "body": [
+      "\"shop-review-summary#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Abstract interface block (Noop component, extensible: public) that acts as a slot for merchant review summary implementations. It has no configurable props of its own — third-party apps implement this interface to render store-level review summaries. (vtex.shop-review-interfaces)"
+  },
+  "shopper-location-setter": {
+    "prefix": [
+      "shopper-location-setter",
+      "v-shopper-location-setter"
+    ],
+    "body": [
+      "\"shopper-location-setter#${1:id}\": {",
+      "  \"props\": {",
+      "    \"required\": ${2|true,false|},",
+      "    \"mode\": \"${3|default,icon|}\",",
+      "    \"showLocationDetectorButton\": ${4|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Block that renders a location input control (postal code setter) in the store header, enabling the Delivery Promise feature by capturing the shopper's location. (vtex.delivery-promise-components)"
   },
   "sidebar-close-button": {
     "prefix": [
@@ -4223,6 +5206,145 @@
     ],
     "description": "Container block that stacks multiple sticky-layout blocks, controlling where they stick on the screen. (vtex.sticky-layout)"
   },
+  "store.account": {
+    "prefix": [
+      "store.account",
+      "v-store-account"
+    ],
+    "body": [
+      "\"store.account#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page template block for the account area (/account route). Acts as a container that requires the my-account block and wraps content with the challenge.profile block. Has no configurable props of its own. (vtex.store)"
+  },
+  "store.blog-category": {
+    "prefix": [
+      "store.blog-category",
+      "v-store-blog-category"
+    ],
+    "body": [
+      "\"store.blog-category#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page template block for the blog category route (/blog/category/:categoryslug_id). It is a route container with no configurable props of its own; content is composed via child blocks. (vtex.store)"
+  },
+  "store.blog-home": {
+    "prefix": [
+      "store.blog-home",
+      "v-store-blog-home"
+    ],
+    "body": [
+      "\"store.blog-home#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Blog homepage route template provided by the vtex.wordpress-integration app. Acts as a page container that can be extended (e.g. store.blog-home#custom) to create additional custom blog pages; it has no directly configurable first-level props. (vtex.store)"
+  },
+  "store.blog-post": {
+    "prefix": [
+      "store.blog-post",
+      "v-store-blog-post"
+    ],
+    "body": [
+      "\"store.blog-post#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page route template for individual blog post pages (path: /blog/post/:slug_id). It is a container block with no configurable props of its own — content is rendered by child blocks such as blog-post-container.wordpress and blog-post-details.wordpress-post-details. (vtex.store)"
+  },
+  "store.blog-search-result": {
+    "prefix": [
+      "store.blog-search-result",
+      "v-store-blog-search-result"
+    ],
+    "body": [
+      "\"store.blog-search-result#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page-level template block for blog search results pages. Defined in vtex.store interfaces.json as a container that renders header.full before the page and requires blog-search-list as a child block. It has no configurable props of its own — configuration is done by composing child blocks inside it. (vtex.store)"
+  },
+  "store.custom": {
+    "prefix": [
+      "store.custom",
+      "v-store-custom"
+    ],
+    "body": [
+      "\"store.custom#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page template block used to define custom routes in a Store Theme app. It acts as a container with no first-level configurable props of its own; layout and content are composed entirely via child blocks declared in store/blocks.json and routed through store/routes.json. (vtex.store)"
+  },
+  "store.home": {
+    "prefix": [
+      "store.home",
+      "v-store-home"
+    ],
+    "body": [
+      "\"store.home#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page-level home template block in vtex.store. Acts as a container that wraps the homepage with homeWrapper; all content customization is done via child blocks declared inside it. No user-facing configurable props. (vtex.store)"
+  },
+  "store.login": {
+    "prefix": [
+      "store.login",
+      "v-store-login"
+    ],
+    "body": [
+      "\"store.login#${1:id}\": {",
+      "  \"props\": {",
+      "    \"optionsTitle\": \"${2}\",",
+      "    \"emailAndPasswordTitle\": \"${3}\",",
+      "    \"accessCodeTitle\": \"${4}\",",
+      "    \"emailPlaceholder\": \"${5}\",",
+      "    \"passwordPlaceholder\": \"${6}\",",
+      "    \"acessCodePlaceholder\": \"${7}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Login block that renders the login button and handles authentication flows in the VTEX IO storefront. (vtex.store)"
+  },
+  "store.not-found": {
+    "prefix": [
+      "store.not-found",
+      "v-store-not-found"
+    ],
+    "body": [
+      "\"store.not-found#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page template block rendered when the server returns a 404 error; acts as a container for child blocks and has no configurable props of its own. (vtex.store)"
+  },
+  "store.orderplaced": {
+    "prefix": [
+      "store.orderplaced",
+      "v-store-orderplaced"
+    ],
+    "body": [
+      "\"store.orderplaced#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Page template block for the Order Placed page. Acts as a top-level container that renders the order-placed child block; has no configurable props of its own. (vtex.store)"
+  },
+  "store.product-review-form": {
+    "prefix": [
+      "store.product-review-form",
+      "v-store-product-review-form"
+    ],
+    "body": [
+      "\"store.product-review-form#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Interface placeholder block (Noop) defined in vtex.product-review-interfaces. It has no configurable props of its own — it acts as an extensibility contract that third-party review apps implement. (vtex.store)"
+  },
   "store.wishlist": {
     "prefix": [
       "store.wishlist",
@@ -4248,6 +5370,33 @@
       "}"
     ],
     "description": "Container block for submenus in VTEX Menu. Accepts a single configurable prop for controlling submenu display width. (vtex.menu)"
+  },
+  "submenu-col": {
+    "prefix": [
+      "submenu-col",
+      "v-submenu-col"
+    ],
+    "body": [
+      "\"submenu-col#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Layout column container used inside a submenu block to group menu items into columns. It has no configurable props — it accepts only children via block composition. (vtex.menu)"
+  },
+  "submenu.accordion": {
+    "prefix": [
+      "submenu.accordion",
+      "v-submenu-accordion"
+    ],
+    "body": [
+      "\"submenu.accordion#${1:id}\": {",
+      "  \"props\": {",
+      "    \"isOpen\": ${2|true,false|},",
+      "    \"blockClass\": \"${3}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Accordion-style submenu container that collapses/expands its children based on the isOpen state. Used inside menu-item blocks on mobile/responsive layouts. (vtex.menu)"
   },
   "summary-coupon": {
     "prefix": [
@@ -4425,6 +5574,44 @@
       "}"
     ],
     "description": "Displays the unit price of a product in the product list. (vtex.product-list)"
+  },
+  "user-address": {
+    "prefix": [
+      "user-address",
+      "v-user-address"
+    ],
+    "body": [
+      "\"user-address#${1:id}\": {",
+      "  \"props\": {",
+      "    \"variation\": \"${2|inline,bar|}\",",
+      "    \"showStreet\": ${3|true,false|},",
+      "    \"showCityAndState\": ${4|true,false|},",
+      "    \"showPostalCode\": ${5|true,false|},",
+      "    \"showPrefix\": ${6|true,false|},",
+      "    \"showIfEmpty\": ${7|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Displays the current user's shipping address with configurable display options. Supports inline or bar layout variations. (vtex.store-components)"
+  },
+  "video": {
+    "prefix": [
+      "video",
+      "v-video"
+    ],
+    "body": [
+      "\"video#${1:id}\": {",
+      "  \"props\": {",
+      "    \"src\": \"${2}\",",
+      "    \"name\": \"${3}\",",
+      "    \"description\": \"${4}\",",
+      "    \"type\": \"${5}\",",
+      "    \"poster\": \"${6}\",",
+      "    \"controlsType\": \"${7|custom-vtex,native,none|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Renders a video player on the storefront, supporting YouTube, Vimeo, and self-hosted HTML5 video URLs with configurable controls, autoplay, mute, loop, and accessibility metadata. (vtex.store-video)"
   },
   "wishlist-empty-list": {
     "prefix": [
