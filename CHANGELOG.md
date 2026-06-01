@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.4
+
+- **Navegação entre blocos** (a extensão agora tem runtime — `extension.js`):
+  - **Go to Definition** (Cmd/Ctrl+clique): de uma referência de bloco em `children`/`blocks`/`before`/`after`/`around` pula para onde o bloco está definido (`"id": { … }`), mesmo em outro arquivo de `store/blocks/**`.
+  - **Find All References**: lista todos os usos de um bloco no tema.
+  - **Hover**: mostra em qual arquivo:linha o bloco está definido e quantas referências existem.
+  - Indexação dos arquivos `store/blocks/**/*.{json,jsonc}` cacheada e invalidada via `FileSystemWatcher` + edições abertas. Sem dependências de runtime (usa só a API `vscode`).
+
 ## 2.1.3
 
 - **Autocomplete aninhado** em props que são objetos/arrays:

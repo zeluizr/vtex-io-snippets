@@ -69,6 +69,14 @@ Dentro de `"props": { }` de un bloque, presiona `Ctrl+Espacio` y el editor lista
 > ```
 > Asegúrate también de que los `.jsonc` estén en el modo de lenguaje **JSON with Comments**.
 
+### Navegar entre bloques
+
+En los archivos de `store/blocks/**`, los ids de bloque se vuelven navegables:
+
+- **Ir a la definición** (`Cmd/Ctrl+clic` o `F12`): desde una referencia en `children`/`blocks`/`before`/`after`/`around` salta a donde el bloque está definido (`"id": { … }`), incluso en otro archivo.
+- **Buscar todas las referencias** (`Shift+F12`): lista todos los usos del bloque en el tema.
+- **Hover**: muestra en qué archivo y línea está definido el bloque y cuántas referencias tiene.
+
 ## Cobertura
 
 Bloques nativos de VTEX IO Store Framework cubiertos por snippets + schema de props:
