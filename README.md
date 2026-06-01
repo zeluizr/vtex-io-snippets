@@ -15,6 +15,10 @@
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT" />
 </p>
 
+<p align="center">
+  <img src="images/demo.gif" alt="Autocompletado de props en VS Code" width="760" />
+</p>
+
 ---
 
 Extensión de VS Code que acelera la escritura de los archivos de tema de VTEX IO Store Framework (`store/blocks.json`, `store/blocks/*.jsonc`, `store/routes.json`, `store/contentSchemas.json`).

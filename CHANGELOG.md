@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.1.2
+
+- Adicionado **GIF de demonstração** do autocomplete no README (mockup estilo VS Code do dropdown de props, navegação e inserção de enum). Gerado por `scripts/make-demo.js`.
+
 ## 2.1.1
 
 - **Correção de falsos erros de validação**: tipos derivados da doc não são 100% confiáveis (ex.: `aspectRatio` `"1:1"` tipado como object). Agora só **enums** e **booleanos** são validados estritamente; demais escalares mantêm autocomplete de nome + descrição + default, sem marcar valores válidos como erro.
