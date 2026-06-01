@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.0.0
+
+- **Cobertura completa**: schema + snippets gerados automaticamente a partir da documentação oficial VTEX, cobrindo **286 blocos** (~1088 props) de 55 apps do Store Framework.
+- Props com **tipos, enums, defaults e descrições** extraídos da doc — IntelliSense rico dentro de cada bloco.
+- Conteúdo gerado de forma determinística por `scripts/generate-schema.js` a partir de `data/blocks.json`.
+- Snippets e schema agora unificados e versionáveis (regeneráveis a qualquer momento).
+
 ## 1.2.0
 
 - Ampliação do schema com os blocos usados no tema `construplaza-theme`:
