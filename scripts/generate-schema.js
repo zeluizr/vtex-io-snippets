@@ -29,6 +29,84 @@ const TYPE_MAP = {
   enum: { type: 'string' },
 }
 
+/**
+ * Overrides curados de props que sao objetos/arrays aninhados.
+ * A doc plana em data/blocks.json descreve essas props so com texto, entao
+ * o JSON Schema gerado nao tem `properties`/`items` e o VS Code nao consegue
+ * autocompletar os subcampos (ex.: dentro de "link" so aparecem snippets de
+ * bloco). Aqui declaramos a forma real desses objetos para liberar o
+ * autocomplete aninhado. Sem `additionalProperties: false` -> campos extras
+ * nao viram erro, mantendo a politica de nao super-validar.
+ */
+const imageLinkSchema = {
+  type: 'object',
+  description: 'Hyperlink da imagem.',
+  properties: {
+    url: { type: 'string', description: 'URL de destino do clique.' },
+    noFollow: { type: 'boolean', default: false, description: 'Adiciona rel="nofollow" ao link.' },
+    openNewTab: { type: 'boolean', default: true, description: 'Abre o link em uma nova aba.' },
+    title: { type: 'string', description: 'Atributo title / rotulo do link.' },
+  },
+}
+
+const imageListItemSchema = {
+  type: 'object',
+  properties: {
+    image: { type: 'string', description: 'URL da imagem (desktop).' },
+    mobileImage: { type: 'string', description: 'URL da imagem para mobile.' },
+    description: { type: 'string', description: 'Texto alternativo (alt) da imagem.' },
+    link: imageLinkSchema,
+    width: { description: 'Largura da imagem (px ou valor CSS).' },
+    loading: { type: 'string', enum: ['eager', 'lazy'], description: 'Estrategia de carregamento nativa.' },
+    fetchpriority: { type: 'string', enum: ['high', 'low', 'auto'], description: 'Dica de prioridade de carregamento.' },
+    analyticsProperties: { type: 'string', enum: ['provided', 'none'], description: 'Envia eventos de analytics ao clicar.' },
+    promotionId: { type: 'string', description: 'Identificador da promocao para analytics.' },
+    promotionName: { type: 'string', description: 'Nome da promocao para analytics.' },
+    promotionPosition: { type: 'string', description: 'Slot/posicao criativa para analytics.' },
+    promotionProductId: { type: 'string', description: 'ID do produto associado para analytics.' },
+    promotionProductName: { type: 'string', description: 'Nome do produto associado para analytics.' },
+  },
+}
+
+const sliderResponsive = (desc) => ({
+  type: 'object',
+  description: desc,
+  properties: {
+    desktop: { type: 'number' },
+    tablet: { type: 'number' },
+    phone: { type: 'number' },
+  },
+})
+
+const sliderOverrides = {
+  itemsPerPage: sliderResponsive('Quantidade de itens por pagina por tipo de dispositivo.'),
+  autoplay: {
+    type: 'object',
+    description: 'Configuracao do autoplay do slider.',
+    properties: {
+      timeout: { type: 'number', description: 'Intervalo entre slides, em milissegundos.' },
+      stopOnHover: { type: 'boolean', description: 'Pausa o autoplay quando o mouse esta sobre o slider.' },
+    },
+  },
+  slideTransition: {
+    type: 'object',
+    description: 'Animacao de transicao (CSS) entre os slides.',
+    properties: {
+      speed: { type: 'number', description: 'Duracao da transicao, em milissegundos.' },
+      delay: { type: 'number', description: 'Atraso antes da transicao, em milissegundos.' },
+      timing: { type: 'string', description: 'Funcao de easing CSS (ex.: ease, linear).' },
+    },
+  },
+}
+
+const PROP_OVERRIDES = {
+  'list-context.image-list': { images: { type: 'array', items: imageListItemSchema } },
+  'image-list': { images: { type: 'array', items: imageListItemSchema } },
+  image: { link: imageLinkSchema },
+  'image-new': { link: imageLinkSchema },
+  'slider-layout': sliderOverrides,
+}
+
 function coerceDefault(type, raw) {
   if (raw == null || raw === '' || /^(undefined|none|n\/?a|-)$/i.test(String(raw).trim())) return undefined
   const v = String(raw).trim().replace(/^["'`]|["'`]$/g, '')
@@ -105,6 +183,16 @@ function main() {
     const propsSchema = {}
     for (const name of Object.keys(b.props)) {
       propsSchema[name] = buildPropSchema(b.props[name])
+    }
+    // Mescla overrides aninhados (preserva description plana se o override nao trouxer uma).
+    const overrides = PROP_OVERRIDES[b.blockName]
+    if (overrides) {
+      for (const name of Object.keys(overrides)) {
+        const merged = { ...propsSchema[name], ...overrides[name] }
+        // prop que virou objeto/array nao deve carregar `default` string herdado da doc plana
+        if (overrides[name].properties || overrides[name].items) delete merged.default
+        propsSchema[name] = merged
+      }
     }
     const regex = `^${escapeRegex(b.blockName)}(#.*)?$`
     const entry = { allOf: [{ $ref: '#/$defs/blockBase' }] }

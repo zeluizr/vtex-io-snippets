@@ -3818,7 +3818,28 @@
               "description": "Image title displayed on hover."
             },
             "link": {
-              "description": "The image hyperlink (object with url, newTab, and attributeNofollow fields)."
+              "description": "Hyperlink da imagem.",
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "URL de destino do clique."
+                },
+                "noFollow": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Adiciona rel=\"nofollow\" ao link."
+                },
+                "openNewTab": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Abre o link em uma nova aba."
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Atributo title / rotulo do link."
+                }
+              }
             },
             "maxHeight": {
               "description": "Maximum height of the image."
@@ -3848,7 +3869,97 @@
           "type": "object",
           "properties": {
             "images": {
-              "description": "Array of objects declaring all images to be rendered, each with url, description, link, dimensions, loading strategy, and analytics properties."
+              "description": "Array of objects declaring all images to be rendered, each with url, description, link, dimensions, loading strategy, and analytics properties.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "description": "URL da imagem (desktop)."
+                  },
+                  "mobileImage": {
+                    "type": "string",
+                    "description": "URL da imagem para mobile."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Texto alternativo (alt) da imagem."
+                  },
+                  "link": {
+                    "type": "object",
+                    "description": "Hyperlink da imagem.",
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "description": "URL de destino do clique."
+                      },
+                      "noFollow": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Adiciona rel=\"nofollow\" ao link."
+                      },
+                      "openNewTab": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Abre o link em uma nova aba."
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Atributo title / rotulo do link."
+                      }
+                    }
+                  },
+                  "width": {
+                    "description": "Largura da imagem (px ou valor CSS)."
+                  },
+                  "loading": {
+                    "type": "string",
+                    "enum": [
+                      "eager",
+                      "lazy"
+                    ],
+                    "description": "Estrategia de carregamento nativa."
+                  },
+                  "fetchpriority": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "low",
+                      "auto"
+                    ],
+                    "description": "Dica de prioridade de carregamento."
+                  },
+                  "analyticsProperties": {
+                    "type": "string",
+                    "enum": [
+                      "provided",
+                      "none"
+                    ],
+                    "description": "Envia eventos de analytics ao clicar."
+                  },
+                  "promotionId": {
+                    "type": "string",
+                    "description": "Identificador da promocao para analytics."
+                  },
+                  "promotionName": {
+                    "type": "string",
+                    "description": "Nome da promocao para analytics."
+                  },
+                  "promotionPosition": {
+                    "type": "string",
+                    "description": "Slot/posicao criativa para analytics."
+                  },
+                  "promotionProductId": {
+                    "type": "string",
+                    "description": "ID do produto associado para analytics."
+                  },
+                  "promotionProductName": {
+                    "type": "string",
+                    "description": "Nome do produto associado para analytics."
+                  }
+                }
+              }
             },
             "height": {
               "description": "Image height in px applied to all images declared in the images array."
@@ -3882,7 +3993,28 @@
               "description": "Image title attribute shown on hover."
             },
             "link": {
-              "description": "Object with url, noFollow, openNewTab, and title fields to link the image to a URL."
+              "description": "Hyperlink da imagem.",
+              "type": "object",
+              "properties": {
+                "url": {
+                  "type": "string",
+                  "description": "URL de destino do clique."
+                },
+                "noFollow": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Adiciona rel=\"nofollow\" ao link."
+                },
+                "openNewTab": {
+                  "type": "boolean",
+                  "default": true,
+                  "description": "Abre o link em uma nova aba."
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Atributo title / rotulo do link."
+                }
+              }
             },
             "width": {
               "description": "Image width in px or % (e.g. '100%' or '300px')."
@@ -4281,7 +4413,97 @@
           "type": "object",
           "properties": {
             "images": {
-              "description": "Array of objects that declares all the images to be rendered."
+              "description": "Array of objects that declares all the images to be rendered.",
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "description": "URL da imagem (desktop)."
+                  },
+                  "mobileImage": {
+                    "type": "string",
+                    "description": "URL da imagem para mobile."
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Texto alternativo (alt) da imagem."
+                  },
+                  "link": {
+                    "type": "object",
+                    "description": "Hyperlink da imagem.",
+                    "properties": {
+                      "url": {
+                        "type": "string",
+                        "description": "URL de destino do clique."
+                      },
+                      "noFollow": {
+                        "type": "boolean",
+                        "default": false,
+                        "description": "Adiciona rel=\"nofollow\" ao link."
+                      },
+                      "openNewTab": {
+                        "type": "boolean",
+                        "default": true,
+                        "description": "Abre o link em uma nova aba."
+                      },
+                      "title": {
+                        "type": "string",
+                        "description": "Atributo title / rotulo do link."
+                      }
+                    }
+                  },
+                  "width": {
+                    "description": "Largura da imagem (px ou valor CSS)."
+                  },
+                  "loading": {
+                    "type": "string",
+                    "enum": [
+                      "eager",
+                      "lazy"
+                    ],
+                    "description": "Estrategia de carregamento nativa."
+                  },
+                  "fetchpriority": {
+                    "type": "string",
+                    "enum": [
+                      "high",
+                      "low",
+                      "auto"
+                    ],
+                    "description": "Dica de prioridade de carregamento."
+                  },
+                  "analyticsProperties": {
+                    "type": "string",
+                    "enum": [
+                      "provided",
+                      "none"
+                    ],
+                    "description": "Envia eventos de analytics ao clicar."
+                  },
+                  "promotionId": {
+                    "type": "string",
+                    "description": "Identificador da promocao para analytics."
+                  },
+                  "promotionName": {
+                    "type": "string",
+                    "description": "Nome da promocao para analytics."
+                  },
+                  "promotionPosition": {
+                    "type": "string",
+                    "description": "Slot/posicao criativa para analytics."
+                  },
+                  "promotionProductId": {
+                    "type": "string",
+                    "description": "ID do produto associado para analytics."
+                  },
+                  "promotionProductName": {
+                    "type": "string",
+                    "description": "Nome do produto associado para analytics."
+                  }
+                }
+              }
             },
             "height": {
               "description": "Image height for all images declared in the image object (in px)."
@@ -9963,19 +10185,55 @@
               "description": "Determines whether the slider should use slide pages or continuous scrolling."
             },
             "itemsPerPage": {
-              "default": "{desktop: 5, tablet: 3, phone: 1}",
-              "description": "Number of slider items displayed per device type (desktop, tablet, phone)."
+              "description": "Quantidade de itens por pagina por tipo de dispositivo.",
+              "type": "object",
+              "properties": {
+                "desktop": {
+                  "type": "number"
+                },
+                "tablet": {
+                  "type": "number"
+                },
+                "phone": {
+                  "type": "number"
+                }
+              }
             },
             "navigationStep": {
               "default": "page",
               "description": "Number of items to scroll when users click navigation arrows; can be set as 'page' to scroll a full page."
             },
             "slideTransition": {
-              "default": "{speed: 400, delay: 0, timing: ''}",
-              "description": "Controls the CSS transition animation between slides (speed, delay, timing)."
+              "description": "Animacao de transicao (CSS) entre os slides.",
+              "type": "object",
+              "properties": {
+                "speed": {
+                  "type": "number",
+                  "description": "Duracao da transicao, em milissegundos."
+                },
+                "delay": {
+                  "type": "number",
+                  "description": "Atraso antes da transicao, em milissegundos."
+                },
+                "timing": {
+                  "type": "string",
+                  "description": "Funcao de easing CSS (ex.: ease, linear)."
+                }
+              }
             },
             "autoplay": {
-              "description": "Controls the autoplay feature behavior (timeout in ms, stopOnHover boolean)."
+              "description": "Configuracao do autoplay do slider.",
+              "type": "object",
+              "properties": {
+                "timeout": {
+                  "type": "number",
+                  "description": "Intervalo entre slides, em milissegundos."
+                },
+                "stopOnHover": {
+                  "type": "boolean",
+                  "description": "Pausa o autoplay quando o mouse esta sobre o slider."
+                }
+              }
             },
             "fullWidth": {
               "type": "boolean",

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.1.3
+
+- **Autocomplete aninhado** em props que são objetos/arrays:
+  - `images` (`list-context.image-list`, `image-list`) → array de objetos com `image`, `mobileImage`, `description`, `link`, `loading`, etc.
+  - `link` (`image`, `image-new` e itens de `images`) → `url`, `noFollow`, `openNewTab`, `title`.
+  - `slider-layout` → `itemsPerPage` (`desktop`/`tablet`/`phone`), `autoplay` (`timeout`/`stopOnHover`) e `slideTransition` (`speed`/`delay`/`timing`).
+  - Implementado via mapa `PROP_OVERRIDES` curado em `scripts/generate-schema.js`, sem `additionalProperties: false` para não marcar campos extras como erro.
+
 ## 2.1.2
 
 - Adicionado **GIF de demonstração** do autocomplete no README (mockup estilo VS Code do dropdown de props, navegação e inserção de enum). Gerado por `scripts/make-demo.js`.
