@@ -8,10 +8,10 @@
   Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework.
 </p>
 
-<!-- Após publicar, os badges abaixo funcionam ao trocar "your-publisher-id" pelo ID real do publisher -->
+<!-- Os badges abaixo passam a resolver após a primeira publicação no Marketplace -->
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=your-publisher-id.vtex-io-snippets"><img src="https://img.shields.io/visual-studio-marketplace/v/your-publisher-id.vtex-io-snippets?label=VS%20Marketplace&color=F71963" alt="Marketplace" /></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=your-publisher-id.vtex-io-snippets"><img src="https://img.shields.io/visual-studio-marketplace/i/your-publisher-id.vtex-io-snippets?color=F71963" alt="Installs" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=integram.vtex-io-snippets"><img src="https://img.shields.io/visual-studio-marketplace/v/integram.vtex-io-snippets?label=VS%20Marketplace&color=F71963" alt="Marketplace" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=integram.vtex-io-snippets"><img src="https://img.shields.io/visual-studio-marketplace/i/integram.vtex-io-snippets?color=F71963" alt="Installs" /></a>
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT" />
 </p>
 
