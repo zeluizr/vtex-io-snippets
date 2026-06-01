@@ -10,8 +10,8 @@
 
 <!-- Os badges abaixo passam a resolver após a primeira publicação no Marketplace -->
 <p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-snippets"><img src="https://img.shields.io/visual-studio-marketplace/v/commenteme.vtex-io-snippets?label=VS%20Marketplace&color=F71963" alt="Marketplace" /></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-snippets"><img src="https://img.shields.io/visual-studio-marketplace/i/commenteme.vtex-io-snippets?color=F71963" alt="Installs" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense"><img src="https://img.shields.io/visual-studio-marketplace/v/commenteme.vtex-io-intellisense?label=VS%20Marketplace&color=F71963" alt="Marketplace" /></a>
+  <a href="https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense"><img src="https://img.shields.io/visual-studio-marketplace/i/commenteme.vtex-io-intellisense?color=F71963" alt="Installs" /></a>
   <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT" />
 </p>
 
@@ -49,7 +49,7 @@ Dentro de `"props": { }` de um bloco, pressione `Ctrl+Espaço` e o editor lista 
 ## Instalação
 
 - **Marketplace:** procure por **"VTEX IO Store Framework Snippets"** na aba Extensions do VS Code.
-- **Manual (.vsix):** baixe o `.vsix` em [Releases](https://github.com/zeluizr/vtex-io-snippets/releases) e rode `code --install-extension vtex-io-snippets-*.vsix`.
+- **Manual (.vsix):** baixe o `.vsix` em [Releases](https://github.com/zeluizr/vtex-io-snippets/releases) e rode `code --install-extension vtex-io-intellisense-*.vsix`.
 
 ## Cobertura
 

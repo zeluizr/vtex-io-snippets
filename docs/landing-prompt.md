@@ -29,9 +29,9 @@ Você é um engenheiro front-end sênior. Crie uma **landing page de produto** c
 
 ## Links reais (use exatamente estes)
 
-- Marketplace: `https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-snippets`
+- Marketplace: `https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense`
 - GitHub: `https://github.com/zeluizr/vtex-io-snippets`
-- Identificador da extensão: `commenteme.vtex-io-snippets`
+- Identificador da extensão: `commenteme.vtex-io-intellisense`
 
 ## Estrutura da página (seções, em ordem)
 
@@ -45,7 +45,7 @@ Você é um engenheiro front-end sênior. Crie uma **landing page de produto** c
 - Headline grande: **"Autocomplete e IntelliSense para os blocos do VTEX IO"**.
 - Subtítulo: "Escreva temas VTEX IO mais rápido — snippets dos blocos e autocomplete de props (com enums e validação) direto no VS Code."
 - Dois CTAs: "Instalar no VS Code" (Marketplace) e "Ver no GitHub".
-- Badges: versão do Marketplace, instalações, licença MIT (use shields.io apontando para `commenteme.vtex-io-snippets`).
+- Badges: versão do Marketplace, instalações, licença MIT (use shields.io apontando para `commenteme.vtex-io-intellisense`).
 - À direita/abaixo: um **mockup de editor** (janela estilo VS Code) mostrando um dropdown de autocomplete dentro de um `store/blocks.jsonc`, com props sendo sugeridos (ex.: `filter-navigator.v3` com `layout`, `openFiltersMode`...). Pode ser SVG/HTML estilizado simulando o editor.
 
 ### 3. Recursos (cards) — "Duas camadas de autocomplete"
@@ -59,7 +59,7 @@ Tabs ou dois blocos:
 - **Pelo Marketplace:** "Abra a aba Extensions do VS Code (`Cmd/Ctrl+Shift+X`), procure por **VTEX IO Store Framework Snippets** e clique em Install." (com botão para o Marketplace)
 - **Manual (.vsix):** bloco de código:
   ```bash
-  code --install-extension vtex-io-snippets-*.vsix
+  code --install-extension vtex-io-intellisense-*.vsix
   ```
   com nota "baixe o .vsix em Releases do GitHub".
 
