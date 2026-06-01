@@ -44,14 +44,39 @@ function coerceDefault(type, raw) {
   return v
 }
 
+function inferDefault(raw) {
+  if (raw == null || raw === '' || /^(undefined|none|n\/?a|-)$/i.test(String(raw).trim())) return undefined
+  const v = String(raw).trim().replace(/^["'`]|["'`]$/g, '')
+  if (/^true$/i.test(v)) return true
+  if (/^false$/i.test(v)) return false
+  const n = Number(v)
+  if (v !== '' && Number.isFinite(n)) return n
+  return v
+}
+
+/**
+ * Tipos derivados da doc não são 100% confiáveis, então NÃO validamos tipo
+ * de escalares livres (string/number/object/array) para evitar falsos
+ * "tipo incorreto" (ex.: aspectRatio "1:1" tipado como object). Mantemos:
+ *  - enum  -> validação estrita (alta confiança e útil para sugestão)
+ *  - boolean -> validação (confiável; sugere true/false)
+ * Demais props: só nome + descrição + default (sem 'type').
+ */
 function buildPropSchema(p) {
-  const base = TYPE_MAP[p.type] ? { ...TYPE_MAP[p.type] } : { type: 'string' }
+  const base = {}
   if (p.enumValues && p.enumValues.length) {
     base.type = 'string'
     base.enum = Array.from(new Set(p.enumValues.map(String)))
+    const def = coerceDefault('string', p.default)
+    if (def !== undefined) base.default = def
+  } else if (p.type === 'boolean') {
+    base.type = 'boolean'
+    const def = coerceDefault('boolean', p.default)
+    if (def !== undefined) base.default = def
+  } else {
+    const def = inferDefault(p.default)
+    if (def !== undefined) base.default = def
   }
-  const def = coerceDefault(base.type, p.default)
-  if (def !== undefined) base.default = def
   if (p.description) base.description = String(p.description).replace(/\s+/g, ' ').trim().slice(0, 280)
   return base
 }

@@ -120,27 +120,22 @@
               "description": "Determines whether the user should be redirected to the checkout page (true) or remain on the current page (false) when the button is clicked."
             },
             "customOneClickBuyLink": {
-              "type": "string",
               "default": "/checkout/#/cart",
               "description": "Defines the link to which users will be redirected when the button is clicked and isOneClickBuy is set to true."
             },
             "customToastUrl": {
-              "type": "string",
               "default": "/checkout/#/cart",
               "description": "Defines the link to which users will be redirected when the toast notification (shown after adding an item to the minicart) is clicked."
             },
             "text": {
-              "type": "string",
               "default": "Add to cart",
               "description": "Defines a custom text message to be displayed on the Add to Cart button (automatic translation follows store default language)."
             },
             "unavailableText": {
-              "type": "string",
               "default": "Unavailable",
               "description": "Defines a custom text message to be displayed on the button when a product is unavailable (automatic translation follows store default language)."
             },
             "customPixelEventId": {
-              "type": "string",
               "description": "Defines the id for the event that the button will send upon user interaction."
             }
           }
@@ -159,7 +154,6 @@
           "type": "object",
           "properties": {
             "toastURL": {
-              "type": "string",
               "default": "/account/#wishlist",
               "description": "Changes the link of the toast message shown after adding a product to the wishlist."
             }
@@ -236,7 +230,6 @@
           "type": "object",
           "properties": {
             "buttonProps": {
-              "type": "object",
               "description": "Define o comportamento do botão Customize, incluindo seu posicionamento e os blocos filhos que compõem o conteúdo do modal aberto ao clicar no botão."
             }
           }
@@ -291,40 +284,31 @@
               "description": "Uses the input term to try to navigate to the proper page type (e.g. a department, a brand, a category) if true."
             },
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles for custom styling."
             },
             "closeMenu": {
-              "type": "object",
               "description": "Function that closes the autocomplete dropdown menu (Downshift-related)."
             },
             "customSearchPageUrl": {
-              "type": "string",
               "description": "Template for a custom URL; accepts ${term} as placeholder to interpolate the searched term."
             },
             "data": {
-              "type": "object",
               "default": "{}",
               "description": "GraphQL data response containing the autocomplete results."
             },
             "highlightedIndex": {
-              "type": "number",
               "description": "The index of the item that should be highlighted in the autocomplete list (Downshift-related)."
             },
             "getItemProps": {
-              "type": "object",
               "description": "Returns the props for every menu item element being rendered (Downshift-related)."
             },
             "getMenuProps": {
-              "type": "object",
               "description": "Returns the props for the ul or root element of the autocomplete menu (Downshift-related)."
             },
             "inputValue": {
-              "type": "string",
               "description": "The current search query text typed by the user."
             },
             "onClearInput": {
-              "type": "object",
               "description": "Function that clears the search input field."
             },
             "isOpen": {
@@ -347,27 +331,22 @@
           "type": "object",
           "properties": {
             "maxTopSearches": {
-              "type": "number",
               "default": 10,
               "description": "Maximum number of terms in the top searches list."
             },
             "maxHistory": {
-              "type": "number",
               "default": 5,
               "description": "Maximum number of terms in the search history list."
             },
             "maxSuggestedProducts": {
-              "type": "number",
               "default": 3,
               "description": "Maximum number of suggested products."
             },
             "maxSuggestedTerms": {
-              "type": "number",
               "default": 3,
               "description": "Maximum number of suggested terms."
             },
             "autocompleteWidth": {
-              "type": "number",
               "description": "Autocomplete width as a number between 0 and 100."
             },
             "productLayout": {
@@ -389,7 +368,6 @@
               "description": "If true, the Search History list will be prioritized over other lists."
             },
             "customBreakpoints": {
-              "type": "object",
               "description": "Specifies the maximum number of suggested products per responsive breakpoint."
             },
             "simulationBehavior": {
@@ -402,7 +380,6 @@
               "description": "Use 'skip' for faster searches without fetching latest prices and promotions."
             },
             "customPage": {
-              "type": "string",
               "default": "store.search",
               "description": "Defines a custom page to be used for autocomplete links."
             },
@@ -460,7 +437,6 @@
               "description": "Determines how the component renders: as a text label button or as a caret icon only."
             },
             "displayThreshold": {
-              "type": "number",
               "default": 600,
               "description": "Vertical scroll position in pixels at which the button becomes visible."
             }
@@ -485,12 +461,10 @@
               "description": "Determines whether Breadcrumb should also be displayed on mobile."
             },
             "homeIconSize": {
-              "type": "number",
               "default": 26,
               "description": "Controls the size property of the IconHome icon."
             },
             "caretIconSize": {
-              "type": "number",
               "default": 8,
               "description": "Controls the size property of the IconCaret icon."
             }
@@ -515,12 +489,10 @@
               "description": "Determines whether the breadcrumb should also be displayed on mobile devices."
             },
             "homeIconSize": {
-              "type": "number",
               "default": 26,
               "description": "Controls the size property of the IconHome icon rendered at the start of the breadcrumb."
             },
             "caretIconSize": {
-              "type": "number",
               "default": 8,
               "description": "Controls the size property of the IconCaret separator icon rendered between breadcrumb items."
             }
@@ -545,12 +517,10 @@
               "description": "It determines whether Breadcrumb should also be displayed on mobile."
             },
             "homeIconSize": {
-              "type": "number",
               "default": 26,
               "description": "Controls the size property of IconHome."
             },
             "caretIconSize": {
-              "type": "number",
               "default": 8,
               "description": "Controls the size property of IconCaret."
             }
@@ -575,7 +545,6 @@
               "description": "Whether the Buy Button block is available for using (true) or not (false)."
             },
             "customToastURL": {
-              "type": "string",
               "default": "/checkout/#/cart",
               "description": "Defines the link to where users will be redirected when the Buy Button is clicked and isOneClickBuy is set to true."
             },
@@ -635,7 +604,6 @@
               "description": "Enable automatic banner transition"
             },
             "autoplaySpeed": {
-              "type": "number",
               "default": 5,
               "description": "Set the automatic banner transition interval (in seconds)"
             },
@@ -650,12 +618,10 @@
               "description": "Shows the carousel navigation arrows"
             },
             "height": {
-              "type": "number",
               "default": 420,
               "description": "Sets the banners height in pixels"
             },
             "banners": {
-              "type": "array",
               "default": "[]",
               "description": "Array of banner objects to be displayed in the carousel"
             }
@@ -695,7 +661,6 @@
               "description": "Defines if the subcategories will be displayed."
             },
             "departments": {
-              "type": "array",
               "default": "[]",
               "description": "List of department items (with id) to be displayed on the menu."
             },
@@ -727,7 +692,6 @@
           "type": "object",
           "properties": {
             "title": {
-              "type": "string",
               "default": "Order Summary",
               "description": "Display title shown at the top of the summary block."
             }
@@ -747,16 +711,13 @@
           "type": "object",
           "properties": {
             "totalizers": {
-              "type": "array",
               "description": "Array of totalizer objects ({ id: string; value: number | null; name: string }) to be displayed in the summary."
             },
             "totalizersToShow": {
-              "type": "array",
               "default": "['Items']",
               "description": "Array of totalizer IDs that should be displayed inside the compact summary component."
             },
             "total": {
-              "type": "number",
               "description": "Total value of the order form to be displayed at the bottom of the summary."
             },
             "totalCalculation": {
@@ -784,7 +745,6 @@
           "type": "object",
           "properties": {
             "conditions": {
-              "type": "array",
               "description": "List of condition objects to be evaluated; each object defines subject, arguments (v2) or verb/object (v1), and toBe."
             },
             "matchType": {
@@ -798,11 +758,9 @@
               "description": "Determines how many conditions must be satisfied for the layout to render: all, any, or none."
             },
             "Then": {
-              "type": "string",
               "description": "Block ID to render when the conditions are satisfied; if not provided, child blocks are rendered instead."
             },
             "Else": {
-              "type": "string",
               "description": "Block ID to render when the conditions are not satisfied."
             }
           }
@@ -821,7 +779,6 @@
           "type": "object",
           "properties": {
             "conditions": {
-              "type": "array",
               "description": "List of desired conditions to be evaluated for the binding context."
             },
             "matchType": {
@@ -835,11 +792,9 @@
               "description": "Layout rendering criteria: all conditions must match, any one must match, or none must match."
             },
             "Then": {
-              "type": "string",
               "description": "Name of the block to be rendered if the conditions are met."
             },
             "Else": {
-              "type": "string",
               "description": "Name of the block to be rendered if the conditions are not met."
             }
           }
@@ -858,7 +813,6 @@
           "type": "object",
           "properties": {
             "conditions": {
-              "type": "array",
               "description": "List of desired conditions to be evaluated for rendering."
             },
             "matchType": {
@@ -872,11 +826,9 @@
               "description": "Rendering criteria: 'all' requires all conditions, 'any' requires at least one, 'none' requires no conditions to match."
             },
             "Then": {
-              "type": "string",
               "description": "Name of the block to be rendered if the conditions are met."
             },
             "Else": {
-              "type": "string",
               "description": "Name of the block to be rendered if the conditions are not met."
             }
           }
@@ -895,7 +847,6 @@
           "type": "object",
           "properties": {
             "conditions": {
-              "type": "array",
               "description": "List of desired conditions to be evaluated for conditional rendering."
             },
             "matchType": {
@@ -909,11 +860,9 @@
               "description": "Layout rendering criteria: all (all conditions must be met), any (at least one must be met), or none (no conditions must be met)."
             },
             "Then": {
-              "type": "string",
               "description": "Name of the block to be rendered if the conditions are met."
             },
             "Else": {
-              "type": "string",
               "description": "Name of the block to be rendered if the conditions are not met."
             }
           }
@@ -932,7 +881,6 @@
           "type": "object",
           "properties": {
             "conditions": {
-              "type": "array",
               "description": "List of desired conditions to be evaluated for rendering."
             },
             "matchType": {
@@ -946,11 +894,9 @@
               "description": "Layout rendering criteria: all (all conditions must be met), any (at least one must be met), or none (no condition must be met)."
             },
             "Then": {
-              "type": "string",
               "description": "Name of the block to be rendered when the conditions are met. If not defined, children blocks are rendered instead."
             },
             "Else": {
-              "type": "string",
               "description": "Name of the block to be rendered when the conditions are not met."
             }
           }
@@ -977,7 +923,6 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID defined by you that will be used in CSS customizations."
             }
           }
@@ -1049,11 +994,9 @@
           "type": "object",
           "properties": {
             "Show": {
-              "type": "string",
               "description": "Name of the block that will be rendered when prompted to show the content."
             },
             "Hide": {
-              "type": "string",
               "description": "Name of the block that will be rendered when prompted to hide the content."
             }
           }
@@ -1072,24 +1015,19 @@
           "type": "object",
           "properties": {
             "Show": {
-              "type": "string",
               "description": "Name of the block rendered when the component is in the 'show content' state."
             },
             "Hide": {
-              "type": "string",
               "description": "Name of the block rendered when the component is in the 'hide content' state."
             },
             "as": {
-              "type": "string",
               "default": "button",
               "description": "HTML tag to be applied to the component when rendered on the UI."
             },
             "children": {
-              "type": "string",
               "description": "Name of the block rendered when no blocks are declared in the Show or Hide props."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block identifier used to apply custom CSS classes via the blockClass handle."
             }
           }
@@ -1108,24 +1046,19 @@
           "type": "object",
           "properties": {
             "Show": {
-              "type": "string",
               "description": "Name of the block that will be rendered when prompted to show the content."
             },
             "Hide": {
-              "type": "string",
               "description": "Name of the block that will be rendered when prompted to hide the content."
             },
             "as": {
-              "type": "string",
               "default": "button",
               "description": "HTML tag to be applied to the component when rendered on the UI."
             },
             "children": {
-              "type": "string",
               "description": "Name of the block that will be rendered if no blocks are declared in the Show or Hide props."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID defined by you that will be used in CSS customizations."
             }
           }
@@ -1144,7 +1077,6 @@
           "type": "object",
           "properties": {
             "maxWidth": {
-              "type": "number",
               "default": 450,
               "description": "Defines the maximum width of the open drawer."
             },
@@ -1182,11 +1114,9 @@
               "description": "Determines whether child content renders on interaction (lazy) or on page load (eager)."
             },
             "customPixelEventId": {
-              "type": "string",
               "description": "Defines the store event ID responsible for triggering the drawer to automatically open on the interface."
             },
             "customPixelEventName": {
-              "type": "string",
               "description": "Store event name (e.g., 'addToCart') that triggers automatic drawer opening."
             }
           }
@@ -1205,7 +1135,6 @@
           "type": "object",
           "properties": {
             "size": {
-              "type": "number",
               "default": 30,
               "description": "Defines the size of the icon inside the button."
             },
@@ -1219,7 +1148,6 @@
               "description": "Defines the type of the icon."
             },
             "text": {
-              "type": "string",
               "description": "Defines the text inside the button. The icon will not be rendered if text is defined."
             }
           }
@@ -1246,7 +1174,6 @@
           "type": "object",
           "properties": {
             "customPixelEventId": {
-              "type": "string",
               "description": "Defines the event ID to be sent whenever users interact with the Drawer component."
             }
           }
@@ -1283,12 +1210,10 @@
               "description": "Specifies if the layout is responsive or fixed to desktop."
             },
             "maxItemsDepartment": {
-              "type": "number",
               "default": 8,
               "description": "Maximum number of department items shown before a See more button appears."
             },
             "maxItemsCategory": {
-              "type": "number",
               "default": 8,
               "description": "Maximum number of category items shown before a See more button appears."
             },
@@ -1307,7 +1232,6 @@
               "description": "Controls how many filters can be open simultaneously."
             },
             "filtersTitleHtmlTag": {
-              "type": "string",
               "default": "h5",
               "description": "HTML tag used for filter titles."
             },
@@ -1396,7 +1320,6 @@
               "description": "Price range filter display style: slider only or slider with input fields."
             },
             "facetOrdering": {
-              "type": "array",
               "description": "Custom sorting rules for filters/facets ordering."
             },
             "showQuantityBadgeOnMobile": {
@@ -1428,20 +1351,16 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "default": "",
               "description": "Block container class used as a block identifier for CSS customizations."
             },
             "borderColor": {
-              "type": "string",
               "description": "The color of the border applied to the column."
             },
             "borderWidth": {
-              "type": "number",
               "description": "Magnitude for applying the bw Tachyons token to the column (values 0 to 5)."
             },
             "border": {
-              "type": "array",
               "description": "Defines on which sides of the column a border should apply (top, right, bottom, left, or all)."
             },
             "horizontalAlign": {
@@ -1455,19 +1374,15 @@
               "description": "Controls horizontal alignment for items inside the flex-layout.col."
             },
             "marginLeft": {
-              "type": "number",
               "description": "Magnitude for applying the ml Tachyons token to the column (values 0 to 10)."
             },
             "marginRight": {
-              "type": "number",
               "description": "Magnitude for applying the mr Tachyons token to the column (values 0 to 10)."
             },
             "paddingLeft": {
-              "type": "number",
               "description": "Magnitude for applying the pl Tachyons token to the column (values 0 to 10)."
             },
             "paddingRight": {
-              "type": "number",
               "description": "Magnitude for applying the pr Tachyons token to the column (values 0 to 10)."
             },
             "preventVerticalStretch": {
@@ -1476,7 +1391,6 @@
               "description": "Prevents the column from stretching vertically to fill its parent's height."
             },
             "rowGap": {
-              "type": "number",
               "description": "Magnitude for applying the pb Tachyons token to rows inside the flex-layout.col (values 0 to 10)."
             },
             "verticalAlign": {
@@ -1490,11 +1404,9 @@
               "description": "Controls vertical alignment for items inside the flex-layout.col."
             },
             "width": {
-              "type": "string",
               "description": "Sets the width of the column. Accepts a percentage (0-100%) or the value 'grow'."
             },
             "arialabel": {
-              "type": "string",
               "description": "Aria-label attribute for accessibility purposes."
             }
           }
@@ -1513,24 +1425,19 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "default": "",
               "description": "Block container class used as a block identifier for CSS customizations."
             },
             "borderColor": {
-              "type": "string",
               "description": "The color of the border applied to the row."
             },
             "borderWidth": {
-              "type": "number",
               "description": "A number magnitude (0–5) for applying the `bw` Tachyons token to the row border width."
             },
             "border": {
-              "type": "array",
               "description": "Defines on which sides of the row a border should apply: top, right, bottom, left, or all."
             },
             "colGap": {
-              "type": "number",
               "description": "A number magnitude (0–10) for applying the `pr` Tachyons token as gap between columns."
             },
             "colSizing": {
@@ -1569,19 +1476,15 @@
               "description": "Controls the space between columns and borders, following the justify-content CSS property."
             },
             "marginBottom": {
-              "type": "number",
               "description": "A number magnitude (0–10) for applying the `mb` Tachyons token as bottom margin to the row."
             },
             "marginTop": {
-              "type": "number",
               "description": "A number magnitude (0–10) for applying the `mt` Tachyons token as top margin to the row."
             },
             "paddingBottom": {
-              "type": "number",
               "description": "A number magnitude (0–10) for applying the `pb` Tachyons token as bottom padding to the row."
             },
             "paddingTop": {
-              "type": "number",
               "description": "A number magnitude (0–10) for applying the `pt` Tachyons token as top padding to the row."
             },
             "preserveLayoutOnMobile": {
@@ -1600,15 +1503,12 @@
               "description": "Prevents the row from stretching vertically to fill the parent height using items-stretch."
             },
             "rowGap": {
-              "type": "number",
               "description": "A number magnitude (0–10) for applying the `pb` Tachyons token as gap between rows in the flex layout."
             },
             "htmlId": {
-              "type": "string",
               "description": "Adds an HTML id to the flex row element, enabling anchor link navigation to page sections."
             },
             "arialabel": {
-              "type": "string",
               "description": "Aria-label attribute added to the row for accessibility purposes."
             }
           }
@@ -1691,7 +1591,6 @@
               "description": "Define if background and text colors should be inverted."
             },
             "blockClass": {
-              "type": "string",
               "description": "Custom CSS class identifier used for styling overrides via CSS handles."
             }
           }
@@ -1718,11 +1617,9 @@
           "type": "object",
           "properties": {
             "entity": {
-              "type": "string",
               "description": "The Master Data entity where the submitted document will be saved."
             },
             "schema": {
-              "type": "string",
               "description": "The JSON schema name used for form validation, as defined in Master Data."
             }
           }
@@ -1741,11 +1638,9 @@
           "type": "object",
           "properties": {
             "pointer": {
-              "type": "string",
               "description": "JSON schema pointer (path) indicating which schema property the form block inputs should be validated against, e.g. #/properties/address."
             },
             "uiSchema": {
-              "type": "object",
               "description": "Redefines how the form-field-group block should render each sub-property declared in the JSON schema path defined in pointer."
             }
           }
@@ -1772,11 +1667,9 @@
           "type": "object",
           "properties": {
             "pointer": {
-              "type": "string",
               "description": "JSON schema pointer (path) indicating which schema property the checkbox input should be validated against, e.g. #/properties/agreement."
             },
             "label": {
-              "type": "string",
               "default": "Property title",
               "description": "Field display name rendered next to the checkbox in the form."
             }
@@ -1796,11 +1689,9 @@
           "type": "object",
           "properties": {
             "pointer": {
-              "type": "string",
               "description": "JSON schema pointer, i.e., the JSON schema path (e.g. #/properties/firstName) against which the field input is validated."
             },
             "label": {
-              "type": "string",
               "default": "Property's title",
               "description": "Field name displayed when the dropdown is rendered."
             }
@@ -1820,11 +1711,9 @@
           "type": "object",
           "properties": {
             "pointer": {
-              "type": "string",
               "description": "Mandatory. JSON schema pointer (path) used to validate the field input, e.g. #/properties/firstName."
             },
             "label": {
-              "type": "string",
               "default": "Property title",
               "description": "Mandatory. Field display name rendered alongside the radio group."
             }
@@ -1844,7 +1733,6 @@
           "type": "object",
           "properties": {
             "pointer": {
-              "type": "string",
               "description": "JSON schema path (e.g. #/properties/firstName) used to validate the form block input against the schema."
             },
             "inputType": {
@@ -1858,16 +1746,13 @@
               "description": "Defines the type of the text field: regular input, hidden (pre-defined value), or password."
             },
             "value": {
-              "type": "string",
               "description": "Pre-defined text to be submitted when inputType is set to hidden."
             },
             "label": {
-              "type": "string",
               "default": "Property's title",
               "description": "Label displayed for the input field."
             },
             "placeholder": {
-              "type": "string",
               "description": "Placeholder text shown inside the text input field."
             }
           }
@@ -1886,16 +1771,13 @@
           "type": "object",
           "properties": {
             "pointer": {
-              "type": "string",
               "description": "JSON schema pointer (e.g. #/properties/firstName) indicating which schema path this input should be validated against. Mandatory."
             },
             "label": {
-              "type": "string",
               "default": "Property title",
               "description": "Field name displayed when the textarea is rendered. Mandatory."
             },
             "placeholder": {
-              "type": "string",
               "description": "Placeholder text shown inside the textarea input."
             }
           }
@@ -1914,11 +1796,9 @@
           "type": "object",
           "properties": {
             "pointer": {
-              "type": "string",
               "description": "Mandatory. JSON schema pointer (e.g., #/properties/address) used to validate the form block input."
             },
             "accept": {
-              "type": "string",
               "description": "Optional. Customizes the accepted file type format using the pattern *.TYPEFILE. Defaults to images and PDF files."
             }
           }
@@ -1937,7 +1817,6 @@
           "type": "object",
           "properties": {
             "label": {
-              "type": "string",
               "default": "Submit",
               "description": "Text displayed on the submit button."
             }
@@ -1965,15 +1844,12 @@
           "type": "object",
           "properties": {
             "layouts": {
-              "type": "object",
               "description": "Arranges and displays items on the search results page, supporting multiple layout options with name, component, and itemsPerRow settings."
             },
             "customSummaryInterval": {
-              "type": "number",
               "description": "Defines the item interval at which the Gallery should render a custom product-summary block alongside the other items."
             },
             "CustomSummary": {
-              "type": "string",
               "description": "Defines a block to render according to the interval defined by customSummaryInterval."
             },
             "preferredSKU": {
@@ -2003,7 +1879,6 @@
           "type": "object",
           "properties": {
             "name": {
-              "type": "string",
               "description": "Specifies the name of the layout option. Must match the value passed to the `name` prop in the gallery block's layouts configuration."
             }
           }
@@ -2038,27 +1913,22 @@
           "type": "object",
           "properties": {
             "maxWidth": {
-              "type": "number",
               "default": 125,
               "description": "Gift image maximum width."
             },
             "maxHeight": {
-              "type": "number",
               "default": 125,
               "description": "Gift image maximum height."
             },
             "minWidth": {
-              "type": "number",
               "default": 125,
               "description": "Gift image minimum width."
             },
             "minHeight": {
-              "type": "number",
               "default": 125,
               "description": "Gift image minimum height."
             },
             "imageLabel": {
-              "type": "string",
               "description": "Label of the image variant that should be rendered; if not set, the first available SKU image is used."
             }
           }
@@ -2106,7 +1976,6 @@
           "type": "object",
           "properties": {
             "text": {
-              "type": "string",
               "default": "{exceedingItems, plural, =0{ } one {+ # gift} other {+ # gifts}}",
               "description": "Translatable string (ICU pattern) with variables (exceedingItems, totalGifts, visibleItems) used to render gift-related text."
             }
@@ -2154,7 +2023,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles. Keys must match the available CSS handles: forceCenter and forceCenterInnerContainer."
             }
           }
@@ -2213,7 +2081,6 @@
           "type": "object",
           "properties": {
             "zIndex": {
-              "type": "number",
               "default": 0,
               "description": "Controls the vertical stacking order of elements for overlapping."
             },
@@ -2264,11 +2131,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions (width and height in pixels)."
             },
@@ -2278,15 +2143,12 @@
               "description": "Activation status indicator; toggles between activeClassName and mutedClassName."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, the icon is exposed to assistive technology with role=\"img\"."
             },
             "type": {
@@ -2341,11 +2203,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size of the icon in pixels"
             },
@@ -2355,15 +2215,12 @@
               "description": "Whether the icon is in its active state"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS className applied when the icon is active"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS className applied when the icon is not active (muted)"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; when provided, the icon gets role='img' for assistive technology"
             }
           }
@@ -2382,12 +2239,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels"
             },
@@ -2397,15 +2252,12 @@
               "description": "Whether the icon is in its active state"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is active"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is inactive (muted)"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible aria-label for informative icons (assistive technology)"
             }
           }
@@ -2424,11 +2276,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size (in pixels) of the icon"
             },
@@ -2438,15 +2288,12 @@
               "description": "Whether the icon is in active state"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is active"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; exposes icon to assistive technology with role='img'"
             },
             "type": {
@@ -2473,12 +2320,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "caret",
               "description": "Icon identifier used to select the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels"
             },
@@ -2488,15 +2333,12 @@
               "description": "Describes the icon active state"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the inactive (muted) state"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; when provided, exposes the icon to assistive technology with role=img"
             },
             "orientation": {
@@ -2526,11 +2368,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon variant."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size (in pixels) for the icon."
             },
@@ -2540,15 +2380,12 @@
               "description": "Whether the icon is in active state, toggling between activeClassName and mutedClassName."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class name applied when the icon is active (isActive=true)."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class name applied when the icon is not active (isActive=false)."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. If provided, the icon is exposed to assistive technology with role=\"img\"."
             }
           }
@@ -2567,12 +2404,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon size in pixels"
             },
@@ -2582,15 +2417,12 @@
               "description": "Indicates whether the icon is in active state"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is active"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; if provided, icon gets role='img'; if omitted, icon is treated as decorative (aria-hidden='true')"
             },
             "type": {
@@ -2618,12 +2450,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels"
             },
@@ -2633,15 +2463,12 @@
               "description": "Descriptor for the icon's active state"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for assistive technology; when provided, sets role=\"img\" on the icon"
             },
             "type": {
@@ -2668,11 +2495,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size (in pixels) of the icon."
             },
@@ -2682,15 +2507,12 @@
               "description": "Whether the icon is in active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class to apply when the icon is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class to apply when the icon is not active (muted)."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. If provided, the icon is exposed to assistive technology with role='img'. If omitted, the icon is treated as decorative."
             }
           }
@@ -2709,11 +2531,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size of the icon in pixels."
             },
@@ -2723,15 +2543,12 @@
               "description": "Whether the icon is in active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, the icon is exposed to assistive technology with role=\"img\"."
             },
             "type": {
@@ -2786,7 +2603,6 @@
           "type": "object",
           "properties": {
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon size in pixels (aspect ratio 1:1)."
             },
@@ -2796,20 +2612,16 @@
               "description": "Defines whether the icon is in active state, applying activeClassName or mutedClassName accordingly."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active (muted state)."
             },
             "viewBox": {
-              "type": "string",
               "default": "0 0 16 16",
               "description": "SVG viewBox attribute value for the icon."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for the icon. When provided, the icon gets role='img'; when omitted, it is treated as decorative (aria-hidden='true')."
             }
           }
@@ -2828,11 +2640,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "Identificador do ícone desejado."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Dimensões do ícone em pixels."
             },
@@ -2842,15 +2652,12 @@
               "description": "Indica se o ícone está no estado ativo."
             },
             "activeClassName": {
-              "type": "string",
               "description": "Classe CSS aplicada quando o ícone está ativo."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "Classe CSS aplicada quando o ícone está inativo (muted)."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Label acessível para ícones informativos; quando fornecido, expõe o ícone para tecnologias assistivas com role=\"img\"."
             },
             "type": {
@@ -2885,12 +2692,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size of the icon"
             },
@@ -2900,15 +2705,12 @@
               "description": "Determines whether the active or muted className will be used"
             },
             "activeClassName": {
-              "type": "string",
               "description": "The className applied when the icon is active"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "The className applied when the icon is not active"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; if provided the icon is exposed to assistive technology with role=img"
             }
           }
@@ -2927,12 +2729,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels."
             },
@@ -2942,15 +2742,12 @@
               "description": "Indicates whether the icon is in an active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is in its active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is in its inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for the icon. When provided, exposes the icon to assistive technology with role=\"img\"; when omitted, the icon is treated as decorative (aria-hidden=\"true\")."
             }
           }
@@ -2969,11 +2766,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "Icon identifier used to select the SVG fragment from the iconpack."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired dimensions (width and height) of the icon in pixels."
             },
@@ -2983,15 +2778,12 @@
               "description": "Whether the icon is in its active state, affecting which className is applied."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for the icon. When provided, exposes the icon to assistive technology with role=\"img\"; when omitted, the icon is treated as decorative (aria-hidden=\"true\")."
             }
           }
@@ -3010,12 +2802,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels."
             },
@@ -3025,15 +2815,12 @@
               "description": "Activation state indicator."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is in active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is in inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; exposes the icon to assistive technology with role=\"img\" when provided."
             }
           }
@@ -3052,11 +2839,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size (in pixels) of the icon."
             },
@@ -3066,15 +2851,12 @@
               "description": "Describes whether the icon is in its active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class name applied to the icon when it is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class name applied to the icon when it is not active."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, the icon gets role=\"img\"; otherwise it is treated as decorative with aria-hidden=\"true\"."
             },
             "type": {
@@ -3129,12 +2911,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels."
             },
@@ -3144,15 +2924,12 @@
               "description": "Describes the active state of the icon."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, exposes the icon to assistive technology with role='img'."
             },
             "type": {
@@ -3207,7 +2984,6 @@
           "type": "object",
           "properties": {
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions (width and height in px)."
             },
@@ -3217,20 +2993,16 @@
               "description": "When true, applies activeClassName; when false, applies mutedClassName."
             },
             "viewBox": {
-              "type": "string",
               "default": "0 0 16 16",
               "description": "SVG viewBox attribute value for the icon."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when isActive is true."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when isActive is false."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. If provided, the icon gets role=\"img\"; if omitted, it is treated as decorative (aria-hidden=\"true\")."
             }
           }
@@ -3249,7 +3021,6 @@
           "type": "object",
           "properties": {
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size (width and height) of the icon in pixels."
             },
@@ -3259,19 +3030,15 @@
               "description": "Indicates whether the icon is in its active state, toggling between activeClassName and mutedClassName."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when isActive is true."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when isActive is false."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for the icon. When provided, the icon is exposed to assistive technology with role=\"img\"."
             },
             "viewBox": {
-              "type": "string",
               "default": "0 0 16 16",
               "description": "SVG viewBox attribute value for the icon."
             }
@@ -3291,11 +3058,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "Identifier for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels."
             },
@@ -3305,15 +3070,12 @@
               "description": "Whether the icon is in active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is inactive (muted)."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, exposes the icon to assistive technology with role='img'."
             }
           }
@@ -3332,11 +3094,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size (in pixels) of the icon."
             },
@@ -3346,15 +3106,12 @@
               "description": "Whether the icon is in its active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, the icon is exposed to assistive technology with role=\"img\"."
             },
             "type": {
@@ -3382,12 +3139,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "pause",
               "description": "Identifier for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Icon dimensions in pixels."
             },
@@ -3397,15 +3152,12 @@
               "description": "Defines the activation state of the icon."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for the icon. When provided, the icon is exposed to assistive technologies with role='img'."
             },
             "type": {
@@ -3432,11 +3184,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size of the icon (aspect ratio 1:1)"
             },
@@ -3446,15 +3196,12 @@
               "description": "Defines if the active or muted className will be used"
             },
             "activeClassName": {
-              "type": "string",
               "description": "The className the icon should have when active"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "The className the icon should have when not active"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; exposes the icon with role='img' to assistive technology"
             },
             "type": {
@@ -3481,12 +3228,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size (width and height) of the icon in pixels."
             },
@@ -3496,15 +3241,12 @@
               "description": "Indicates whether the icon is in an active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not in the active state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessibility label; when provided, the icon is exposed to assistive technology with role=\"img\"."
             },
             "type": {
@@ -3532,11 +3274,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size of the icon in pixels."
             },
@@ -3546,15 +3286,12 @@
               "description": "Whether the icon is in its active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class name applied when the icon is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class name applied when the icon is not active."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. If provided, the icon is exposed to assistive technology with role='img'. If omitted, the icon is treated as decorative (aria-hidden='true')."
             }
           }
@@ -3573,12 +3310,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions (width and height in px)."
             },
@@ -3588,15 +3323,12 @@
               "description": "Indicates whether the icon is active (affects styling via activeClassName/mutedClassName)."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not in the active state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, the icon is exposed to assistive technology with role='img'."
             },
             "type": {
@@ -3651,11 +3383,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon variant."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon dimensions in pixels."
             },
@@ -3665,15 +3395,12 @@
               "description": "Activation state descriptor; toggles active/muted styling."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; exposes the icon to assistive technology with role=\"img\" when provided."
             }
           }
@@ -3692,12 +3419,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon from the icon pack."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon size (width and height in px)."
             },
@@ -3707,15 +3432,12 @@
               "description": "Defines whether the active or muted CSS class will be applied."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in the inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; exposes the icon to assistive technology with role=\"img\"."
             }
           }
@@ -3734,12 +3456,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "social",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon size (width and height in px)."
             },
@@ -3749,15 +3469,12 @@
               "description": "Defines whether the icon is in active state (uses activeClassName) or muted state (uses mutedClassName)."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is in active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active (muted state)."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; when provided, the icon is exposed to assistive technology."
             },
             "shape": {
@@ -3785,12 +3502,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The identifier for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Preferred icon dimensions (aspect ratio 1:1)."
             },
@@ -3800,15 +3515,12 @@
               "description": "Defines whether the active or muted className should be used."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is in active state."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is in inactive (muted) state."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, exposes the icon to assistive technology with role=\"img\"."
             },
             "type": {
@@ -3863,12 +3575,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size of the icon in pixels"
             },
@@ -3878,15 +3588,12 @@
               "description": "Describes the active state of the icon"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is in active state"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is not active (muted state)"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons, used by assistive technologies"
             }
           }
@@ -3905,11 +3612,9 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "description": "The ID for the desired icon."
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired icon size in pixels."
             },
@@ -3919,15 +3624,12 @@
               "description": "Whether the icon is in its active state."
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is active."
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied to the icon when it is not active (muted)."
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons. When provided, exposes the icon to assistive technology with role='img'."
             },
             "type": {
@@ -3955,12 +3657,10 @@
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
               "default": "",
               "description": "The ID for the desired icon"
             },
             "size": {
-              "type": "number",
               "default": 16,
               "description": "Desired size of the icon in pixels"
             },
@@ -3970,15 +3670,12 @@
               "description": "Whether the icon is in active state"
             },
             "activeClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is active"
             },
             "mutedClassName": {
-              "type": "string",
               "description": "CSS class applied when the icon is not active"
             },
             "iconAriaLabel": {
-              "type": "string",
               "description": "Accessible label for informative icons; if provided, exposes the icon with role=\"img\"; if omitted, icon is treated as decorative (aria-hidden=\"true\")"
             },
             "type": {
@@ -4006,50 +3703,42 @@
           "type": "object",
           "properties": {
             "src": {
-              "type": "string",
               "default": "null",
               "description": "Source address the iframe should render."
             },
             "dynamicSrc": {
-              "type": "string",
               "default": "null",
               "description": "iframe src with dynamic parameters from the page URL enclosed in '{}'."
             },
             "width": {
-              "type": "number",
+              "default": "null",
               "description": "Width attribute of the iframe."
             },
             "height": {
-              "type": "number",
+              "default": "null",
               "description": "Height attribute of the iframe."
             },
             "title": {
-              "type": "string",
               "default": "null",
               "description": "title attribute of the iframe."
             },
             "allow": {
-              "type": "string",
               "default": "null",
               "description": "allow attribute of the iframe (e.g. permissions policy)."
             },
             "id": {
-              "type": "string",
               "default": "null",
               "description": "ID attribute of the iframe."
             },
             "className": {
-              "type": "string",
               "default": "null",
               "description": "class attribute of the iframe."
             },
             "onLoad": {
-              "type": "string",
               "default": "null",
               "description": "onLoad attribute of the iframe."
             },
             "srcAccount": {
-              "type": "object",
               "default": "null",
               "description": "Object with account name and src, used for multi-account iframe source resolution."
             }
@@ -4069,45 +3758,38 @@
           "type": "object",
           "properties": {
             "dynamicSrc": {
-              "type": "string",
               "default": "null",
               "description": "iframe src with dynamic parameters from page URL enclosed in '{}'"
             },
             "width": {
-              "type": "number",
+              "default": "null",
               "description": "Width attribute of the iframe"
             },
             "height": {
-              "type": "number",
+              "default": "null",
               "description": "Height attribute of the iframe"
             },
             "title": {
-              "type": "string",
               "default": "null",
               "description": "title attribute of the iframe"
             },
             "allow": {
-              "type": "string",
               "default": "null",
               "description": "allow attribute of the iframe"
             },
             "id": {
-              "type": "string",
               "default": "null",
               "description": "ID attribute of the iframe"
             },
             "className": {
-              "type": "string",
               "default": "null",
               "description": "class attribute of the iframe"
             },
             "onLoad": {
-              "type": "string",
               "default": "null",
               "description": "onLoad attribute of the iframe"
             },
             "srcAccount": {
-              "type": "object",
               "default": "null",
               "description": "Object with account name and src, enabling conditional source URLs based on account names (e.g. production vs QA)"
             }
@@ -4127,35 +3809,27 @@
           "type": "object",
           "properties": {
             "src": {
-              "type": "string",
               "description": "Source URL of the image."
             },
             "alt": {
-              "type": "string",
               "description": "Alternate text for the image."
             },
             "title": {
-              "type": "string",
               "description": "Image title displayed on hover."
             },
             "link": {
-              "type": "object",
               "description": "The image hyperlink (object with url, newTab, and attributeNofollow fields)."
             },
             "maxHeight": {
-              "type": "string",
               "description": "Maximum height of the image."
             },
             "maxWidth": {
-              "type": "string",
               "description": "Maximum width of the image."
             },
             "sizes": {
-              "type": "string",
               "description": "Different image sizes for each page layout."
             },
             "srcSet": {
-              "type": "string",
               "description": "URL of the image to use in different situations (responsive images)."
             }
           }
@@ -4174,11 +3848,9 @@
           "type": "object",
           "properties": {
             "images": {
-              "type": "array",
               "description": "Array of objects declaring all images to be rendered, each with url, description, link, dimensions, loading strategy, and analytics properties."
             },
             "height": {
-              "type": "number",
               "description": "Image height in px applied to all images declared in the images array."
             },
             "experimentalPreventLayoutShift": {
@@ -4201,51 +3873,39 @@
           "type": "object",
           "properties": {
             "src": {
-              "type": "string",
               "description": "Image source URL (uses image-uploader widget in Site Editor)."
             },
             "alt": {
-              "type": "string",
               "description": "Alternative text for the image, used for accessibility."
             },
             "title": {
-              "type": "string",
               "description": "Image title attribute shown on hover."
             },
             "link": {
-              "type": "object",
               "description": "Object with url, noFollow, openNewTab, and title fields to link the image to a URL."
             },
             "width": {
-              "type": "string",
               "description": "Image width in px or % (e.g. '100%' or '300px')."
             },
             "height": {
-              "type": "string",
               "description": "Image height in px or % (e.g. '200px')."
             },
             "maxWidth": {
-              "type": "string",
               "description": "Maximum width constraint for the image."
             },
             "maxHeight": {
-              "type": "string",
               "description": "Maximum height constraint for the image."
             },
             "minWidth": {
-              "type": "string",
               "description": "Minimum width constraint for the image."
             },
             "minHeight": {
-              "type": "string",
               "description": "Minimum height constraint for the image."
             },
             "srcSet": {
-              "type": "string",
               "description": "Responsive image sources for different viewport sizes."
             },
             "sizes": {
-              "type": "string",
               "description": "Responsive image sizes descriptor used with srcSet."
             },
             "loading": {
@@ -4280,27 +3940,21 @@
               "description": "Whether to send promotion analytics events when the image is clicked."
             },
             "promotionId": {
-              "type": "string",
               "description": "Promotion identifier sent in analytics events (requires analyticsProperties=provided)."
             },
             "promotionName": {
-              "type": "string",
               "description": "Promotion name sent in analytics events (requires analyticsProperties=provided)."
             },
             "promotionPosition": {
-              "type": "string",
               "description": "Creative slot name sent in analytics events (requires analyticsProperties=provided)."
             },
             "promotionProductId": {
-              "type": "string",
               "description": "Associated product ID sent in analytics events (requires analyticsProperties=provided)."
             },
             "promotionProductName": {
-              "type": "string",
               "description": "Associated product name sent in analytics events (requires analyticsProperties=provided)."
             },
             "blockClass": {
-              "type": "string",
               "description": "Custom CSS block class name to apply extra CSS handles for styling."
             },
             "experimentalPreventLayoutShift": {
@@ -4327,15 +3981,12 @@
           "type": "object",
           "properties": {
             "images": {
-              "type": "array",
               "description": "Array of image objects to be rendered in the slider."
             },
             "height": {
-              "type": "number",
               "description": "Height in pixels applied to all images in the slider."
             },
             "sliderLayoutConfig": {
-              "type": "object",
               "default": "{\"itemsPerPage\":{\"desktop\":1,\"tablet\":1,\"phone\":1},\"infinite\":true,\"showNavigationArrows\":\"always\",\"showPaginationDots\":\"always\",\"usePagination\":true}",
               "description": "Slider behaviour settings passed to the underlying Slider Layout (itemsPerPage, infinite, showNavigationArrows, showPaginationDots, usePagination)."
             },
@@ -4360,7 +4011,6 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "default": "null",
               "description": "Extra class name for custom styling"
             },
@@ -4386,29 +4036,23 @@
               "description": "Determines CTA rendering style"
             },
             "callToActionText": {
-              "type": "string",
               "description": "Text displayed inside the call-to-action component"
             },
             "callToActionUrl": {
-              "type": "string",
               "description": "URL of the call-to-action component"
             },
             "headline": {
-              "type": "string",
               "default": "null",
               "description": "Primary heading text"
             },
             "htmlId": {
-              "type": "string",
               "default": "null",
               "description": "Container element ID"
             },
             "imageUrl": {
-              "type": "string",
               "description": "Desktop image path"
             },
             "imageActionUrl": {
-              "type": "string",
               "description": "Redirect URL when image is clicked"
             },
             "isFullModeStyle": {
@@ -4428,17 +4072,14 @@
               "description": "Link target for card clicks"
             },
             "mobileImageUrl": {
-              "type": "string",
               "default": "null",
               "description": "Mobile-specific image path"
             },
             "subhead": {
-              "type": "string",
               "default": "null",
               "description": "Secondary text below headline"
             },
             "bodyText": {
-              "type": "string",
               "default": "null",
               "description": "Text displayed below the subhead"
             },
@@ -4472,7 +4113,6 @@
               "description": "Position of the text content relative to the image"
             },
             "fetchpriority": {
-              "type": "string",
               "default": "auto",
               "description": "Image fetch priority hint (high, low, auto)"
             },
@@ -4497,20 +4137,16 @@
           "type": "object",
           "properties": {
             "label": {
-              "type": "string",
               "description": "Link text displayed to the user."
             },
             "href": {
-              "type": "string",
               "default": "#",
               "description": "Link URL. Supports product specification variables and query strings."
             },
             "scrollTo": {
-              "type": "string",
               "description": "Element anchor to scroll to after navigation (e.g. #footer)."
             },
             "target": {
-              "type": "string",
               "description": "Specifies where the linked URL displays, equivalent to the HTML anchor target attribute."
             },
             "displayMode": {
@@ -4523,16 +4159,13 @@
               "description": "How the link will be displayed: as an anchor or as a button."
             },
             "buttonProps": {
-              "type": "object",
               "default": "{ variant: primary, size: regular }",
               "description": "Defines how the link button will be displayed. Only used when displayMode is set to button."
             },
             "escapeLinkRegex": {
-              "type": "string",
               "description": "Regular expression to remove special characters from product specifications used in the link."
             },
             "rel": {
-              "type": "string",
               "description": "Specifies the relationship between the current and linked documents for SEO purposes."
             }
           }
@@ -4551,7 +4184,6 @@
           "type": "object",
           "properties": {
             "message": {
-              "type": "string",
               "default": "store/seller-link.linkText",
               "description": "Text displayed on the link counter. Supports ICU Message Format with the variable `sellerQuantity` (number of sellers)."
             }
@@ -4571,20 +4203,16 @@
           "type": "object",
           "properties": {
             "label": {
-              "type": "string",
               "description": "Link text displayed to the user."
             },
             "href": {
-              "type": "string",
               "default": "#",
               "description": "Link URL."
             },
             "scrollTo": {
-              "type": "string",
               "description": "Element anchor for post-navigation scrolling (e.g. \"#footer\")."
             },
             "target": {
-              "type": "string",
               "description": "Specifies where the linked URL opens, matching HTML <a> element behavior."
             },
             "displayMode": {
@@ -4597,16 +4225,13 @@
               "description": "Rendering style: anchor (unstyled link) or button (customizable button)."
             },
             "buttonProps": {
-              "type": "object",
               "default": "{ variant: primary, size: regular }",
               "description": "Button styling configuration (variant and size) used when displayMode is button."
             },
             "escapeLinkRegex": {
-              "type": "string",
               "description": "RegExp pattern to remove special characters from product specs used in the URL."
             },
             "rel": {
-              "type": "string",
               "description": "Specifies the relationship between the current document and linked ones for better SEO."
             }
           }
@@ -4633,12 +4258,10 @@
           "type": "object",
           "properties": {
             "listElement": {
-              "type": "string",
               "default": "Fragment",
               "description": "HTML element used to render the list (e.g. div, ul)."
             },
             "itemElement": {
-              "type": "string",
               "default": "Fragment",
               "description": "HTML element used to render each item of the list (e.g. div, li)."
             }
@@ -4658,11 +4281,9 @@
           "type": "object",
           "properties": {
             "images": {
-              "type": "array",
               "description": "Array of objects that declares all the images to be rendered."
             },
             "height": {
-              "type": "number",
               "description": "Image height for all images declared in the image object (in px)."
             },
             "preload": {
@@ -4690,16 +4311,13 @@
           "type": "object",
           "properties": {
             "category": {
-              "type": "string",
               "description": "Category ID of the listed items. For subcategories, use '/' as separator (e.g. '1/2/3')."
             },
             "specificationFilters": {
-              "type": "array",
               "default": "[]",
               "description": "Specification filters of the listed items, each with id and value fields."
             },
             "collection": {
-              "type": "string",
               "description": "Filter items by collection ID."
             },
             "orderBy": {
@@ -4722,7 +4340,6 @@
               "description": "Hides unavailable items. Treated as true when Delivery Promise is enabled."
             },
             "maxItems": {
-              "type": "number",
               "default": 10,
               "description": "Maximum number of items to be fetched."
             },
@@ -4746,7 +4363,6 @@
               "description": "Controls the price displayed when different installment options are available."
             },
             "listName": {
-              "type": "string",
               "description": "Name of the list used in Google Analytics events."
             },
             "preferredSKU": {
@@ -4776,11 +4392,9 @@
           "type": "object",
           "properties": {
             "products": {
-              "type": "array",
               "description": "Array of products to be rendered in the static list."
             },
             "listName": {
-              "type": "string",
               "description": "Name of the list property sent in Google Analytics events."
             },
             "preferredSKU": {
@@ -4838,27 +4452,21 @@
           "type": "object",
           "properties": {
             "optionsTitle": {
-              "type": "string",
               "description": "Text to entitle the login options"
             },
             "emailAndPasswordTitle": {
-              "type": "string",
               "description": "Text to display the email-and-password option"
             },
             "accessCodeTitle": {
-              "type": "string",
               "description": "Text to display the access-code option"
             },
             "emailPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the email input"
             },
             "passwordPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the password input"
             },
             "acessCodePlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the access code input"
             },
             "showPasswordVerificationIntoTooltip": {
@@ -4872,7 +4480,6 @@
               "description": "Whether the hpa-profile icon should be displayed on the Login component"
             },
             "iconLabel": {
-              "type": "string",
               "description": "Text string to entitle the Login icon"
             },
             "hideIconLabel": {
@@ -4881,19 +4488,15 @@
               "description": "Whether the text string defined for the Login icon should be hidden"
             },
             "labelClasses": {
-              "type": "array",
               "description": "Login icon classnames"
             },
             "providerPasswordButtonLabel": {
-              "type": "string",
               "description": "Text to be displayed as the password button label"
             },
             "identifierPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the extension input"
             },
             "invalidIdentifierError": {
-              "type": "string",
               "description": "Error message for invalid user identifier"
             },
             "mirrorTooltipToRight": {
@@ -4920,11 +4523,9 @@
               "description": "Defines the behavior of the account options button when clicked"
             },
             "accountOptionLinks": {
-              "type": "array",
               "description": "Creates custom links to replace the default ones set for accountOptionsButtonBehavior's link value"
             },
             "termsAndConditions": {
-              "type": "string",
               "description": "Text to be displayed below the login options regarding terms and conditions"
             },
             "hasGoogleOneTap": {
@@ -4942,7 +4543,6 @@
               "description": "Defines the alignment of the Google One-tap pop-up (Beta)"
             },
             "googleOneTapMarginTop": {
-              "type": "string",
               "default": "3rem",
               "description": "Defines the pop-up top margin for the Google One-tap login (Beta)"
             },
@@ -4987,23 +4587,18 @@
               "description": "Determines which login option is displayed initially: 0 = access-code, 1 = email/password, 2 = corporate."
             },
             "optionsTitle": {
-              "type": "string",
               "description": "Text to entitle the login options."
             },
             "emailAndPasswordTitle": {
-              "type": "string",
               "description": "Text to display the email-and-password option."
             },
             "accessCodeTitle": {
-              "type": "string",
               "description": "Text to display the access-code option."
             },
             "emailPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the email input."
             },
             "passwordPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the password input."
             },
             "showPasswordVerificationIntoTooltip": {
@@ -5012,23 +4607,18 @@
               "description": "Whether a tooltip responsible for checking the password format should be shown."
             },
             "acessCodePlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the access code input."
             },
             "providerPasswordButtonLabel": {
-              "type": "string",
               "description": "Text to be displayed as the password button label."
             },
             "identifierPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the extension input."
             },
             "invalidIdentifierError": {
-              "type": "string",
               "description": "Error message for invalid user identifier."
             },
             "termsAndConditions": {
-              "type": "string",
               "description": "Text to be displayed below the login options regarding terms and conditions."
             },
             "disabledEmailInputs": {
@@ -5052,21 +4642,17 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles for React component usage."
             },
             "color": {
-              "type": "string",
               "default": "#F71963",
               "description": "The image fill color."
             },
             "height": {
-              "type": "number",
               "default": 177,
               "description": "The logo image height."
             },
             "href": {
-              "type": "string",
               "description": "The image hyperlink."
             },
             "showLabel": {
@@ -5075,16 +4661,13 @@
               "description": "Controls the label visibility."
             },
             "title": {
-              "type": "string",
               "default": "VTEX logo",
               "description": "The image alt description (required)."
             },
             "url": {
-              "type": "string",
               "description": "The image source URL."
             },
             "width": {
-              "type": "number",
               "default": 493,
               "description": "The logo image width."
             }
@@ -5136,7 +4719,6 @@
               "description": "Typography style applied to the menu items text."
             },
             "items": {
-              "type": "array",
               "default": "[]",
               "description": "Array of menu-item configurations, allowing items to be edited via Site Editor."
             },
@@ -5146,11 +4728,9 @@
               "description": "Enables experimental rendering optimization for the menu."
             },
             "categoryId": {
-              "type": "number",
               "description": "Category ID used to render a category-based menu automatically."
             },
             "title": {
-              "type": "object",
               "description": "MenuItem schema used to render a title item at the top of the menu."
             },
             "additionalDef": {
@@ -5163,11 +4743,9 @@
               "description": "Defines an additional definition type for the menu (none, category, or title)."
             },
             "blockClass": {
-              "type": "string",
               "description": "Custom CSS class identifier used to override default CSS handles."
             },
             "classes": {
-              "type": "object",
               "description": "Object used to apply custom CSS classes to specific menu CSS handles."
             }
           }
@@ -5195,7 +4773,6 @@
               "description": "Menu item type, either category or custom."
             },
             "id": {
-              "type": "string",
               "description": "Menu item identifier."
             },
             "highlight": {
@@ -5212,7 +4789,6 @@
               "description": "Icon position relative to the menu item text, either to the left or right."
             },
             "iconProps": {
-              "type": "object",
               "description": "Icon configuration props (id, isActive, size, viewBox, activeClassName, mutedClassName)."
             },
             "onMountBehavior": {
@@ -5225,11 +4801,9 @@
               "description": "Indicates whether the submenu should automatically be displayed (open) or hidden (closed) when its parent is hovered/clicked."
             },
             "itemProps": {
-              "type": "object",
               "description": "Item-specific configuration, either CategoryItem (categoryId, text) or CustomItem (type, href, noFollow, tagTitle, text)."
             },
             "blockClass": {
-              "type": "string",
               "description": "Used to override default CSS handles with custom class names."
             }
           }
@@ -5248,7 +4822,6 @@
           "type": "object",
           "properties": {
             "links": {
-              "type": "array",
               "default": "[]",
               "description": "Array of link objects to be displayed in the menu, each with text, route, and position configuration."
             }
@@ -5313,11 +4886,9 @@
               "description": "Slide direction for the drawer Minicart opening."
             },
             "linkVariationUrl": {
-              "type": "string",
               "description": "Link associated with the link Minicart variation."
             },
             "maxDrawerWidth": {
-              "type": "number",
               "default": 440,
               "description": "Maximum width in pixels for the drawer Minicart when opened."
             },
@@ -5356,15 +4927,12 @@
               "description": "Controls whether a backdrop is displayed when the drawer Minicart is opened."
             },
             "customPixelEventId": {
-              "type": "string",
               "description": "Store event ID that triggers the minicart to automatically open."
             },
             "customPixelEventName": {
-              "type": "string",
               "description": "Store event name that triggers the minicart to automatically open."
             },
             "classes": {
-              "type": "object",
               "description": "Used to override default CSS handles via React component import (CustomCSSClasses)."
             }
           }
@@ -5387,11 +4955,9 @@
               "description": "Controls whether the content is rendered in sidebar (drawer) mode."
             },
             "finishShoppingButtonLink": {
-              "type": "string",
               "description": "URL used by the checkout/finish-shopping button inside the minicart content."
             },
             "classes": {
-              "type": "object",
               "description": "Custom CSS class overrides for the available CSS handles (e.g. minicartContentContainer, minicartProductListContainer, minicartTitle, minicartFooter)."
             }
           }
@@ -5410,12 +4976,10 @@
           "type": "object",
           "properties": {
             "finishShoppingButtonLink": {
-              "type": "string",
               "default": "/checkout/#/orderform",
               "description": "URL para a qual o usuário é redirecionado ao clicar no botão de checkout."
             },
             "classes": {
-              "type": "object",
               "description": "Sobrescreve os CSS handles padrão do componente React (CustomCSSClasses)."
             }
           }
@@ -5434,7 +4998,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides the default CSS handles classes. Use to apply custom CSS class names to the minicartEmptyStateContainer handle."
             }
           }
@@ -5473,7 +5036,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Map of custom CSS class names to override the block's CSS handles (e.g. minicartSummary)."
             }
           }
@@ -5513,11 +5075,9 @@
               "description": "Slide direction for the drawer when it opens."
             },
             "linkVariationUrl": {
-              "type": "string",
               "description": "URL used when variation is set to 'link' or 'popupWithLink'."
             },
             "maxDrawerWidth": {
-              "type": "number",
               "default": 440,
               "description": "Maximum width in pixels for the drawer when opened."
             },
@@ -5556,20 +5116,16 @@
               "description": "Controls whether a backdrop overlay is displayed when the minicart is open."
             },
             "MinicartIcon": {
-              "type": "object",
               "default": "icon-cart",
               "description": "Block used as the icon for the minicart button (e.g., from Store Icons app)."
             },
             "customPixelEventId": {
-              "type": "string",
               "description": "Store event ID that triggers the minicart to open automatically."
             },
             "customPixelEventName": {
-              "type": "string",
               "description": "Store event name that triggers the minicart to open automatically (e.g., 'addToCart')."
             },
             "classes": {
-              "type": "object",
               "description": "Custom CSS class overrides for the block's CSS handles."
             }
           }
@@ -5608,16 +5164,13 @@
               "description": "Set to true if the modal should display a close icon button."
             },
             "buttonLabel": {
-              "type": "string",
               "default": "",
               "description": "Label text displayed on the button that opens the modal."
             },
             "buttonClass": {
-              "type": "string",
               "description": "Extra Tachyons classes to apply to the button container."
             },
             "blockClass": {
-              "type": "string",
               "description": "Unique class name appended to the block's CSS classes for custom styling."
             }
           }
@@ -5644,7 +5197,6 @@
           "type": "object",
           "properties": {
             "label": {
-              "type": "string",
               "default": "Cancel / Cancelar",
               "description": "Defines the text rendered in the close button. Default depends on the store's language (Cancel, Cancelar)."
             }
@@ -5677,7 +5229,6 @@
               "description": "Defines whether the close icon button should be rendered in the modal header (true) or not (false)."
             },
             "iconCloseSize": {
-              "type": "number",
               "default": 32,
               "description": "Size (in pixels) of the close icon button in the modal header."
             }
@@ -5706,7 +5257,6 @@
               "description": "Defines how users should scroll the modal."
             },
             "blockClass": {
-              "type": "string",
               "description": "Unique block ID used for CSS customizations."
             },
             "disableEscapeKeyDown": {
@@ -5729,11 +5279,9 @@
               "description": "Defines whether the modal will have a clickable backdrop or none (responsive)."
             },
             "customPixelEventId": {
-              "type": "string",
               "description": "Store event ID that triggers the modal-layout block."
             },
             "customPixelEventName": {
-              "type": "string",
               "description": "Store event name that triggers the modal-layout block."
             }
           }
@@ -5762,11 +5310,9 @@
               "description": "Defines whether the modal is triggered by user click, page load, or page load once per session."
             },
             "customPixelEventId": {
-              "type": "string",
               "description": "Store event ID that triggers the modal-trigger block and opens the modal-layout blocks on the interface."
             },
             "customPixelEventName": {
-              "type": "string",
               "description": "Store event name that triggers the modal-trigger block, e.g. 'addToCart' or 'removeFromCart'."
             }
           }
@@ -5804,7 +5350,6 @@
           "type": "object",
           "properties": {
             "defaultRoute": {
-              "type": "string",
               "default": "/profile",
               "description": "Default path rendered when the user opens the My Account URL (/account/). E.g. '/profile', '/orders', '/points'."
             }
@@ -5824,11 +5369,9 @@
           "type": "object",
           "properties": {
             "render": {
-              "type": "object",
               "description": "Function that must be called with an array of objects containing `name` and `path` properties to create menu links. Required prop injected by the My Account extension point."
             },
             "intl": {
-              "type": "object",
               "description": "Intl shape object injected via react-intl (intlShape) for internationalization of link labels."
             }
           }
@@ -5847,7 +5390,6 @@
           "type": "object",
           "properties": {
             "label": {
-              "type": "string",
               "default": "Wishlist",
               "description": "Changes the section menu label on the My Account page."
             }
@@ -5883,11 +5425,9 @@
           "type": "object",
           "properties": {
             "title": {
-              "type": "string",
               "description": "Title displayed in the My Account page header via ContentWrapper. If empty or not set, the page is rendered without the wrapper."
             },
             "namespace": {
-              "type": "string",
               "default": "wish-list",
               "description": "CSS namespace passed to the ContentWrapper component."
             }
@@ -5915,7 +5455,6 @@
           "type": "object",
           "properties": {
             "render": {
-              "type": "object",
               "description": "Callback function that receives an array of objects with `name` (display name) and `path` ('/addresses') to render the addresses menu link."
             }
           }
@@ -5947,17 +5486,14 @@
               "description": "Hide the form label."
             },
             "label": {
-              "type": "string",
               "default": "Subscribe to our newsletter",
               "description": "Label text of the newsletter form."
             },
             "placeholder": {
-              "type": "string",
               "default": "Enter your email address",
               "description": "Placeholder text for the email input field."
             },
             "submit": {
-              "type": "string",
               "default": "Sign up",
               "description": "Label text for the submit button."
             }
@@ -5977,20 +5513,16 @@
           "type": "object",
           "properties": {
             "checkboxLabel": {
-              "type": "string",
               "default": "I agree to received this newsletter.",
               "description": "Label for the confirmation checkbox. Supports ICU Message Format with `firstLink` and `secondLink` variables for interpolation."
             },
             "firstLabelLink": {
-              "type": "object",
               "description": "Configures the `firstLink` variable to be interpolated by the text passed to `checkboxLabel`. Contains `url` and `text` fields."
             },
             "secondLabelLink": {
-              "type": "object",
               "description": "Configures the `secondLink` variable to be interpolated by the text passed to `checkboxLabel`. Contains `url` and `text` fields."
             },
             "classes": {
-              "type": "object",
               "description": "Used to override default CSS handles (CustomCSSClasses). React component only."
             }
           }
@@ -6009,19 +5541,15 @@
           "type": "object",
           "properties": {
             "ErrorState": {
-              "type": "string",
               "description": "Block to be rendered if the form submission fails."
             },
             "SuccessState": {
-              "type": "string",
               "description": "Block to be rendered if the form submission succeeds."
             },
             "LoadingState": {
-              "type": "string",
               "description": "Block to be rendered while the form submission is loading. If not provided, a spinner is shown on the submit button."
             },
             "classes": {
-              "type": "object",
               "description": "Custom CSS class names used to override default component styling. Only useful when importing the block as a React component."
             }
           }
@@ -6063,22 +5591,18 @@
           "type": "object",
           "properties": {
             "placeholderText": {
-              "type": "string",
               "default": "Enter your email address",
               "description": "Placeholder text displayed inside the email input field."
             },
             "inputLabel": {
-              "type": "string",
               "default": "null",
               "description": "Label text rendered above or beside the email input field."
             },
             "errorMessage": {
-              "type": "string",
               "default": "Invalid email address",
               "description": "Error message shown when the email entered is invalid."
             },
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles; useful when importing the block as a React component."
             }
           }
@@ -6097,22 +5621,18 @@
           "type": "object",
           "properties": {
             "placeholderText": {
-              "type": "string",
               "default": "Enter your name",
               "description": "Placeholder text for the name input (translated according to the store's locale)."
             },
             "inputLabel": {
-              "type": "string",
               "default": "null",
               "description": "Label for the name input."
             },
             "errorMessage": {
-              "type": "string",
               "default": "Invalid name",
               "description": "Error message shown if the name input is empty (translated according to the store's locale)."
             },
             "classes": {
-              "type": "object",
               "description": "Used to override default CSS handles. Only useful when importing the block as a React component."
             }
           }
@@ -6131,22 +5651,18 @@
           "type": "object",
           "properties": {
             "placeholderText": {
-              "type": "string",
               "default": "Enter your phone",
               "description": "Placeholder text displayed inside the phone input field (locale-dependent)."
             },
             "inputLabel": {
-              "type": "string",
               "default": "null",
               "description": "Label text rendered above or alongside the phone input field."
             },
             "errorMessage": {
-              "type": "string",
               "default": "Invalid phone",
               "description": "Error message shown when the phone input is empty or invalid (locale-dependent)."
             },
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles; useful when importing the block as a React component."
             }
           }
@@ -6165,12 +5681,10 @@
           "type": "object",
           "properties": {
             "submitButtonLabel": {
-              "type": "string",
               "default": "Subscribe",
               "description": "Text displayed on the submit button."
             },
             "classes": {
-              "type": "object",
               "description": "Used to override default CSS handles. Only useful when importing this block as a React component."
             }
           }
@@ -6197,12 +5711,10 @@
           "type": "object",
           "properties": {
             "content": {
-              "type": "string",
               "default": "",
               "description": "Text to be displayed in the notification bar."
             },
             "classes": {
-              "type": "object",
               "description": "Allows overriding default CSS handles when using this block as a React component."
             }
           }
@@ -6221,12 +5733,10 @@
           "type": "object",
           "properties": {
             "content": {
-              "type": "string",
               "default": "",
               "description": "Text to be used in the notification bar."
             },
             "classes": {
-              "type": "object",
               "description": "Enables overriding of default CSS handles for React component usage, following the CSS handles customization pattern."
             }
           }
@@ -6245,12 +5755,10 @@
           "type": "object",
           "properties": {
             "content": {
-              "type": "string",
               "default": "",
               "description": "Text to be displayed in the inline notification."
             },
             "classes": {
-              "type": "object",
               "description": "Allows overriding default CSS handles; helpful when using this block as a React component."
             }
           }
@@ -6382,7 +5890,6 @@
               "description": "Make the options wrapper take full horizontal space."
             },
             "myAccountPath": {
-              "type": "string",
               "default": "/account",
               "description": "The path to redirect a user to their profile page (rendered by the vtex.my-account app)."
             }
@@ -6463,22 +5970,18 @@
               "description": "Remove a borda inferior da seção."
             },
             "marginBottom": {
-              "type": "number",
               "default": 0,
               "description": "Espaço de margem posicionado abaixo da seção."
             },
             "paddingBottom": {
-              "type": "number",
               "default": 0,
               "description": "Espaço de padding posicionado abaixo da seção."
             },
             "width": {
-              "type": "string",
               "default": "100%",
               "description": "Dimensão horizontal (largura) da seção."
             },
             "name": {
-              "type": "string",
               "description": "Nome da seção. Utilizado para gerar CSS handles customizados para ela."
             }
           }
@@ -6505,11 +6008,9 @@
           "type": "object",
           "properties": {
             "specificationOptions": {
-              "type": "array",
               "description": "Indicates which sorting options by specification will be displayed. Only works for stores using vtex.search-resolver@1.x."
             },
             "hiddenOptions": {
-              "type": "array",
               "description": "Indicates which sorting options will be hidden. Accepts an array of sorting option string values."
             },
             "showOrderTitle": {
@@ -6575,7 +6076,6 @@
               "description": "Controls whether an arrow pointing toward the trigger component is displayed on the overlay."
             },
             "offsets": {
-              "type": "object",
               "default": "{ skidding: 0, distance: 0 }",
               "description": "Positions the overlay relative to the trigger using skidding (side-by-side offset in px) and distance (gap in px, negative values cause overlap)."
             }
@@ -6662,7 +6162,6 @@
           "type": "object",
           "properties": {
             "textAlign": {
-              "type": "string",
               "default": "left",
               "description": "Position of the product's price in the list."
             },
@@ -6719,17 +6218,14 @@
           "type": "object",
           "properties": {
             "threshold": {
-              "type": "number",
               "default": 0,
               "description": "Minimum product quantity that makes the low stock message to be displayed (if any message is set in the lowStockMessage prop)."
             },
             "lowStockMessage": {
-              "type": "string",
               "default": "",
               "description": "Message text displayed when in-stock quantity is lower than the threshold. Must include {quantity} in the string to display the actual stock quantity."
             },
             "highStockMessage": {
-              "type": "string",
               "default": "",
               "description": "Message text displayed when in-stock quantity is greater than or equal to the threshold value."
             }
@@ -6757,15 +6253,12 @@
           "type": "object",
           "properties": {
             "brandId": {
-              "type": "number",
               "description": "The brand ID. If no value is declared, the product context provides the data."
             },
             "brandName": {
-              "type": "string",
               "description": "The brand name. If no value is declared, the product context provides the data."
             },
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles for the component."
             },
             "displayMode": {
@@ -6778,7 +6271,6 @@
               "description": "Defines if the product brand will be displayed by name or logo."
             },
             "excludeBrands": {
-              "type": "array",
               "description": "Brand names or brand IDs listed in the array will never be displayed by the Brand component."
             },
             "fallbackToText": {
@@ -6787,7 +6279,6 @@
               "description": "Defines the behavior when set to display a brand logo but no image is registered in the VTEX admin Catalog."
             },
             "height": {
-              "type": "number",
               "default": 100,
               "description": "The logo height in pixels. Only available for the logo display mode."
             },
@@ -6830,7 +6321,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles for the component."
             },
             "collapseContent": {
@@ -6844,7 +6334,6 @@
               "description": "Determines whether to display the title section of the product description."
             },
             "title": {
-              "type": "string",
               "description": "Allows setting a custom title for the description section."
             }
           }
@@ -6873,11 +6362,9 @@
               "description": "Whether to display the product specification in tab mode or not."
             },
             "price": {
-              "type": "object",
               "description": "Configures the product price area (showListPrice, showLabels, showInstallments, showSavings, labelSellingPrice)."
             },
             "name": {
-              "type": "object",
               "description": "Configures the product name area (showProductReference, showBrandName, showSku)."
             },
             "showHighlights": {
@@ -6890,7 +6377,6 @@
               "description": "Indicates whether the highlight group will contain all product properties or only a typed group entry."
             },
             "highlightGroup": {
-              "type": "object",
               "description": "Defines the highlight group configuration for the product."
             },
             "showSpecifications": {
@@ -6898,15 +6384,12 @@
               "description": "Whether to show the specifications of the product."
             },
             "specificationGroups": {
-              "type": "object",
               "description": "Defines whether all specifications or a subset will be displayed."
             },
             "viewMode": {
-              "type": "string",
               "description": "Defines the current view mode for the specifications display."
             },
             "typeSpecifications": {
-              "type": "string",
               "description": "Indicates which specifications will be displayed for the product."
             }
           }
@@ -6941,7 +6424,6 @@
           "type": "object",
           "properties": {
             "maxVisibleItems": {
-              "type": "string",
               "default": "showAll",
               "description": "Maximum number of gifts displayed at once; accepts a number (as string) or the value 'showAll' to display all available gifts."
             }
@@ -6961,20 +6443,16 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "The block ID you chose to be used for CSS customization."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block default text message to be rendered in the UI; supports ICU Message Format and the highlightName variable."
             },
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs you chose to identify the block's rendered text message and customize it using the Admin Site Editor."
             },
             "link": {
-              "type": "string",
               "description": "If set, wraps the highlight text in a link; supports interpolation of highlightText and highlightId variables (e.g. /collection/{highlightId})."
             }
           }
@@ -6993,7 +6471,6 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             }
           }
@@ -7022,7 +6499,6 @@
               "description": "Specifies which category of product highlight to display: collection, promotion, or teaser (restricted promotions only)."
             },
             "filter": {
-              "type": "object",
               "description": "Controls which highlights are displayed or hidden by specifying inclusion/exclusion rules via highlightNames (array) and type (hide|show)."
             }
           }
@@ -7051,7 +6527,6 @@
               "description": "Controls how the label is displayed: use the default label, a custom text, or hide it entirely."
             },
             "customLabel": {
-              "type": "string",
               "description": "Custom text used as the label when the label prop is set to 'custom'."
             },
             "idField": {
@@ -7091,7 +6566,6 @@
               "description": "Controls how the label is displayed: use the default label, a custom label, or hide it entirely."
             },
             "customLabel": {
-              "type": "string",
               "description": "Custom text to display as the label when `label` prop is set to `'custom'`."
             },
             "idField": {
@@ -7143,7 +6617,6 @@
               "description": "Controls the label text: show the default label, use a custom label, or hide it entirely."
             },
             "customLabel": {
-              "type": "string",
               "description": "Custom label text to display when label is set to 'custom'."
             }
           }
@@ -7162,12 +6635,10 @@
           "type": "object",
           "properties": {
             "aspectRatio": {
-              "type": "string",
               "default": "auto",
               "description": "Sets the image aspect ratio (e.g., square, portrait, landscape)."
             },
             "blockClass": {
-              "type": "string",
               "description": "Unique identifier for block customization via CSS handles."
             },
             "contentOrder": {
@@ -7205,21 +6676,17 @@
               "description": "Displays navigation arrows on the thumbnail media."
             },
             "hiddenImages": {
-              "type": "string",
               "default": "skuvariation",
               "description": "Hides images whose labels match the values listed in this prop."
             },
             "maxHeight": {
-              "type": "number",
               "default": 600,
               "description": "Maximum height for individual product images in pixels."
             },
             "ModalZoom": {
-              "type": "object",
               "description": "Block used to open a modal zoom on the product image."
             },
             "placeholder": {
-              "type": "string",
               "description": "URL for a placeholder image when no product image is available."
             },
             "position": {
@@ -7255,12 +6722,10 @@
               "description": "Defines if thumbnails should be displayed in carousel displayMode."
             },
             "thumbnailAspectRatio": {
-              "type": "string",
               "default": "auto",
               "description": "Sets the aspect ratio of the thumbnail image."
             },
             "thumbnailMaxHeight": {
-              "type": "number",
               "default": 150,
               "description": "Maximum height of the thumbnail image in pixels."
             },
@@ -7274,7 +6739,6 @@
               "description": "Sets the orientation of the thumbnails."
             },
             "zoomFactor": {
-              "type": "number",
               "default": 2,
               "description": "Sets how much the zoom increases the image size."
             },
@@ -7305,26 +6769,21 @@
           "type": "object",
           "properties": {
             "aspectRatio": {
-              "type": "string",
               "default": "auto",
               "description": "Aspect ratio for the modal image display, using notation like 1:1 or 3:4."
             },
             "defaultSize": {
-              "type": "number",
               "default": 1200,
               "description": "Default image size in pixels used when rendering the high-quality image."
             },
             "imageSizes": {
-              "type": "array",
               "description": "Array of pixel sizes used to build the responsive srcset attribute for the image."
             },
             "maxSize": {
-              "type": "number",
               "default": 4096,
               "description": "Maximum rendering size in pixels for the high-quality image."
             },
             "zoomFactor": {
-              "type": "number",
               "default": 2,
               "description": "Multiplier that sets how much the zoom increases the image size."
             },
@@ -7354,16 +6813,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that identify the block's rendered message for customization via Site Editor in the Admin."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID defined for use in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text (block message)."
             },
             "installmentsCriteria": {
@@ -7376,7 +6832,6 @@
               "description": "Determines which installment plan is rendered: the one with most installments, or the one with most installments and no interest."
             },
             "installmentOptionsFilter": {
-              "type": "object",
               "description": "Defines filtering rules (paymentSystemName and/or installmentsQuantity) to narrow down the installment plans rendered."
             }
           }
@@ -7395,24 +6850,19 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that you define to identify the block's rendered message and customize it using the Site Editor."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID that you define to be used in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text, i.e., the block message."
             },
             "paymentSystemName": {
-              "type": "string",
               "description": "Allows filtering the listed installment options by a particular payment system. If not passed, the payment system with the most installment options is rendered."
             },
             "installmentsToShow": {
-              "type": "array",
               "description": "Determines the installment options to show based on the number of installments (e.g., [1, 3] shows only options with 1 or 3 installments). If not passed, all options are rendered."
             }
           }
@@ -7431,16 +6881,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that identify the block's rendered message for customization via the Site Editor in the Admin."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID used for CSS customizations via CSS Handles."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text/message, supporting template variables like {installmentsNumber}, {installmentValue}, {interestRate}, {paymentSystemName}, etc."
             }
           }
@@ -7464,12 +6911,10 @@
               "description": "Show or not the arrows in the slider."
             },
             "nextArrow": {
-              "type": "string",
               "default": "",
               "description": "Next arrow icon for the slider."
             },
             "prevArrow": {
-              "type": "string",
               "default": "",
               "description": "Previous arrow icon for the slider."
             },
@@ -7479,7 +6924,6 @@
               "description": "Show or not the slider dots."
             },
             "dots": {
-              "type": "string",
               "default": "",
               "description": "Slider dots icon."
             },
@@ -7504,7 +6948,6 @@
               "description": "Show or not the discount badge."
             },
             "badgeText": {
-              "type": "string",
               "default": "Badge Text",
               "description": "Text displayed on the discount badge."
             },
@@ -7550,12 +6993,10 @@
               "description": "Quantity badge behavior when displaying the total number of items added in Minicart."
             },
             "lazyRenderHeight": {
-              "type": "number",
               "default": 100,
               "description": "The height (px) of each item loading element."
             },
             "lazyRenderOffset": {
-              "type": "number",
               "default": 300,
               "description": "The distance (px) that each item should be from the viewport at the time of its rendering."
             }
@@ -7591,7 +7032,6 @@
           "type": "object",
           "properties": {
             "width": {
-              "type": "number",
               "default": 96,
               "description": "Product image width (in pixels)."
             }
@@ -7611,16 +7051,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs que você define para identificar a mensagem renderizada pelo bloco e customizá-la via Site Editor."
             },
             "blockClass": {
-              "type": "string",
               "description": "ID do bloco que você define para ser usado em customizações CSS."
             },
             "message": {
-              "type": "string",
               "description": "Define o texto padrão do bloco, ou seja, a mensagem do bloco."
             },
             "alwaysShow": {
@@ -7644,16 +7081,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that you define to identify the block's rendered message and customize it using the Site Editor."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID that you define to be used in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text message rendered. Supports variables like minPriceValue, maxPriceValue, minPriceWithTax, maxPriceWithTax."
             },
             "alwaysShow": {
@@ -7677,7 +7111,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles for React component usage."
             },
             "displayMode": {
@@ -7710,7 +7143,6 @@
               "description": "Controls visibility of a sponsored badge above the product name."
             },
             "sponsoredBadgeLabel": {
-              "type": "string",
               "description": "Sets the text displayed in the sponsored badge when rendered."
             },
             "tag": {
@@ -7740,22 +7172,18 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "default": "null",
               "description": "The set value functions as a customization identifier for any CSS specified in the block."
             },
             "labelListPrice": {
-              "type": "string",
               "default": "null",
               "description": "Product list price label."
             },
             "labelSellingPrice": {
-              "type": "string",
               "default": "null",
               "description": "Product selling price label."
             },
             "sellingPrices": {
-              "type": "array",
               "default": "[]",
               "description": "Product list of selling prices."
             },
@@ -7805,16 +7233,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that you define to identify the block's rendered message and customize it via Site Editor."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID that you define to be used in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text using ICU Message Format."
             },
             "alwaysShow": {
@@ -7832,7 +7257,6 @@
               "description": "Set to compact to remove the white space between the number and the percent sign."
             },
             "minimumPercentage": {
-              "type": "number",
               "default": 0,
               "description": "Sets the minimum percentage savings value required for the block to be displayed."
             }
@@ -7852,7 +7276,6 @@
           "type": "object",
           "properties": {
             "Fallback": {
-              "type": "string",
               "default": "rich-text#loading",
               "description": "Name of the block that will be rendered when the price is loading."
             }
@@ -7872,7 +7295,6 @@
           "type": "object",
           "properties": {
             "warningQuantityThreshold": {
-              "type": "number",
               "default": 0,
               "description": "Exibe a quantidade restante em estoque quando o estoque disponível for menor ou igual ao valor definido."
             },
@@ -7938,7 +7360,6 @@
           "type": "object",
           "properties": {
             "warningQuantityThreshold": {
-              "type": "number",
               "default": 0,
               "description": "Displays remaining stock count only when available quantity is less than or equal to this value; set to 0 to never show the warning."
             }
@@ -7998,7 +7419,6 @@
           "type": "object",
           "properties": {
             "identifierLabel": {
-              "type": "string",
               "description": "Text label to be displayed to the left of the product reference value."
             },
             "identifyOption": {
@@ -8052,16 +7472,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that identify the block's rendered message for Site Editor customization."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID defined for CSS customizations via CSS handles."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text/message using ICU Message Format. Supports the {sellerName} variable."
             }
           }
@@ -8080,16 +7497,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs que você define para identificar a mensagem renderizada pelo bloco, usados para customizações via CSS Handles."
             },
             "blockClass": {
-              "type": "string",
               "description": "ID do bloco definido pelo usuário para ser usado em customizações de CSS."
             },
             "message": {
-              "type": "string",
               "description": "Define o texto padrão do bloco usando variáveis de template disponíveis para o preço de venda."
             },
             "alwaysShow": {
@@ -8113,16 +7527,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that you define to identify the block's rendered message and customize it using the Site Editor in the Admin."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID that you define to be used in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text (the block message), supporting ICU message format variables."
             },
             "alwaysShow": {
@@ -8162,7 +7573,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles. Only useful when using this block as a React component."
             }
           }
@@ -8189,17 +7599,14 @@
           "type": "object",
           "properties": {
             "specificationGroupName": {
-              "type": "string",
               "default": "",
               "description": "Name of the specification group in which the desired specifications are."
             },
             "specificationName": {
-              "type": "string",
               "default": "",
               "description": "Targets a specification by name; if empty, targets the entire group."
             },
             "visibleWhen": {
-              "type": "string",
               "default": "",
               "description": "Displays the specification only if it has this exact value."
             },
@@ -8213,7 +7620,6 @@
               "description": "Defines what content is displayed when the specification condition is met. Can also accept a custom string."
             },
             "specificationsOptions": {
-              "type": "array",
               "default": "null",
               "description": "Array of Option objects to control conditions for showing specific specifications."
             },
@@ -8227,12 +7633,10 @@
               "description": "Determines the layout direction of the badges."
             },
             "blockClass": {
-              "type": "string",
               "default": "null",
               "description": "Allows passing a custom name to be added to the component CSS classes."
             },
             "multipleValuesSeparator": {
-              "type": "string",
               "default": "/",
               "description": "Separator string rendered when a specification value has multiple values."
             }
@@ -8252,7 +7656,6 @@
           "type": "object",
           "properties": {
             "filter": {
-              "type": "object",
               "description": "Filters the specifications that the block should display."
             }
           }
@@ -8271,15 +7674,12 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choice to be used in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text message to be rendered on the UI. Supports ICU message format with specification variables."
             },
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs of your choice to identify the block's rendered text message and customize it using the Site Editor in the Admin."
             }
@@ -8318,7 +7718,6 @@
               "description": "Determines when specification content should be collapsed."
             },
             "hiddenSpecifications": {
-              "type": "array",
               "default": "[]",
               "description": "Specification names to hide from display."
             },
@@ -8333,7 +7732,6 @@
               "description": "Enables tab mode display when set to true."
             },
             "visibleSpecifications": {
-              "type": "array",
               "default": "[]",
               "description": "Specification names to display. Mutually exclusive with hiddenSpecifications."
             }
@@ -8353,16 +7751,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that you define to identify the block's rendered message and customize it using the Site Editor."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID that you define to be used in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text message, supporting ICU Message Format and the spotPriceValue variable."
             },
             "alwaysShow": {
@@ -8386,16 +7781,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs that you define to identify the block's rendered message and customize it."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID that you define to be used in CSS customizations."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text message."
             },
             "alwaysShow": {
@@ -8433,7 +7825,6 @@
               "description": "Controls whether the list name is sent to the product page when a product is clicked, enabling GTM productDetail event tracking."
             },
             "sponsoredBadgeLabel": {
-              "type": "string",
               "default": "store/sponsored-badge.label",
               "description": "Text content displayed on the sponsored badge when the product is a sponsored result."
             },
@@ -8491,11 +7882,9 @@
               "description": "Whether it should display the brand name as text if there is no logo available."
             },
             "excludeBrands": {
-              "type": "array",
               "description": "List of brand names or IDs that should be hidden."
             },
             "height": {
-              "type": "number",
               "description": "Height (in pixels) of the brand logo."
             },
             "logoWithLink": {
@@ -8524,7 +7913,6 @@
               "description": "Controls whether users are redirected to Checkout after clicking the Buy Button."
             },
             "buyButtonText": {
-              "type": "string",
               "description": "Allows custom text to replace the default Buy Button label."
             },
             "displayBuyButton": {
@@ -8538,7 +7926,6 @@
               "description": "Controls the visibility mode of the Buy Button."
             },
             "customToastURL": {
-              "type": "string",
               "default": "/checkout/#/cart",
               "description": "Sets a redirect destination for the notification displayed when items are added to cart."
             },
@@ -8576,12 +7963,10 @@
           "type": "object",
           "properties": {
             "descriptionMaxSize": {
-              "type": "number",
               "default": 120,
               "description": "Maximum number of characters to display before truncating the product description with '...'."
             },
             "classes": {
-              "type": "object",
               "description": "Custom CSS class overrides for the available CSS handles (e.g. `description`). Follows the CssHandlesTypes.CustomClasses interface."
             }
           }
@@ -8605,7 +7990,6 @@
               "description": "Determines whether a discount badge is displayed on the product image."
             },
             "badgeText": {
-              "type": "string",
               "description": "Specifies the text for the discount badge display."
             },
             "showCollections": {
@@ -8623,35 +8007,27 @@
               "description": "Defines the Product Summary Image display mode."
             },
             "placeholder": {
-              "type": "string",
               "description": "Designates a placeholder image URL."
             },
             "mainImageLabel": {
-              "type": "string",
               "description": "Matches catalog image labels to determine the primary display image."
             },
             "hoverImageLabel": {
-              "type": "string",
               "description": "Selects the hover image via label matching. Deprecated — use hoverImage instead."
             },
             "hoverImage": {
-              "type": "object",
               "description": "Defines the criteria that should determine the hover image based on the product images."
             },
             "width": {
-              "type": "object",
               "description": "Controls image width settings (responsive object)."
             },
             "height": {
-              "type": "object",
               "description": "Controls image height settings (responsive object)."
             },
             "aspectRatio": {
-              "type": "object",
               "description": "Sets the image aspect ratio using standard notation (e.g., 1:1, 3:4)."
             },
             "maxHeight": {
-              "type": "object",
               "description": "Establishes maximum height when width/height are configured (responsive object)."
             },
             "fetchpriority": {
@@ -8681,7 +8057,6 @@
           "type": "object",
           "properties": {
             "showFieldsProps": {
-              "type": "object",
               "default": "{ showProductReference: false, showBrandName: false, showSku: false }",
               "description": "Defines the visibility of certain properties (showProductReference, showBrandName, showSku)."
             },
@@ -8732,11 +8107,9 @@
               "description": "Set pricing labels' visibility"
             },
             "labelSellingPrice": {
-              "type": "string",
               "description": "Text of the selling price's label"
             },
             "labelListPrice": {
-              "type": "string",
               "description": "Text of the list price's label"
             },
             "showBorders": {
@@ -8770,7 +8143,6 @@
           "type": "object",
           "properties": {
             "warningQuantityThreshold": {
-              "type": "number",
               "default": 0,
               "description": "Displays the quantity of remaining items in stock if the available quantity is less than or equal to the value given to this property."
             },
@@ -8836,7 +8208,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles for React components."
             },
             "disableUnavailableSelectOptions": {
@@ -8865,11 +8236,9 @@
               "description": "Sorts variations alphabetically by label."
             },
             "imageHeight": {
-              "type": "number",
               "description": "Height in pixels for the product thumbnail image (also accepts responsive object)."
             },
             "imageWidth": {
-              "type": "number",
               "description": "Width in pixels for the product thumbnail image (also accepts responsive object)."
             },
             "initialSelection": {
@@ -8883,7 +8252,6 @@
               "description": "Controls which variation is pre-selected when the page loads."
             },
             "maxItems": {
-              "type": "number",
               "default": 10,
               "description": "Maximum number of variation items shown before a 'See more' button appears."
             },
@@ -8897,17 +8265,14 @@
               "description": "Determines which variation value (image or label) is displayed when selected."
             },
             "sliderArrowSize": {
-              "type": "number",
               "default": 12,
               "description": "Size in pixels of the navigation arrows when displayMode is slider."
             },
             "sliderDisplayThreshold": {
-              "type": "number",
               "default": 3,
               "description": "Minimum number of variation items required to trigger slider display mode."
             },
             "sliderItemsPerPage": {
-              "type": "object",
               "default": "{desktop: 3, tablet: 2, phone: 1}",
               "description": "Number of slider items shown per page, broken down by device type (desktop, tablet, phone)."
             },
@@ -8928,11 +8293,9 @@
               "description": "Controls where and how variation names are displayed relative to the selector."
             },
             "thumbnailImage": {
-              "type": "string",
               "description": "Defines the first image to display by its imageLabel when the variation is image-based."
             },
             "variationsSpacing": {
-              "type": "number",
               "default": 7,
               "description": "Bottom margin applied between variation groups, using Tachyons spacing scale (0–11)."
             },
@@ -8946,7 +8309,6 @@
               "description": "Defines when the SKU selector should be displayed."
             },
             "visibleVariations": {
-              "type": "array",
               "description": "Restricts the selector to only show the specified variation names."
             }
           }
@@ -8973,17 +8335,14 @@
           "type": "object",
           "properties": {
             "specificationGroupName": {
-              "type": "string",
               "default": "",
               "description": "Name of the specification group in which the desired specifications are."
             },
             "specificationName": {
-              "type": "string",
               "default": "",
               "description": "Name of the specification to target; if empty, targets all specifications in the group."
             },
             "visibleWhen": {
-              "type": "string",
               "default": "",
               "description": "Displays the badge only when the specification has this exact matching value."
             },
@@ -8997,7 +8356,6 @@
               "description": "Value displayed on the badge when the specification condition is met; accepts SPECIFICATION_NAME, SPECIFICATION_VALUE, or a custom string."
             },
             "specificationsOptions": {
-              "type": "array",
               "default": "null",
               "description": "Array of Option objects to individually control display conditions for specific specifications."
             },
@@ -9011,7 +8369,6 @@
               "description": "Determines whether the group of specification badges is displayed vertically or horizontally."
             },
             "blockClass": {
-              "type": "string",
               "default": "null",
               "description": "Custom name appended to the component CSS classes for targeted styling."
             }
@@ -9045,7 +8402,6 @@
               "description": "Determina se o componente deve enviar o nome da lista para a página do produto quando o product summary é clicado."
             },
             "sponsoredBadgeLabel": {
-              "type": "string",
               "default": "store/sponsored-badge.label",
               "description": "Texto exibido na tag 'Sponsored' de produtos patrocinados, quando aplicável."
             },
@@ -9100,20 +8456,16 @@
               "description": "Predefined position of the sponsored badge displayed on the product card, if applicable."
             },
             "sponsoredBadgeLabel": {
-              "type": "string",
               "default": "store/sponsored-badge.label",
               "description": "Label text for the sponsored badge displayed on the product card."
             },
             "placement": {
-              "type": "string",
               "description": "Indicates where this ProductSummary is being shown, used for analytics (e.g. 'search' or 'shelf')."
             },
             "classes": {
-              "type": "object",
               "description": "Custom CSS handles object to override default CSS handle classes (container, containerNormal, element, clearLink)."
             },
             "extraProductProps": {
-              "type": "object",
               "description": "Extra data attributes spread onto the section element; all keys must start with 'data-' (e.g. data-af-category)."
             }
           }
@@ -9140,7 +8492,6 @@
           "type": "object",
           "properties": {
             "render": {
-              "type": "array",
               "description": "Function prop called with an array of objects containing label and value to display custom profile fields alongside default user information."
             }
           }
@@ -9167,11 +8518,9 @@
           "type": "object",
           "properties": {
             "registerValidator": {
-              "type": "object",
               "description": "Function provided by the parent component to register a custom validator; the validator should return a boolean or Promise<boolean> indicating whether the form can proceed."
             },
             "registerSubmitter": {
-              "type": "object",
               "description": "Function provided by the parent component to register a custom submitter; the submitter is called after all validations pass to persist custom field data."
             }
           }
@@ -9190,11 +8539,9 @@
           "type": "object",
           "properties": {
             "registerValidator": {
-              "type": "object",
               "description": "Function provided by the parent form that child components must call in componentDidMount to register their validation function. The validator should return true (valid) or false (invalid), or a Promise resolving to a boolean."
             },
             "registerSubmitter": {
-              "type": "object",
               "description": "Function provided by the parent form that child components must call in componentDidMount to register their submission function. Called after all validators pass, receiving the profile data as argument."
             }
           }
@@ -9331,26 +8678,21 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "default": "",
               "description": "Unique class name appended to block classes for CSS customization."
             },
             "font": {
-              "type": "string",
               "default": "t-body",
               "description": "Tachyon token used as font for the text."
             },
             "htmlId": {
-              "type": "string",
               "description": "HTML id attribute of the element."
             },
             "textColor": {
-              "type": "string",
               "default": "c-on-base",
               "description": "Tachyon token used as text color."
             },
             "text": {
-              "type": "string",
               "description": "Text content written in Markdown to be rendered."
             },
             "textAlignment": {
@@ -9389,11 +8731,9 @@
           "type": "object",
           "properties": {
             "area": {
-              "type": "string",
               "description": "Indicates the area. It must match the area configured in the banner."
             },
             "blockClass": {
-              "type": "string",
               "description": "Assigns a custom CSS class to the banner container element."
             },
             "horizontalAlignment": {
@@ -9451,7 +8791,6 @@
               "description": "If true, the input loses focus when the search is submitted."
             },
             "classes": {
-              "type": "object",
               "description": "Custom CSS classes for overriding CSS handles."
             },
             "compactMode": {
@@ -9468,7 +8807,6 @@
               "description": "Defines whether the autocomplete displays as an overlay or inline container."
             },
             "customSearchPageUrl": {
-              "type": "string",
               "description": "Custom URL template for the search page, using ${term} as a placeholder for the search term."
             },
             "disableBlurAndTouchEndHandler": {
@@ -9487,7 +8825,6 @@
               "description": "Controls which action buttons are displayed alongside the search input."
             },
             "emptyPlaceholder": {
-              "type": "string",
               "description": "Text displayed in the autocomplete when there are no results."
             },
             "hasIconLeft": {
@@ -9495,7 +8832,6 @@
               "description": "If true, the search icon is placed on the left side of the input."
             },
             "iconClasses": {
-              "type": "string",
               "description": "Custom CSS classes applied to the search icon."
             },
             "inputType": {
@@ -9508,11 +8844,9 @@
               "description": "HTML type attribute for the search input element."
             },
             "maxWidth": {
-              "type": "string",
               "description": "Maximum width of the search bar (accepts number or CSS string value)."
             },
             "minSearchTermLength": {
-              "type": "number",
               "description": "Minimum number of characters required before the autocomplete is triggered."
             },
             "openAutocompleteOnFocus": {
@@ -9521,7 +8855,6 @@
               "description": "If true, the autocomplete opens as soon as the input receives focus."
             },
             "placeholder": {
-              "type": "string",
               "description": "Placeholder text displayed inside the search input."
             },
             "submitOnIconClick": {
@@ -9608,7 +8941,6 @@
           "type": "object",
           "properties": {
             "hiddenFacets": {
-              "type": "object",
               "description": "Indicates which filters should be hidden on the search results page."
             },
             "showFacetQuantity": {
@@ -9622,24 +8954,19 @@
               "description": "Determines whether the facet title should appear on the selected filters section."
             },
             "blockClass": {
-              "type": "string",
               "description": "Unique identifier used as a handle for CSS customization."
             },
             "trackingId": {
-              "type": "string",
               "default": "Search result",
               "description": "ID used by Google Analytics to track search result page metrics."
             },
             "mobileLayout": {
-              "type": "object",
               "description": "Controls how the search results page is displayed on mobile layout."
             },
             "defaultGalleryLayout": {
-              "type": "string",
               "description": "Determines the default gallery layout name when multiple gallery layouts are available."
             },
             "thresholdForFacetSearch": {
-              "type": "number",
               "description": "Minimum number of facets that must be displayed for the search bar to appear in the filter panel."
             },
             "preventRouteChange": {
@@ -9692,7 +9019,6 @@
           "type": "object",
           "properties": {
             "hiddenFacets": {
-              "type": "object",
               "description": "Indicates which filters should be hidden on the search results page."
             },
             "showFacetQuantity": {
@@ -9706,24 +9032,19 @@
               "description": "Determines whether the facet title should appear on the selected filters section on the filter-navigator.v3 block."
             },
             "blockClass": {
-              "type": "string",
               "description": "Unique block ID used for CSS customization."
             },
             "trackingId": {
-              "type": "string",
               "default": "Search result",
               "description": "ID used by Google Analytics to track store metrics based on the Search Result block."
             },
             "mobileLayout": {
-              "type": "object",
               "description": "Controls how the search results page is displayed to users on mobile layout."
             },
             "defaultGalleryLayout": {
-              "type": "string",
               "description": "Determines the default name of the gallery layout on the search results page. Required when the gallery block explicitly defines several layouts."
             },
             "thresholdForFacetSearch": {
-              "type": "number",
               "description": "Specifies the minimum number of facets that must be displayed for the search bar to appear. Declaring 0 always shows the search bar."
             },
             "preventRouteChange": {
@@ -9752,19 +9073,15 @@
           "type": "object",
           "properties": {
             "querySchema": {
-              "type": "object",
               "description": "Defines the custom search query to be executed. Contains fields like queryField, mapField, maxItemsPerPage, orderByField, etc."
             },
             "queryField": {
-              "type": "string",
               "description": "Query string of the search URL that defines the results to fetch in the custom query (inside querySchema). Requires mapField to be set."
             },
             "mapField": {
-              "type": "string",
               "description": "Search URL's map parameter to define which results to fetch in the custom query (inside querySchema). Requires queryField to be set."
             },
             "maxItemsPerPage": {
-              "type": "number",
               "default": 10,
               "description": "Maximum number of items per search page. Maximum allowed value is 50."
             },
@@ -9824,11 +9141,9 @@
               "description": "Defines which price to display when different installments are available."
             },
             "excludedPaymentSystems": {
-              "type": "string",
               "description": "List of payment systems not to consider when displaying installment options to users."
             },
             "includedPaymentSystems": {
-              "type": "string",
               "description": "List of payment systems to consider when displaying installment options to users."
             }
           }
@@ -9847,7 +9162,6 @@
           "type": "object",
           "properties": {
             "hiddenFacets": {
-              "type": "object",
               "description": "Indicates which filters should be hidden on the search results page."
             },
             "showFacetQuantity": {
@@ -9861,24 +9175,19 @@
               "description": "Determines whether the facet title should appear on the selected filters section."
             },
             "blockClass": {
-              "type": "string",
               "description": "Unique block identifier used for CSS customization."
             },
             "trackingId": {
-              "type": "string",
               "default": "Search result",
               "description": "ID to be used in Google Analytics to track store metrics from the search results."
             },
             "mobileLayout": {
-              "type": "object",
               "description": "Controls how the search results page is displayed to users using a mobile layout."
             },
             "defaultGalleryLayout": {
-              "type": "string",
               "description": "Determines the default gallery layout name displayed on the search results page."
             },
             "thresholdForFacetSearch": {
-              "type": "number",
               "description": "Minimum number of facets that must be displayed before a search bar appears in the filter navigator."
             },
             "preventRouteChange": {
@@ -9907,7 +9216,6 @@
           "type": "object",
           "properties": {
             "hiddenFacets": {
-              "type": "object",
               "description": "Indicates which filters should be hidden on the search result page."
             },
             "showFacetQuantity": {
@@ -9921,24 +9229,19 @@
               "description": "Whether the facet title appears in the selected filters section."
             },
             "blockClass": {
-              "type": "string",
               "description": "Unique block ID used as a handle for CSS customization."
             },
             "trackingId": {
-              "type": "string",
               "default": "Search result",
               "description": "ID used for Google Analytics tracking of the search result block."
             },
             "mobileLayout": {
-              "type": "object",
               "description": "Controls how the search results page displays on mobile layout, with mode1 and mode2 options (normal, small, inline)."
             },
             "defaultGalleryLayout": {
-              "type": "string",
               "description": "Name of the default gallery layout to be used; must match the name prop of the desired layout."
             },
             "thresholdForFacetSearch": {
-              "type": "number",
               "description": "Minimum number of facets required for a search bar to be displayed in the filter navigator."
             },
             "preventRouteChange": {
@@ -9967,7 +9270,6 @@
           "type": "object",
           "properties": {
             "customPage": {
-              "type": "string",
               "default": "store.search",
               "description": "Defines a custom page to the link of a suggestion. Example: store.search.custom."
             }
@@ -10039,7 +9341,6 @@
           "type": "object",
           "properties": {
             "title": {
-              "type": "string",
               "description": "Text displayed on the table header for each column."
             }
           }
@@ -10106,7 +9407,6 @@
           "type": "object",
           "properties": {
             "limitShownShippingInformation": {
-              "type": "number",
               "default": 3,
               "description": "Max number of shipping options to be displayed."
             }
@@ -10126,31 +9426,25 @@
           "type": "object",
           "properties": {
             "buttonsContainerClass": {
-              "type": "string",
-              "default": "true",
+              "default": true,
               "description": "CSS classes for the button container."
             },
             "className": {
-              "type": "string",
               "default": "null",
               "description": "CSS classes for the main container."
             },
             "imageUrl": {
-              "type": "string",
               "description": "Image URL to share on social media."
             },
             "options": {
-              "type": "object",
               "default": "{}",
               "description": "Share button options, such as size."
             },
             "shareLabelClass": {
-              "type": "string",
-              "default": "true",
+              "default": true,
               "description": "CSS classes for the share label."
             },
             "social": {
-              "type": "object",
               "default": "{Facebook: true, Twitter: true, WhatsApp: true, Pinterest: true}",
               "description": "Social media icons to be displayed (Facebook, Twitter, WhatsApp, Pinterest)."
             }
@@ -10170,11 +9464,9 @@
           "type": "object",
           "properties": {
             "category": {
-              "type": "string",
               "description": "The category ID used to fetch products for the shelf."
             },
             "collection": {
-              "type": "string",
               "description": "The collection ID used to fetch products for the shelf."
             },
             "orderBy": {
@@ -10206,15 +9498,12 @@
               "description": "Controls the visibility of pagination dots in the shelf slider."
             },
             "productList": {
-              "type": "object",
               "description": "Product list schema configuration object for the shelf layout and behavior."
             },
             "trackingId": {
-              "type": "string",
               "description": "Name to show in Google Analytics; defaults to the block name if not provided."
             },
             "maxItems": {
-              "type": "number",
               "description": "Maximum number of items to be displayed in the shelf."
             }
           }
@@ -10260,7 +9549,6 @@
               "description": "Whether out of stock items should be hidden (true) or displayed (false)."
             },
             "productList": {
-              "type": "object",
               "description": "Schema containing display settings for the shelf (maxItems, scroll, arrows, showTitle, titleText, gap, itemsPerPage, etc.)."
             }
           }
@@ -10284,31 +9572,25 @@
               "description": "Controls whether the tabbed shelf component is visible/enabled."
             },
             "headline": {
-              "type": "string",
               "default": "",
               "description": "Main heading text displayed above the tabbed shelf."
             },
             "bottomText": {
-              "type": "string",
               "default": "",
               "description": "Footer text displayed below the tabbed shelf."
             },
             "tabs": {
-              "type": "array",
               "default": "[]",
               "description": "Array of tab configuration objects (max 6), each with an id (category ID) and __editorItemTitle (tab label)."
             },
             "shelf": {
-              "type": "object",
               "default": "{}",
               "description": "Shelf component configuration object, inheriting props from the shelf block schema."
             },
             "buttonText": {
-              "type": "string",
               "description": "Label text for the call-to-action button displayed on the shelf."
             },
             "buttunUrl": {
-              "type": "string",
               "description": "Navigation URL for the call-to-action button (note: original code contains this typo)."
             }
           }
@@ -10414,7 +9696,6 @@
               "description": "Defines how shipping information is displayed when a product includes gifts or attachments: grouped by type or per individual item."
             },
             "seller": {
-              "type": "string",
               "description": "ID of the product seller."
             },
             "shouldUpdateOrderForm": {
@@ -10423,7 +9704,6 @@
               "description": "Determines whether interacting with the shipping simulator should update the shopper's address in their orderForm."
             },
             "skuId": {
-              "type": "string",
               "description": "ID of the current product SKU."
             }
           }
@@ -10500,7 +9780,6 @@
           "type": "object",
           "properties": {
             "size": {
-              "type": "number",
               "default": 30,
               "description": "Size of the close button icon."
             },
@@ -10530,7 +9809,6 @@
           "type": "object",
           "properties": {
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles for React component styling."
             },
             "disableUnavailableSelectOptions": {
@@ -10559,11 +9837,9 @@
               "description": "Alphabetically sorts variation options by label."
             },
             "imageHeight": {
-              "type": "number",
               "description": "Thumbnail image height in pixels. Supports device breakpoints via object."
             },
             "imageWidth": {
-              "type": "number",
               "description": "Thumbnail image width in pixels. Supports device breakpoints via object."
             },
             "initialSelection": {
@@ -10577,7 +9853,6 @@
               "description": "Defines which SKU variations are pre-selected on page load."
             },
             "maxItems": {
-              "type": "number",
               "default": 10,
               "description": "Maximum number of variation items shown before a 'See more' button appears."
             },
@@ -10591,17 +9866,14 @@
               "description": "Controls whether the selected variation value is displayed next to the label."
             },
             "sliderArrowSize": {
-              "type": "number",
               "default": 12,
               "description": "Size in pixels of the navigation arrows when displayMode is 'slider'."
             },
             "sliderDisplayThreshold": {
-              "type": "number",
               "default": 3,
               "description": "Minimum number of variations required before slider mode is activated."
             },
             "sliderItemsPerPage": {
-              "type": "object",
               "description": "Number of slides visible per page per device breakpoint (desktop, tablet, phone)."
             },
             "showVariationsErrorMessage": {
@@ -10621,11 +9893,9 @@
               "description": "Controls what label text is displayed alongside each variation option."
             },
             "thumbnailImage": {
-              "type": "string",
               "description": "Image label used to match and display the first corresponding thumbnail image."
             },
             "variationsSpacing": {
-              "type": "number",
               "default": 7,
               "description": "Bottom margin between variation groups, using Tachyons spacing scale (0–11)."
             },
@@ -10639,7 +9909,6 @@
               "description": "Whether to show variation selectors always or only when more than one option exists."
             },
             "visibleVariations": {
-              "type": "array",
               "description": "Specifies which variation names to display, filtering out all others."
             }
           }
@@ -10658,7 +9927,6 @@
           "type": "object",
           "properties": {
             "label": {
-              "type": "string",
               "default": "slider",
               "description": "aria-label attribute value to be used by the Slider component when rendered."
             },
@@ -10695,21 +9963,18 @@
               "description": "Determines whether the slider should use slide pages or continuous scrolling."
             },
             "itemsPerPage": {
-              "type": "object",
               "default": "{desktop: 5, tablet: 3, phone: 1}",
               "description": "Number of slider items displayed per device type (desktop, tablet, phone)."
             },
             "navigationStep": {
-              "type": "number",
+              "default": "page",
               "description": "Number of items to scroll when users click navigation arrows; can be set as 'page' to scroll a full page."
             },
             "slideTransition": {
-              "type": "object",
               "default": "{speed: 400, delay: 0, timing: ''}",
               "description": "Controls the CSS transition animation between slides (speed, delay, timing)."
             },
             "autoplay": {
-              "type": "object",
               "description": "Controls the autoplay feature behavior (timeout in ms, stopOnHover boolean)."
             },
             "fullWidth": {
@@ -10718,7 +9983,6 @@
               "description": "Determines whether slides should occupy the full page width."
             },
             "arrowSize": {
-              "type": "number",
               "default": 25,
               "description": "Slider arrow icon dimensions in pixels; can also be a responsive object per device type."
             },
@@ -10733,7 +9997,6 @@
               "description": "Defines the positioning of slider elements; can also be a responsive object per device type."
             },
             "centerModeSlidesGap": {
-              "type": "number",
               "description": "Number of pixels between slides when centerMode is active."
             }
           }
@@ -10760,11 +10023,9 @@
           "type": "object",
           "properties": {
             "title": {
-              "type": "string",
               "description": "Text to show above the list of social network links."
             },
             "socialNetworks": {
-              "type": "array",
               "description": "Array of social network objects, each containing a URL and a network name."
             },
             "showInColor": {
@@ -10787,17 +10048,14 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "default": "null",
               "description": "Allows passing a custom name to be added to component CSS classes."
             },
             "zIndexOffset": {
-              "type": "number",
               "default": 0,
               "description": "An offset for the zIndex of the children. The first child gets this value, subsequent children receive incrementally higher values."
             },
             "arialabel": {
-              "type": "string",
               "default": "null",
               "description": "A value to customize the aria-label property of the stack layout element."
             }
@@ -10817,7 +10075,6 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Unique class name appended to the container class for custom CSS targeting."
             },
             "position": {
@@ -10829,7 +10086,6 @@
               "description": "Indicates where the component should stick on the screen (top or bottom)."
             },
             "verticalSpacing": {
-              "type": "number",
               "default": 0,
               "description": "Distance in pixels from the position chosen in the position prop."
             }
@@ -10928,27 +10184,21 @@
           "type": "object",
           "properties": {
             "optionsTitle": {
-              "type": "string",
               "description": "Text to entitle the login options."
             },
             "emailAndPasswordTitle": {
-              "type": "string",
               "description": "Text to display the email-and-password option."
             },
             "accessCodeTitle": {
-              "type": "string",
               "description": "Text to display the access-code option."
             },
             "emailPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the email input."
             },
             "passwordPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the password input."
             },
             "acessCodePlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the access code input."
             },
             "showPasswordVerificationIntoTooltip": {
@@ -10962,7 +10212,6 @@
               "description": "Whether the profile icon should be displayed on the Login component."
             },
             "iconLabel": {
-              "type": "string",
               "description": "Text string to entitle the Login icon."
             },
             "hideIconLabel": {
@@ -10971,19 +10220,15 @@
               "description": "Whether the text string defined for the Login icon should be hidden."
             },
             "labelClasses": {
-              "type": "array",
               "description": "Login icon's classnames."
             },
             "providerPasswordButtonLabel": {
-              "type": "string",
               "description": "Text to be displayed as the password button label."
             },
             "identifierPlaceholder": {
-              "type": "string",
               "description": "Text to be displayed as placeholder to the extension input."
             },
             "invalidIdentifierError": {
-              "type": "string",
               "description": "Error message for invalid user identifier."
             },
             "mirrorTooltipToRight": {
@@ -11010,11 +10255,9 @@
               "description": "Expected behavior of the My Account button when clicked on."
             },
             "accountOptionLinks": {
-              "type": "array",
               "description": "Creates custom links to replace the default account page link."
             },
             "termsAndConditions": {
-              "type": "string",
               "description": "Text to be displayed below the login options regarding terms and conditions."
             },
             "hasGoogleOneTap": {
@@ -11032,7 +10275,6 @@
               "description": "Defines pop-up alignment for the Google One-tap login."
             },
             "googleOneTapMarginTop": {
-              "type": "string",
               "default": "3rem",
               "description": "Defines the pop-up top margin for the Google One-tap login."
             },
@@ -11130,7 +10372,6 @@
               "description": "Controls whether the accordion submenu is expanded (true) or collapsed (false)."
             },
             "blockClass": {
-              "type": "string",
               "description": "Custom CSS class handle suffix used to override default CSS handles for this block instance."
             }
           }
@@ -11157,16 +10398,13 @@
           "type": "object",
           "properties": {
             "markers": {
-              "type": "array",
               "default": "[]",
               "description": "IDs of your choosing to identify the block's rendered message and customize it using the admin's Site Editor."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             },
             "message": {
-              "type": "string",
               "description": "Defines the block's default text (the block message). Supports template variables: installmentsNumber, installmentValue, installmentsTotalValue, interestRate, paymentSystemName, hasInterest."
             }
           }
@@ -11215,7 +10453,6 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             }
           }
@@ -11234,11 +10471,9 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             },
             "tabId": {
-              "type": "string",
               "description": "Tab ID of your choosing. Used to match the content to a given tab defined by tab-list.item or tab-list.item.children blocks."
             }
           }
@@ -11257,11 +10492,9 @@
           "type": "object",
           "properties": {
             "defaultActiveTabId": {
-              "type": "string",
               "description": "ID of the desired tab to be rendered as the default one. If not provided, the first declared tab is used."
             },
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             }
           }
@@ -11280,7 +10513,6 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             }
           }
@@ -11299,15 +10531,12 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             },
             "tabId": {
-              "type": "string",
               "description": "Tab ID of your choosing. Used to match the tab to its content defined by the tab-content.item block."
             },
             "label": {
-              "type": "string",
               "description": "Defines the tab's text label."
             },
             "defaultActiveTab": {
@@ -11331,11 +10560,9 @@
           "type": "object",
           "properties": {
             "blockClass": {
-              "type": "string",
               "description": "Block ID of your choosing to be used in CSS customization."
             },
             "tabId": {
-              "type": "string",
               "description": "Tab ID of your choosing. Used to match the tab to a given content defined by the tab-content.item block."
             }
           }
@@ -11362,7 +10589,6 @@
           "type": "object",
           "properties": {
             "message": {
-              "type": "string",
               "default": "store/search.total-products-2",
               "description": "Custom message ID (i18n key) used to display the total products count. Supports ICU message format with {recordsFiltered} variable."
             }
@@ -11382,7 +10608,6 @@
           "type": "object",
           "properties": {
             "textAlign": {
-              "type": "string",
               "default": "left",
               "description": "Position of the product's unit price in the list."
             },
@@ -11482,23 +10707,18 @@
           "type": "object",
           "properties": {
             "src": {
-              "type": "string",
               "description": "URL of the video to be displayed; accepts YouTube, Vimeo, or self-hosted video URLs."
             },
             "name": {
-              "type": "string",
               "description": "Video name used for SEO and accessibility purposes."
             },
             "description": {
-              "type": "string",
               "description": "Video description used for SEO and accessibility purposes."
             },
             "type": {
-              "type": "string",
               "description": "MIME type of the video (e.g., video/mp4)."
             },
             "poster": {
-              "type": "string",
               "description": "Cover image URL displayed before video playback begins."
             },
             "controlsType": {
@@ -11531,40 +10751,32 @@
               "description": "Plays the video inline (within the element) rather than fullscreen on mobile."
             },
             "width": {
-              "type": "string",
               "description": "Display area width in pixels or percentage."
             },
             "height": {
-              "type": "string",
               "description": "Display area height in pixels or percentage."
             },
             "PlayIcon": {
-              "type": "string",
               "default": "icon-play",
               "description": "Custom play icon ID used when controlsType is custom-vtex."
             },
             "PauseIcon": {
-              "type": "string",
               "default": "icon-pause",
               "description": "Custom pause icon ID used when controlsType is custom-vtex."
             },
             "VolumeOnIcon": {
-              "type": "string",
               "default": "icon-volume-on",
               "description": "Custom volume-on icon ID used when controlsType is custom-vtex."
             },
             "VolumeOffIcon": {
-              "type": "string",
               "default": "icon-volume-off",
               "description": "Custom volume-off icon ID used when controlsType is custom-vtex."
             },
             "FullscreenIcon": {
-              "type": "string",
               "default": "icon-extend",
               "description": "Custom fullscreen icon ID used when controlsType is custom-vtex."
             },
             "classes": {
-              "type": "object",
               "description": "Overrides default CSS handles; useful when the block is imported as a React component."
             }
           }

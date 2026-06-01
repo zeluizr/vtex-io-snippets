@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.1.1
+
+- **Correção de falsos erros de validação**: tipos derivados da doc não são 100% confiáveis (ex.: `aspectRatio` `"1:1"` tipado como object). Agora só **enums** e **booleanos** são validados estritamente; demais escalares mantêm autocomplete de nome + descrição + default, sem marcar valores válidos como erro.
+- README reescrito em espanhol com o panorama completo do projeto.
+
 ## 2.1.0
 
 - **Fechamento de gaps de cobertura**: auditoria determinística contra o `store/interfaces.json` de cada app (ground-truth) elevou a cobertura de **71% → 93%** dos blocos nativos exigidos (366/393).
