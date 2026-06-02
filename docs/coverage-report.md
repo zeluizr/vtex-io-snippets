@@ -8,10 +8,10 @@
 |---|---|
 | Apps analisados (com interfaces.json) | **65** |
 | Blocos exigidos (sem deprecados/contexto) | **393** |
-| Blocos exigidos cobertos | **366** |
-| **Cobertura global** | **93%** |
-| Blocos faltantes | 27 |
-| Apps totalmente ausentes | 3 |
+| Blocos exigidos cobertos | **381** |
+| **Cobertura global** | **97%** |
+| Blocos faltantes | 12 |
+| Apps totalmente ausentes | 2 |
 | Blocos órfãos (temos mas não existem) | 2 |
 | Deprecados (não exigidos) | 6 |
 | Contexto/sem-UI (não exigidos) | 6 |
@@ -19,7 +19,6 @@
 
 ## ⚠️ Apps totalmente ausentes (shipam blocos, 0% cobertos)
 
-- **vtex.blog-interfaces** (15 blocos): blog-all-posts, blog-latest-posts-preview, blog-category-preview, blog-category-list, blog-post-container, blog-post-details, blog-post-navigation, blog-page-details, blog-search, search-blog-articles-preview, search-blog-articles-list, blog-search-list, blog-related-products, blog-related-posts, blog-breadcrumb
 - **vtex.pwa-components** (2 blocos): promotion-banner, offline-warning
 - **vtex.sandbox** (3 blocos): sandbox, sandbox.product, sandbox.order
 
@@ -27,13 +26,13 @@
 
 | App | Cobertos / Exigidos | % | Faltantes |
 |---|---|---|---|
-| vtex.blog-interfaces | 0/15 | 0% | blog-all-posts, blog-latest-posts-preview, blog-category-preview, blog-category-list, blog-post-container, blog-post-details, blog-post-navigation, blog-page-details, blog-search, search-blog-articles-preview, search-blog-articles-list, blog-search-list, blog-related-products, blog-related-posts, blog-breadcrumb |
 | vtex.pwa-components | 0/2 | 0% | promotion-banner, offline-warning |
 | vtex.sandbox | 0/3 | 0% | sandbox, sandbox.product, sandbox.order |
 | vtex.search-result | 22/27 | 81% | filter-navigator, filter-navigator.v1, filter-navigator.v2, order-by, total-products |
 | vtex.seller-selector | 12/13 | 92% | store.product.sellertest |
 | vtex.store | 12/13 | 92% | store.offline |
 | vtex.add-to-cart-button | 1/1 | 100% | — |
+| vtex.blog-interfaces | 15/15 | 100% | — |
 | vtex.breadcrumb | 3/3 | 100% | — |
 | vtex.carousel | 0/0 | 100% | — |
 | vtex.category-menu | 0/0 | 100% | — |

@@ -30,7 +30,7 @@ Ofrece **dos capas de autocompletado**:
 1. **Snippets de bloques** — escribe el nombre del bloque e inserta el bloque completo listo, con placeholders navegables con Tab.
 2. **IntelliSense de props (JSON Schema)** — dentro de un bloque, el editor sugiere las **props válidas de ese bloque**, muestra las **opciones (enums)**, los **defaults** y las **descripciones**. Se aplica automáticamente a los archivos de bloques, sin configuración.
 
-Cobertura actual: **370 bloques** de **~65 apps** del Store Framework, con **~1.300 props** documentadas, extraídas de la documentación oficial de VTEX. La cobertura frente al ground-truth (los `store/interfaces.json` de cada app) es del **93 %** de los bloques nativos exigidos.
+Cobertura actual: **385 bloques** de **~65 apps** del Store Framework, con **~1.340 props** documentadas, extraídas de la documentación oficial de VTEX. La cobertura frente al ground-truth (los `store/interfaces.json` de cada app) es del **97 %** de los bloques nativos exigidos.
 
 ## Instalación
 
@@ -90,10 +90,11 @@ Bloques nativos de VTEX IO Store Framework cubiertos por snippets + schema de pr
 - **Búsqueda:** `search-result-layout(.desktop/.mobile)`, `gallery`, `filter-navigator.v3`, `order-by.v2`, `total-products.v2`
 - **Plantillas de página:** `store.home`, `store.product`, `store.search`, `store.custom`, `store.account`, etc.
 - **Reseñas / regionalización:** `reviews-and-ratings`, `product-reviews`, `delivery-promise-components`, `shipping-option-components`
+- **Blog (`vtex.blog-interfaces`):** `blog-all-posts`, `blog-latest-posts-preview`, `blog-category-preview/list`, `blog-post-container/details`, `blog-post-navigation`, `blog-page-details`, `blog-search(-list)`, `search-blog-articles-preview/list`, `blog-related-products/posts`, `blog-breadcrumb`
 
 > El schema es **tolerante**: solo valida estrictamente **enums** y **booleanos**; el resto de props mantiene autocompletado de nombre + descripción sin marcar valores válidos como error.
 
-Quedan **fuera de alcance** (intencionalmente): el blog (`vtex.blog-interfaces`), `sandbox`, `pwa-components` y las versiones legadas `filter-navigator.v1/v2`, `order-by` (v1) y `total-products` (v1), ya que existen las versiones actuales.
+Quedan **fuera de alcance** (intencionalmente): `sandbox`, `pwa-components` y las versiones legadas `filter-navigator.v1/v2`, `order-by` (v1) y `total-products` (v1), ya que existen las versiones actuales.
 
 ## Cómo se construyó
 

@@ -3,6 +3,7 @@
 docs/**
 data/**
 scripts/**
+test/**
 node_modules/**
 **/*.vsix
 **/*.map

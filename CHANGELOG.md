@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.0
+
+- **Cobertura do blog** (`vtex.blog-interfaces`, +15 blocos): `blog-all-posts`, `blog-latest-posts-preview`, `blog-category-preview`/`-list`, `blog-post-container`/`-details`, `blog-post-navigation`, `blog-page-details`, `blog-search`/`-list`, `search-blog-articles-preview`/`-list`, `blog-related-products`/`-posts`, `blog-breadcrumb` — props extraídas da doc oficial (`vtex.wordpress-integration`). Cobertura global **93% → 97%** (381/393). Blog removido da lista de gaps aceitos.
+- **Autocomplete aninhado** ampliado de 5 para 14 blocos via `PROP_OVERRIDES`: `product-summary-image` (`hoverImage`, `aspectRatio`/`maxHeight`/`width`/`height` responsivos), `search-result-layout(.desktop/.mobile)` + `search-not-found-layout` (`hiddenFacets`, `mobileLayout`), `menu` (`items`), `product-installments(-list)` (`installmentOptionsFilter`, `markers`, `installmentsToShow`), `share` (`social`, `options`), `order-by.v2` (`hiddenOptions`, `specificationOptions`), `product-specifications` (`visible/hiddenSpecifications`). Props injetadas em runtime (`classes`, `render`, `intl`…) ficam de fora de propósito.
+- **Suíte de testes** (`node --test`): lógica pura de navegação extraída para `lib/blocks.js` (sem `vscode`), com testes de def×ref, chaves estruturais, exclusão de URLs e filtro de arquivos de tema; `test/schema.test.js` trava regressão dos overrides e exige geração determinística. Novo workflow CI `.github/workflows/test.yml`.
+
 ## 2.1.6
 
 - **Autocomplete/validação de props (JSON Schema) agora também em `store/home.jsonc`** e qualquer `*.jsonc` sob `store/**` (antes só `blocks.json`/`blocks.jsonc` e `store/blocks/**`). Os `.json` continuam restritos a `store/blocks/**`, de propósito, para não aplicar o schema de blocos em `interfaces.json`/`routes.json` (que são `.json` e o `jsonValidation` não tem exclude).

@@ -1,0 +1,23 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # Sem dependências de runtime/teste: usa só o test runner nativo do Node.
+      - name: Regenerate schema + snippets (deve ser determinístico)
+        run: node scripts/generate-schema.js
+      - name: Fail if generated files drifted from committed
+        run: git diff --exit-code schemas/ snippets/
+      - name: Run tests
+        run: node --test

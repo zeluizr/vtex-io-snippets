@@ -11043,5 +11043,593 @@
         "description": "Overrides default CSS handles; useful when the block is imported as a React component."
       }
     ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-all-posts",
+    "description": "Lista paginada de todos os posts do blog.",
+    "props": [
+      {
+        "name": "postsPerPage",
+        "type": "number",
+        "default": "10",
+        "description": "Numero de posts por pagina na lista paginada."
+      },
+      {
+        "name": "mediaSize",
+        "type": "enum",
+        "enumValues": [
+          "thumbnail",
+          "medium",
+          "medium_large",
+          "large",
+          "full"
+        ],
+        "default": "full",
+        "description": "Tamanho da imagem do WordPress usada nos previews."
+      },
+      {
+        "name": "excerptLink",
+        "type": "boolean",
+        "default": "false",
+        "description": "Torna o resumo (excerpt) do post clicavel."
+      },
+      {
+        "name": "ampLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links AMP do blog externo em nova aba."
+      },
+      {
+        "name": "ampUrlFormat",
+        "type": "enum",
+        "enumValues": [
+          "ampPathSuffix",
+          "ampQuery",
+          "ampQueryValue"
+        ],
+        "default": "ampPathSuffix",
+        "description": "Estrutura da URL AMP."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-latest-posts-preview",
+    "description": "Preview dos posts mais recentes do blog.",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "Titulo exibido acima do bloco."
+      },
+      {
+        "name": "numberOfPosts",
+        "type": "number",
+        "default": "3",
+        "description": "Numero de posts a exibir."
+      },
+      {
+        "name": "tags",
+        "type": "array",
+        "description": "IDs de tags permitidas para filtrar."
+      },
+      {
+        "name": "excludeTags",
+        "type": "array",
+        "description": "IDs de tags a excluir."
+      },
+      {
+        "name": "excludeCategories",
+        "type": "array",
+        "description": "IDs de categorias a excluir."
+      },
+      {
+        "name": "useTextOverlays",
+        "type": "boolean",
+        "default": "false",
+        "description": "Sobrepoe os dados do post na imagem destacada."
+      },
+      {
+        "name": "showCategories",
+        "type": "boolean",
+        "default": "true",
+        "description": "Exibe a categoria do post."
+      },
+      {
+        "name": "showDates",
+        "type": "boolean",
+        "default": "true",
+        "description": "Exibe a data de publicacao."
+      },
+      {
+        "name": "showAuthors",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o autor do post."
+      },
+      {
+        "name": "showExcerpts",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o resumo (excerpt) do post."
+      },
+      {
+        "name": "excerptLink",
+        "type": "boolean",
+        "default": "false",
+        "description": "Torna o resumo (excerpt) do post clicavel."
+      },
+      {
+        "name": "mediaSize",
+        "type": "enum",
+        "enumValues": [
+          "thumbnail",
+          "medium",
+          "medium_large",
+          "large",
+          "full"
+        ],
+        "default": "full",
+        "description": "Tamanho da imagem do WordPress usada nos previews."
+      },
+      {
+        "name": "absoluteLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links do blog externo em nova aba."
+      },
+      {
+        "name": "ampLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links AMP do blog externo em nova aba."
+      },
+      {
+        "name": "ampUrlFormat",
+        "type": "enum",
+        "enumValues": [
+          "ampPathSuffix",
+          "ampQuery",
+          "ampQueryValue"
+        ],
+        "default": "ampPathSuffix",
+        "description": "Estrutura da URL AMP."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-category-preview",
+    "description": "Preview dos posts de uma categoria do blog.",
+    "props": [
+      {
+        "name": "category",
+        "type": "number",
+        "default": "0",
+        "description": "ID numerico da categoria no WordPress."
+      },
+      {
+        "name": "title",
+        "type": "string",
+        "description": "Titulo do componente."
+      },
+      {
+        "name": "description",
+        "type": "string",
+        "description": "Texto de subtitulo."
+      },
+      {
+        "name": "customLinkText",
+        "type": "string",
+        "description": "Texto do link para a pagina da categoria."
+      },
+      {
+        "name": "customLinkTarget",
+        "type": "string",
+        "description": "Destino customizado do link."
+      },
+      {
+        "name": "numberOfPosts",
+        "type": "number",
+        "default": "3",
+        "description": "Numero de posts a exibir."
+      },
+      {
+        "name": "useTextOverlays",
+        "type": "boolean",
+        "default": "false",
+        "description": "Sobrepoe os dados do post na imagem destacada."
+      },
+      {
+        "name": "showDates",
+        "type": "boolean",
+        "default": "true",
+        "description": "Exibe a data de publicacao."
+      },
+      {
+        "name": "showAuthors",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o autor do post."
+      },
+      {
+        "name": "showExcerpts",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o resumo (excerpt) do post."
+      },
+      {
+        "name": "excerptLink",
+        "type": "boolean",
+        "default": "false",
+        "description": "Torna o resumo (excerpt) do post clicavel."
+      },
+      {
+        "name": "mediaSize",
+        "type": "enum",
+        "enumValues": [
+          "thumbnail",
+          "medium",
+          "medium_large",
+          "large",
+          "full"
+        ],
+        "default": "full",
+        "description": "Tamanho da imagem do WordPress usada nos previews."
+      },
+      {
+        "name": "absoluteLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links do blog externo em nova aba."
+      },
+      {
+        "name": "showPostButton",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe um botao que leva direto ao post no WordPress."
+      },
+      {
+        "name": "ampLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links AMP do blog externo em nova aba."
+      },
+      {
+        "name": "ampUrlFormat",
+        "type": "enum",
+        "enumValues": [
+          "ampPathSuffix",
+          "ampQuery",
+          "ampQueryValue"
+        ],
+        "default": "ampPathSuffix",
+        "description": "Estrutura da URL AMP."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-category-list",
+    "description": "Lista paginada dos posts de uma categoria.",
+    "props": [
+      {
+        "name": "mediaSize",
+        "type": "enum",
+        "enumValues": [
+          "thumbnail",
+          "medium",
+          "medium_large",
+          "large",
+          "full"
+        ],
+        "default": "full",
+        "description": "Tamanho da imagem do WordPress usada nos previews."
+      },
+      {
+        "name": "ampLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links AMP do blog externo em nova aba."
+      },
+      {
+        "name": "ampUrlFormat",
+        "type": "enum",
+        "enumValues": [
+          "ampPathSuffix",
+          "ampQuery",
+          "ampQueryValue"
+        ],
+        "default": "ampPathSuffix",
+        "description": "Estrutura da URL AMP."
+      },
+      {
+        "name": "excerptLink",
+        "type": "boolean",
+        "default": "false",
+        "description": "Torna o resumo (excerpt) do post clicavel."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-post-container",
+    "description": "Container/contexto da pagina de post do blog (use children).",
+    "props": []
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-post-details",
+    "description": "Conteudo detalhado de um post do blog.",
+    "props": []
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-post-navigation",
+    "description": "Navegacao para o post anterior/proximo.",
+    "props": []
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-page-details",
+    "description": "Conteudo detalhado de uma pagina do blog.",
+    "props": []
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-search",
+    "description": "Campo de busca de artigos do blog.",
+    "props": [
+      {
+        "name": "placeholder",
+        "type": "string",
+        "default": "Search articles...",
+        "description": "Placeholder do campo de busca."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "search-blog-articles-preview",
+    "description": "Preview dos artigos do blog na pagina de busca.",
+    "props": [
+      {
+        "name": "numberOfPosts",
+        "type": "number",
+        "default": "3",
+        "description": "Numero de posts a exibir."
+      },
+      {
+        "name": "useTextOverlays",
+        "type": "boolean",
+        "default": "false",
+        "description": "Sobrepoe os dados do post na imagem destacada."
+      },
+      {
+        "name": "showCategories",
+        "type": "boolean",
+        "default": "true",
+        "description": "Exibe a categoria do post."
+      },
+      {
+        "name": "showDates",
+        "type": "boolean",
+        "default": "true",
+        "description": "Exibe a data de publicacao."
+      },
+      {
+        "name": "showAuthors",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o autor do post."
+      },
+      {
+        "name": "showExcerpts",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o resumo (excerpt) do post."
+      },
+      {
+        "name": "excerptLink",
+        "type": "boolean",
+        "default": "false",
+        "description": "Torna o resumo (excerpt) do post clicavel."
+      },
+      {
+        "name": "mediaSize",
+        "type": "enum",
+        "enumValues": [
+          "thumbnail",
+          "medium",
+          "medium_large",
+          "large",
+          "full"
+        ],
+        "default": "full",
+        "description": "Tamanho da imagem do WordPress usada nos previews."
+      },
+      {
+        "name": "absoluteLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links do blog externo em nova aba."
+      },
+      {
+        "name": "ampLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links AMP do blog externo em nova aba."
+      },
+      {
+        "name": "ampUrlFormat",
+        "type": "enum",
+        "enumValues": [
+          "ampPathSuffix",
+          "ampQuery",
+          "ampQueryValue"
+        ],
+        "default": "ampPathSuffix",
+        "description": "Estrutura da URL AMP."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "search-blog-articles-list",
+    "description": "Lista paginada de artigos do blog na busca.",
+    "props": [
+      {
+        "name": "postsPerPage",
+        "type": "number",
+        "default": "10",
+        "description": "Numero de posts por pagina na lista paginada."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-search-list",
+    "description": "Lista paginada dos resultados de busca do blog.",
+    "props": [
+      {
+        "name": "mediaSize",
+        "type": "enum",
+        "enumValues": [
+          "thumbnail",
+          "medium",
+          "medium_large",
+          "large",
+          "full"
+        ],
+        "default": "full",
+        "description": "Tamanho da imagem do WordPress usada nos previews."
+      },
+      {
+        "name": "ampLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links AMP do blog externo em nova aba."
+      },
+      {
+        "name": "ampUrlFormat",
+        "type": "enum",
+        "enumValues": [
+          "ampPathSuffix",
+          "ampQuery",
+          "ampQueryValue"
+        ],
+        "default": "ampPathSuffix",
+        "description": "Estrutura da URL AMP."
+      },
+      {
+        "name": "excerptLink",
+        "type": "boolean",
+        "default": "false",
+        "description": "Torna o resumo (excerpt) do post clicavel."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-related-products",
+    "description": "Produtos relacionados ao post do blog.",
+    "props": []
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-related-posts",
+    "description": "Posts relacionados ao post atual.",
+    "props": [
+      {
+        "name": "title",
+        "type": "string",
+        "description": "Titulo exibido acima do componente."
+      },
+      {
+        "name": "numberOfPosts",
+        "type": "number",
+        "default": "3",
+        "description": "Numero de posts a exibir."
+      },
+      {
+        "name": "useTextOverlays",
+        "type": "boolean",
+        "default": "false",
+        "description": "Sobrepoe os dados do post na imagem destacada."
+      },
+      {
+        "name": "showCategories",
+        "type": "boolean",
+        "default": "true",
+        "description": "Exibe a categoria do post."
+      },
+      {
+        "name": "showDates",
+        "type": "boolean",
+        "default": "true",
+        "description": "Exibe a data de publicacao."
+      },
+      {
+        "name": "showAuthors",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o autor do post."
+      },
+      {
+        "name": "showExcerpts",
+        "type": "boolean",
+        "default": "false",
+        "description": "Exibe o resumo (excerpt) do post."
+      },
+      {
+        "name": "excerptLink",
+        "type": "boolean",
+        "default": "false",
+        "description": "Torna o resumo (excerpt) do post clicavel."
+      },
+      {
+        "name": "mediaSize",
+        "type": "enum",
+        "enumValues": [
+          "thumbnail",
+          "medium",
+          "medium_large",
+          "large",
+          "full"
+        ],
+        "default": "full",
+        "description": "Tamanho da imagem do WordPress usada nos previews."
+      },
+      {
+        "name": "absoluteLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links do blog externo em nova aba."
+      },
+      {
+        "name": "ampLinks",
+        "type": "boolean",
+        "default": "false",
+        "description": "Abre links AMP do blog externo em nova aba."
+      },
+      {
+        "name": "ampUrlFormat",
+        "type": "enum",
+        "enumValues": [
+          "ampPathSuffix",
+          "ampQuery",
+          "ampQueryValue"
+        ],
+        "default": "ampPathSuffix",
+        "description": "Estrutura da URL AMP."
+      }
+    ]
+  },
+  {
+    "appName": "vtex.blog-interfaces",
+    "blockName": "blog-breadcrumb",
+    "description": "Breadcrumb de navegacao do blog.",
+    "props": []
   }
 ]

@@ -1,7 +1,7 @@
 {
   // ============================================================
   //  VTEX IO STORE FRAMEWORK — SNIPPETS (auto-gerado da doc oficial)
-  //  370 blocos. Digite o nome do bloco ou o atalho "v-".
+  //  385 blocos. Digite o nome do bloco ou o atalho "v-".
   //  Os props sao autocompletados pelo JSON Schema da extensao.
   // ============================================================
   "accepted-payment-methods": {
@@ -241,6 +241,201 @@
       "}"
     ],
     "description": "A button that redirects users to the top of the page when clicked. Can be rendered as a text button or a caret icon, and becomes visible after a configurable scroll threshold. (vtex.store-components)"
+  },
+  "blog-all-posts": {
+    "prefix": [
+      "blog-all-posts",
+      "v-blog-all-posts"
+    ],
+    "body": [
+      "\"blog-all-posts#${1:id}\": {",
+      "  \"props\": {",
+      "    \"postsPerPage\": ${2:0},",
+      "    \"mediaSize\": \"${3|thumbnail,medium,medium_large,large,full|}\",",
+      "    \"excerptLink\": ${4|true,false|},",
+      "    \"ampLinks\": ${5|true,false|},",
+      "    \"ampUrlFormat\": \"${6|ampPathSuffix,ampQuery,ampQueryValue|}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Lista paginada de todos os posts do blog. (vtex.blog-interfaces)"
+  },
+  "blog-breadcrumb": {
+    "prefix": [
+      "blog-breadcrumb",
+      "v-blog-breadcrumb"
+    ],
+    "body": [
+      "\"blog-breadcrumb#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Breadcrumb de navegacao do blog. (vtex.blog-interfaces)"
+  },
+  "blog-category-list": {
+    "prefix": [
+      "blog-category-list",
+      "v-blog-category-list"
+    ],
+    "body": [
+      "\"blog-category-list#${1:id}\": {",
+      "  \"props\": {",
+      "    \"mediaSize\": \"${2|thumbnail,medium,medium_large,large,full|}\",",
+      "    \"ampLinks\": ${3|true,false|},",
+      "    \"ampUrlFormat\": \"${4|ampPathSuffix,ampQuery,ampQueryValue|}\",",
+      "    \"excerptLink\": ${5|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Lista paginada dos posts de uma categoria. (vtex.blog-interfaces)"
+  },
+  "blog-category-preview": {
+    "prefix": [
+      "blog-category-preview",
+      "v-blog-category-preview"
+    ],
+    "body": [
+      "\"blog-category-preview#${1:id}\": {",
+      "  \"props\": {",
+      "    \"category\": ${2:0},",
+      "    \"title\": \"${3}\",",
+      "    \"description\": \"${4}\",",
+      "    \"customLinkText\": \"${5}\",",
+      "    \"customLinkTarget\": \"${6}\",",
+      "    \"numberOfPosts\": ${7:0}",
+      "  }",
+      "}"
+    ],
+    "description": "Preview dos posts de uma categoria do blog. (vtex.blog-interfaces)"
+  },
+  "blog-latest-posts-preview": {
+    "prefix": [
+      "blog-latest-posts-preview",
+      "v-blog-latest-posts-preview"
+    ],
+    "body": [
+      "\"blog-latest-posts-preview#${1:id}\": {",
+      "  \"props\": {",
+      "    \"title\": \"${2}\",",
+      "    \"numberOfPosts\": ${3:0},",
+      "    \"tags\": [${4}],",
+      "    \"excludeTags\": [${5}],",
+      "    \"excludeCategories\": [${6}],",
+      "    \"useTextOverlays\": ${7|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Preview dos posts mais recentes do blog. (vtex.blog-interfaces)"
+  },
+  "blog-page-details": {
+    "prefix": [
+      "blog-page-details",
+      "v-blog-page-details"
+    ],
+    "body": [
+      "\"blog-page-details#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Conteudo detalhado de uma pagina do blog. (vtex.blog-interfaces)"
+  },
+  "blog-post-container": {
+    "prefix": [
+      "blog-post-container",
+      "v-blog-post-container"
+    ],
+    "body": [
+      "\"blog-post-container#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Container/contexto da pagina de post do blog (use children). (vtex.blog-interfaces)"
+  },
+  "blog-post-details": {
+    "prefix": [
+      "blog-post-details",
+      "v-blog-post-details"
+    ],
+    "body": [
+      "\"blog-post-details#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Conteudo detalhado de um post do blog. (vtex.blog-interfaces)"
+  },
+  "blog-post-navigation": {
+    "prefix": [
+      "blog-post-navigation",
+      "v-blog-post-navigation"
+    ],
+    "body": [
+      "\"blog-post-navigation#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Navegacao para o post anterior/proximo. (vtex.blog-interfaces)"
+  },
+  "blog-related-posts": {
+    "prefix": [
+      "blog-related-posts",
+      "v-blog-related-posts"
+    ],
+    "body": [
+      "\"blog-related-posts#${1:id}\": {",
+      "  \"props\": {",
+      "    \"title\": \"${2}\",",
+      "    \"numberOfPosts\": ${3:0},",
+      "    \"useTextOverlays\": ${4|true,false|},",
+      "    \"showCategories\": ${5|true,false|},",
+      "    \"showDates\": ${6|true,false|},",
+      "    \"showAuthors\": ${7|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Posts relacionados ao post atual. (vtex.blog-interfaces)"
+  },
+  "blog-related-products": {
+    "prefix": [
+      "blog-related-products",
+      "v-blog-related-products"
+    ],
+    "body": [
+      "\"blog-related-products#${1:id}\": {",
+      "  \"props\": {}",
+      "}"
+    ],
+    "description": "Produtos relacionados ao post do blog. (vtex.blog-interfaces)"
+  },
+  "blog-search": {
+    "prefix": [
+      "blog-search",
+      "v-blog-search"
+    ],
+    "body": [
+      "\"blog-search#${1:id}\": {",
+      "  \"props\": {",
+      "    \"placeholder\": \"${2}\"",
+      "  }",
+      "}"
+    ],
+    "description": "Campo de busca de artigos do blog. (vtex.blog-interfaces)"
+  },
+  "blog-search-list": {
+    "prefix": [
+      "blog-search-list",
+      "v-blog-search-list"
+    ],
+    "body": [
+      "\"blog-search-list#${1:id}\": {",
+      "  \"props\": {",
+      "    \"mediaSize\": \"${2|thumbnail,medium,medium_large,large,full|}\",",
+      "    \"ampLinks\": ${3|true,false|},",
+      "    \"ampUrlFormat\": \"${4|ampPathSuffix,ampQuery,ampQueryValue|}\",",
+      "    \"excerptLink\": ${5|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Lista paginada dos resultados de busca do blog. (vtex.blog-interfaces)"
   },
   "breadcrumb": {
     "prefix": [
@@ -4543,6 +4738,39 @@
       "}"
     ],
     "description": "Search bar block for VTEX IO storefronts, providing autocomplete, customizable display modes, and configurable input behavior. (vtex.store-components)"
+  },
+  "search-blog-articles-list": {
+    "prefix": [
+      "search-blog-articles-list",
+      "v-search-blog-articles-list"
+    ],
+    "body": [
+      "\"search-blog-articles-list#${1:id}\": {",
+      "  \"props\": {",
+      "    \"postsPerPage\": ${2:0}",
+      "  }",
+      "}"
+    ],
+    "description": "Lista paginada de artigos do blog na busca. (vtex.blog-interfaces)"
+  },
+  "search-blog-articles-preview": {
+    "prefix": [
+      "search-blog-articles-preview",
+      "v-search-blog-articles-preview"
+    ],
+    "body": [
+      "\"search-blog-articles-preview#${1:id}\": {",
+      "  \"props\": {",
+      "    \"numberOfPosts\": ${2:0},",
+      "    \"useTextOverlays\": ${3|true,false|},",
+      "    \"showCategories\": ${4|true,false|},",
+      "    \"showDates\": ${5|true,false|},",
+      "    \"showAuthors\": ${6|true,false|},",
+      "    \"showExcerpts\": ${7|true,false|}",
+      "  }",
+      "}"
+    ],
+    "description": "Preview dos artigos do blog na pagina de busca. (vtex.blog-interfaces)"
   },
   "search-content": {
     "prefix": [

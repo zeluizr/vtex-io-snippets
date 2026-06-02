@@ -3,11 +3,11 @@
   "summary": {
     "appsAnalyzed": 65,
     "requiredBlocks": 393,
-    "coveredRequired": 366,
-    "coveragePct": 93,
-    "missingApps": 3,
+    "coveredRequired": 381,
+    "coveragePct": 97,
+    "missingApps": 2,
     "orphanBlocks": 2,
-    "acceptedGaps": 27,
+    "acceptedGaps": 12,
     "newGaps": 0
   },
   "perApp": [
@@ -28,28 +28,12 @@
       "branch": "master",
       "total": 15,
       "required": 15,
-      "covered": 0,
-      "missing": [
-        "blog-all-posts",
-        "blog-latest-posts-preview",
-        "blog-category-preview",
-        "blog-category-list",
-        "blog-post-container",
-        "blog-post-details",
-        "blog-post-navigation",
-        "blog-page-details",
-        "blog-search",
-        "search-blog-articles-preview",
-        "search-blog-articles-list",
-        "blog-search-list",
-        "blog-related-products",
-        "blog-related-posts",
-        "blog-breadcrumb"
-      ],
+      "covered": 15,
+      "missing": [],
       "deprecated": [],
       "context": [],
       "abstract": [],
-      "pct": 0
+      "pct": 100
     },
     {
       "app": "vtex.breadcrumb",
@@ -881,7 +865,6 @@
     }
   ],
   "missingApps": [
-    "vtex.blog-interfaces",
     "vtex.pwa-components",
     "vtex.sandbox"
   ],
@@ -890,19 +873,6 @@
     "login-content"
   ],
   "allMissing": [
-    "blog-all-posts",
-    "blog-breadcrumb",
-    "blog-category-list",
-    "blog-category-preview",
-    "blog-latest-posts-preview",
-    "blog-page-details",
-    "blog-post-container",
-    "blog-post-details",
-    "blog-post-navigation",
-    "blog-related-posts",
-    "blog-related-products",
-    "blog-search",
-    "blog-search-list",
     "filter-navigator",
     "filter-navigator.v1",
     "filter-navigator.v2",
@@ -912,8 +882,6 @@
     "sandbox",
     "sandbox.order",
     "sandbox.product",
-    "search-blog-articles-list",
-    "search-blog-articles-preview",
     "store.offline",
     "store.product.sellertest",
     "total-products"

@@ -2,11 +2,14 @@
   "name": "vtex-io-intellisense",
   "displayName": "VTEX IO Store Framework Snippets",
   "description": "Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework: snippets dos blocos e props (com enums e validação) em store/blocks, routes e contentSchemas.",
-  "version": "2.1.6",
+  "version": "2.2.0",
   "publisher": "commenteme",
   "license": "MIT",
   "icon": "images/icon.png",
   "main": "./extension.js",
+  "scripts": {
+    "test": "node --test"
+  },
   "activationEvents": [
     "onLanguage:json",
     "onLanguage:jsonc"

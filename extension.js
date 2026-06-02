@@ -17,6 +17,12 @@
  */
 
 const vscode = require('vscode')
+const {
+  TOKEN_RE,
+  isStructuralKey,
+  isThemeBlockFilePath,
+  scanOccurrences,
+} = require('./lib/blocks')
 
 // Arquivos onde blocos sao definidos/referenciados num tema VTEX IO.
 // Cobre todo o store/** (store/blocks/**, store/home.jsonc, store/blocks.jsonc,
@@ -24,30 +30,9 @@ const vscode = require('vscode')
 const FILE_GLOB = '**/store/**/*.{json,jsonc}'
 const EXCLUDE_GLOB = '**/node_modules/**'
 
-// Arquivos sob store/ que NAO declaram blocos — ignorados na indexacao para
-// nao gerar definicoes/refs falsas (ex.: chaves de interfaces.json).
-const NON_BLOCK_FILES = new Set([
-  'interfaces.json', 'routes.json', 'manifest.json', 'widgets.json',
-  'content-types.json', 'content-schemas.json', 'sender.json', 'plugins.json',
-])
-
 function isThemeBlockFile(uri) {
-  const path = uri.path
-  if (!path.includes('/store/')) return false
-  const base = path.slice(path.lastIndexOf('/') + 1)
-  return !NON_BLOCK_FILES.has(base)
+  return isThemeBlockFilePath(uri.path)
 }
-
-// Token de um id de bloco (sem aspas): rich-text, flex-layout.row#hero-banner, store.home...
-const TOKEN_RE = /[A-Za-z0-9_][A-Za-z0-9_.#-]*/
-// Todos os strings JSON "simples" (que poderiam ser id de bloco) num arquivo.
-const QUOTED_RE = /"([A-Za-z0-9_][A-Za-z0-9_.#-]*)"/g
-
-// Chaves estruturais que nao sao blocos — ignoradas para nao poluir o indice.
-const STRUCTURAL_KEYS = new Set([
-  'props', 'children', 'blocks', 'before', 'after', 'around',
-  'title', 'then', 'else', 'component', 'context', 'content',
-])
 
 /** @type {Promise<Map<string, { defs: import('vscode').Location[], refs: import('vscode').Location[] }>> | null} */
 let indexPromise = null
@@ -80,18 +65,9 @@ async function buildIndex() {
       continue
     }
     const text = doc.getText()
-    QUOTED_RE.lastIndex = 0
-    let m
-    while ((m = QUOTED_RE.exec(text)) !== null) {
-      const id = m[1]
-      if (STRUCTURAL_KEYS.has(id)) continue
-      // posicao apos a aspa de fechamento -> proximo char nao-branco decide def x ref
-      let j = m.index + m[0].length
-      while (j < text.length && (text[j] === ' ' || text[j] === '\t' || text[j] === '\n' || text[j] === '\r')) j++
-      const isDef = text[j] === ':'
-
-      const start = doc.positionAt(m.index + 1) // dentro das aspas
-      const end = doc.positionAt(m.index + 1 + id.length)
+    for (const { id, isDef, index: at } of scanOccurrences(text)) {
+      const start = doc.positionAt(at + 1) // dentro das aspas
+      const end = doc.positionAt(at + 1 + id.length)
       const loc = new vscode.Location(uri, new vscode.Range(start, end))
 
       let entry = index.get(id)
@@ -110,7 +86,7 @@ function blockIdAt(document, position) {
   const range = document.getWordRangeAtPosition(position, TOKEN_RE)
   if (!range) return null
   const id = document.getText(range)
-  if (!id || STRUCTURAL_KEYS.has(id)) return null
+  if (!id || isStructuralKey(id)) return null
   return id
 }
 
