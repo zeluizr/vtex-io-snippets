@@ -81,30 +81,43 @@ async function buildIndex() {
   return index
 }
 
-/** Extrai o id de bloco sob o cursor, ou null. */
+/**
+ * Extrai o id de bloco sob o cursor com o range do TOKEN COMPLETO, ou null.
+ * Importante: o range vem de TOKEN_RE (que inclui `.`, `#`, `-`), não do
+ * word-range padrao do editor — que quebra em `.`/`#`/`-` e faria o link de
+ * Go to Definition / o hover cobrirem só um pedaco do id (ex.: so "context"
+ * em "list-context.image-list#hero-banner").
+ */
 function blockIdAt(document, position) {
   const range = document.getWordRangeAtPosition(position, TOKEN_RE)
   if (!range) return null
   const id = document.getText(range)
   if (!id || isStructuralKey(id)) return null
-  return id
+  return { id, range }
 }
 
 const definitionProvider = {
   async provideDefinition(document, position) {
-    const id = blockIdAt(document, position)
-    if (!id) return undefined
-    const entry = (await getIndex()).get(id)
+    const hit = blockIdAt(document, position)
+    if (!hit) return undefined
+    const entry = (await getIndex()).get(hit.id)
     if (!entry || entry.defs.length === 0) return undefined
-    return entry.defs
+    // LocationLink com originSelectionRange = token inteiro -> o realce/clique
+    // do Cmd+hover cobre o id completo, não só a sub-palavra sob o cursor.
+    return entry.defs.map((loc) => ({
+      originSelectionRange: hit.range,
+      targetUri: loc.uri,
+      targetRange: loc.range,
+      targetSelectionRange: loc.range,
+    }))
   },
 }
 
 const referenceProvider = {
   async provideReferences(document, position, context) {
-    const id = blockIdAt(document, position)
-    if (!id) return undefined
-    const entry = (await getIndex()).get(id)
+    const hit = blockIdAt(document, position)
+    if (!hit) return undefined
+    const entry = (await getIndex()).get(hit.id)
     if (!entry) return undefined
     const out = entry.refs.slice()
     if (context && context.includeDeclaration) out.push(...entry.defs)
@@ -114,9 +127,9 @@ const referenceProvider = {
 
 const hoverProvider = {
   async provideHover(document, position) {
-    const id = blockIdAt(document, position)
-    if (!id) return undefined
-    const entry = (await getIndex()).get(id)
+    const hit = blockIdAt(document, position)
+    if (!hit) return undefined
+    const entry = (await getIndex()).get(hit.id)
     // exige ao menos uma referencia -> evita hover em nomes de prop (blockClass, label...)
     if (!entry || entry.defs.length === 0 || entry.refs.length === 0) return undefined
 
@@ -128,10 +141,11 @@ const hoverProvider = {
       const arg = encodeURIComponent(JSON.stringify([loc.uri.toString(), { selection: loc.range }]))
       return `- [\`${rel}:${line}\`](command:vscode.open?${arg})`
     })
-    md.appendMarkdown(`**Bloco** \`${id}\` — definido em:\n${lines.join('\n')}`)
+    md.appendMarkdown(`**Bloco** \`${hit.id}\` — definido em:\n${lines.join('\n')}`)
     const refCount = entry.refs.length
     if (refCount > 0) md.appendMarkdown(`\n\n${refCount} referência${refCount > 1 ? 's' : ''} no tema.`)
-    return new vscode.Hover(md)
+    // range = token inteiro -> a area de hover cobre o id completo.
+    return new vscode.Hover(md, hit.range)
   },
 }
 

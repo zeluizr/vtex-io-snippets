@@ -1,5 +1,9 @@
 # Changelog
 
+## 2.2.2
+
+- **Correção da navegação entre blocos**: o link de _Go to Definition_ (Cmd/Ctrl+clique) e a área de _hover_ agora cobrem o **id do bloco inteiro**, não só a sub-palavra sob o cursor. Antes, como o provider retornava `Location[]`, o VS Code usava o word-range padrão do JSON (que quebra em `.`/`#`/`-`) e sublinhava só um trecho (ex.: só `context` em `list-context.image-list#hero-banner`). Agora o `provideDefinition` retorna `LocationLink[]` com `originSelectionRange` no token completo e o `Hover` recebe esse range.
+
 ## 2.2.1
 
 - **GIF de demonstração** atualizado com 3 cenas (em espanhol): autocomplete aninhado (`slider-layout > itemsPerPage`), navegação entre blocos (Go to Definition/hover) e cobertura do blog. Gerado por `scripts/make-demo.js`.
