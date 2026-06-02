@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.1
+
+- **GIF de demonstração** atualizado com 3 cenas (em espanhol): autocomplete aninhado (`slider-layout > itemsPerPage`), navegação entre blocos (Go to Definition/hover) e cobertura do blog. Gerado por `scripts/make-demo.js`.
+- **README** ampliado: tabela de capacidades, seção de props anidadas, instruções de testes (`node --test`) e legenda do GIF.
+
 ## 2.2.0
 
 - **Cobertura do blog** (`vtex.blog-interfaces`, +15 blocos): `blog-all-posts`, `blog-latest-posts-preview`, `blog-category-preview`/`-list`, `blog-post-container`/`-details`, `blog-post-navigation`, `blog-page-details`, `blog-search`/`-list`, `search-blog-articles-preview`/`-list`, `blog-related-products`/`-posts`, `blog-breadcrumb` — props extraídas da doc oficial (`vtex.wordpress-integration`). Cobertura global **93% → 97%** (381/393). Blog removido da lista de gaps aceitos.
