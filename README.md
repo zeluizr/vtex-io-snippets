@@ -1,155 +1,74 @@
-<p align="center">
-  <img src="images/icon.png" width="96" alt="VTEX IO Store Framework Snippets" />
-</p>
+<div align="center">
 
-<h1 align="center">VTEX IO Store Framework Snippets</h1>
+  <h1>Vtex Io Snippet</h1>
 
-<p align="center">
-  Snippets, autocompletado de props (incluso <strong>anidadas</strong>) y navegación entre bloques de VTEX IO Store Framework.
-</p>
+  <p><em>Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework: snippets dos blocos e props (com enums e validação) em store/blocks, routes e contentSchemas.</em></p>
 
-<p align="center">
-  <a href="https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense"><img src="https://img.shields.io/visual-studio-marketplace/v/commenteme.vtex-io-intellisense?label=VS%20Marketplace&color=F71963" alt="Marketplace" /></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense"><img src="https://img.shields.io/visual-studio-marketplace/i/commenteme.vtex-io-intellisense?color=F71963" alt="Instalaciones" /></a>
-  <a href="https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense"><img src="https://img.shields.io/visual-studio-marketplace/r/commenteme.vtex-io-intellisense?color=F71963" alt="Rating" /></a>
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT" />
-</p>
+  <p>
+    <a href="https://github.com/zeluizr/vtex-io-snippets/actions"><img alt="CI" src="https://badgen.net/github/checks/zeluizr/vtex-io-snippets"></a>
+    <a href="https://www.npmjs.com/package/vtex-io-intellisense"><img alt="npm" src="https://badgen.net/npm/v/vtex-io-intellisense"></a>
+    <a href="https://www.npmjs.com/package/vtex-io-intellisense"><img alt="downloads" src="https://badgen.net/npm/dm/vtex-io-intellisense"></a>
+    <a href="./LICENSE"><img alt="license" src="https://badgen.net/github/license/zeluizr/vtex-io-snippets"></a>
+    <a href="https://github.com/zeluizr/vtex-io-snippets/stargazers"><img alt="stars" src="https://badgen.net/github/stars/zeluizr/vtex-io-snippets"></a>
+    <a href="https://github.com/zeluizr/vtex-io-snippets/commits"><img alt="last commit" src="https://badgen.net/github/last-commit/zeluizr/vtex-io-snippets"></a>
+    <img alt="PRs" src="https://badgen.net/badge/PRs/welcome/green">
+  </p>
 
-<p align="center">
-  <img src="images/demo.gif" alt="Autocompletado anidado, navegación entre bloques y cobertura del blog en VS Code" width="760" />
-</p>
+  <p>
+    <img alt="JavaScript" src="https://badgen.net/badge/JavaScript/lang/yellow">
+    <img alt="Node.js" src="https://badgen.net/badge/Node.js/runtime/green">
+  </p>
 
-<p align="center"><sub>Autocompletado anidado · navegación entre bloques (Cmd+clic) · cobertura del blog</sub></p>
+  <p>
+    <a href="#-acerca-de">Acerca de</a> ·
+    <a href="#-instalación">Instalación</a> ·
+    <a href="#-uso">Uso</a> ·
+    <a href="#-scripts">Scripts</a> ·
+    <a href="#-licencia">Licencia</a> ·
+    <a href="#-autor">Autor</a>
+  </p>
+
+</div>
 
 ---
 
-Extensión de VS Code que acelera la escritura de los archivos de tema de VTEX IO Store Framework (`store/blocks.json`, `store/blocks/*.jsonc`, `store/home.jsonc`, `store/routes.json`, `store/contentSchemas.json`). **Sin configuración** y sin dependencias de runtime.
+## 📖 Acerca de
 
-## ¿Qué hace?
+Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework: snippets dos blocos e props (com enums e validação) em store/blocks, routes e contentSchemas.
 
-| | Capacidad | Detalle |
-|---|---|---|
-| 🧩 | **Snippets de bloques** | Escribe el nombre del bloque e inserta el bloque completo, con placeholders navegables con Tab. |
-| 💡 | **IntelliSense de props** | Dentro de un bloque sugiere las **props válidas**, con **enums**, **defaults** y **descripciones** (JSON Schema). |
-| 🪆 | **Props anidadas** | Autocompleta los **subcampos de props que son objetos/arrays** (`itemsPerPage`, `hiddenFacets`, `link`, `items`…). |
-| 🔗 | **Navegación entre bloques** | **Ir a la definición**, **buscar referencias** y **hover** entre bloques, incluso en otro archivo. |
+Una biblioteca publicada en npm.
 
-Cobertura actual: **385 bloques** de **~65 apps** del Store Framework, con **~1.340 props** documentadas, extraídas de la documentación oficial de VTEX. La cobertura frente al ground-truth (los `store/interfaces.json` de cada app) es del **97 %** de los bloques nativos exigidos.
-
-## Instalación
-
-- **Marketplace:** busca **"VTEX IO Store Framework Snippets"** en la pestaña Extensions de VS Code, o instala por CLI:
-  ```bash
-  code --install-extension commenteme.vtex-io-intellisense
-  ```
-- **Manual (.vsix):** descarga el `.vsix` desde [Releases](https://github.com/zeluizr/vtex-io-snippets/releases) y ejecuta `code --install-extension vtex-io-intellisense-*.vsix`.
-
-## Uso
-
-### Insertar un bloque (snippets)
-
-En cualquier archivo `.json`/`.jsonc` del tema, escribe el **nombre del bloque** (ej.: `flex-layout.row`, `rich-text`, `product-summary.shelf`) o el atajo corto `v-` (ej.: `v-flex-row`). Usa **Tab** para navegar por los placeholders.
-
-```jsonc
-"rich-text#hero": {
-  "props": {
-    "text": "Texto en **Markdown**",
-    "textAlignment": "CENTER"
-  }
-}
-```
-
-### Autocompletar props (IntelliSense)
-
-Dentro de `"props": { }` de un bloque, presiona `Ctrl+Espacio` y el editor lista las props de ese bloque con sus opciones. Funciona en:
-
-- `store/blocks.json` / `store/blocks.jsonc`
-- `store/blocks/**/*.json` / `store/blocks/**/*.jsonc`
-- cualquier `*.jsonc` bajo `store/**` (p. ej. `store/home.jsonc`)
-
-> Para que las sugerencias aparezcan **mientras escribes** (y no solo con `Ctrl+Espacio`), activa las sugerencias en strings en tu `settings.json`:
-> ```json
-> "[jsonc]": { "editor.quickSuggestions": { "strings": true } },
-> "[json]":  { "editor.quickSuggestions": { "strings": true } }
-> ```
-> Asegúrate también de que los `.jsonc` estén en el modo de lenguaje **JSON with Comments**.
-
-### Props anidadas (objetos y arrays)
-
-Cuando una prop es un **objeto** o un **array de objetos**, el autocompletado entra en sus **subcampos** en lugar de sugerir nombres de bloque. Cubre, entre otros:
-
-- `slider-layout` → `itemsPerPage`, `autoplay`, `slideTransition` (`desktop`/`tablet`/`phone`, `timeout`…)
-- `search-result-layout(.desktop/.mobile)` → `hiddenFacets` (`brands`, `categories`, `specificationFilters`…), `mobileLayout`
-- `image` / `list-context.image-list` → `link` (`url`, `noFollow`…), `images[]`
-- `menu` → `items[]` (`type`, `itemProps`, `iconProps`…)
-- `product-summary-image` → `hoverImage`, `aspectRatio`/`maxHeight`/`width`/`height` (responsivos)
-- `product-installments`, `share`, `order-by.v2`, `product-specifications`
-
-```jsonc
-"slider-layout#shelf": {
-  "props": {
-    "itemsPerPage": { "desktop": 4, "tablet": 3, "phone": 1 }
-  }
-}
-```
-
-### Navegar entre bloques
-
-En los archivos de tema bajo `store/**` (incluye `store/blocks/**`, `store/home.jsonc`, `store/blocks.jsonc` y subcarpetas), los ids de bloque se vuelven navegables:
-
-- **Ir a la definición** (`Cmd/Ctrl+clic` o `F12`): desde una referencia en `children`/`blocks`/`before`/`after`/`around` salta a donde el bloque está definido (`"id": { … }`), incluso en otro archivo.
-- **Buscar todas las referencias** (`Shift+F12`): lista todos los usos del bloque en el tema.
-- **Hover**: muestra en qué archivo y línea está definido el bloque y cuántas referencias tiene.
-
-## Cobertura
-
-Bloques nativos de VTEX IO Store Framework cubiertos por snippets + schema de props:
-
-- **Layout:** `flex-layout.row/col`, `slider-layout`, `responsive-layout`, `condition-layout`, `tab-layout`, `modal-layout`, `sticky-layout`, `stack-layout`, `disclosure-layout`, `overlay-layout`
-- **Contenido:** `rich-text`, `image`, `info-card`, `call-to-action`, `newsletter`
-- **Header/Footer:** `header-layout`, `footer-layout`, `logo`, `search-bar`, `minicart`, `login`, `menu`, `drawer`
-- **PDP:** `product-images`, `product-name`, `product-identifier`, precios (`product-selling-price`, `product-list-price`, `product-installments`), `product-quantity`, `sku-selector`, `buy-button`, `product-description`, `product-specifications`, `product-gifts`, `product-highlights`, `share`, `breadcrumb`
-- **Vitrina:** `product-summary.shelf`, `product-summary-*`, `shelf`, `add-to-cart-button`, `list-context.product-list`
-- **Búsqueda:** `search-result-layout(.desktop/.mobile)`, `gallery`, `filter-navigator.v3`, `order-by.v2`, `total-products.v2`
-- **Plantillas de página:** `store.home`, `store.product`, `store.search`, `store.custom`, `store.account`, etc.
-- **Reseñas / regionalización:** `reviews-and-ratings`, `product-reviews`, `delivery-promise-components`, `shipping-option-components`
-- **Blog (`vtex.blog-interfaces`):** `blog-all-posts`, `blog-latest-posts-preview`, `blog-category-preview/list`, `blog-post-container/details`, `blog-post-navigation`, `blog-page-details`, `blog-search(-list)`, `search-blog-articles-preview/list`, `blog-related-products/posts`, `blog-breadcrumb`
-
-> El schema es **tolerante**: solo valida estrictamente **enums** y **booleanos**; el resto de props mantiene autocompletado de nombre + descripción sin marcar valores válidos como error.
-
-Quedan **fuera de alcance** (intencionalmente): `sandbox`, `pwa-components` y las versiones legadas `filter-navigator.v1/v2`, `order-by` (v1) y `total-products` (v1), ya que existen las versiones actuales.
-
-## Cómo se construyó
-
-- Los datos de props se extraen de la **documentación oficial de VTEX** mediante un proceso automatizado y se consolidan en `data/blocks.json`.
-- `scripts/generate-schema.js` genera de forma **determinística** el JSON Schema (`schemas/vtex-blocks.schema.json`) y los snippets (`snippets/vtex-io.code-snippets`) a partir de esos datos.
-- `scripts/check-coverage.js` audita la cobertura contra el **ground-truth**: el `store/interfaces.json` de cada app de VTEX (la lista autoritativa de bloques). Genera `docs/coverage-report.md` y `data/coverage.json`.
-- Una **GitHub Action** (`.github/workflows/coverage.yml`) ejecuta esa auditoría semanalmente, abre/actualiza automáticamente un *issue* cuando VTEX agrega bloques nuevos sin cobertura (label `coverage-gap`) y lo cierra cuando se resuelven.
-- La navegación entre bloques (`extension.js`) apoya su lógica pura en `lib/blocks.js` (sin dependencia de `vscode`), cubierta por una **suite de tests** con `node:test`.
-- **GitHub Actions:** `publish.yml` publica en el Marketplace y adjunta el `.vsix` al Release al crear un tag `v*`; `test.yml` corre los tests y verifica que el schema generado sea determinístico en cada push/PR.
-
-## Contribuir
-
-Para regenerar el schema y los snippets tras actualizar `data/blocks.json`:
+## 📦 Instalación
 
 ```bash
-node scripts/generate-schema.js
+pnpm add vtex-io-intellisense
 ```
 
-Para auditar la cobertura localmente:
+## 💻 Uso
 
-```bash
-node scripts/check-coverage.js
+```ts
+import { /* ... */ } from 'vtex-io-intellisense'
 ```
 
-Para correr los tests:
+## 📜 Scripts
 
-```bash
-npm test   # o: node --test
-```
+| Comando | Qué hace |
+| --- | --- |
+| `pnpm test` | `node --test` |
 
-Si decides **no cubrir** un bloque (aceptar el gap), agrega su ID en `data/coverage-accepted.json` y el *issue* automático se cerrará en la próxima auditoría.
+## 📄 Licencia
 
-## Licencia
+Distribuido bajo la licencia MIT. Ver [`LICENSE`](./LICENSE).
 
-MIT
+## 👤 Autor
+
+**José Luiz Rodrigues**
+
+<a href="https://github.com/zeluizr"><img alt="GitHub" src="https://badgen.net/badge/GitHub/zeluizr/black?icon=github"></a>
+<a href="https://www.npmjs.com/~zeluizr"><img alt="npm" src="https://badgen.net/badge/npm/zeluizr/red?icon=npm"></a>
+
+---
+
+<div align="center">
+  <sub>Hecho con ☕ por <a href="https://github.com/zeluizr">@zeluizr</a></sub>
+</div>
