@@ -1,79 +1,37 @@
-<div align="center">
+# VTEX IO Snippets
 
-  <h1>Vtex Io Snippets</h1>
+**Autocompletado, IntelliSense y snippets para los bloques del VTEX IO Store Framework.**
 
-  <p><em>Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework: snippets dos blocos e props (com enums e validação) em store/blocks, routes e contentSchemas.</em></p>
+[![vs marketplace](https://badgen.net/vs-marketplace/v/commenteme.vtex-io-intellisense?label=marketplace&color=F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
+[![instalaciones](https://badgen.net/vs-marketplace/d/commenteme.vtex-io-intellisense?label=instalaciones&color=F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
+[![licencia](https://badgen.net/github/license/zeluizr/vtex-io-snippets?label=licencia&color=F71963)](./LICENSE)
 
-  <p>
-    <a href="https://github.com/zeluizr/vtex-io-snippets/actions"><img alt="CI" src="https://badgen.net/github/checks/zeluizr/vtex-io-snippets"></a>
-    <a href="https://www.npmjs.com/package/vtex-io-intellisense"><img alt="npm" src="https://badgen.net/npm/v/vtex-io-intellisense"></a>
-    <a href="https://www.npmjs.com/package/vtex-io-intellisense"><img alt="downloads" src="https://badgen.net/npm/dm/vtex-io-intellisense"></a>
-    <a href="./LICENSE"><img alt="license" src="https://badgen.net/github/license/zeluizr/vtex-io-snippets"></a>
-    <a href="https://github.com/zeluizr/vtex-io-snippets/stargazers"><img alt="stars" src="https://badgen.net/github/stars/zeluizr/vtex-io-snippets"></a>
-    <a href="https://github.com/zeluizr/vtex-io-snippets/commits"><img alt="last commit" src="https://badgen.net/github/last-commit/zeluizr/vtex-io-snippets"></a>
-    <img alt="PRs" src="https://badgen.net/badge/PRs/welcome/green">
-  </p>
-
-  <p>
-    <img alt="JavaScript" src="https://badgen.net/badge/JavaScript/lang/yellow">
-    <img alt="Node.js" src="https://badgen.net/badge/Node.js/runtime/green">
-  </p>
-
-  <p>
-    <a href="#-acerca-de">Acerca de</a> ·
-    <a href="#-instalación">Instalación</a> ·
-    <a href="#-uso">Uso</a> ·
-    <a href="#-scripts">Scripts</a> ·
-    <a href="#-changelog">Changelog</a> ·
-    <a href="#-licencia">Licencia</a> ·
-    <a href="#-autor">Autor</a>
-  </p>
-
-</div>
+Extensión de VS Code que agrega snippets de bloques y props (con enums y validación) en
+`store/blocks`, rutas y contentSchemas, más validación de JSON en los archivos de tu tema.
 
 ---
 
-## 📖 Acerca de
+## Instalación
 
-Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework: snippets dos blocos e props (com enums e validação) em store/blocks, routes e contentSchemas.
+Desde el **VS Code Marketplace**: busca **«VTEX IO Store Framework Snippets»**, o instálala
+desde Quick Open (`Cmd/Ctrl + P`):
 
-Una biblioteca publicada en npm.
-
-## 📦 Instalación
-
-```bash
-pnpm add vtex-io-intellisense
+```
+ext install commenteme.vtex-io-intellisense
 ```
 
-## 💻 Uso
+## Uso
 
-```ts
-import { /* ... */ } from 'vtex-io-intellisense'
-```
+1. Abre un tema de **VTEX IO Store Framework**.
+2. En los archivos `.json` / `.jsonc` de `store/` (por ejemplo `store/blocks/*.jsonc`), empieza
+   a escribir el nombre de un bloque para disparar el snippet y el autocompletado.
+3. Las props se autocompletan con sus **enums** y se **validan** contra el esquema de bloques
+   (`blocks.json`, `store/blocks/**/*.json`, `store/**/*.jsonc`).
 
-## 📜 Scripts
-
-| Comando | Qué hace |
-| --- | --- |
-| `pnpm test` | `node --test` |
-
-## 📝 Changelog
-
-Consulta el historial de cambios en [`CHANGELOG.md`](./CHANGELOG.md).
-
-## 📄 Licencia
-
-Distribuido bajo la licencia MIT. Ver [`LICENSE`](./LICENSE).
-
-## 👤 Autor
-
-**José Luiz Rodrigues**
-
-<a href="https://github.com/zeluizr"><img alt="GitHub" src="https://badgen.net/badge/GitHub/zeluizr/black?icon=github"></a>
-<a href="https://www.npmjs.com/~zeluizr"><img alt="npm" src="https://badgen.net/badge/npm/zeluizr/red?icon=npm"></a>
+No necesita configuración: la validación de JSON se activa sola en esos archivos.
 
 ---
 
-<div align="center">
-  <sub>Hecho con ☕ por <a href="https://github.com/zeluizr">@zeluizr</a></sub>
-</div>
+vtex-io-snippets es **open source** bajo licencia [MIT](./LICENSE).
+
+_Hecho con amor y café por [zeluizr](https://github.com/zeluizr) y con la ayuda de [Claude](https://claude.ai/referral/Cz_UimA0NQ) ☕_
