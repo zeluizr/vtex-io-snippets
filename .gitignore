@@ -1,3 +1,8 @@
 node_modules/
 *.vsix
 .DS_Store
+
+# secrets / local env
+.env
+.env.*
+!.env.example
