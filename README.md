@@ -28,7 +28,22 @@ ext install commenteme.vtex-io-intellisense
 3. Las props se autocompletan con sus **enums** y se **validan** contra el esquema de bloques
    (`blocks.json`, `store/blocks/**/*.json`, `store/**/*.jsonc`).
 
-No necesita configuración: la validación de JSON se activa sola en esos archivos.
+No necesita configuración: la extensión ya activa `editor.tabCompletion` y las sugerencias
+dentro de strings para `json` / `jsonc`, y la validación de JSON se enciende sola en esos archivos.
+
+## Solución de problemas
+
+**El snippet no se expande al pulsar `Tab`.** `Tab` sólo expande cuando el texto a la izquierda
+del cursor identifica un snippet: si `flex-` no basta, escribe el prefijo completo
+(`flex-layout.row`) y pulsa `Tab`. Si prefieres elegir de una lista, abre el desplegable de
+sugerencias y acepta con `Enter`.
+
+**`Ctrl + Espacio` no abre las sugerencias (macOS).** macOS se queda con ese atajo para
+*Seleccionar la fuente de entrada anterior*, así que nunca llega a VS Code. Dos salidas:
+
+- Usa `Cmd + I`, que también dispara las sugerencias en VS Code.
+- O libera el atajo en **Ajustes del Sistema → Teclado → Atajos de teclado → Fuentes de entrada**
+  y desmarca *Seleccionar la fuente de entrada anterior*.
 
 ---
 
