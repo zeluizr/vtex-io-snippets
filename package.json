@@ -2,7 +2,7 @@
   "name": "vtex-io-intellisense",
   "displayName": "VTEX IO Store Framework Snippets",
   "description": "Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework: snippets dos blocos e props (com enums e validação) em store/blocks, routes e contentSchemas.",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "publisher": "commenteme",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -44,26 +44,14 @@
     "url": "https://github.com/zeluizr/vtex-io-snippets.git"
   },
   "contributes": {
-    "snippets": [
-      {
-        "language": "json",
-        "path": "./snippets/vtex-io.code-snippets"
-      },
-      {
-        "language": "jsonc",
-        "path": "./snippets/vtex-io.code-snippets"
-      }
-    ],
     "configurationDefaults": {
       "[json]": {
-        "editor.tabCompletion": "onlySnippets",
         "editor.quickSuggestions": {
           "strings": true
         },
         "editor.suggest.snippetsPreventQuickSuggestions": false
       },
       "[jsonc]": {
-        "editor.tabCompletion": "onlySnippets",
         "editor.quickSuggestions": {
           "strings": true
         },

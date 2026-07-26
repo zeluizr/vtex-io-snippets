@@ -28,15 +28,19 @@ ext install commenteme.vtex-io-intellisense
 3. Las props se autocompletan con sus **enums** y se **validan** contra el esquema de bloques
    (`blocks.json`, `store/blocks/**/*.json`, `store/**/*.jsonc`).
 
-No necesita configuración: la extensión ya activa `editor.tabCompletion` y las sugerencias
-dentro de strings para `json` / `jsonc`, y la validación de JSON se enciende sola en esos archivos.
+Las sugerencias son **sensibles al contexto**: el bloque completo sólo aparece en la raíz del
+archivo, donde de verdad se define; dentro de `children` / `blocks` / `before` / `after` /
+`around` se sugieren los **ids ya definidos** en el tema; y dentro de `props` sólo manda el
+esquema, con las propiedades del bloque.
+
+No necesita configuración: la extensión activa las sugerencias dentro de strings para
+`json` / `jsonc` y la validación de JSON se enciende sola en esos archivos.
 
 ## Solución de problemas
 
-**El snippet no se expande al pulsar `Tab`.** `Tab` sólo expande cuando el texto a la izquierda
-del cursor identifica un snippet: si `flex-` no basta, escribe el prefijo completo
-(`flex-layout.row`) y pulsa `Tab`. Si prefieres elegir de una lista, abre el desplegable de
-sugerencias y acepta con `Enter`.
+**No aparece ninguna sugerencia de bloque.** Sólo se ofrecen en archivos bajo `store/`, y el
+bloque completo únicamente en la raíz del archivo. Dentro de `props` es intencional que no
+aparezca: ahí sólo caben propiedades.
 
 **`Ctrl + Espacio` no abre las sugerencias (macOS).** macOS se queda con ese atajo para
 *Seleccionar la fuente de entrada anterior*, así que nunca llega a VS Code. Dos salidas:

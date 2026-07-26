@@ -7,6 +7,27 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [2.2.4] - 2026-07-26
+
+### Corregido
+- **Los bloques se sugerían dentro de `props`.** Los 385 bloques se declaraban con
+  `contributes.snippets`, y una contribución estática de snippet no conoce el contexto:
+  VS Code la ofrece en cualquier punto del archivo. Al escribir dentro de
+  `"props": { ... }` aparecía el catálogo entero, donde sólo caben propiedades.
+  No hay forma de filtrar una contribución estática, así que los bloques pasaron a
+  servirse desde un `CompletionItemProvider` que analiza la posición del cursor en el
+  JSON (`lib/context.js`).
+
+### Cambiado
+- Las sugerencias ahora dependen de dónde está el cursor:
+  - raíz del archivo → snippet del bloque completo;
+  - `children` / `blocks` / `before` / `after` / `around` → ids de bloques **ya definidos**
+    en el tema, tomados del índice del workspace;
+  - `props` y cualquier otro sitio → nada, manda el JSON Schema.
+- Sólo se sugiere en archivos de tema (bajo `store/`), no en cualquier `.json` abierto.
+- Se retira `editor.tabCompletion` de `configurationDefaults`: sin contribución estática
+  de snippets ya no tenía efecto. Se mantienen las sugerencias dentro de strings.
+
 ## [2.2.3] - 2026-07-26
 
 ### Corregido

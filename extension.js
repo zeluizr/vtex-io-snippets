@@ -16,6 +16,7 @@
  * do workspace, cacheado e invalidado quando algum arquivo de tema muda.
  */
 
+const path = require('path')
 const vscode = require('vscode')
 const {
   TOKEN_RE,
@@ -23,6 +24,8 @@ const {
   isThemeBlockFilePath,
   scanOccurrences,
 } = require('./lib/blocks')
+const { completionContext } = require('./lib/context')
+const { loadSnippets } = require('./lib/snippets')
 
 // Arquivos onde blocos sao definidos/referenciados num tema VTEX IO.
 // Cobre todo o store/** (store/blocks/**, store/home.jsonc, store/blocks.jsonc,
@@ -149,6 +152,83 @@ const hoverProvider = {
   },
 }
 
+/** @type {import('./lib/snippets').BlockSnippet[] | null} */
+let snippetCache = null
+
+function getSnippets() {
+  if (!snippetCache) {
+    snippetCache = loadSnippets(path.join(__dirname, 'snippets', 'vtex-io.code-snippets'))
+  }
+  return snippetCache
+}
+
+/**
+ * Range que a sugestao substitui. Dentro de uma string, precisa cobrir as ASPAS
+ * inteiras: o corpo do snippet ja comeca com `"` e, sem isso, aceitar a sugestao
+ * produziria `""rich-text#id": {`.
+ */
+function replaceRange(document, position, ctx) {
+  if (ctx.inString) {
+    const text = document.getText()
+    let end = document.offsetAt(position)
+    while (end < text.length && text[end] !== '"' && text[end] !== '\n') end++
+    if (text[end] === '"') end++
+    return new vscode.Range(document.positionAt(ctx.stringStart), document.positionAt(end))
+  }
+  return document.getWordRangeAtPosition(position, TOKEN_RE) || new vscode.Range(position, position)
+}
+
+/** Preview do corpo sem os placeholders (`${1:id}` -> `id`). */
+function previewOf(body) {
+  return body.replace(/\$\{\d+\|([^|}]*)[^}]*\}/g, '$1').replace(/\$\{\d+:?([^}]*)\}/g, '$1')
+}
+
+const completionProvider = {
+  async provideCompletionItems(document, position) {
+    if (!isThemeBlockFilePath(document.uri.path)) return undefined
+
+    const text = document.getText()
+    const ctx = completionContext(text, document.offsetAt(position))
+    if (ctx.kind === 'none') return undefined
+
+    const range = replaceRange(document, position, ctx)
+    const quoted = ctx.inString ? '"' : ''
+
+    if (ctx.kind === 'block-reference') {
+      // Dentro de children/blocks/before/... so cabe o ID de um bloco JA
+      // definido no tema — nao o corpo do bloco.
+      const index = await getIndex()
+      /** @type {import('vscode').CompletionItem[]} */
+      const items = []
+      for (const [id, entry] of index) {
+        if (entry.defs.length === 0) continue
+        const item = new vscode.CompletionItem(id, vscode.CompletionItemKind.Reference)
+        item.insertText = `${quoted}${id}${quoted}`
+        item.filterText = `${quoted}${id}`
+        item.range = range
+        item.detail = vscode.workspace.asRelativePath(entry.defs[0].uri)
+        items.push(item)
+      }
+      return items
+    }
+
+    return getSnippets().map((snip) => {
+      const item = new vscode.CompletionItem(snip.name, vscode.CompletionItemKind.Snippet)
+      item.insertText = new vscode.SnippetString(snip.body)
+      // o texto digitado inclui a aspa de abertura quando o range comeca nela;
+      // sem isso o filtro do VS Code nao casa e a lista aparece vazia.
+      item.filterText = `${quoted}${snip.name}`
+      item.range = range
+      item.detail = snip.description
+      const md = new vscode.MarkdownString()
+      if (snip.description) md.appendMarkdown(`${snip.description}\n\n`)
+      md.appendCodeblock(previewOf(snip.body), 'jsonc')
+      item.documentation = md
+      return item
+    })
+  },
+}
+
 function activate(context) {
   const selector = [
     { language: 'json', scheme: 'file' },
@@ -159,6 +239,7 @@ function activate(context) {
     vscode.languages.registerDefinitionProvider(selector, definitionProvider),
     vscode.languages.registerReferenceProvider(selector, referenceProvider),
     vscode.languages.registerHoverProvider(selector, hoverProvider),
+    vscode.languages.registerCompletionItemProvider(selector, completionProvider, '"'),
   )
 
   // Invalida o indice quando arquivos de tema mudam.
