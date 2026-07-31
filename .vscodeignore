@@ -1,6 +1,7 @@
 .vscode/**
 .claude/**
 .github/**
+CLAUDE.md
 docs/**
 data/**
 scripts/**

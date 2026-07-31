@@ -16,6 +16,7 @@
  * do workspace, cacheado e invalidado quando algum arquivo de tema muda.
  */
 
+const fs = require('fs')
 const path = require('path')
 const vscode = require('vscode')
 const {
@@ -26,6 +27,7 @@ const {
 } = require('./lib/blocks')
 const { completionContext } = require('./lib/context')
 const { loadSnippets } = require('./lib/snippets')
+const { generateTokens } = require('./lib/tokens')
 
 // Arquivos onde blocos sao definidos/referenciados num tema VTEX IO.
 // Cobre todo o store/** (store/blocks/**, store/home.jsonc, store/blocks.jsonc,
@@ -229,6 +231,133 @@ const completionProvider = {
   },
 }
 
+// --- CSS custom properties a partir do JSON de tokens VTEX Style -------------
+//
+// A VTEX expõe os tokens do `style.json` como custom properties CSS em runtime
+// (`var(--emphasis)`, `var(--spacing-2)`...). Aqui geramos essa lista com o
+// mesmo `generateTokens` e servimos como autocomplete em arquivos de estilo.
+
+// Default embutido: usado quando o workspace não tem um tokens.json próprio.
+const DEFAULT_TOKENS_PATH = path.join(__dirname, 'assets', 'tokens.json')
+
+/** @type {{ tokens: import('./lib/tokens').Token[], sourcePath: string | null }} */
+let tokenState = { tokens: [], sourcePath: null }
+
+/**
+ * Origem do JSON de tokens, por prioridade: primeiro o do workspace
+ * (`styles/configs/tokens.json`, depois `tokens.json` na raiz) e, se não houver,
+ * o asset embutido na extensão.
+ * @returns {string}
+ */
+function resolveTokensSource() {
+  const folders = vscode.workspace.workspaceFolders || []
+  for (const folder of folders) {
+    const candidates = [
+      path.join(folder.uri.fsPath, 'styles', 'configs', 'tokens.json'),
+      path.join(folder.uri.fsPath, 'tokens.json'),
+    ]
+    for (const candidate of candidates) {
+      if (fs.existsSync(candidate)) return candidate
+    }
+  }
+  return DEFAULT_TOKENS_PATH
+}
+
+/** Lê e gera os tokens de um caminho. Lança em erro de leitura/parse. */
+function loadTokensFrom(src) {
+  return generateTokens(JSON.parse(fs.readFileSync(src, 'utf8')))
+}
+
+/**
+ * (Re)carrega os tokens da origem prioritária. Um parse inválido nunca derruba
+ * a extensão nem apaga os tokens anteriores: mantém o último estado bom e só
+ * cai para o default embutido se ainda não tivermos nenhum token.
+ */
+function reloadTokens() {
+  const src = resolveTokensSource()
+  try {
+    tokenState = { tokens: loadTokensFrom(src), sourcePath: src }
+    return
+  } catch (_) {
+    // origem escolhida ilegível/inválida — segue para os fallbacks abaixo.
+  }
+  if (tokenState.tokens.length === 0 && src !== DEFAULT_TOKENS_PATH) {
+    try {
+      tokenState = { tokens: loadTokensFrom(DEFAULT_TOKENS_PATH), sourcePath: DEFAULT_TOKENS_PATH }
+      return
+    } catch (_) {
+      // sem default legível também — mantém o estado atual (vazio).
+    }
+  }
+  // caso normal de falha: preserva os tokens já carregados.
+}
+
+/**
+ * Diz se o cursor já está dentro de um `var( ` ainda aberto na mesma linha.
+ * Nesse caso a sugestão insere só o nome; senão insere `var(--nome)` inteiro.
+ * @param {string} linePrefix texto da linha até o cursor
+ */
+function insideVar(linePrefix) {
+  const at = linePrefix.lastIndexOf('var(')
+  if (at === -1) return false
+  return !linePrefix.slice(at + 4).includes(')')
+}
+
+const cssTokenProvider = {
+  provideCompletionItems(document, position) {
+    if (tokenState.tokens.length === 0) return undefined
+
+    const linePrefix = document.lineAt(position).text.slice(0, position.character)
+    const within = insideVar(linePrefix)
+    // Range que a sugestão substitui: o pedaço de `--nome` já digitado (inclui
+    // os `-`), para não duplicar as barras quando o usuário já escreveu `--ty`.
+    const range = document.getWordRangeAtPosition(position, /[-\w]+/)
+
+    return tokenState.tokens.map((tok) => {
+      const kind = tok.isColor
+        ? vscode.CompletionItemKind.Color
+        : vscode.CompletionItemKind.Variable
+      const item = new vscode.CompletionItem(tok.name, kind)
+      item.detail = tok.value
+      // Para kind Color, o VS Code lê o swatch de uma cor em detail/documentation.
+      item.documentation = tok.value
+      item.filterText = tok.name
+      item.insertText = within ? tok.name : `var(${tok.name})`
+      if (range) item.range = range
+      return item
+    })
+  },
+}
+
+/**
+ * Comando "VTEX: Gerar tokens.css": reusa o MESMO gerador para exportar um
+ * `:root { ... }` com todas as variáveis, gravado ao lado do JSON de origem.
+ */
+async function generateTokensCss() {
+  const src = tokenState.sourcePath || resolveTokensSource()
+  let tokens
+  try {
+    tokens = loadTokensFrom(src)
+  } catch (e) {
+    vscode.window.showErrorMessage(`VTEX: não foi possível ler ${src}: ${e && e.message}`)
+    return
+  }
+  const body = tokens.map((t) => `  ${t.name}: ${t.value};`).join('\n')
+  const css = `:root {\n${body}\n}\n`
+  const outPath = path.join(path.dirname(src), 'tokens.css')
+  try {
+    fs.writeFileSync(outPath, css, 'utf8')
+  } catch (e) {
+    vscode.window.showErrorMessage(`VTEX: falha ao gravar ${outPath}: ${e && e.message}`)
+    return
+  }
+  const doc = await vscode.workspace.openTextDocument(outPath)
+  await vscode.window.showTextDocument(doc)
+  vscode.window.showInformationMessage(
+    `VTEX: ${tokens.length} variáveis geradas em ${vscode.workspace.asRelativePath(outPath)}`,
+  )
+}
+
 function activate(context) {
   const selector = [
     { language: 'json', scheme: 'file' },
@@ -253,6 +382,28 @@ function activate(context) {
     vscode.workspace.onDidChangeTextDocument((e) => {
       if (isThemeBlockFile(e.document.uri)) invalidateIndex()
     }),
+  )
+
+  // --- CSS custom properties (tokens do VTEX Style) -------------------------
+  reloadTokens()
+
+  const cssSelector = ['css', 'scss', 'less', 'postcss'].map((language) => ({
+    language,
+    scheme: 'file',
+  }))
+  context.subscriptions.push(
+    vscode.languages.registerCompletionItemProvider(cssSelector, cssTokenProvider, '-', '('),
+  )
+
+  // Recarrega os tokens quando qualquer tokens.json muda no workspace.
+  const tokensWatcher = vscode.workspace.createFileSystemWatcher('**/tokens.json')
+  tokensWatcher.onDidCreate(reloadTokens)
+  tokensWatcher.onDidChange(reloadTokens)
+  tokensWatcher.onDidDelete(reloadTokens)
+  context.subscriptions.push(tokensWatcher)
+
+  context.subscriptions.push(
+    vscode.commands.registerCommand('vtex-io-intellisense.generateTokensCss', generateTokensCss),
   )
 }
 

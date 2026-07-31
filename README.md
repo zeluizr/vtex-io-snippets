@@ -36,6 +36,25 @@ esquema, con las propiedades del bloque.
 No necesita configuración: la extensión activa las sugerencias dentro de strings para
 `json` / `jsonc` y la validación de JSON se enciende sola en esos archivos.
 
+### Variables CSS del VTEX Style
+
+En archivos `css`, `scss`, `less` y `postcss` la extensión también autocompleta las **CSS
+custom properties** que VTEX expone en runtime a partir de tu JSON de tokens (el mismo
+formato del `style.json` nativo): `var(--emphasis)`, `var(--spacing-2)`,
+`var(--type-scale-1)`, `var(--background-action-primary)`…
+
+- Se dispara al escribir `-` o `(`. Si el cursor ya está dentro de `var(`, inserta sólo el
+  nombre; si no, inserta `var(--nombre)` completo.
+- Las variables de **color** se muestran con su *swatch* (color preview) y el valor.
+
+**Origen de los tokens (por prioridad):** primero `styles/configs/tokens.json`, luego
+`tokens.json` en la raíz del workspace, y si no hay ninguno cae a un `tokens.json` embebido
+en la extensión con los valores por defecto de VTEX. Los cambios en cualquier `tokens.json`
+se recargan solos.
+
+**Comando `VTEX: Gerar tokens.css`** (paleta de comandos, `Cmd/Ctrl + Shift + P`): exporta un
+`:root { ... }` con **todas** las variables generadas, guardado junto al JSON de origen.
+
 ## Solución de problemas
 
 **No aparece ninguna sugerencia de bloque.** Sólo se ofrecen en archivos bajo `store/`, y el
