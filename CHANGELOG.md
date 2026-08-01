@@ -7,6 +7,22 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [2.3.1] - 2026-07-31
+
+### Cambiado
+- **`assets/tokens.json` por defecto** actualizado con el design system "pixel"
+  (escala de tipos, spacing, sizes, opacidad, escala alpha `--black-*`/`--white-*`
+  y los grupos semánticos completos de `background`/`text`/`border`/`on` con sus
+  variantes `hover-`/`active-`). Es el fallback que alimenta el autocompletado de
+  `var(--...)` cuando el workspace no trae su propio `tokens.json`.
+
+### Nota
+- Sólo se incluyó lo que `generateTokens()` sabe derivar. Familias sin regla de
+  nombre en el generador **no** están en el fallback: `--spacing-negative`,
+  `--*-full`, `--height-mini`, `--max-height-*`, tipografía (`--heading-N-*`,
+  `--font-family-*`, `--letter-spacing`). Viven en el `:root` del app pixel
+  instalado, pero no se autocompletan desde el JSON embebido.
+
 ## [2.3.0] - 2026-07-31
 
 ### Añadido

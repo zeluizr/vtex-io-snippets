@@ -33,7 +33,8 @@
       "Bash(code --install-extension /Volumes/dante/github/vtex-io-snippets/vtex-io-intellisense-2.2.4.vsix --force)",
       "Bash(git commit -q -m 'fix: bloco inteiro era sugerido dentro de props \\(contributes.snippets ignora contexto\\) *)",
       "Bash(npx --yes @vscode/vsce publish --packagePath ./vtex-io-intellisense-2.2.4.vsix)",
-      "Bash(gh release create v2.2.4 ./vtex-io-intellisense-2.2.4.vsix --title v2.2.4 --notes 'Autocomplete sensível ao contexto: os blocos deixaram de ser sugeridos dentro de `props`. *)"
+      "Bash(gh release create v2.2.4 ./vtex-io-intellisense-2.2.4.vsix --title v2.2.4 --notes 'Autocomplete sensível ao contexto: os blocos deixaram de ser sugeridos dentro de `props`. *)",
+      "Bash(awk '/\"flex-layout.row\"/{f=1} f{print} /^  },$/{if\\(f\\){exit}}' snippets/vtex-io.code-snippets)"
     ]
   }
 }

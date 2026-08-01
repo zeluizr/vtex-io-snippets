@@ -156,8 +156,9 @@ test('o assets/tokens.json embutido gera cores e escalas', () => {
   const tokens = generateTokens(raw)
   const m = byName(tokens)
   assert.ok(tokens.length > 40, `esperava vários tokens, veio ${tokens.length}`)
-  assert.equal(m.get('--emphasis').value, '#F71963')
-  assert.equal(m.get('--emphasis').isColor, true)
+  assert.equal(m.get('--background-emphasis').value, '#403e3a')
+  assert.equal(m.get('--background-emphasis').isColor, true)
+  assert.equal(m.get('--black-100').isColor, true)
   assert.equal(m.get('--type-scale-1').value, '3rem')
   assert.equal(m.get('--opacity-100').value, '1')
   // nenhum nome duplicado

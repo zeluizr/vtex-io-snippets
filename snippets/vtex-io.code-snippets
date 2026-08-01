@@ -658,6 +658,52 @@
     ],
     "description": "Block that defines rendering conditions based on the telemarketing (impersonation) context, displaying different child blocks depending on whether the conditions are met. (vtex.condition-layout)"
   },
+  "container": {
+    "prefix": [
+      "container",
+      "v-container"
+    ],
+    "body": [
+      "\"container#${1:id}\": {",
+      "  \"children\": [${2}],",
+      "  \"props\": {",
+      "    \"title\": \"${3}\",",
+      "    \"headerAlignment\": \"${4|left,center|}\",",
+      "    \"linkLabel\": \"${5}\",",
+      "    \"linkUrl\": \"${6}\",",
+      "    \"linkPosition\": \"${7|header,footer|}\",",
+      "    \"backgroundImage\": \"${8}\",",
+      "    \"backgroundColor\": \"${9}\",",
+      "    \"textColor\": \"${10}\",",
+      "    \"paddingSize\": \"${11|none,small,medium,large|}\",",
+      "    \"fullWidth\": ${12|false,true|}",
+      "  }",
+      "}"
+    ],
+    "description": "Bloque contenedor con título, enlace de \"ver más\", color e imagen de fondo, configurable desde el Site Editor. Acepta children. (construplazaqa.container)"
+  },
+  "department-carousel": {
+    "prefix": [
+      "department-carousel",
+      "v-department-carousel"
+    ],
+    "body": [
+      "\"department-carousel#${1:id}\": {",
+      "  \"props\": {",
+      "    \"title\": \"${2}\",",
+      "    \"departments\": [",
+      "      {",
+      "        \"name\": \"${3}\",",
+      "        \"image\": \"${4}\",",
+      "        \"imageAlt\": \"${5}\",",
+      "        \"link\": \"${6}\"",
+      "      }",
+      "    ]",
+      "  }",
+      "}"
+    ],
+    "description": "Carrusel de departamentos configurable desde el Site Editor (título + lista de departamentos con nombre, imagen, alt y enlace). (construplazaqa.department-carousel)"
+  },
   "did-you-mean": {
     "prefix": [
       "did-you-mean",
