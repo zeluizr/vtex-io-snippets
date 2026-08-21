@@ -11,6 +11,8 @@ snippets de bloques y props (con enums y validación) en `store/blocks`, rutas y
 contentSchemas, validación de JSON, autocompletado de las variables CSS del VTEX Style, y
 un tema de color con sus iconos de archivo y de interfaz.
 
+![El tema Puelche con sus iconos de archivo y de interfaz](./images/preview.png)
+
 ---
 
 ## Instalación

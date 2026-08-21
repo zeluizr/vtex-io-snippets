@@ -68,8 +68,13 @@ function main() {
     return s
   }
 
-  fs.rmSync(ICONS_DIR, { recursive: true, force: true })
+  // remove só os SVGs que ESTE gerador é dono, no nível de cima. Um rmSync na
+  // pasta inteira levaria junto icons/product/, que é insumo do gerador da fonte
+  // — e aí a ordem de execução dos dois builds passaria a importar.
   fs.mkdirSync(ICONS_DIR, { recursive: true })
+  for (const f of fs.readdirSync(ICONS_DIR)) {
+    if (f.endsWith(".svg")) fs.rmSync(path.join(ICONS_DIR, f))
+  }
 
   /** @type {Record<string, { iconPath: string }>} */
   const iconDefinitions = {}
