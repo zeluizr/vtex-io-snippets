@@ -1,4 +1,4 @@
-# CLAUDE.md
+# AGENTS.md
 
 Guia para trabalhar neste repositório. É a extensão de VS Code **"inmmerce for
 VTEX"** (publisher `commenteme`, id `commenteme.vtex-io-intellisense`).

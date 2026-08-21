@@ -9,7 +9,7 @@
  * `stroke-width` 1.8 e pontas arredondadas. Onde a forma precisa de preenchimento
  * sólido usa o token `@c`, trocado pela cor na geração.
  *
- * Manter o traço uniforme é o que faz 90 ícones parecerem um conjunto só: nenhuma
+ * Manter o traço uniforme é o que faz o conjunto inteiro parecer um só: nenhuma
  * forma declara `stroke-width` próprio, e o conteúdo vive entre 3 e 21 na grade.
  */
 

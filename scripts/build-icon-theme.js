@@ -6,7 +6,8 @@
  * Gera icons/*.svg e themes/puelche-icon-theme.json a partir de data/icons.json
  * e da geometria em scripts/icon-shapes.js.
  *
- * Por que gerar em vez de escrever à mão: são 72 desenhos e ~250 mapeamentos.
+ * Por que gerar em vez de escrever à mão: são 72 desenhos, 100 definições de
+ * ícone (pasta tem dois estados) e ~247 mapeamentos.
  * Com um mapa único, a espessura de traço, o arredondamento e as cores saem
  * iguais em todos, e o CI consegue provar que o manifest commitado é exatamente
  * o que o gerador produz (`git diff --exit-code`).
