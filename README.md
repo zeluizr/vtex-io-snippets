@@ -112,14 +112,19 @@ Lo que los diferencia de un pack genérico es que cubren la estructura real de u
 
 ## Iconos de la interfaz
 
-El *product icon theme* reemplaza parte de los iconos de la propia UI de VS Code —barra de
-actividad, explorador, pestañas, barra de estado— por un conjunto propio, en la misma línea
-monoline de los iconos de archivo.
+El *product icon theme* reemplaza los iconos de la propia UI de VS Code por un conjunto
+propio, en la misma línea monoline de los iconos de archivo: **58 glifos** dibujados a mano
+que cubren la barra de actividad, el layout y la barra de título, la barra de estado, el
+árbol del explorador, pestañas y editor, paneles, acciones comunes y feedback. Se sirven
+como 93 entradas, porque 35 codicons distintos comparten dibujo con otro.
 
-Actívalo con **`Preferences: Product Icon Theme`** → **Puelche**.
+Actívalo desde la paleta de comandos con **`Preferences: Product Icon Theme`** →
+**Puelche**.
 
 La cobertura es parcial **a propósito**: los iconos que no están cubiertos siguen usando el
-codicon nativo de VS Code, que siempre se verá mejor que un dibujo forzado.
+codicon nativo de VS Code, que siempre se verá mejor que un dibujo forzado. Para que la
+mezcla no se note, la fuente usa las mismas métricas que el codicon nativo (`unitsPerEm`
+1000, razón 1.0), así que los glifos propios y los nativos comparten línea base y tamaño.
 
 ## Solución de problemas
 

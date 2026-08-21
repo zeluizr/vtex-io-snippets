@@ -12,7 +12,7 @@
  *   themes/puelche-product-icons.json  manifest do product icon theme
  *   icons/product/*.svg                insumo de trabalho (fora do .vsix)
  *
- * Por que gerar: são 58 desenhos que viram ~87 entradas depois de expandir os
+ * Por que gerar: são 58 desenhos que viram 93 entradas depois de expandir os
  * apelidos do codicon. Escrever isso à mão erra codepoint e esquece apelido —
  * e apelido esquecido é o usuário vendo nosso ícone ao lado do nativo.
  *

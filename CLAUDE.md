@@ -40,10 +40,15 @@ lib/context.js        contexto JSON sob o cursor: define/referencia/none (puro)
 lib/snippets.js       leitura do catálogo .code-snippets (puro, usa fs)
 lib/tokens.js         gerador de CSS custom properties do VTEX Style (puro)
 assets/tokens.json    JSON de tokens VTEX Style default (embutido, fallback)
-themes/               tema de cores (à mão) + icon theme (gerado) — publicados
-icons/                SVGs dos ícones (gerados) — commitados e publicados
-data/icons.json       mapa dos ícones: id → forma/papel/ext/nome/lang (fonte)
-scripts/icon-shapes.js geometria SVG dos ícones, monoline 24x24 (fonte)
+themes/               tema de cores (à mão) + icon theme, product icon theme e
+                      puelche-product.woff (gerados) — todos publicados
+icons/                SVGs do icon theme (gerados, commitados, publicados);
+                      icons/product/ é insumo de build (gitignored, fora do .vsix)
+data/icons.json       mapa do icon theme: id → forma/papel/ext/nome/lang (fonte)
+data/product-icons.json      mapa do product icon theme: id de codicon → forma
+data/product-codepoints.json codepoints da PUA, append-only (trava, commitado)
+scripts/icon-shapes.js       geometria dos ícones de arquivo, 24x24 (fonte)
+scripts/product-shapes-{a,b}.js geometria dos glifos da UI, 16x16 (fonte)
 snippets/             catálogo de blocos (.code-snippets) — fonte única
 schemas/              JSON Schema dos blocos (gerado por scripts/)
 data/, scripts/       geração de schema/cobertura/ícones (fora do pacote publicado)
@@ -97,8 +102,24 @@ default de tokens, o código e a camada de tema precisam ir junto).
 - Ícone novo: forma em `scripts/icon-shapes.js`, mapeamento em `data/icons.json`, e
   rode o build. **Nunca** edite `themes/puelche-icon-theme.json` nem os SVGs à mão.
   Precedência do VS Code: `fileNames` > `fileExtensions` > `languageIds`.
-- O **product icon theme** (ícones da própria UI do VS Code) mora na mesma camada; a
-  cobertura é parcial de propósito — o que não é coberto cai no codicon nativo.
+- **Product icon theme também é gerado** (`contributes.productIconThemes`, id
+  `puelche-product`): 58 glifos viram 93 entradas de `iconDefinitions` (35 são apelidos
+  de codicon que dividem desenho), nos codepoints `\e900`–`\e939`. Fonte:
+  `data/product-icons.json` + `scripts/product-shapes-{a,b}.js`. Saída commitada e
+  publicada: `themes/puelche-product-icons.json` + `themes/puelche-product.woff`
+  (5616 bytes). Cadeia SVG 16x16 → `svgicons2svgfont` → `svg2ttf` → `ttf2woff`.
+- `data/product-codepoints.json` é **append-only** e commitado: trava id → codepoint.
+  Nunca reordene nem apague uma entrada — o número seria reaproveitado por outro
+  desenho e cada usuário com a fonte em cache veria o ícone errado.
+- Regenerar: `npm run product:build`; `npm run product:check` refaz e falha no
+  `git diff` de `themes/` e `data/product-codepoints.json`. Determinístico até o
+  sha256 (o `svg2ttf` recebe `ts` fixo; sem isso ele carimba `new Date()` no `head`).
+- Métricas da fonte: `unitsPerEm` 1000, `ascender` 1000, `descender` 0 — a mesma razão
+  1.0 do codicon nativo. É o que faz glifo nosso e codicon não coberto dividirem a
+  linha de base na mesma barra. Não mexa nisso sem regerar tudo.
+- `icons/product/**` são SVGs de trabalho: **gitignored** (derivados dos
+  `product-shapes-*.js`) e fora do `.vsix` — o artefato publicado é só o `.woff`.
+  A cobertura da UI é parcial de propósito: o não coberto cai no codicon nativo.
 
 ## Comandos úteis
 
@@ -106,6 +127,8 @@ default de tokens, o código e a camada de tema precisam ir junto).
 npm test                                   # node:test (todos os *.test.js)
 npm run icons:build                        # regenera icons/*.svg + icon theme
 npm run icons:check                        # build + git diff --exit-code (CI)
+npm run product:build                      # regenera o .woff + product icon theme
+npm run product:check                      # build + git diff --exit-code (CI)
 node --check extension.js                  # sanity de sintaxe
 npx --yes @vscode/vsce package --no-dependencies   # gera o .vsix
 ```

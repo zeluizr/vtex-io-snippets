@@ -34,15 +34,26 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
   `messages`, `pixel`, `admin` y `styles`, y para los archivos `manifest.json`,
   `routes.json`, `blocks.json`, `interfaces.json` y `.vtexignore`. En total, ~80
   extensiones, ~62 nombres de archivo y 26 `languageIds`.
-- **Product icon theme**: sustituye parte de los iconos de la propia interfaz de VS Code
-  (barra de actividad, explorador, pestañas, barra de estado) por un conjunto propio.
-  La cobertura es parcial **a propósito**: lo que no está cubierto se queda con el
-  codicon nativo, que siempre será mejor que un dibujo forzado.
+- **Product icon theme "Puelche"** (`contributes.productIconThemes`, id `puelche-product`):
+  reemplaza los iconos de la propia interfaz de VS Code por un conjunto propio. Son **58
+  glifos** dibujados a mano, servidos como **93 entradas** de `iconDefinitions` —35 de
+  ellas alias de codicons que comparten dibujo— sobre 58 codepoints, de `\e900` a `\e939`,
+  empaquetados en `themes/puelche-product.woff` (5.616 bytes). La fuente usa `unitsPerEm`
+  1000 con `ascender` 1000 y `descender` 0, **la misma razón 1.0 del codicon nativo**: así
+  los glifos propios y los que se quedan sin cubrir comparten línea base y no bailan entre
+  sí en la misma barra. Cubre la barra de actividad, el layout y la barra de título, la
+  barra de estado, el árbol del explorador, pestañas y editor, paneles, acciones comunes y
+  feedback. La cobertura es parcial **a propósito**: lo que no está cubierto se queda con
+  el codicon nativo, que siempre será mejor que un dibujo forzado.
+- **La fuente de iconos se construye de forma determinista**: mismo sha256 en ejecuciones
+  repetidas (`svg2ttf` con `ts` fijo). Así el `.woff` commitado se puede verificar contra
+  su generador, en vez de confiar en que alguien se acordó de regenerarlo.
 - **`test/theme.test.js`.** La especificación del tema está llena de reglas que sólo
   fallan "visualmente" (un hex inventado, el acento colándose en texto, un párrafo de
   Markdown coloreado), así que cada criterio de aceptación es una aserción: ningún hex
   fuera de la paleta declarada, acento sólo en las 11 claves de chrome, los 9 papeles
-  por encima de 4.5:1 sobre el fondo del editor y el cuerpo de Markdown sin color.
+  por encima de 4.5:1 sobre el fondo del editor y el cuerpo de Markdown sin color. Con
+  el tema, los iconos y la fuente, la suite pasa de 64 a **81 pruebas**, todas en verde.
 
 ### Cambiado
 - **La extensión pasa a llamarse "inmmerce for VTEX"** (antes «VTEX IO Store Framework
@@ -56,6 +67,13 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 - **El `.vsix` publicado incluía archivos locales.** `AGENTS.md`, `.guilda/`,
   `.DS_Store` y `package-lock.json` viajaban dentro del paquete; ahora están en
   `.vscodeignore`. Sólo engordaban la descarga y filtraban notas de trabajo.
+
+### Nota
+- **El Marketplace venía sirviendo la 2.2.4.** Las versiones 2.3.0 y 2.4.0 se etiquetaron
+  pero nunca se publicaron, así que quien tiene la extensión instalada todavía **no** tiene
+  el autocompletado de las CSS custom properties del VTEX Style ni el comando
+  `VTEX: Gerar tokens.css`. La 3.0.0 entrega todo eso junto con el tema y los iconos: para
+  el usuario del Marketplace, el salto es de 2.2.4 a 3.0.0 de una sola vez.
 
 ## [2.4.0] - 2026-08-01
 
