@@ -12,3 +12,8 @@ node_modules/**
 .gitignore
 .gitattributes
 .git/**
+AGENTS.md
+.guilda/**
+**/.DS_Store
+package-lock.json
+icons/product/**

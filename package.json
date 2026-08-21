@@ -1,14 +1,16 @@
 {
   "name": "vtex-io-intellisense",
-  "displayName": "VTEX IO Store Framework Snippets",
-  "description": "Autocomplete e IntelliSense para os blocos do VTEX IO Store Framework: snippets dos blocos e props (com enums e validação) em store/blocks, routes e contentSchemas.",
-  "version": "2.4.0",
+  "displayName": "inmmerce for VTEX",
+  "description": "Tema, snippets e IntelliSense para quem constrói na VTEX",
+  "version": "3.0.0",
   "publisher": "commenteme",
   "license": "MIT",
   "icon": "images/icon.png",
   "main": "./extension.js",
   "scripts": {
-    "test": "node --test"
+    "test": "node --test",
+    "icons:build": "node scripts/build-icon-theme.js",
+    "icons:check": "node scripts/build-icon-theme.js && git diff --exit-code -- themes/ icons/"
   },
   "activationEvents": [
     "onLanguage:json",
@@ -20,7 +22,7 @@
     "onCommand:vtex-io-intellisense.generateTokensCss"
   ],
   "galleryBanner": {
-    "color": "#F71963",
+    "color": "#1A181F",
     "theme": "dark"
   },
   "engines": {
@@ -28,6 +30,7 @@
   },
   "categories": [
     "Snippets",
+    "Themes",
     "Programming Languages"
   ],
   "keywords": [
@@ -38,7 +41,12 @@
     "blocks",
     "snippets",
     "intellisense",
-    "theme"
+    "theme",
+    "dark theme",
+    "color theme",
+    "icon theme",
+    "product icon theme",
+    "puelche"
   ],
   "homepage": "https://github.com/zeluizr/vtex-io-snippets#readme",
   "bugs": {
@@ -90,10 +98,28 @@
         "fileMatch": "**/store/*.jsonc",
         "url": "./schemas/vtex-blocks.schema.json"
       }
+    ],
+    "themes": [
+      {
+        "label": "Puelche",
+        "uiTheme": "vs-dark",
+        "path": "./themes/puelche-color-theme.json"
+      }
+    ],
+    "iconThemes": [
+      {
+        "id": "puelche-icons",
+        "label": "Puelche",
+        "path": "./themes/puelche-icon-theme.json"
+      }
     ]
   },
   "devDependencies": {
+    "@vscode/codicons": "^0.0.46-24",
     "gifenc": "^1.0.3",
-    "sharp": "^0.35.0"
+    "sharp": "^0.35.0",
+    "svg2ttf": "^6.1.0",
+    "svgicons2svgfont": "^16.0.0",
+    "ttf2woff": "^3.0.0"
   }
 }

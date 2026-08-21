@@ -6,3 +6,9 @@ node_modules/
 .env
 .env.*
 !.env.example
+
+# O gitignore global do macOS tem "Icon?" (arquivo de ícone do Finder) e, como o
+# git é case-insensitive aqui, essa regra casa com a pasta "icons". Sem estas duas
+# linhas os SVGs do tema nunca entram no commit e a extensão publica sem ícones.
+!icons/
+!icons/**
