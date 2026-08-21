@@ -10,7 +10,9 @@
   "scripts": {
     "test": "node --test",
     "icons:build": "node scripts/build-icon-theme.js",
-    "icons:check": "node scripts/build-icon-theme.js && git diff --exit-code -- themes/ icons/"
+    "icons:check": "node scripts/build-icon-theme.js && git diff --exit-code -- themes/ icons/",
+    "product:build": "node scripts/build-product-font.js",
+    "product:check": "node scripts/build-product-font.js && git diff --exit-code -- themes/ data/product-codepoints.json"
   },
   "activationEvents": [
     "onLanguage:json",
@@ -111,6 +113,13 @@
         "id": "puelche-icons",
         "label": "Puelche",
         "path": "./themes/puelche-icon-theme.json"
+      }
+    ],
+    "productIconThemes": [
+      {
+        "id": "puelche-product",
+        "label": "Puelche",
+        "path": "./themes/puelche-product-icons.json"
       }
     ]
   },

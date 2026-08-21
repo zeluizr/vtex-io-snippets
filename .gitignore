@@ -12,3 +12,7 @@ node_modules/
 # linhas os SVGs do tema nunca entram no commit e a extensão publica sem ícones.
 !icons/
 !icons/**
+
+# SVGs de trabalho do product icon theme: derivados de scripts/product-shapes-*.js,
+# não publicados no .vsix. O determinismo do .woff já cobre a regeneração deles.
+icons/product/

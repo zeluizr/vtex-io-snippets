@@ -1,0 +1,389 @@
+{
+  "fonts": [
+    {
+      "id": "puelche",
+      "src": [
+        {
+          "path": "./puelche-product.woff",
+          "format": "woff"
+        }
+      ],
+      "weight": "normal",
+      "style": "normal"
+    }
+  ],
+  "iconDefinitions": {
+    "account": {
+      "fontCharacter": "\\e900",
+      "fontId": "puelche"
+    },
+    "git-pull-request-assignee": {
+      "fontCharacter": "\\e900",
+      "fontId": "puelche"
+    },
+    "add": {
+      "fontCharacter": "\\e901",
+      "fontId": "puelche"
+    },
+    "plus": {
+      "fontCharacter": "\\e901",
+      "fontId": "puelche"
+    },
+    "gist-new": {
+      "fontCharacter": "\\e901",
+      "fontId": "puelche"
+    },
+    "repo-create": {
+      "fontCharacter": "\\e901",
+      "fontId": "puelche"
+    },
+    "arrow-left": {
+      "fontCharacter": "\\e902",
+      "fontId": "puelche"
+    },
+    "arrow-right": {
+      "fontCharacter": "\\e903",
+      "fontId": "puelche"
+    },
+    "bell": {
+      "fontCharacter": "\\e904",
+      "fontId": "puelche"
+    },
+    "bell-dot": {
+      "fontCharacter": "\\e905",
+      "fontId": "puelche"
+    },
+    "book": {
+      "fontCharacter": "\\e906",
+      "fontId": "puelche"
+    },
+    "check": {
+      "fontCharacter": "\\e907",
+      "fontId": "puelche"
+    },
+    "chevron-down": {
+      "fontCharacter": "\\e908",
+      "fontId": "puelche"
+    },
+    "chevron-right": {
+      "fontCharacter": "\\e909",
+      "fontId": "puelche"
+    },
+    "circle-filled": {
+      "fontCharacter": "\\e90a",
+      "fontId": "puelche"
+    },
+    "primitive-dot": {
+      "fontCharacter": "\\e90a",
+      "fontId": "puelche"
+    },
+    "close-dirty": {
+      "fontCharacter": "\\e90a",
+      "fontId": "puelche"
+    },
+    "debug-breakpoint": {
+      "fontCharacter": "\\e90a",
+      "fontId": "puelche"
+    },
+    "debug-breakpoint-disabled": {
+      "fontCharacter": "\\e90a",
+      "fontId": "puelche"
+    },
+    "debug-hint": {
+      "fontCharacter": "\\e90a",
+      "fontId": "puelche"
+    },
+    "terminal-decoration-success": {
+      "fontCharacter": "\\e90a",
+      "fontId": "puelche"
+    },
+    "close": {
+      "fontCharacter": "\\e90b",
+      "fontId": "puelche"
+    },
+    "remove-close": {
+      "fontCharacter": "\\e90b",
+      "fontId": "puelche"
+    },
+    "x": {
+      "fontCharacter": "\\e90b",
+      "fontId": "puelche"
+    },
+    "collapse-all": {
+      "fontCharacter": "\\e90c",
+      "fontId": "puelche"
+    },
+    "comment-discussion": {
+      "fontCharacter": "\\e90d",
+      "fontId": "puelche"
+    },
+    "debug-alt": {
+      "fontCharacter": "\\e90e",
+      "fontId": "puelche"
+    },
+    "debug-console": {
+      "fontCharacter": "\\e90f",
+      "fontId": "puelche"
+    },
+    "edit": {
+      "fontCharacter": "\\e910",
+      "fontId": "puelche"
+    },
+    "pencil": {
+      "fontCharacter": "\\e910",
+      "fontId": "puelche"
+    },
+    "more": {
+      "fontCharacter": "\\e911",
+      "fontId": "puelche"
+    },
+    "ellipsis": {
+      "fontCharacter": "\\e911",
+      "fontId": "puelche"
+    },
+    "kebab-horizontal": {
+      "fontCharacter": "\\e911",
+      "fontId": "puelche"
+    },
+    "error": {
+      "fontCharacter": "\\e912",
+      "fontId": "puelche"
+    },
+    "stop": {
+      "fontCharacter": "\\e912",
+      "fontId": "puelche"
+    },
+    "extensions": {
+      "fontCharacter": "\\e913",
+      "fontId": "puelche"
+    },
+    "eye": {
+      "fontCharacter": "\\e914",
+      "fontId": "puelche"
+    },
+    "eye-unwatch": {
+      "fontCharacter": "\\e914",
+      "fontId": "puelche"
+    },
+    "eye-watch": {
+      "fontCharacter": "\\e914",
+      "fontId": "puelche"
+    },
+    "file": {
+      "fontCharacter": "\\e915",
+      "fontId": "puelche"
+    },
+    "files": {
+      "fontCharacter": "\\e916",
+      "fontId": "puelche"
+    },
+    "filter": {
+      "fontCharacter": "\\e917",
+      "fontId": "puelche"
+    },
+    "folder": {
+      "fontCharacter": "\\e918",
+      "fontId": "puelche"
+    },
+    "file-directory": {
+      "fontCharacter": "\\e918",
+      "fontId": "puelche"
+    },
+    "symbol-folder": {
+      "fontCharacter": "\\e918",
+      "fontId": "puelche"
+    },
+    "folder-opened": {
+      "fontCharacter": "\\e919",
+      "fontId": "puelche"
+    },
+    "gear": {
+      "fontCharacter": "\\e91a",
+      "fontId": "puelche"
+    },
+    "git-branch": {
+      "fontCharacter": "\\e91b",
+      "fontId": "puelche"
+    },
+    "git-branch-create": {
+      "fontCharacter": "\\e91b",
+      "fontId": "puelche"
+    },
+    "git-branch-delete": {
+      "fontCharacter": "\\e91b",
+      "fontId": "puelche"
+    },
+    "symbol-reference": {
+      "fontCharacter": "\\e91c",
+      "fontId": "puelche"
+    },
+    "go-to-file": {
+      "fontCharacter": "\\e91c",
+      "fontId": "puelche"
+    },
+    "history": {
+      "fontCharacter": "\\e91d",
+      "fontId": "puelche"
+    },
+    "clock": {
+      "fontCharacter": "\\e91d",
+      "fontId": "puelche"
+    },
+    "info": {
+      "fontCharacter": "\\e91e",
+      "fontId": "puelche"
+    },
+    "issue-opened": {
+      "fontCharacter": "\\e91e",
+      "fontId": "puelche"
+    },
+    "kebab-vertical": {
+      "fontCharacter": "\\e91f",
+      "fontId": "puelche"
+    },
+    "layout-panel": {
+      "fontCharacter": "\\e920",
+      "fontId": "puelche"
+    },
+    "layout-sidebar-left": {
+      "fontCharacter": "\\e921",
+      "fontId": "puelche"
+    },
+    "layout-sidebar-right": {
+      "fontCharacter": "\\e922",
+      "fontId": "puelche"
+    },
+    "lightbulb": {
+      "fontCharacter": "\\e923",
+      "fontId": "puelche"
+    },
+    "light-bulb": {
+      "fontCharacter": "\\e923",
+      "fontId": "puelche"
+    },
+    "list-filter": {
+      "fontCharacter": "\\e924",
+      "fontId": "puelche"
+    },
+    "loading": {
+      "fontCharacter": "\\e925",
+      "fontId": "puelche"
+    },
+    "menu": {
+      "fontCharacter": "\\e926",
+      "fontId": "puelche"
+    },
+    "new-file": {
+      "fontCharacter": "\\e927",
+      "fontId": "puelche"
+    },
+    "file-add": {
+      "fontCharacter": "\\e927",
+      "fontId": "puelche"
+    },
+    "new-folder": {
+      "fontCharacter": "\\e928",
+      "fontId": "puelche"
+    },
+    "file-directory-create": {
+      "fontCharacter": "\\e928",
+      "fontId": "puelche"
+    },
+    "output": {
+      "fontCharacter": "\\e929",
+      "fontId": "puelche"
+    },
+    "play": {
+      "fontCharacter": "\\e92a",
+      "fontId": "puelche"
+    },
+    "run": {
+      "fontCharacter": "\\e92a",
+      "fontId": "puelche"
+    },
+    "preview": {
+      "fontCharacter": "\\e92b",
+      "fontId": "puelche"
+    },
+    "refresh": {
+      "fontCharacter": "\\e92c",
+      "fontId": "puelche"
+    },
+    "remote": {
+      "fontCharacter": "\\e92d",
+      "fontId": "puelche"
+    },
+    "run-all": {
+      "fontCharacter": "\\e92e",
+      "fontId": "puelche"
+    },
+    "save": {
+      "fontCharacter": "\\e92f",
+      "fontId": "puelche"
+    },
+    "save-all": {
+      "fontCharacter": "\\e930",
+      "fontId": "puelche"
+    },
+    "search": {
+      "fontCharacter": "\\e931",
+      "fontId": "puelche"
+    },
+    "search-save": {
+      "fontCharacter": "\\e931",
+      "fontId": "puelche"
+    },
+    "settings-gear": {
+      "fontCharacter": "\\e932",
+      "fontId": "puelche"
+    },
+    "source-control": {
+      "fontCharacter": "\\e933",
+      "fontId": "puelche"
+    },
+    "split-horizontal": {
+      "fontCharacter": "\\e934",
+      "fontId": "puelche"
+    },
+    "repo-sync": {
+      "fontCharacter": "\\e935",
+      "fontId": "puelche"
+    },
+    "sync": {
+      "fontCharacter": "\\e935",
+      "fontId": "puelche"
+    },
+    "terminal": {
+      "fontCharacter": "\\e936",
+      "fontId": "puelche"
+    },
+    "console": {
+      "fontCharacter": "\\e936",
+      "fontId": "puelche"
+    },
+    "repl": {
+      "fontCharacter": "\\e936",
+      "fontId": "puelche"
+    },
+    "three-bars": {
+      "fontCharacter": "\\e937",
+      "fontId": "puelche"
+    },
+    "trash": {
+      "fontCharacter": "\\e938",
+      "fontId": "puelche"
+    },
+    "trashcan": {
+      "fontCharacter": "\\e938",
+      "fontId": "puelche"
+    },
+    "alert": {
+      "fontCharacter": "\\e939",
+      "fontId": "puelche"
+    },
+    "warning": {
+      "fontCharacter": "\\e939",
+      "fontId": "puelche"
+    }
+  }
+}
