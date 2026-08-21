@@ -62,7 +62,8 @@ default de tokens, o código e a camada de tema precisam ir junto).
 
 ## Feature de tokens CSS (lib/tokens.js + extension.js)
 
-- `generateTokens(rawJson)` → `[{ name, value, isColor }]`. **Função pura**; as
+- `generateTokens(tokens)` → `[{ name, value, isColor }]`. Recebe o JSON **já
+  parseado** (quem lê o arquivo é o `extension.js`). **Função pura**; as
   regras de nome batem 1:1 com o que a VTEX gera (`typeScale[0]`→`--type-scale-1`,
   `spacing[i]`→`--spacing-{i}`, `borderWidths`/`borderRadius` com `0`→`"0"`,
   `opacity` nomeada pelo valor via `opacityName`, `semanticColors[g][k]`→
