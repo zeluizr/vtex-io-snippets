@@ -223,12 +223,11 @@ function lerWoff(buf) {
 }
 
 /**
- * Escolhe a subtabela cmap format 4 (BMP) e devolve uma função de lookup.
- * Nossos codepoints ficam na PUA (U+E900+), então format 4 basta.
+ * Escolhe a subtabela cmap format 4 (BMP) e devolve os offsets dos seus
+ * arrays paralelos. Nossos codepoints ficam na PUA (U+E900+), então basta.
  * @param {Buffer} cmap
- * @returns {(cp: number) => number}
  */
-function lookupCmap(cmap) {
+function subtabelaCmap(cmap) {
   const n = cmap.readUInt16BE(2)
   let escolhida = -1
   for (let i = 0; i < n; i++) {
@@ -241,12 +240,39 @@ function lookupCmap(cmap) {
     if (escolhida < 0 || (plataforma === 3 && encoding === 1)) escolhida = offset
   }
   assert.ok(escolhida >= 0, 'nenhuma subtabela cmap format 4 no .woff')
-  const base = escolhida
-  const segCount = cmap.readUInt16BE(base + 6) / 2
-  const endBase = base + 14
+  const segCount = cmap.readUInt16BE(escolhida + 6) / 2
+  const endBase = escolhida + 14
   const startBase = endBase + segCount * 2 + 2
   const deltaBase = startBase + segCount * 2
-  const rangeBase = deltaBase + segCount * 2
+  return { segCount, endBase, startBase, deltaBase, rangeBase: deltaBase + segCount * 2 }
+}
+
+/**
+ * Todos os codepoints com glifo declarado no cmap, sem o sentinela 0xFFFF.
+ * @param {Buffer} cmap
+ * @returns {Set<number>}
+ */
+function codepointsDoCmap(cmap) {
+  const { segCount, endBase, startBase } = subtabelaCmap(cmap)
+  const glifo = lookupCmap(cmap)
+  const fora = new Set()
+  for (let i = 0; i < segCount; i++) {
+    const inicio = cmap.readUInt16BE(startBase + i * 2)
+    const fim = cmap.readUInt16BE(endBase + i * 2)
+    if (inicio === 0xffff) continue
+    for (let cp = inicio; cp <= fim && cp !== 0xffff; cp++) if (glifo(cp) !== 0) fora.add(cp)
+  }
+  return fora
+}
+
+/**
+ * Escolhe a subtabela cmap format 4 (BMP) e devolve uma função de lookup.
+ * Nossos codepoints ficam na PUA (U+E900+), então format 4 basta.
+ * @param {Buffer} cmap
+ * @returns {(cp: number) => number}
+ */
+function lookupCmap(cmap) {
+  const { segCount, endBase, startBase, deltaBase, rangeBase } = subtabelaCmap(cmap)
   return (cp) => {
     for (let i = 0; i < segCount; i++) {
       const fim = cmap.readUInt16BE(endBase + i * 2)
@@ -427,4 +453,430 @@ test('nenhum caminho usado pelos temas casa com uma regra do .vscodeignore', () 
     }
   }
   assert.deepEqual(ignorados, [], 'o .vsix sairia sem esses arquivos')
+})
+
+// ---------------------------------------------------------------------------
+// Apelidos do codicon, alocação de codepoints e integridade da fonte
+// ---------------------------------------------------------------------------
+
+const CODEPOINTS_PATH = path.join(ROOT, 'data', 'product-codepoints.json')
+const MAPPING_PATH = path.join(
+  ROOT, 'node_modules', '@vscode', 'codicons', 'src', 'template', 'mapping.json',
+)
+
+/** Lê a alocação append-only de codepoints, ou null se ainda não existe. */
+function lerCodepoints() {
+  if (!fs.existsSync(CODEPOINTS_PATH)) return null
+  return JSON.parse(fs.readFileSync(CODEPOINTS_PATH, 'utf8')).codepoints
+}
+
+/** Grupos do codicon: nome -> todos os nomes que dividem o mesmo codepoint. */
+function gruposDoCodicon() {
+  if (!fs.existsSync(MAPPING_PATH)) return null
+  const mapping = JSON.parse(fs.readFileSync(MAPPING_PATH, 'utf8'))
+  /** @type {Map<string, string[]>} */
+  const grupos = new Map()
+  for (const nomes of Object.values(mapping)) {
+    for (const nome of nomes) grupos.set(nome, nomes)
+  }
+  return grupos
+}
+
+test('todo apelido do codicon do mesmo desenho está no manifest', (t) => {
+  const tema = lerTemaDeProduto()
+  if (!tema) return t.skip('themes/puelche-product-icons.json ainda não existe')
+  const grupos = gruposDoCodicon()
+  if (!grupos) return t.skip('@vscode/codicons não instalado (a suíte roda sem npm install)')
+  const defs = tema.iconDefinitions
+  const desconhecidos = []
+  const faltando = []
+  const divergentes = []
+  for (const id of Object.keys(defs)) {
+    const grupo = grupos.get(id)
+    if (!grupo) {
+      desconhecidos.push(id)
+      continue
+    }
+    for (const apelido of grupo) {
+      // sem o apelido, o VS Code cai no codicon nativo e mistura os dois estilos
+      if (!defs[apelido]) faltando.push(`${id} coberto mas falta o apelido "${apelido}"`)
+      else if (defs[apelido].fontCharacter !== defs[id].fontCharacter) {
+        divergentes.push(`"${id}" e "${apelido}" são o mesmo desenho mas têm fontCharacter diferente`)
+      }
+    }
+  }
+  assert.deepEqual(desconhecidos, [], 'ids que não existem no codicon (entrada morta no manifest)')
+  assert.deepEqual(faltando, [], 'apelidos do codicon não cobertos')
+  assert.deepEqual(divergentes, [], 'apelidos do mesmo desenho apontando para glifos diferentes')
+})
+
+test('o manifest bate exatamente com data/product-codepoints.json', (t) => {
+  const tema = lerTemaDeProduto()
+  const alocados = lerCodepoints()
+  if (!tema || !alocados) return t.skip('tema de produto ou alocação de codepoints ainda não existem')
+  const defs = tema.iconDefinitions
+
+  // o arquivo é a fonte de verdade: todo id alocado aparece no manifest com o
+  // codepoint dele, e o manifest não inventa codepoint fora da lista
+  const divergentes = []
+  for (const [id, cp] of Object.entries(alocados)) {
+    if (!defs[id]) divergentes.push(`"${id}" está alocado mas não está no manifest`)
+    else if (codepointDe(defs[id].fontCharacter) !== parseInt(String(cp), 16)) {
+      divergentes.push(`"${id}": manifest ${defs[id].fontCharacter}, alocação ${cp}`)
+    }
+  }
+  assert.deepEqual(divergentes, [], 'manifest e alocação de codepoints não batem')
+
+  const doArquivo = new Set(Object.values(alocados).map((/** @type {any} */ v) => parseInt(String(v), 16)))
+  const doManifest = new Set(Object.values(defs).map((/** @type {any} */ d) => codepointDe(d.fontCharacter)))
+  const inventados = [...doManifest].filter((cp) => !doArquivo.has(cp))
+  assert.deepEqual(
+    inventados.map((cp) => 'U+' + cp.toString(16).toUpperCase()),
+    [],
+    'codepoints no manifest que não passaram pela alocação append-only',
+  )
+})
+
+test('a alocação de codepoints é append-only', (t) => {
+  const alocados = lerCodepoints()
+  if (!alocados) return t.skip('data/product-codepoints.json ainda não existe')
+  const entradas = Object.entries(alocados)
+  const valores = entradas.map(([, v]) => parseInt(String(v), 16))
+
+  assert.equal(new Set(valores).size, valores.length, 'codepoint reaproveitado por dois ids')
+  // append-only: cada id novo pega o próximo livre a partir de 0xE900, então a
+  // ordem do arquivo é a ordem de alocação e não há buracos
+  valores.forEach((cp, i) => {
+    assert.equal(
+      cp,
+      0xe900 + i,
+      `"${entradas[i][0]}" está em U+${cp.toString(16).toUpperCase()}, fora da sequência a partir de E900`,
+    )
+  })
+
+  // e nenhum id já commitado pode ter mudado de número
+  let anterior = null
+  try {
+    const raw = execFileSync('git', ['show', 'HEAD:data/product-codepoints.json'], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    })
+    anterior = JSON.parse(raw).codepoints
+  } catch {
+    anterior = null
+  }
+  if (!anterior) return t.diagnostic('sem versão em HEAD: só a estrutura foi conferida')
+  const renumerados = []
+  for (const [id, cp] of Object.entries(anterior)) {
+    if (!(id in alocados)) renumerados.push(`"${id}" sumiu da alocação (o número seria reaproveitado)`)
+    else if (String(alocados[id]) !== String(cp)) {
+      renumerados.push(`"${id}" mudou de ${cp} para ${alocados[id]}`)
+    }
+  }
+  assert.deepEqual(renumerados, [], 'a alocação não é mais append-only: o .woff inteiro seria reescrito')
+})
+
+test('nenhum glifo órfão: todo codepoint do cmap é usado pelo manifest', (t) => {
+  const tema = lerTemaDeProduto()
+  if (!tema) return t.skip('themes/puelche-product-icons.json ainda não existe')
+  const fontePath = path.resolve(path.dirname(PRODUCT_THEME_PATH), tema.fonts[0].src[0].path)
+  if (!fs.existsSync(fontePath)) return t.skip('o .woff referenciado ainda não existe')
+  const tabelas = lerWoff(fs.readFileSync(fontePath))
+  const usados = new Set(
+    Object.values(tema.iconDefinitions).map((/** @type {any} */ d) => codepointDe(d.fontCharacter)),
+  )
+  const orfaos = [...codepointsDoCmap(tabelas.cmap)].filter((cp) => !usados.has(cp))
+  assert.deepEqual(
+    orfaos.map((cp) => 'U+' + cp.toString(16).toUpperCase()),
+    [],
+    'glifos na fonte que nenhum id referencia (peso morto no .woff)',
+  )
+})
+
+test('nenhum glifo do .woff é vazio', (t) => {
+  const tema = lerTemaDeProduto()
+  if (!tema) return t.skip('themes/puelche-product-icons.json ainda não existe')
+  const fontePath = path.resolve(path.dirname(PRODUCT_THEME_PATH), tema.fonts[0].src[0].path)
+  if (!fs.existsSync(fontePath)) return t.skip('o .woff referenciado ainda não existe')
+  const tabelas = lerWoff(fs.readFileSync(fontePath))
+  assert.ok(tabelas.loca && tabelas.glyf && tabelas.head, 'o .woff não tem loca/glyf/head')
+  // loca dá o intervalo de cada glifo dentro de glyf; comprimento 0 = sem
+  // contorno nenhum, que é o que um <path> com stroke produz — ícone some da UI
+  const longo = tabelas.head.readInt16BE(50) === 1
+  const loca = (/** @type {number} */ i) =>
+    longo ? tabelas.loca.readUInt32BE(i * 4) : tabelas.loca.readUInt16BE(i * 2) * 2
+  const glifo = lookupCmap(tabelas.cmap)
+  const vazios = []
+  for (const [id, def] of Object.entries(tema.iconDefinitions)) {
+    const cp = codepointDe(/** @type {any} */ (def).fontCharacter)
+    const g = glifo(cp)
+    if (loca(g + 1) - loca(g) === 0) vazios.push(`${id} (U+${cp.toString(16).toUpperCase()})`)
+  }
+  assert.deepEqual(vazios, [], 'glifos sem contorno na fonte')
+})
+
+// ---------------------------------------------------------------------------
+// Geometria das formas de produto (lint de fonte + tinta)
+// ---------------------------------------------------------------------------
+
+/** Carrega os dois conjuntos de formas, ou null se nenhum existe ainda. */
+function lerFormasDeProduto() {
+  /** @type {Record<string, { arquivo: string, markup: string }>} */
+  const formas = {}
+  const repetidos = []
+  let achou = false
+  for (const arquivo of ['product-shapes-a.js', 'product-shapes-b.js']) {
+    const abs = path.join(ROOT, 'scripts', arquivo)
+    if (!fs.existsSync(abs)) continue
+    achou = true
+    const mod = require(abs)
+    assert.ok(mod && mod.PRODUCT_SHAPES, `${arquivo} não exporta PRODUCT_SHAPES`)
+    for (const [id, markup] of Object.entries(mod.PRODUCT_SHAPES)) {
+      if (formas[id]) repetidos.push(`"${id}" está em ${formas[id].arquivo} e em ${arquivo}`)
+      formas[id] = { arquivo, markup: String(markup) }
+    }
+  }
+  return achou ? { formas, repetidos } : null
+}
+
+/** Números de um trecho de path. */
+function numerosDe(texto) {
+  return (texto.match(/-?\d*\.?\d+/g) || []).map(Number)
+}
+
+/**
+ * Pontos de um arco elíptico A, do ponto atual até (x2,y2).
+ * Conversão endpoint -> centro do apêndice F.6.5 da spec de SVG, amostrada.
+ */
+function pontosDoArco(x1, y1, rx, ry, rot, laf, sf, x2, y2) {
+  if (!rx || !ry) return [[x2, y2]]
+  const phi = (rot * Math.PI) / 180
+  const cp = Math.cos(phi)
+  const sp = Math.sin(phi)
+  const dx = (x1 - x2) / 2
+  const dy = (y1 - y2) / 2
+  const x1p = cp * dx + sp * dy
+  const y1p = -sp * dx + cp * dy
+  rx = Math.abs(rx)
+  ry = Math.abs(ry)
+  const lam = (x1p * x1p) / (rx * rx) + (y1p * y1p) / (ry * ry)
+  if (lam > 1) {
+    const s = Math.sqrt(lam)
+    rx *= s
+    ry *= s
+  }
+  const num = rx * rx * ry * ry - rx * rx * y1p * y1p - ry * ry * x1p * x1p
+  const den = rx * rx * y1p * y1p + ry * ry * x1p * x1p
+  let co = Math.sqrt(Math.max(0, num / den))
+  if (laf === sf) co = -co
+  const cxp = (co * rx * y1p) / ry
+  const cyp = (-co * ry * x1p) / rx
+  const cx = cp * cxp - sp * cyp + (x1 + x2) / 2
+  const cy = sp * cxp + cp * cyp + (y1 + y2) / 2
+  const ang = (ux, uy, vx, vy) => {
+    const d = (ux * vx + uy * vy) / (Math.hypot(ux, uy) * Math.hypot(vx, vy))
+    const a = Math.acos(Math.min(1, Math.max(-1, d)))
+    return ux * vy - uy * vx < 0 ? -a : a
+  }
+  const t1 = ang(1, 0, (x1p - cxp) / rx, (y1p - cyp) / ry)
+  let dt = ang((x1p - cxp) / rx, (y1p - cyp) / ry, (-x1p - cxp) / rx, (-y1p - cyp) / ry)
+  if (!sf && dt > 0) dt -= 2 * Math.PI
+  else if (sf && dt < 0) dt += 2 * Math.PI
+  const pontos = []
+  const n = 24
+  for (let i = 1; i <= n; i++) {
+    const t = t1 + (dt * i) / n
+    pontos.push([
+      cp * rx * Math.cos(t) - sp * ry * Math.sin(t) + cx,
+      sp * rx * Math.cos(t) + cp * ry * Math.sin(t) + cy,
+    ])
+  }
+  return pontos
+}
+
+/**
+ * Achata um atributo `d` (só comandos absolutos M/L/Q/A/Z) em polígonos.
+ * @param {string} d
+ * @returns {number[][][]}
+ */
+function subcaminhos(d) {
+  const saida = []
+  let atual = null
+  let x = 0
+  let y = 0
+  let sx = 0
+  let sy = 0
+  const fecha = () => {
+    if (atual && atual.length > 2) saida.push(atual)
+    atual = null
+  }
+  for (const m of d.matchAll(/([A-Za-z])([^A-Za-z]*)/g)) {
+    const c = m[1]
+    const p = numerosDe(m[2])
+    if (c === 'M') {
+      fecha()
+      atual = [[p[0], p[1]]]
+      x = sx = p[0]
+      y = sy = p[1]
+      for (let i = 2; i + 1 < p.length; i += 2) {
+        atual.push([p[i], p[i + 1]])
+        x = p[i]
+        y = p[i + 1]
+      }
+    } else if (c === 'L') {
+      for (let i = 0; i + 1 < p.length; i += 2) {
+        atual.push([p[i], p[i + 1]])
+        x = p[i]
+        y = p[i + 1]
+      }
+    } else if (c === 'Q') {
+      for (let i = 0; i + 3 < p.length; i += 4) {
+        for (let k = 1; k <= 8; k++) {
+          const t = k / 8
+          const u = 1 - t
+          atual.push([
+            u * u * x + 2 * u * t * p[i] + t * t * p[i + 2],
+            u * u * y + 2 * u * t * p[i + 1] + t * t * p[i + 3],
+          ])
+        }
+        x = p[i + 2]
+        y = p[i + 3]
+      }
+    } else if (c === 'A') {
+      for (let i = 0; i + 6 < p.length; i += 7) {
+        atual.push(...pontosDoArco(x, y, p[i], p[i + 1], p[i + 2], p[i + 3], p[i + 4], p[i + 5], p[i + 6]))
+        x = p[i + 5]
+        y = p[i + 6]
+      }
+    } else if (c === 'Z' || c === 'z') {
+      fecha()
+      x = sx
+      y = sy
+    }
+  }
+  fecha()
+  return saida
+}
+
+/** Área com sinal (shoelace). O sinal é o sentido de rotação do contorno. */
+function areaDe(poligono) {
+  let a = 0
+  for (let i = 0; i < poligono.length; i++) {
+    const [x1, y1] = poligono[i]
+    const [x2, y2] = poligono[(i + 1) % poligono.length]
+    a += x1 * y2 - x2 * y1
+  }
+  return a / 2
+}
+
+/** Número de voltas em (px,py) com TODOS os subcaminhos fundidos — o que a fonte faz. */
+function voltas(px, py, poligonos) {
+  let w = 0
+  for (const poly of poligonos) {
+    for (let i = 0; i < poly.length; i++) {
+      const [x1, y1] = poly[i]
+      const [x2, y2] = poly[(i + 1) % poly.length]
+      const lado = (x2 - x1) * (py - y1) - (px - x1) * (y2 - y1)
+      if (y1 <= py) {
+        if (y2 > py && lado > 0) w++
+      } else if (y2 <= py && lado < 0) w--
+    }
+  }
+  return w
+}
+
+/** Todos os `d` de uma forma. */
+function atributosD(markup) {
+  return [...markup.matchAll(/\bd="([^"]*)"/g)].map((m) => m[1])
+}
+
+const ATRIBUTOS_PROIBIDOS = [
+  'transform', 'style', 'fill-rule', 'clip-rule', 'clip-path', 'mask', 'opacity', 'fill-opacity',
+]
+
+test('as formas de produto passam o lint de fonte', (t) => {
+  const carga = lerFormasDeProduto()
+  if (!carga) return t.skip('scripts/product-shapes-{a,b}.js ainda não existem')
+  const { formas, repetidos } = carga
+  assert.deepEqual(repetidos, [], 'id de forma duplicado entre os dois arquivos')
+  assert.ok(Object.keys(formas).length > 0, 'nenhuma forma exportada')
+
+  const erros = []
+  for (const [id, { markup }] of Object.entries(formas)) {
+    const reclama = (msg) => erros.push(`"${id}": ${msg}`)
+    if (!markup.trim()) reclama('markup vazio')
+    if (/<\//.test(markup)) reclama('tag de fechamento (use só <path .../> auto-fechado)')
+    const solto = markup.replace(/<[^>]*>/g, '').trim()
+    if (solto) reclama(`texto solto fora de tag: ${JSON.stringify(solto.slice(0, 30))}`)
+    const tags = markup.match(/<[a-zA-Z][^>]*>/g) || []
+    if (!tags.length) reclama('nenhum elemento')
+    for (const tag of tags) {
+      const nome = (tag.match(/^<([a-zA-Z][\w:-]*)/) || [])[1]
+      // <circle>/<g> e afins não sobrevivem à conversão para glifo
+      if (nome !== 'path') reclama(`elemento <${nome}> não permitido (só <path>)`)
+      /** @type {Record<string, string>} */
+      const attrs = {}
+      const re = /([a-zA-Z][\w:-]*)\s*=\s*"([^"]*)"/g
+      let m
+      while ((m = re.exec(tag)) !== null) attrs[m[1]] = m[2]
+      if (!attrs.d || !attrs.d.trim()) reclama('<path> sem d')
+      for (const chave of Object.keys(attrs)) {
+        // stroke não existe em fonte: o contorno tem que ser forma fechada
+        if (chave.startsWith('stroke')) reclama(`atributo "${chave}" — a fonte não tem traço`)
+        if (ATRIBUTOS_PROIBIDOS.includes(chave)) reclama(`atributo "${chave}" não permitido`)
+      }
+      if (attrs.fill === 'none') reclama('fill="none" vira glifo vazio na fonte')
+    }
+    for (const d of atributosD(markup)) {
+      // só comandos absolutos: relativo muda de sentido quando os subcaminhos
+      // são fundidos e é o que quebraria a leitura de geometria abaixo
+      const comandos = (d.match(/[A-Za-z]/g) || []).join('')
+      const proibidos = [...new Set(comandos.split('').filter((c) => !'MLQAZ'.includes(c)))]
+      if (proibidos.length) reclama(`comandos não permitidos em d: ${proibidos.join(', ')}`)
+      for (const poly of subcaminhos(d)) {
+        if (Math.abs(areaDe(poly)) < 0.01) reclama('subcaminho com área ~0 (contorno degenerado)')
+        for (const [x, y] of poly) {
+          if (x < -0.001 || x > 16.001 || y < -0.001 || y > 16.001) {
+            reclama(`coordenada fora da grade 0..16: ${x.toFixed(2)},${y.toFixed(2)}`)
+          }
+        }
+      }
+    }
+  }
+  assert.deepEqual(erros, [], 'formas reprovadas no lint de fonte')
+})
+
+test('nenhuma forma fica sem tinta quando os subcaminhos são fundidos', (t) => {
+  const carga = lerFormasDeProduto()
+  if (!carga) return t.skip('scripts/product-shapes-{a,b}.js ainda não existem')
+  // a fonte funde TODOS os <path> num contorno só com winding nonzero: um furo
+  // rebobinado errado ou um traço aberto some da UI sem erro nenhum.
+  const semTinta = []
+  for (const [id, { markup }] of Object.entries(carga.formas)) {
+    const poligonos = atributosD(markup).flatMap((d) => subcaminhos(d))
+    let pintados = 0
+    for (let i = 0; i < 64; i++) {
+      for (let j = 0; j < 64; j++) {
+        if (voltas((i + 0.5) / 4, (j + 0.5) / 4, poligonos) !== 0) pintados++
+      }
+    }
+    // o menor glifo do conjunto pinta ~9% da caixa; 2% já é desenho perdido
+    if (pintados < 0.02 * 4096) semTinta.push(`${id}: ${((pintados / 4096) * 100).toFixed(1)}% da caixa`)
+  }
+  assert.deepEqual(semTinta, [], 'formas que a fonte renderiza vazias ou quase vazias')
+})
+
+test('toda forma desenhada tem um id no manifest do tema de produto', (t) => {
+  const carga = lerFormasDeProduto()
+  const tema = lerTemaDeProduto()
+  if (!carga || !tema) return t.skip('formas ou manifest do tema de produto ainda não existem')
+  const desenhos = new Set(
+    Object.values(tema.iconDefinitions).map((/** @type {any} */ d) => codepointDe(d.fontCharacter)),
+  )
+  assert.equal(
+    Object.keys(carga.formas).length,
+    desenhos.size,
+    'a quantidade de formas desenhadas difere da quantidade de glifos usados pelo manifest',
+  )
 })
