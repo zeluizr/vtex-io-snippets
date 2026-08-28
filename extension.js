@@ -28,6 +28,7 @@ const {
 const { completionContext } = require('./lib/context')
 const { loadSnippets } = require('./lib/snippets')
 const { generateTokens } = require('./lib/tokens')
+const comfort = require('./lib/comfort')
 
 // Arquivos onde blocos sao definidos/referenciados num tema VTEX IO.
 // Cobre todo o store/** (store/blocks/**, store/home.jsonc, store/blocks.jsonc,
@@ -358,6 +359,110 @@ async function generateTokensCss() {
   )
 }
 
+/**
+ * Pastas de fonte do sistema, por plataforma. Só leitura: o comando de conforto
+ * precisa saber se a Victor Mono existe antes de mandar o editor usá-la — uma
+ * `fontFamily` que aponta para fonte inexistente cai no fallback em silêncio e
+ * o usuário acha que o comando não fez nada.
+ */
+function pastasDeFonte() {
+  const home = require('os').homedir()
+  if (process.platform === 'darwin') {
+    return [path.join(home, 'Library', 'Fonts'), '/Library/Fonts', '/System/Library/Fonts']
+  }
+  if (process.platform === 'win32') {
+    return [path.join(process.env.WINDIR || 'C:\\Windows', 'Fonts')]
+  }
+  return [path.join(home, '.local', 'share', 'fonts'), path.join(home, '.fonts'), '/usr/share/fonts']
+}
+
+/** Nomes de arquivo de todas as pastas de fonte, ignorando as que não existem. */
+function arquivosDeFonte() {
+  const nomes = []
+  for (const dir of pastasDeFonte()) {
+    try {
+      nomes.push(...fs.readdirSync(dir))
+    } catch {
+      // pasta ausente ou sem permissão: não é erro, é só uma pasta a menos
+    }
+  }
+  return nomes
+}
+
+const CHAVE_DESFAZER = 'puelche.conforto.anterior'
+
+/** Valor que o USUÁRIO gravou na configuração global, não o valor efetivo. */
+function valorGlobal(chave) {
+  const secao = chave.slice(0, chave.lastIndexOf('.'))
+  const folha = chave.slice(chave.lastIndexOf('.') + 1)
+  const info = vscode.workspace.getConfiguration(secao).inspect(folha)
+  return info ? info.globalValue : undefined
+}
+
+async function escrever(chave, valor) {
+  const secao = chave.slice(0, chave.lastIndexOf('.'))
+  const folha = chave.slice(chave.lastIndexOf('.') + 1)
+  await vscode.workspace.getConfiguration(secao).update(folha, valor, vscode.ConfigurationTarget.Global)
+}
+
+/** Comando "VTEX: Aplicar ajustes de conforto do Puelche". */
+async function applyComfort(context) {
+  const temFonte = comfort.fonteInstalada(arquivosDeFonte())
+  if (!temFonte) {
+    const brew = `brew install --cask ${comfort.FONTE.cask}`
+    const escolha = await vscode.window.showWarningMessage(
+      `VTEX: a fonte ${comfort.FONTE.nome} não está instalada. Sem ela o editor cai no fallback e o preset parece não ter feito nada.`,
+      { modal: true },
+      'Copiar comando de instalação',
+      'Aplicar mesmo assim',
+    )
+    if (escolha === 'Copiar comando de instalação') {
+      await vscode.env.clipboard.writeText(brew)
+      vscode.window.showInformationMessage(`VTEX: \`${brew}\` copiado. Rode, reinicie o VS Code e chame o comando de novo.`)
+      return
+    }
+    if (escolha !== 'Aplicar mesmo assim') return
+  }
+
+  /** @type {Record<string, unknown>} */
+  const atual = {}
+  for (const chave of Object.keys(comfort.AJUSTES)) atual[chave] = valorGlobal(chave)
+  const mudancas = comfort.planejar(atual)
+
+  if (mudancas.length === 0) {
+    vscode.window.showInformationMessage('VTEX: os ajustes de conforto do Puelche já estão aplicados.')
+    return
+  }
+
+  const ok = await vscode.window.showInformationMessage(
+    `VTEX: aplicar ${mudancas.length} ajuste(s) nas suas configurações de usuário?`,
+    { modal: true, detail: mudancas.map(comfort.descrever).join('\n') },
+    'Aplicar',
+  )
+  if (ok !== 'Aplicar') return
+
+  for (const m of mudancas) await escrever(m.chave, m.para)
+  await context.globalState.update(
+    CHAVE_DESFAZER,
+    mudancas.map((m) => ({ chave: m.chave, de: m.de })),
+  )
+  vscode.window.showInformationMessage(
+    `VTEX: ${mudancas.length} ajuste(s) aplicados. "VTEX: Desfazer ajustes de conforto" volta atrás.`,
+  )
+}
+
+/** Comando "VTEX: Desfazer ajustes de conforto". */
+async function undoComfort(context) {
+  const salvo = context.globalState.get(CHAVE_DESFAZER)
+  if (!salvo || salvo.length === 0) {
+    vscode.window.showInformationMessage('VTEX: não há ajustes de conforto para desfazer.')
+    return
+  }
+  for (const { chave, para } of comfort.restaurar(salvo)) await escrever(chave, para)
+  await context.globalState.update(CHAVE_DESFAZER, undefined)
+  vscode.window.showInformationMessage(`VTEX: ${salvo.length} ajuste(s) restaurados ao valor anterior.`)
+}
+
 function activate(context) {
   const selector = [
     { language: 'json', scheme: 'file' },
@@ -404,6 +509,8 @@ function activate(context) {
 
   context.subscriptions.push(
     vscode.commands.registerCommand('vtex-io-intellisense.generateTokensCss', generateTokensCss),
+    vscode.commands.registerCommand('vtex-io-intellisense.applyComfort', () => applyComfort(context)),
+    vscode.commands.registerCommand('vtex-io-intellisense.undoComfort', () => undoComfort(context)),
   )
 }
 
