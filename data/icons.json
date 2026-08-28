@@ -9,7 +9,7 @@
     "A exceção são as marcas de terceiro, que levam o papel mais próximo da cor da própria",
     "marca — claude/git em clay, npm em rose, eslint em violet, yarn/docker em steel.",
     "A paleta é a do Dracula: as 15 cores dele estão todas acima de ΔE76 10 entre si, que é o que faz o conjunto ler de relance.",
-    "roles pinta a silhueta sólida; rolesDeep pinta a marca inscrita — é o mesmo papel misturado a 70% com o fundo #1A181F."
+    "roles pinta a silhueta sólida; rolesDeep pinta a marca inscrita — é o mesmo papel misturado a 70% com o fundo #17162A da inmmerce."
   ],
   "roles": {
     "purple": "#BD93F9",
@@ -25,17 +25,17 @@
     "dim": "#808DB4"
   },
   "rolesDeep": {
-    "purple": "#4B3D60",
-    "lavender": "#524462",
-    "pink": "#5F3551",
-    "green": "#2A5C3B",
-    "cyan": "#3C5762",
-    "aqua": "#435D62",
-    "yellow": "#5B5C40",
-    "orange": "#5F4836",
-    "parchment": "#494545",
-    "mint": "#325D42",
-    "dim": "#393B4C"
+    "purple": "#493C68",
+    "lavender": "#50436A",
+    "pink": "#5D3459",
+    "green": "#285A42",
+    "cyan": "#3A5569",
+    "aqua": "#415C6A",
+    "yellow": "#585A47",
+    "orange": "#5D473E",
+    "parchment": "#47444D",
+    "mint": "#305C4A",
+    "dim": "#373A53"
   },
   "defaults": {
     "file": {

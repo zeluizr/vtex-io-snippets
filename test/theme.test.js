@@ -26,10 +26,10 @@ const THEME = JSON.parse(RAW)
 // falhava justamente nisso: os 9 papéis viviam entre ΔE76 10 e 15, no limite do
 // piso. As 15 cores do Dracula estão TODAS acima de ΔE76 10 entre si, com folga.
 //
-// O fundo continua sendo o #1A181F do Puelche, mais escuro que o #282A36 do
+// O fundo é o índigo-noite #17162a da inmmerce, mais escuro que o #282A36 do
 // Dracula. Isso não é descuido: sobre ele cada cor do Dracula ganha ~24% de
-// contraste a mais do que no tema de origem — verde a 12.81:1 contra 10.38:1,
-// vermelho a 5.60:1 contra 4.53:1. Era o jeito de pedir mais destaque e ganhar
+// contraste a mais do que no tema de origem — verde a 12.92:1 contra 10.38:1,
+// vermelho a 5.64:1 contra 4.53:1. Era o jeito de pedir mais destaque e ganhar
 // mais destaque ainda.
 //
 // O que NÃO veio do Dracula: o `comment`. O #6272A4 original dá 3.74:1 sobre
@@ -37,14 +37,18 @@ const THEME = JSON.parse(RAW)
 // razão escrita na spec — um comentário que não se lê é um comentário que não
 // se escreve. Está clareado 30% em direção ao texto: #8F9ABB, 6.29:1.
 const PALETTE = {
-  bg: '#1A181F',
-  'bg-deep': '#131117',
-  'bg-lift': '#221F29',
+  // As superfícies são as da inmmerce: o índigo-noite #17162a da marca e a
+  // família slate-púrpura em volta dele. O fundo antigo (#1A181F) estava a
+  // ΔE76 9.7 deste — praticamente a mesma cor —, então a troca não mexeu em
+  // nenhum contraste de sintaxe; todos subiram um pouco.
+  bg: '#17162A',
+  'bg-deep': '#100F1D',
+  'bg-lift': '#211F30',
   // linha atual: a #201D27 ficava a 1.060 de razão sobre o fundo — invisível.
-  'bg-line': '#282332',
-  selection: '#2E2A3C',
-  border: '#221F29',
-  'border-soft': '#2A2633',
+  'bg-line': '#2A283B',
+  selection: '#343248',
+  border: '#211F30',
+  'border-soft': '#2B293C',
   fg: '#F8F8F2',
   'fg-param': '#D2D2CC',
   'fg-punct': '#9A9A94',
@@ -64,13 +68,14 @@ const PALETTE = {
   // O USO continua no fg: é o contraste entre declaração e uso que faz a leitura.
   lavender: '#D6ACFF',
   aqua: '#A4FFFF',
-  // o accent NÃO virou o rosa do Dracula: ele é identidade de chrome e nunca
-  // pinta código, e o rosa passou a ser a palavra-chave. Dois rosas com papéis
-  // diferentes na mesma tela seria ruído. Ficam a ΔE76 25.1 um do outro.
-  accent: '#C25E86',
-  // accent puro reprova a 3.46:1 sobre a linha focada da lista: existe só para
-  // o realce de match sobreviver ao fundo de seleção sem trocar de família.
-  'accent-lift': '#DA84B4',
+  // O dourado da inmmerce. É identidade de chrome e nunca pinta código — o
+  // rosa do Dracula continua sendo a palavra-chave, e os dois estão a ΔE76 109.
+  //
+  // Ele também aposentou o `accent-lift`. Aquele token existia por um motivo
+  // só: o accent rosa reprovava a 3.46:1 sobre a linha focada da lista, e o
+  // realce de match precisava sobreviver ali. O dourado dá 7.85:1 no mesmo
+  // fundo, então as 12 chaves de chrome usam o acento puro.
+  accent: '#F6C92D',
   red: '#FF5555',
   mint: '#69FF94',
 }
@@ -87,8 +92,8 @@ const PALETTE = {
 // Utilitários de interface autorizados pela spec, fora da paleta de papéis.
 const UI_EXTRAS = new Set([
   '#00000000', // bordas decorativas removidas
-  '#3B3549', // focusBorder e guia de indentação ativa (cinza, nunca accent)
-  '#26222F', // guias de indentação
+  '#3F3D56', // focusBorder e guia ativa — o slate da marca, nunca o accent
+  '#2B293C', // guias de indentação
   '#FFFFFF', // markup.bold do Markdown e branco forte do terminal
   '#21222C', // preto do terminal, o AnsiBlack do Dracula
   '#44475A', // preto brilhante do terminal
@@ -97,8 +102,10 @@ const UI_EXTRAS = new Set([
 ])
 
 // As 12 chaves de chrome que carregam a identidade accent — nenhuma de texto de
-// código. Dez usam o accent puro; duas usam `accent-lift` porque o accent puro
-// reprova em contraste sobre o fundo de seleção (ver os testes de contraste).
+// código. Foram dez mais duas enquanto o accent era rosa: as duas do realce de
+// match precisavam do `accent-lift`, porque o rosa puro reprovava a 3.46:1
+// sobre a linha focada da lista. O dourado da inmmerce dá 7.85:1 no mesmo
+// fundo, então as doze usam o acento puro e o token clareado deixou de existir.
 const ACCENT_KEYS = [
   'activityBar.activeBorder',
   'activityBarBadge.background',
@@ -110,9 +117,9 @@ const ACCENT_KEYS = [
   'progressBar.background',
   'tab.activeBorderTop',
   'terminalCursor.foreground',
+  'editorSuggestWidget.highlightForeground',
+  'list.highlightForeground',
 ]
-
-const ACCENT_LIFT_KEYS = ['editorSuggestWidget.highlightForeground', 'list.highlightForeground']
 
 // Regras autorizadas a usar itálico. A spec proíbe itálico fora desta lista.
 const ITALIC_RULES = new Set([
@@ -209,20 +216,12 @@ test('accent só aparece nas 10 chaves de chrome declaradas', () => {
   assert.deepEqual(usando, [...ACCENT_KEYS].sort())
 })
 
-test('accent-lift só aparece nas 2 chaves de realce de match', () => {
-  const usando = Object.entries(THEME.colors)
-    .filter(([, v]) => v === PALETTE['accent-lift'])
-    .map(([k]) => k)
-    .sort()
-  assert.deepEqual(usando, [...ACCENT_LIFT_KEYS].sort())
-})
-
 test('a identidade accent cobre 12 chaves de chrome, nenhuma de texto', () => {
-  assert.equal(ACCENT_KEYS.length + ACCENT_LIFT_KEYS.length, 12)
+  assert.equal(ACCENT_KEYS.length, 12)
 })
 
 test('accent nunca colore texto de código', () => {
-  for (const cor of [PALETTE.accent, PALETTE['accent-lift']]) {
+  for (const cor of [PALETTE.accent]) {
     for (const rule of THEME.tokenColors) {
       assert.notEqual(rule.settings.foreground, cor, `regra "${rule.name}" usa ${cor}`)
     }
@@ -232,8 +231,8 @@ test('accent nunca colore texto de código', () => {
   }
 })
 
-test('focusBorder é cinza, não accent (não pisca rosa a cada Tab)', () => {
-  assert.equal(THEME.colors.focusBorder, '#3B3549')
+test('focusBorder é neutro, não accent (não pisca dourado a cada Tab)', () => {
+  assert.equal(THEME.colors.focusBorder, '#3F3D56')
 })
 
 test('os 9 papéis de sintaxe passam 4.5:1 sobre o fundo do editor', () => {
@@ -249,14 +248,15 @@ test('comentários ficam acima do mínimo de acessibilidade (não são apagados)
   assert.ok(r >= 5.7, `comentário tem ${r.toFixed(2)}:1`)
 })
 
-test('accent-lift é legível nos dois fundos onde o realce de match cai', () => {
-  // A razão de a cor existir. O realce de match aparece sobre a linha focada da
-  // lista (selection) e sobre o fundo do suggest widget (bg-lift); o accent puro
-  // dava 3.46:1 e 4.04:1 nesses dois fundos.
-  const sobreSelecao = contrast(PALETTE['accent-lift'], PALETTE.selection)
-  const sobreWidget = contrast(PALETTE['accent-lift'], PALETTE['bg-lift'])
-  assert.ok(sobreSelecao >= 4.5, `accent-lift na linha focada tem ${sobreSelecao.toFixed(2)}:1`)
-  assert.ok(sobreWidget >= 4.5, `accent-lift no suggest widget tem ${sobreWidget.toFixed(2)}:1`)
+test('o realce de match é legível nos dois fundos onde ele cai', () => {
+  // Este teste é o que aposentou o `accent-lift`. O realce aparece sobre a
+  // linha focada da lista (selection) e sobre o fundo do suggest widget
+  // (bg-lift). O accent rosa dava 3.46:1 e 4.04:1 e por isso precisava de uma
+  // variante clareada; o dourado passa nos dois sem ajuda.
+  const sobreSelecao = contrast(PALETTE.accent, PALETTE.selection)
+  const sobreWidget = contrast(PALETTE.accent, PALETTE['bg-lift'])
+  assert.ok(sobreSelecao >= 4.5, `o realce na linha focada tem ${sobreSelecao.toFixed(2)}:1`)
+  assert.ok(sobreWidget >= 4.5, `o realce no suggest widget tem ${sobreWidget.toFixed(2)}:1`)
 })
 
 test('o rótulo dos botões e badges é legível sobre o accent', () => {
@@ -280,7 +280,7 @@ test('nenhum par de cores que dividem a tela abaixo de ΔE76 10', () => {
   // 5.29): duas cores abaixo de ~10 viram a mesma cor a olho nu.
   const naTela = [
     'pink', 'green', 'cyan', 'yellow', 'purple', 'orange', 'red', 'mint', 'lavender', 'aqua',
-    'accent', 'accent-lift', 'fg', 'fg-param', 'fg-punct', 'comment', 'fg-faint',
+    'accent', 'fg', 'fg-param', 'fg-punct', 'comment', 'fg-faint',
   ]
   // Isentos: pares em que o itálico — não a cor — é o que separa os dois papéis.
   // Colorir mais seria trocar uma distinção que já funciona por ruído.

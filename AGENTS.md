@@ -89,7 +89,8 @@ default de tokens, o código e a camada de tema precisam ir junto).
   Regra central: **colorir por papel, não por linguagem** — 9 papéis semânticos e
   toda linguagem mapeia nos mesmos 9 (tag HTML, componente JSX, seletor de elemento
   CSS, decorator Python, atributo Prisma, diretiva GraphQL e título Markdown são
-  todos "estrutura nomeada"). Accent (`#C25E86`) **só em chrome**, nunca em texto de
+  todos "estrutura nomeada"). Accent — o dourado `#F6C92D` da inmmerce — **só em
+  chrome**, nunca em texto de
   código; corpo de Markdown sem cor; itálico no lugar de cores extras.
 - **Validado por `test/theme.test.js`** — a spec virou asserção, porque essas regras
   só falham "visualmente": nenhum hex fora da paleta declarada, a identidade accent
@@ -120,7 +121,7 @@ default de tokens, o código e a camada de tema precisam ir junto).
   traço de 1.33px não — é a mesma escolha do Material Icon Theme. Só o glifo do
   product icon theme continua monoline, porque fonte não carrega duas cores.
 - **O tom escuro é derivado, não escolhido.** `data/icons.json → rolesDeep` é cada
-  papel misturado a **70% com `#1A181F`**, e o gerador recusa valor diferente
+  papel misturado a **70% com `#17162A`**, e o gerador recusa valor diferente
   disso. Pior caso medido: `dim` a 3.35:1 entre placa e marca, travado em
   `test/icons.test.js`. **O sistema tem piso de luminância**: placa escura demais
   não deixa espaço para a marca — foi o que barrou usar o `#6272A4` do Dracula.

@@ -26,7 +26,7 @@ const ROOT = path.resolve(__dirname, '..')
 // Saída fora do repositório por padrão: isto é diagnóstico, não artefato.
 const OUT_DIR = process.argv[2] || path.join(require('os').tmpdir(), 'puelche-contact')
 
-const BG = '#1A181F' // editor.background do tema Puelche
+const BG = '#17162A' // editor.background do tema Puelche
 const GRID_LINE = '#2A2732'
 const LABEL = '#8A8496'
 const TITLE = '#D6D2DF'

@@ -7,6 +7,32 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [3.7.0] - 2026-08-28
+
+### Cambiado
+- **La identidad del tema pasa a ser la de inmmerce.** El fondo del editor es ahora el
+  índigo nocturno `#17162a` de la marca, las superficies vienen de su familia
+  slate-púrpura, y el acento de chrome —cursor, pestaña activa, badge, barra de
+  progreso— es el **dorado `#f6c92d`**. Las tres piezas del tema (color, iconos de
+  archivo, iconos de interfaz) comparten esa base.
+- El cambio de fondo salió **gratis**: `#1A181F` y `#17162a` estaban a ΔE76 9.7, casi el
+  mismo color. Ningún contraste de sintaxis bajó; todos subieron un poco (verde 12.81 →
+  12.92:1, rojo 5.60 → 5.64:1).
+- **Los colores del CÓDIGO no cambian**, y eso es decisión, no inercia. La paleta de la
+  marca tiene dos acentos; el resaltado necesita siete matices bien separados. Forzar la
+  sintaxis hacia el dorado devolvería exactamente el problema que motivó adoptar Dracula
+  —no poder entender de un vistazo—. La marca manda en el chrome; la separación manda en
+  el código.
+- Los **138 iconos se regeneraron**: el tono oscuro de la marca inscrita se deriva del
+  fondo del editor, así que mover el fondo mueve la mezcla. El peor caso sigue por encima
+  del mínimo (3.37:1).
+
+### Eliminado
+- **El token `accent-lift` deja de existir.** Existía por un motivo único: el acento rosa
+  reprobaba a 3.46:1 sobre la línea enfocada de la lista, y el resaltado de coincidencia
+  necesitaba sobrevivir ahí. El dorado da **7.85:1** en ese mismo fondo, así que las 12
+  claves de chrome usan el acento puro y la variante aclarada sobra.
+
 ## [3.6.0] - 2026-08-28
 
 ### Cambiado

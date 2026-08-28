@@ -37,7 +37,7 @@ A raiz do SVG carrega a cor do papel; a placa herda e não declara pintura. Só 
 orelha da página tem cor própria dentro da placa, pelo token `@d`.
 
 **O tom escuro é derivado, não escolhido.** `rolesDeep[papel]` é o papel
-misturado a **70% com o fundo do editor `#1A181F`**, e o gerador recusa qualquer
+misturado a **70% com o fundo do editor `#17162A`**, e o gerador recusa qualquer
 valor que não seja exatamente isso. Fica em família com o tema e, sobre o fundo
 do Puelche, parece um recorte — mas é cor explícita, então o ícone continua certo
 sobre qualquer fundo.
@@ -244,6 +244,14 @@ vieram de lá e a razão está medida:
 - **`parchment` `#B8AE9E`** para documento. O branco `#F8F8F2` do Dracula é a cor
   mais clara da paleta e transformava `docs`, `README` e `CHANGELOG` na coisa mais
   luminosa da árvore — documento não deve dominar. O bege é neutro e recua.
+> **A paleta de superfície é a da inmmerce.** O fundo, as superfícies e o acento
+> vêm do sistema da marca — índigo-noite `#17162a`, família slate-púrpura e o
+> dourado `#f6c92d`. As matizes de **sintaxe e de ícone** continuam sendo as do
+> Dracula, e isso é decisão, não inércia: a marca tem dois acentos e o realce
+> precisa de sete matizes separadas. Forçar tudo para o dourado devolveria
+> exatamente o problema que motivou a troca para o Dracula — não dar para
+> entender só de olhar.
+
 - **`dim` `#808DB4`** para o gerado. O `#6272A4` do Dracula era o candidato óbvio,
   mas o sistema de duas camadas tem um **piso de luminância** que ninguém tinha
   medido: com a mistura de 0.7, uma placa escura demais não deixa espaço para a

@@ -42,8 +42,15 @@ const round = (n) => Math.round(n * 100) / 100
 
 const STROKE = 2
 
-/** Fundo do editor no Puelche — o outro extremo da mistura que dá o tom escuro. */
-const BG = '#1A181F'
+/**
+ * Fundo do editor no Puelche — o outro extremo da mistura que dá o tom escuro.
+ *
+ * É o índigo-noite da inmmerce. Foi #1A181F até a identidade da marca entrar:
+ * as duas cores estavam a ΔE76 9.7, praticamente a mesma, então a troca não
+ * mexeu em nenhum contraste. Se este valor mudar, TODOS os 138 ícones mudam —
+ * o tom da marca é derivado dele, não escolhido.
+ */
+const BG = '#17162A'
 
 /**
  * Quanto do fundo entra no tom escuro da marca. Mais que isso vira buraco
