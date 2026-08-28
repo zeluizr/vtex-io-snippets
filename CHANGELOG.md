@@ -7,6 +7,85 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [3.2.1] - 2026-08-28
+
+### Añadido
+- Icono para `landing` (y `campaign`, `promo`), que en un tema de VTEX vive en
+  `store/blocks/` junto a `home`, `product` y `search` y era la única de esas carpetas que
+  seguía cayendo en el icono genérico. Lleva un megáfono: el dibujo "correcto" habría sido
+  un *wireframe*, pero en esa misma lista ya viven `header`, `footer`, `templates` y
+  `schemas`, todas marco-con-líneas —a 16px reales sería la quinta mancha rectangular
+  seguida—. La cuña del megáfono es la única silueta asimétrica libre del conjunto.
+- `.DS_Store`, `Thumbs.db` y `desktop.ini` dejan de caer en el icono de archivo genérico.
+
+## [3.2.0] - 2026-08-28
+
+### Añadido
+- **Cobertura completa de la estructura VTEX IO.** `checkout-ui-custom` no tenía icono y
+  caía en la carpeta genérica; ahora lo tiene, y con él todos los builders que faltaban:
+  `sitemap`, `masterdata` y `configuration`. Dentro del tema entran `store/blocks` —que
+  antes compartía icono con `components`, aunque un bloque de VTEX no sea un componente de
+  React—, `store/templates` y `styles/iconpacks`. Y las páginas de la tienda, que son donde
+  un tema pasa el día: `home`, `product`, `search`, `header`, `footer`, `cart` y `account`.
+  Son **112 nombres de carpeta**, frente a 79.
+- La carpeta `store` pasa a llevar la **marca de VTEX**, la misma que `manifest.json`: es el
+  builder de la tienda, y la etiqueta de precio que tenía antes decía menos que la marca.
+  Esa etiqueta no se tiró: ahora es el icono de `product`, que es lo que siempre dibujó.
+- `style.json` —el archivo de tokens del VTEX Style que esta misma extensión lee para
+  autocompletar `var(--...)`— tiene icono propio en vez de caer en el `.json` genérico.
+
+- **Marcas de terceros por nombre de archivo.** `CLAUDE.md` y `AGENTS.md` llevan el
+  *sunburst* de Claude aunque sean `.md` —manda `fileNames`, que en VS Code gana a la
+  extensión—, y lo mismo la carpeta `.claude`. Con ellos entran npm (`package.json`,
+  `package-lock.json`, `.npmrc`), yarn (`yarn.lock`, `.yarnrc`), Prettier
+  (`.prettierrc*`, `.prettierignore`), ESLint (`.eslintrc*`, `.eslintignore`), Docker
+  (`Dockerfile`, `docker-compose`, `.dockerignore`), Git (`.gitignore`,
+  `.gitattributes`), GitHub (carpeta `.github`) y VTEX (`manifest.json`, `vtex.json`,
+  `.vtexignore`). Son **109 iconos** y **74 nombres de archivo**.
+- Estas marcas son **sólidas**, no trazadas: es la segunda excepción de la
+  especificación de dibujo. Un *sunburst* o un logotipo en monoline a los ~8px reales
+  del explorador se convierte en telaraña; la mancha sobrevive. Y **no son el asset
+  oficial**: son interpretaciones redibujadas para ese tamaño —ocho rayos en vez de
+  once, la ballena de Docker sin cola ni ojo, el rombo de Git con una diagonal y un
+  nodo en vez de tres—. Donde no hay símbolo oficial que sobreviva, no se inventa uno:
+  `.editorconfig` se queda con el pictograma genérico.
+
+## [3.1.0] - 2026-08-28
+
+### Cambiado
+- **Los iconos de archivo y carpeta pasan de *monoline* a silueta sólida.** Cada icono
+  son ahora **dos capas**: una silueta rellena con el color del papel semántico —la
+  carpeta, o la hoja de papel— y encima la marca de lo que contiene, trazada en un tono
+  oscuro del mismo color. El motivo es el tamaño en el que el icono se dibuja de verdad:
+  en el explorador son 16px, y ahí un trazo de 1.33px se disuelve sobre el fondo oscuro
+  mientras que una mancha sólida se lee de inmediato. La carpeta trazada con una marca
+  trazada dentro era una malla de líneas finas en la que `dist`, `docs` y `scripts` no se
+  distinguían.
+- **El tono oscuro es derivado, no elegido**: cada papel mezclado al **60%** con el fondo
+  del editor (`#1A181F`), en el nuevo bloque `rolesDeep` de `data/icons.json`. El
+  generador rechaza cualquier valor que no sea exactamente esa mezcla, y el contraste
+  entre silueta y marca queda registrado en los tests —el peor caso es `punct`, a
+  2.67:1—. La paleta de 9 papeles **no cambia**.
+- **La carpeta abierta** ya no es un contorno: es la pared de atrás en el tono oscuro más
+  la solapa delantera en el color del papel. Dos manchas del mismo color no se leen como
+  carpeta abierta; lo que las separa es el tono.
+- **Las marcas se simplificaron para los ~8px en los que se dibujan.** `javascript`,
+  `typescript` e `image` perdieron su marco de 19×19 y `doc` y `markdown` su hoja —el
+  marco es ahora la propia silueta, y hoja dentro de hoja no se lee—. El engranaje de
+  seis dientes pasó a ser un par de deslizadores, el átomo de React a una sola órbita, y
+  `branch`, `graph`, `container` y `list` bajaron de cuatro o cinco elementos a dos. El
+  techo de **3 elementos por marca** es ahora una aserción del CI.
+- **Los iconos ocupan más caja.** La silueta rellena va de 1 a 23 de la rejilla, que es
+  exactamente hasta donde llegaba la tinta del contorno trazado (trazo de 2 centrado en la
+  caja de contenido 2..22). La marca creció en la misma proporción, así que en el
+  explorador el conjunto se lee más grande sin cambiar el equilibrio entre silueta y marca.
+- `readme` pasó del libro abierto al libro cerrado con lomo: tres verticales casi iguales
+  se leían como "|||" sobre la hoja. Los nodos de `graphql` subieron a radio 2.6, que es el
+  mínimo para que un círculo sobreviva a 16px.
+- `docs/traco-puelche.md`, la especificación de dibujo, se reescribió alrededor de las dos
+  capas. El *product icon theme* **no cambia**: sigue siendo monoline, porque una fuente
+  no puede llevar dos colores.
+
 ## [3.0.0] - 2026-08-21
 
 ### Añadido

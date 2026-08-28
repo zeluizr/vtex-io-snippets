@@ -100,8 +100,15 @@ todos los archivos.
 
 ## Iconos de archivo y carpeta
 
-72 dibujos propios, *monoline* y coloreados con el **mismo esquema de papeles** que el
-tema, así que el explorador y el editor hablan el mismo idioma visual.
+72 dibujos propios, coloreados con el **mismo esquema de papeles** que el tema, así que
+el explorador y el editor hablan el mismo idioma visual.
+
+Cada icono son **dos capas**: una silueta sólida —la carpeta, o la hoja de papel— con el
+color del papel semántico, y encima la marca de lo que contiene, trazada en un **tono
+oscuro del mismo color**. La razón es el tamaño real: en el explorador el icono se dibuja
+a 16px, y ahí un trazo de 1.33px se pierde sobre el fondo oscuro mientras que una mancha
+sólida se lee de un vistazo. El tono oscuro no se elige a ojo: es el mismo color del papel
+mezclado al 60% con el fondo del editor.
 
 Actívalos desde la paleta de comandos (`Cmd/Ctrl + Shift + P`) con
 **`Preferences: File Icon Theme`** → **Puelche**.
@@ -109,13 +116,26 @@ Actívalos desde la paleta de comandos (`Cmd/Ctrl + Shift + P`) con
 Lo que los diferencia de un pack genérico es que cubren la estructura real de una app de
 **VTEX IO**: icono propio para las carpetas `store`, `react`, `node`, `graphql`,
 `messages`, `pixel`, `admin` y `styles`, y para los archivos `manifest.json`,
-`routes.json`, `blocks.json`, `interfaces.json` y `.vtexignore`. En total, ~80 extensiones,
-~62 nombres de archivo y 26 `languageIds`.
+`routes.json`, `blocks.json`, `interfaces.json`, `style.json` y `.vtexignore`.
+
+La cobertura sigue la estructura real de un tema: **cada builder de VTEX IO tiene su
+carpeta** —`store`, `react`, `node`, `graphql`, `messages`, `styles`, `admin`, `pixel`,
+`assets`, `docs`, `checkout-ui-custom`, `sitemap`, `masterdata`, `configuration`—, y
+también las carpetas de dentro del tema: `store/blocks`, `store/templates`,
+`styles/iconpacks`, y las páginas de la tienda (`home`, `product`, `search`, `header`,
+`footer`, `landing`, `cart`, `account`). En total, ~80 extensiones, **79 nombres de
+archivo**, **117 nombres de carpeta** y 26 `languageIds`.
+
+Los nombres conocidos llevan **marca propia**, aunque la extensión diga otra cosa: en VS
+Code `fileNames` gana a `fileExtensions`, así que `CLAUDE.md` y `AGENTS.md` llevan el
+*sunburst* de Claude y no el icono de Markdown. Igual con npm, yarn, Prettier, ESLint,
+Docker, Git, GitHub y VTEX. Son interpretaciones redibujadas para los 16px del explorador,
+no el asset oficial: a ese tamaño la fidelidad se pierde y lo que queda es la silueta.
 
 ## Iconos de la interfaz
 
 El *product icon theme* reemplaza los iconos de la propia UI de VS Code por un conjunto
-propio, en la misma línea monoline de los iconos de archivo: **58 glifos** dibujados a mano
+propio, monoline: **58 glifos** dibujados a mano
 que cubren la barra de actividad, el layout y la barra de título, la barra de estado, el
 árbol del explorador, pestañas y editor, paneles, acciones comunes y feedback. Se sirven
 como 93 entradas, porque 35 codicons distintos comparten dibujo con otro.

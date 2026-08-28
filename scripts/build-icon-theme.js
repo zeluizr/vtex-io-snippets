@@ -6,13 +6,28 @@
  * Gera icons/*.svg e themes/puelche-icon-theme.json a partir de data/icons.json
  * e da geometria em scripts/icon-shapes.js.
  *
- * Por que gerar em vez de escrever à mão: são 72 desenhos, 100 definições de
- * ícone (pasta tem dois estados) e ~247 mapeamentos.
+ * Por que gerar em vez de escrever à mão: são ~90 desenhos, 136 definições de
+ * ícone (pasta tem dois estados) e ~294 mapeamentos.
  * Com um mapa único, a espessura de traço, o arredondamento e as cores saem
  * iguais em todos, e o CI consegue provar que o manifest commitado é exatamente
  * o que o gerador produz (`git diff --exit-code`).
  *
  * Determinístico: mesma entrada -> mesmos bytes de saída.
+ *
+ * DUAS CAMADAS (docs/traco-puelche.md). Todo ícone é:
+ *
+ *   placa   silhueta fechada, `fill` na cor do papel — a pasta ou a página
+ *   marca   o símbolo inscrito, traçado no tom escuro do mesmo papel
+ *
+ * A 16px do Explorer o traço de 1.33px some; mancha sólida não. É a mesma
+ * escolha do Material Icon Theme e é o que substituiu o monoline de antes.
+ *
+ * Escape de marca, por lado da árvore:
+ *   pasta   `SHAPES[nome + 'Badge']` se existir, senão `SHAPES[nome]`
+ *   arquivo `SHAPES[nome + 'Mark']`  se existir, senão `SHAPES[nome]`
+ * São dois porque a mesma forma quer coisas diferentes nos dois lugares: a
+ * pasta de `docs` quer um livro, o arquivo `.md` sobre uma placa de página não
+ * pode ser outra página. Ver markShape().
  */
 const fs = require('fs')
 const path = require('path')
@@ -23,35 +38,154 @@ const MAP = path.join(ROOT, 'data', 'icons.json')
 const ICONS_DIR = path.join(ROOT, 'icons')
 const THEME_OUT = path.join(ROOT, 'themes', 'puelche-icon-theme.json')
 
-const STROKE = 1.8
-// Marca dentro da pasta: escala e posição por estado. O traço da marca é
-// dividido pela escala para sair com a MESMA espessura do resto do conjunto.
-const CLOSED = { x: 6.6, y: 8.4, scale: 0.46 }
-const OPEN = { x: 8.6, y: 9.9, scale: 0.38 }
+const round = (n) => Math.round(n * 100) / 100
 
-/** Embrulha markup de forma num SVG completo, já colorido. */
+const STROKE = 2
+
+/** Fundo do editor no Puelche — o outro extremo da mistura que dá o tom escuro. */
+const BG = '#1A181F'
+
+/**
+ * Quanto do fundo entra no tom escuro da marca. A 0.6 a marca fica a ~3:1 da
+ * placa na maioria dos papéis, que é o piso para elemento gráfico. Mais que
+ * isso vira buraco preto; menos, some dentro da placa.
+ *
+ * O piso real medido está travado em test/icons.test.js: o `punct` (#8A8496,
+ * o cinza mais escuro da paleta) sai a 2.70:1 e é o pior caso do conjunto.
+ */
+const DEEP_MIX = 0.6
+
+const canal = (/** @type {string} */ hex, /** @type {number} */ i) =>
+  parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16)
+
+/** Mistura dois hex de 6 dígitos. `t` é quanto de `b` entra. Determinístico. */
+function mixHex(a, b, t) {
+  let out = '#'
+  for (let i = 0; i < 3; i++) {
+    const v = Math.round(canal(a, i) * (1 - t) + canal(b, i) * t)
+    out += v.toString(16).toUpperCase().padStart(2, '0')
+  }
+  return out
+}
+
+/**
+ * Vão de conteúdo das formas na grade 24: o desenho vive entre 2 e 22 (spec do
+ * traço). É o número que converte "quanta tinta eu quero de altura" em escala.
+ *
+ * Foi 18 enquanto as formas viviam entre 3 e 21. Passar para 20 derruba a escala
+ * ~10% sem mudar a altura de tinta pedida abaixo — e é o que devolve a margem
+ * entre a marca e a parede da pasta. Medido a 16px reais, ampliado 8x, numa
+ * varredura de 0.44 / 0.47 / 0.50 / 0.53: a partir de 0.50 a tinta da marca
+ * encosta na moldura e a silhueta de pasta some — deixa de ser "pasta com
+ * marca" e vira "caixa cheia". 0.47 é o teto com a pasta ainda lendo como pasta.
+ */
+const MARK_SPAN = 20
+
+/**
+ * Escala que faz a tinta da marca ocupar `altura` unidades da grade 24.
+ * A tinta é o vão de conteúdo escalado MAIS o traço, que é sempre STROKE
+ * (a compensação `STROKE / scale` devolve a espessura aparente do conjunto).
+ */
+const fit = (altura) => round((altura - STROKE) / MARK_SPAN)
+
+/** Posição do `translate` para a marca ficar centrada em (cx, cy). */
+const anchor = (cx, cy, scale) => ({ x: round(cx - 12 * scale), y: round(cy - 12 * scale), scale })
+
+/**
+ * Marca inscrita: escala e posição por destino.
+ *
+ * Calibrado a 16px REAIS — que é onde o Explorer desenha —, não a 24. A 16px
+ * cada unidade da grade vale 0.67px e a diferença entre "lê" e "borrão" cabe em
+ * meia unidade. O que a folha de contato ampliada mostrou:
+ *
+ * - a marca precisa PREENCHER a altura livre do corpo. Folga bonita a 24px é
+ *   pixel roubado a 16px: com 1u de folga o conjunto inteiro vira o mesmo
+ *   borrão e distinguir dist/docs/scripts deixa de ser possível.
+ * - passar disso não compra nada: acima do teto a tinta da marca encosta na
+ *   parede da placa e a silhueta some — vira uma mancha cheia.
+ *
+ * CLOSED: o corpo da pasta tem 5.7..21.6 em y livres — 15.9u. A marca preenche
+ * essa altura menos ~1.75u de cada lado e fica centrada no corpo, não na caixa
+ * de 24.
+ *
+ * OPEN: a faixa inclinada deixa menos altura livre. Aqui a marca sangra um
+ * pouco sobre as bordas da faixa de propósito: perder um pedaço da borda custa
+ * menos que perder o desenho inteiro.
+ *
+ * PLATE: o corpo da página tem 3.5..20.5 em x e 1..23 em y, menos a orelha no
+ * canto superior direito. A marca desce para (12, 14.4) para passar por baixo
+ * dela. A escala é irmã da da pasta de propósito — uma marca que sobrevive
+ * dentro da pasta sobrevive na placa, e as duas usam a mesma biblioteca.
+ */
+const CLOSED = anchor(12, 13.65, fit(12.4))
+const OPEN = anchor(12.6, 15.9, fit(10.4))
+const PLATE = anchor(12, 14.4, fit(12.8))
+
+/**
+ * Embrulha as camadas num SVG completo, já colorido.
+ *
+ * A raiz carrega `fill` da cor do papel e `stroke="none"`: a placa herda e não
+ * precisa declarar pintura. Quem tem pintura própria é só a orelha da página
+ * (token `@d`, o tom escuro) e a camada de marca.
+ */
 function svg(inner, color) {
   return (
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" ' +
-    `fill="none" stroke="${color}" stroke-width="${STROKE}" stroke-linecap="round" stroke-linejoin="round">` +
-    inner.replace(/@c/g, color) +
+    `fill="${color}" stroke="none">` +
+    inner +
     '</svg>\n'
   )
 }
 
-/** Pasta com a marca do papel dentro dela. */
-function folderSvg(shapeName, color, expanded) {
-  const base = expanded ? SHAPES.folderOpen : SHAPES.folder
-  if (!shapeName) return svg(base, color)
-  const { x, y, scale } = expanded ? OPEN : CLOSED
-  const mark = SHAPES[shapeName]
-  const inner =
-    base +
-    `<g transform="translate(${x} ${y}) scale(${scale})" stroke-width="${round(STROKE / scale)}">${mark}</g>`
-  return svg(inner, color)
+/** Camada de placa: `@c` é a cor do papel, `@d` o tom escuro (a orelha). */
+function plateLayer(markup, color, deep) {
+  return markup.replace(/@c/g, color).replace(/@d/g, deep)
 }
 
-const round = (n) => Math.round(n * 100) / 100
+/**
+ * Camada de marca: escalada, posicionada e traçada no tom escuro.
+ * O `<g>` reinjeta `stroke-width = STROKE / scale` para a espessura aparente
+ * sair 2 depois da escala. Dentro dela `@c` é a cor da camada — o tom escuro.
+ */
+function markLayer(markup, pos, deep) {
+  const { x, y, scale } = pos
+  return (
+    `<g transform="translate(${x} ${y}) scale(${scale})" fill="none" stroke="${deep}" ` +
+    `stroke-width="${round(STROKE / scale)}" stroke-linecap="round" stroke-linejoin="round">` +
+    markup.replace(/@c/g, deep) +
+    '</g>'
+  )
+}
+
+/**
+ * Marca inscrita, com o escape por destino.
+ *
+ * `destino` é 'Badge' (pasta) ou 'Mark' (arquivo). A pasta de `docs` quer um
+ * livro; o arquivo `.md`, que já É uma página, não pode ter outra página
+ * dentro. Por isso os dois apelidos convivem e `data/icons.json` não muda: os
+ * dois lados continuam apontando para a mesma forma base.
+ */
+function markShape(name, destino) {
+  const mark = SHAPES[`${name}${destino}`] || SHAPES[name]
+  if (!mark) throw new Error(`forma desconhecida na marca: ${name}`)
+  return mark
+}
+
+/** Pasta sólida com a marca do papel inscrita. */
+function folderSvg(shapeName, color, deep, expanded) {
+  const base = plateLayer(expanded ? SHAPES.folderOpen : SHAPES.folder, color, deep)
+  if (!shapeName) return svg(base, color)
+  const mark = markShape(shapeName, 'Badge')
+  return svg(base + markLayer(mark, expanded ? OPEN : CLOSED, deep), color)
+}
+
+/** Placa de página com a marca do tipo inscrita. `shapeName` nulo = sem marca. */
+function fileSvg(shapeName, color, deep) {
+  const base = plateLayer(SHAPES.plate, color, deep)
+  if (!shapeName) return svg(base, color)
+  const mark = markShape(shapeName, 'Mark')
+  return svg(base + markLayer(mark, PLATE, deep), color)
+}
 
 function main() {
   const map = JSON.parse(fs.readFileSync(MAP, 'utf8'))
@@ -61,11 +195,15 @@ function main() {
     if (!c) throw new Error(`papel de cor desconhecido: ${role}`)
     return c
   }
-  /** @param {string} name */
-  const shape = (name) => {
-    const s = SHAPES[name]
-    if (!s) throw new Error(`forma desconhecida: ${name}`)
-    return s
+  /** @param {string} role */
+  const deep = (role) => {
+    const c = map.rolesDeep[role]
+    if (!c) throw new Error(`papel sem tom escuro em rolesDeep: ${role}`)
+    const esperado = mixHex(color(role), BG, DEEP_MIX)
+    if (c !== esperado) {
+      throw new Error(`rolesDeep.${role} é ${c} e a mistura de ${DEEP_MIX} dá ${esperado}`)
+    }
+    return c
   }
 
   // remove só os SVGs que ESTE gerador é dono, no nível de cima. Um rmSync na
@@ -94,18 +232,18 @@ function main() {
     iconDefinitions[key] = { iconPath: `../icons/${file}` }
   }
 
-  // padrões
-  write('file.svg', svg(shape(map.defaults.file.shape), color(map.defaults.file.role)))
+  // padrões — placa e pasta sem marca: aqui a cor do papel é a única informação
+  write('file.svg', fileSvg(null, color(map.defaults.file.role), deep(map.defaults.file.role)))
   define('_file', 'file.svg')
-  write('folder.svg', folderSvg(null, color(map.defaults.folder.role), false))
+  write('folder.svg', folderSvg(null, color(map.defaults.folder.role), deep(map.defaults.folder.role), false))
   define('_folder', 'folder.svg')
-  write('folder-open.svg', folderSvg(null, color(map.defaults.folder.role), true))
+  write('folder-open.svg', folderSvg(null, color(map.defaults.folder.role), deep(map.defaults.folder.role), true))
   define('_folder-open', 'folder-open.svg')
 
   // arquivos
   for (const entry of map.files) {
     const file = `${entry.id}.svg`
-    write(file, svg(shape(entry.shape), color(entry.role)))
+    write(file, fileSvg(entry.shape, color(entry.role), deep(entry.role)))
     const key = `_${entry.id}`
     define(key, file)
     for (const ext of entry.ext || []) fileExtensions[ext.toLowerCase()] = key
@@ -116,8 +254,9 @@ function main() {
   // pastas
   for (const entry of map.folders) {
     const c = color(entry.role)
-    write(`folder-${entry.id}.svg`, folderSvg(entry.shape, c, false))
-    write(`folder-${entry.id}-open.svg`, folderSvg(entry.shape, c, true))
+    const d = deep(entry.role)
+    write(`folder-${entry.id}.svg`, folderSvg(entry.shape, c, d, false))
+    write(`folder-${entry.id}-open.svg`, folderSvg(entry.shape, c, d, true))
     define(`_folder-${entry.id}`, `folder-${entry.id}.svg`)
     define(`_folder-${entry.id}-open`, `folder-${entry.id}-open.svg`)
     for (const name of entry.names) {
@@ -157,6 +296,21 @@ function main() {
   )
 }
 
-module.exports = { main, svg, folderSvg, THEME_OUT, ICONS_DIR }
+module.exports = {
+  main,
+  svg,
+  fileSvg,
+  folderSvg,
+  markShape,
+  mixHex,
+  BG,
+  DEEP_MIX,
+  STROKE,
+  CLOSED,
+  OPEN,
+  PLATE,
+  THEME_OUT,
+  ICONS_DIR,
+}
 
 if (require.main === module) main()

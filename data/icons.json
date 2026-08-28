@@ -4,7 +4,8 @@
     "role = papel de cor da paleta Puelche; shape = forma em scripts/icon-shapes.js.",
     "Precedência do VS Code: names > ext > langs. Nomes completos ganham da extensão,",
     "por isso manifest.json/package.json/tsconfig.json têm ícone próprio e não caem no .json genérico.",
-    "sand e warning estavam a ΔE 5.29 (mesma cor aos olhos): test foi para added e env para clay, e warning saiu dos ícones."
+    "sand e warning estavam a ΔE 5.29 (mesma cor aos olhos): test foi para added e env para clay, e warning saiu dos ícones.",
+    "roles pinta a silhueta sólida; rolesDeep pinta a marca inscrita — é o mesmo papel misturado a 60% com o fundo #1A181F."
   ],
   "roles": {
     "steel": "#86AECB",
@@ -17,13 +18,22 @@
     "punct": "#8A8496",
     "added": "#7FAE8E"
   },
+  "rolesDeep": {
+    "steel": "#455464",
+    "rose": "#5E3E4C",
+    "sage": "#425C58",
+    "sand": "#5E5044",
+    "clay": "#5C463D",
+    "violet": "#524662",
+    "comment": "#4D4856",
+    "punct": "#47434F",
+    "added": "#42544B"
+  },
   "defaults": {
     "file": {
-      "shape": "file",
       "role": "punct"
     },
     "folder": {
-      "shape": "folder",
       "role": "punct"
     }
   },
@@ -113,10 +123,17 @@
     },
     {
       "id": "vue",
+      "shape": "vue",
+      "role": "added",
+      "ext": [
+        "vue"
+      ]
+    },
+    {
+      "id": "svelte",
       "shape": "angles",
       "role": "added",
       "ext": [
-        "vue",
         "svelte"
       ]
     },
@@ -164,7 +181,7 @@
     },
     {
       "id": "markdown",
-      "shape": "doc",
+      "shape": "markdown",
       "role": "comment",
       "ext": [
         "md",
@@ -384,20 +401,18 @@
       "shape": "slash",
       "role": "punct",
       "names": [
-        ".gitignore",
-        ".vtexignore",
-        ".npmignore",
-        ".prettierignore",
-        ".dockerignore",
-        ".eslintignore",
-        ".vscodeignore"
+        ".vscodeignore",
+        ".DS_Store",
+        "Thumbs.db",
+        "desktop.ini"
       ]
     },
     {
       "id": "git",
-      "shape": "branch",
-      "role": "punct",
+      "shape": "git",
+      "role": "clay",
       "names": [
+        ".gitignore",
         ".gitattributes",
         ".gitmodules",
         ".gitkeep"
@@ -408,19 +423,9 @@
       "shape": "lock",
       "role": "punct",
       "names": [
-        "package-lock.json",
-        "yarn.lock",
         "pnpm-lock.yaml",
         "bun.lockb",
         "composer.lock"
-      ]
-    },
-    {
-      "id": "package",
-      "shape": "box",
-      "role": "added",
-      "names": [
-        "package.json"
       ]
     },
     {
@@ -438,17 +443,7 @@
       "shape": "gear",
       "role": "punct",
       "names": [
-        ".editorconfig",
-        ".prettierrc",
-        ".prettierrc.json",
-        ".prettierrc.js",
-        ".babelrc",
-        ".eslintrc",
-        ".eslintrc.json",
-        ".eslintrc.js",
-        ".nvmrc",
-        ".npmrc",
-        ".yarnrc"
+        ".babelrc"
       ]
     },
     {
@@ -467,13 +462,14 @@
     },
     {
       "id": "docker",
-      "shape": "container",
+      "shape": "docker",
       "role": "steel",
       "names": [
         "Dockerfile",
         "dockerfile",
         "docker-compose.yml",
-        "docker-compose.yaml"
+        "docker-compose.yaml",
+        ".dockerignore"
       ],
       "langs": [
         "dockerfile",
@@ -513,10 +509,12 @@
     },
     {
       "id": "manifest",
-      "shape": "storefront",
-      "role": "violet",
+      "shape": "vtex",
+      "role": "rose",
       "names": [
-        "manifest.json"
+        "manifest.json",
+        "vtex.json",
+        ".vtexignore"
       ]
     },
     {
@@ -530,21 +528,106 @@
     },
     {
       "id": "blocks",
-      "shape": "grid",
+      "shape": "blocks",
       "role": "violet",
       "names": [
         "blocks.json",
         "blocks.jsonc",
         "interfaces.json",
-        "contentSchemas.json"
+        "contentSchemas.json",
+        "plugins.json"
+      ]
+    },
+    {
+      "id": "claude",
+      "shape": "claude",
+      "role": "clay",
+      "names": [
+        "CLAUDE.md",
+        "AGENTS.md",
+        ".claudeignore",
+        "claude.json"
+      ]
+    },
+    {
+      "id": "npm",
+      "shape": "npm",
+      "role": "rose",
+      "names": [
+        "package.json",
+        "package-lock.json",
+        ".npmrc",
+        ".npmignore"
+      ]
+    },
+    {
+      "id": "yarn",
+      "shape": "yarn",
+      "role": "steel",
+      "names": [
+        "yarn.lock",
+        ".yarnrc",
+        ".yarnrc.yml"
+      ]
+    },
+    {
+      "id": "prettier",
+      "shape": "prettier",
+      "role": "sand",
+      "names": [
+        ".prettierrc",
+        ".prettierrc.json",
+        ".prettierrc.js",
+        ".prettierrc.yml",
+        "prettier.config.js",
+        ".prettierignore"
+      ]
+    },
+    {
+      "id": "eslint",
+      "shape": "eslint",
+      "role": "violet",
+      "names": [
+        ".eslintrc",
+        ".eslintrc.json",
+        ".eslintrc.js",
+        ".eslintrc.cjs",
+        "eslint.config.js",
+        "eslint.config.mjs",
+        ".eslintignore"
+      ]
+    },
+    {
+      "id": "nodeversion",
+      "shape": "hex",
+      "role": "added",
+      "names": [
+        ".nvmrc",
+        ".node-version"
+      ]
+    },
+    {
+      "id": "editorconfig",
+      "shape": "gear",
+      "role": "punct",
+      "names": [
+        ".editorconfig"
+      ]
+    },
+    {
+      "id": "style",
+      "shape": "brush",
+      "role": "violet",
+      "names": [
+        "style.json"
       ]
     }
   ],
   "folders": [
     {
       "id": "store",
-      "shape": "storefront",
-      "role": "violet",
+      "shape": "vtex",
+      "role": "rose",
       "names": [
         "store"
       ]
@@ -703,8 +786,7 @@
       "role": "rose",
       "names": [
         "components",
-        "component",
-        "blocks"
+        "component"
       ]
     },
     {
@@ -738,12 +820,13 @@
         "configs",
         ".config",
         "settings",
-        ".vscode"
+        ".vscode",
+        "configuration"
       ]
     },
     {
       "id": "github",
-      "shape": "branch",
+      "shape": "github",
       "role": "punct",
       "names": [
         ".github",
@@ -807,6 +890,149 @@
         "clients",
         "services",
         "api"
+      ]
+    },
+    {
+      "id": "claude",
+      "shape": "claude",
+      "role": "clay",
+      "names": [
+        ".claude",
+        ".agents"
+      ]
+    },
+    {
+      "id": "checkout",
+      "shape": "receipt",
+      "role": "sage",
+      "names": [
+        "checkout-ui-custom",
+        "checkout-ui-settings",
+        "checkout"
+      ]
+    },
+    {
+      "id": "sitemap",
+      "shape": "sitemap",
+      "role": "sage",
+      "names": [
+        "sitemap"
+      ]
+    },
+    {
+      "id": "masterdata",
+      "shape": "database",
+      "role": "violet",
+      "names": [
+        "masterdata"
+      ]
+    },
+    {
+      "id": "blocks",
+      "shape": "blocks",
+      "role": "violet",
+      "names": [
+        "blocks"
+      ]
+    },
+    {
+      "id": "templates",
+      "shape": "table",
+      "role": "violet",
+      "names": [
+        "templates",
+        "template",
+        "pages"
+      ]
+    },
+    {
+      "id": "iconpacks",
+      "shape": "vector",
+      "role": "clay",
+      "names": [
+        "iconpacks",
+        "iconpack"
+      ]
+    },
+    {
+      "id": "home",
+      "shape": "home",
+      "role": "rose",
+      "names": [
+        "home",
+        "homepage"
+      ]
+    },
+    {
+      "id": "product",
+      "shape": "tag",
+      "role": "rose",
+      "names": [
+        "product",
+        "pdp"
+      ]
+    },
+    {
+      "id": "search",
+      "shape": "search",
+      "role": "rose",
+      "names": [
+        "search",
+        "plp",
+        "category",
+        "browse"
+      ]
+    },
+    {
+      "id": "header",
+      "shape": "header",
+      "role": "steel",
+      "names": [
+        "header",
+        "headers",
+        "navbar",
+        "menu"
+      ]
+    },
+    {
+      "id": "footer",
+      "shape": "footer",
+      "role": "steel",
+      "names": [
+        "footer",
+        "footers"
+      ]
+    },
+    {
+      "id": "cart",
+      "shape": "cart",
+      "role": "sage",
+      "names": [
+        "cart",
+        "minicart"
+      ]
+    },
+    {
+      "id": "account",
+      "shape": "person",
+      "role": "sage",
+      "names": [
+        "account",
+        "login",
+        "profile",
+        "my-account"
+      ]
+    },
+    {
+      "id": "landing",
+      "shape": "megaphone",
+      "role": "rose",
+      "names": [
+        "landing",
+        "landings",
+        "campaign",
+        "campaigns",
+        "promo"
       ]
     }
   ]

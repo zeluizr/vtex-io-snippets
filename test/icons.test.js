@@ -19,6 +19,7 @@ const os = require('os')
 const path = require('path')
 const zlib = require('zlib')
 const { execFileSync } = require('child_process')
+const { mixHex, markShape, BG, DEEP_MIX } = require('../scripts/build-icon-theme')
 
 const ROOT = path.join(__dirname, '..')
 const MAP_PATH = path.join(ROOT, 'data', 'icons.json')
@@ -124,8 +125,33 @@ test('o mapa de origem não tem ids repetidos dentro da mesma lista', () => {
 // SVGs gerados
 // ---------------------------------------------------------------------------
 
-test('toda cor dos SVGs pertence ao bloco roles e nenhum currentColor sobrou', () => {
-  const permitidas = new Set(Object.values(MAP.roles).map((/** @type {any} */ c) => String(c).toUpperCase()))
+/**
+ * Dois arquivos disputando o mesmo nome não dão erro: o segundo simplesmente
+ * sobrescreve o primeiro em `fileNames` e o ícone do primeiro vira órfão — que
+ * o teste seguinte pega, mas sem dizer o motivo. Este diz.
+ */
+for (const lista of ['files', 'folders']) {
+  test(`nenhum nome de ${lista} é reivindicado por duas entradas`, () => {
+    const dono = new Map()
+    const brigas = []
+    for (const entry of MAP[lista]) {
+      for (const nome of entry.names || []) {
+        const chave = nome.toLowerCase()
+        const antes = dono.get(chave)
+        if (antes && antes !== entry.id) brigas.push(`${nome}: ${antes} e ${entry.id}`)
+        dono.set(chave, entry.id)
+      }
+    }
+    assert.deepEqual(brigas, [], 'nome disputado — o último a ser escrito ganha, em silêncio')
+  })
+}
+
+test('toda cor dos SVGs pertence a roles ou rolesDeep e nenhum currentColor sobrou', () => {
+  const permitidas = new Set(
+    [...Object.values(MAP.roles), ...Object.values(MAP.rolesDeep)].map((/** @type {any} */ c) =>
+      String(c).toUpperCase(),
+    ),
+  )
   const foraDaPaleta = new Set()
   const comCurrentColor = []
   for (const arquivo of listarSvgs(ICONS_DIR)) {
@@ -136,7 +162,106 @@ test('toda cor dos SVGs pertence ao bloco roles e nenhum currentColor sobrou', (
     }
   }
   assert.deepEqual([...comCurrentColor], [], 'currentColor sobrou (substituição de cor falhou)')
-  assert.deepEqual([...foraDaPaleta], [], 'cor fora do bloco roles de data/icons.json')
+  assert.deepEqual([...foraDaPaleta], [], 'cor fora de roles/rolesDeep de data/icons.json')
+})
+
+/**
+ * Relação de contraste WCAG entre dois hex de 6 dígitos.
+ * Duplicada de test/theme.test.js de propósito: cada suíte carrega a sua régua
+ * e nenhuma das duas importa a outra.
+ */
+function contraste(a, b) {
+  const lum = (/** @type {string} */ hex) => {
+    const c = [0, 1, 2].map((i) => {
+      const v = parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16) / 255
+      return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4
+    })
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+  }
+  const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m)
+  return (x + 0.05) / (y + 0.05)
+}
+
+test('rolesDeep é exatamente a mistura declarada, papel por papel', () => {
+  assert.deepEqual(
+    Object.keys(MAP.rolesDeep),
+    Object.keys(MAP.roles),
+    'rolesDeep tem que cobrir os mesmos papéis de roles, na mesma ordem',
+  )
+  for (const [papel, hex] of Object.entries(MAP.roles)) {
+    assert.equal(
+      MAP.rolesDeep[papel],
+      mixHex(String(hex), BG, DEEP_MIX),
+      `rolesDeep.${papel} não é ${papel} misturado a ${DEEP_MIX} com ${BG} — editado à mão?`,
+    )
+  }
+})
+
+/**
+ * O piso de contraste marca/placa, papel por papel. Não é 3:1 em todo mundo:
+ * com a mistura de 0.6, `sage` sai a 3.55:1 e `punct` — o cinza mais escuro da
+ * paleta, e o papel de 21 arquivos e 5 pastas — a 2.67:1, abaixo do piso de
+ * 3:1 para elemento gráfico. Medido a 16px reais, a marca ainda lê nas placas
+ * cinzas; é o pior caso do conjunto e está registrado aqui em vez de escondido.
+ * Se alguém mexer na paleta ou na mistura, o número muda e o teste conta.
+ */
+const PISO_CONTRASTE = 2.65
+
+test('a marca escura se separa da placa em todos os papéis', () => {
+  const fracos = []
+  for (const papel of Object.keys(MAP.roles)) {
+    const r = contraste(MAP.roles[papel], MAP.rolesDeep[papel])
+    if (r < PISO_CONTRASTE) fracos.push(`${papel}: ${r.toFixed(2)}:1`)
+  }
+  assert.deepEqual(fracos, [], `abaixo do piso de ${PISO_CONTRASTE}:1 entre placa e marca`)
+})
+
+test('toda placa passa 4.5:1 sobre o fundo do editor', () => {
+  const fracas = []
+  for (const [papel, hex] of Object.entries(MAP.roles)) {
+    const r = contraste(String(hex), BG)
+    if (r < 4.5) fracas.push(`${papel}: ${r.toFixed(2)}:1`)
+  }
+  assert.deepEqual(fracas, [], 'papel que não separa da própria árvore')
+})
+
+test('todo SVG é placa preenchida mais marca traçada — nunca traço na raiz', () => {
+  const papeis = new Set(Object.values(MAP.roles).map((/** @type {any} */ c) => String(c)))
+  const fundos = new Set(Object.values(MAP.rolesDeep).map((/** @type {any} */ c) => String(c)))
+  for (const arquivo of listarSvgs(ICONS_DIR)) {
+    const raw = fs.readFileSync(path.join(ICONS_DIR, arquivo), 'utf8')
+    const raiz = raw.match(/<svg([^>]*)>/)[1]
+    const fill = (raiz.match(/\sfill="([^"]+)"/) || [])[1]
+    assert.ok(papeis.has(String(fill)), `${arquivo}: raiz sem fill de um papel (veio "${fill}")`)
+    assert.match(raiz, /\sstroke="none"/, `${arquivo}: a raiz ainda traça — a era do monoline acabou`)
+
+    const marcas = raw.match(/<g\b[^>]*>/g) || []
+    assert.ok(marcas.length <= 1, `${arquivo}: mais de uma camada de marca`)
+    for (const g of marcas) {
+      const stroke = (g.match(/\sstroke="([^"]+)"/) || [])[1]
+      assert.ok(fundos.has(String(stroke)), `${arquivo}: marca fora de rolesDeep (veio "${stroke}")`)
+      assert.match(g, /\sfill="none"/, `${arquivo}: marca preenchida — marca é traço`)
+    }
+  }
+})
+
+/**
+ * O teto de elementos por marca. Na placa e dentro da pasta a marca sai com
+ * ~8px de lado; a partir do quarto elemento o desenho vira uma mancha e duas
+ * marcas vizinhas na árvore deixam de se distinguir. Ver docs/traco-puelche.md.
+ */
+test('nenhuma marca passa de 3 elementos', () => {
+  const gordas = []
+  const conta = (/** @type {string} */ markup) =>
+    (markup.match(/<(path|rect|circle|ellipse|line|polygon|polyline)\b/g) || []).length
+  const marcas = new Map()
+  for (const entry of MAP.files) marcas.set(entry.shape, markShape(entry.shape, 'Mark'))
+  for (const entry of MAP.folders) marcas.set(`${entry.shape}Badge`, markShape(entry.shape, 'Badge'))
+  for (const [nome, markup] of marcas) {
+    const n = conta(markup)
+    if (n > 3) gordas.push(`${nome}: ${n}`)
+  }
+  assert.deepEqual(gordas, [], 'marca com elementos demais para os ~8px em que ela é desenhada')
 })
 
 test('todo SVG tem viewBox 0 0 24 24 e tags balanceadas', () => {

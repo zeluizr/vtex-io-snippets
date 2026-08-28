@@ -35,6 +35,9 @@
     "_vue": {
       "iconPath": "../icons/vue.svg"
     },
+    "_svelte": {
+      "iconPath": "../icons/svelte.svg"
+    },
     "_xml": {
       "iconPath": "../icons/xml.svg"
     },
@@ -107,9 +110,6 @@
     "_lock": {
       "iconPath": "../icons/lock.svg"
     },
-    "_package": {
-      "iconPath": "../icons/package.svg"
-    },
     "_tsconfig": {
       "iconPath": "../icons/tsconfig.svg"
     },
@@ -139,6 +139,30 @@
     },
     "_blocks": {
       "iconPath": "../icons/blocks.svg"
+    },
+    "_claude": {
+      "iconPath": "../icons/claude.svg"
+    },
+    "_npm": {
+      "iconPath": "../icons/npm.svg"
+    },
+    "_yarn": {
+      "iconPath": "../icons/yarn.svg"
+    },
+    "_prettier": {
+      "iconPath": "../icons/prettier.svg"
+    },
+    "_eslint": {
+      "iconPath": "../icons/eslint.svg"
+    },
+    "_nodeversion": {
+      "iconPath": "../icons/nodeversion.svg"
+    },
+    "_editorconfig": {
+      "iconPath": "../icons/editorconfig.svg"
+    },
+    "_style": {
+      "iconPath": "../icons/style.svg"
     },
     "_folder-store": {
       "iconPath": "../icons/folder-store.svg"
@@ -301,6 +325,96 @@
     },
     "_folder-clients-open": {
       "iconPath": "../icons/folder-clients-open.svg"
+    },
+    "_folder-claude": {
+      "iconPath": "../icons/folder-claude.svg"
+    },
+    "_folder-claude-open": {
+      "iconPath": "../icons/folder-claude-open.svg"
+    },
+    "_folder-checkout": {
+      "iconPath": "../icons/folder-checkout.svg"
+    },
+    "_folder-checkout-open": {
+      "iconPath": "../icons/folder-checkout-open.svg"
+    },
+    "_folder-sitemap": {
+      "iconPath": "../icons/folder-sitemap.svg"
+    },
+    "_folder-sitemap-open": {
+      "iconPath": "../icons/folder-sitemap-open.svg"
+    },
+    "_folder-masterdata": {
+      "iconPath": "../icons/folder-masterdata.svg"
+    },
+    "_folder-masterdata-open": {
+      "iconPath": "../icons/folder-masterdata-open.svg"
+    },
+    "_folder-blocks": {
+      "iconPath": "../icons/folder-blocks.svg"
+    },
+    "_folder-blocks-open": {
+      "iconPath": "../icons/folder-blocks-open.svg"
+    },
+    "_folder-templates": {
+      "iconPath": "../icons/folder-templates.svg"
+    },
+    "_folder-templates-open": {
+      "iconPath": "../icons/folder-templates-open.svg"
+    },
+    "_folder-iconpacks": {
+      "iconPath": "../icons/folder-iconpacks.svg"
+    },
+    "_folder-iconpacks-open": {
+      "iconPath": "../icons/folder-iconpacks-open.svg"
+    },
+    "_folder-home": {
+      "iconPath": "../icons/folder-home.svg"
+    },
+    "_folder-home-open": {
+      "iconPath": "../icons/folder-home-open.svg"
+    },
+    "_folder-product": {
+      "iconPath": "../icons/folder-product.svg"
+    },
+    "_folder-product-open": {
+      "iconPath": "../icons/folder-product-open.svg"
+    },
+    "_folder-search": {
+      "iconPath": "../icons/folder-search.svg"
+    },
+    "_folder-search-open": {
+      "iconPath": "../icons/folder-search-open.svg"
+    },
+    "_folder-header": {
+      "iconPath": "../icons/folder-header.svg"
+    },
+    "_folder-header-open": {
+      "iconPath": "../icons/folder-header-open.svg"
+    },
+    "_folder-footer": {
+      "iconPath": "../icons/folder-footer.svg"
+    },
+    "_folder-footer-open": {
+      "iconPath": "../icons/folder-footer-open.svg"
+    },
+    "_folder-cart": {
+      "iconPath": "../icons/folder-cart.svg"
+    },
+    "_folder-cart-open": {
+      "iconPath": "../icons/folder-cart-open.svg"
+    },
+    "_folder-account": {
+      "iconPath": "../icons/folder-account.svg"
+    },
+    "_folder-account-open": {
+      "iconPath": "../icons/folder-account-open.svg"
+    },
+    "_folder-landing": {
+      "iconPath": "../icons/folder-landing.svg"
+    },
+    "_folder-landing-open": {
+      "iconPath": "../icons/folder-landing-open.svg"
     }
   },
   "file": "_file",
@@ -353,7 +467,6 @@
     "coverage": "_folder-dist",
     "components": "_folder-components",
     "component": "_folder-components",
-    "blocks": "_folder-components",
     "hooks": "_folder-hooks",
     "middlewares": "_folder-hooks",
     "resolvers": "_folder-hooks",
@@ -367,6 +480,7 @@
     ".config": "_folder-config",
     "settings": "_folder-config",
     ".vscode": "_folder-config",
+    "configuration": "_folder-config",
     ".github": "_folder-github",
     ".git": "_folder-github",
     "node_modules": "_folder-modules",
@@ -385,7 +499,45 @@
     "interfaces": "_folder-types",
     "clients": "_folder-clients",
     "services": "_folder-clients",
-    "api": "_folder-clients"
+    "api": "_folder-clients",
+    ".claude": "_folder-claude",
+    ".agents": "_folder-claude",
+    "checkout-ui-custom": "_folder-checkout",
+    "checkout-ui-settings": "_folder-checkout",
+    "checkout": "_folder-checkout",
+    "sitemap": "_folder-sitemap",
+    "masterdata": "_folder-masterdata",
+    "blocks": "_folder-blocks",
+    "templates": "_folder-templates",
+    "template": "_folder-templates",
+    "pages": "_folder-templates",
+    "iconpacks": "_folder-iconpacks",
+    "iconpack": "_folder-iconpacks",
+    "home": "_folder-home",
+    "homepage": "_folder-home",
+    "product": "_folder-product",
+    "pdp": "_folder-product",
+    "search": "_folder-search",
+    "plp": "_folder-search",
+    "category": "_folder-search",
+    "browse": "_folder-search",
+    "header": "_folder-header",
+    "headers": "_folder-header",
+    "navbar": "_folder-header",
+    "menu": "_folder-header",
+    "footer": "_folder-footer",
+    "footers": "_folder-footer",
+    "cart": "_folder-cart",
+    "minicart": "_folder-cart",
+    "account": "_folder-account",
+    "login": "_folder-account",
+    "profile": "_folder-account",
+    "my-account": "_folder-account",
+    "landing": "_folder-landing",
+    "landings": "_folder-landing",
+    "campaign": "_folder-landing",
+    "campaigns": "_folder-landing",
+    "promo": "_folder-landing"
   },
   "folderNamesExpanded": {
     "store": "_folder-store-open",
@@ -434,7 +586,6 @@
     "coverage": "_folder-dist-open",
     "components": "_folder-components-open",
     "component": "_folder-components-open",
-    "blocks": "_folder-components-open",
     "hooks": "_folder-hooks-open",
     "middlewares": "_folder-hooks-open",
     "resolvers": "_folder-hooks-open",
@@ -448,6 +599,7 @@
     ".config": "_folder-config-open",
     "settings": "_folder-config-open",
     ".vscode": "_folder-config-open",
+    "configuration": "_folder-config-open",
     ".github": "_folder-github-open",
     ".git": "_folder-github-open",
     "node_modules": "_folder-modules-open",
@@ -466,7 +618,45 @@
     "interfaces": "_folder-types-open",
     "clients": "_folder-clients-open",
     "services": "_folder-clients-open",
-    "api": "_folder-clients-open"
+    "api": "_folder-clients-open",
+    ".claude": "_folder-claude-open",
+    ".agents": "_folder-claude-open",
+    "checkout-ui-custom": "_folder-checkout-open",
+    "checkout-ui-settings": "_folder-checkout-open",
+    "checkout": "_folder-checkout-open",
+    "sitemap": "_folder-sitemap-open",
+    "masterdata": "_folder-masterdata-open",
+    "blocks": "_folder-blocks-open",
+    "templates": "_folder-templates-open",
+    "template": "_folder-templates-open",
+    "pages": "_folder-templates-open",
+    "iconpacks": "_folder-iconpacks-open",
+    "iconpack": "_folder-iconpacks-open",
+    "home": "_folder-home-open",
+    "homepage": "_folder-home-open",
+    "product": "_folder-product-open",
+    "pdp": "_folder-product-open",
+    "search": "_folder-search-open",
+    "plp": "_folder-search-open",
+    "category": "_folder-search-open",
+    "browse": "_folder-search-open",
+    "header": "_folder-header-open",
+    "headers": "_folder-header-open",
+    "navbar": "_folder-header-open",
+    "menu": "_folder-header-open",
+    "footer": "_folder-footer-open",
+    "footers": "_folder-footer-open",
+    "cart": "_folder-cart-open",
+    "minicart": "_folder-cart-open",
+    "account": "_folder-account-open",
+    "login": "_folder-account-open",
+    "profile": "_folder-account-open",
+    "my-account": "_folder-account-open",
+    "landing": "_folder-landing-open",
+    "landings": "_folder-landing-open",
+    "campaign": "_folder-landing-open",
+    "campaigns": "_folder-landing-open",
+    "promo": "_folder-landing-open"
   },
   "fileExtensions": {
     "json": "_json",
@@ -483,7 +673,7 @@
     "html": "_html",
     "htm": "_html",
     "vue": "_vue",
-    "svelte": "_vue",
+    "svelte": "_svelte",
     "xml": "_xml",
     "plist": "_xml",
     "css": "_css",
@@ -557,36 +747,21 @@
     ".env.development": "_env",
     ".env.production": "_env",
     ".env.test": "_env",
-    ".gitignore": "_ignore",
-    ".vtexignore": "_ignore",
-    ".npmignore": "_ignore",
-    ".prettierignore": "_ignore",
-    ".dockerignore": "_ignore",
-    ".eslintignore": "_ignore",
     ".vscodeignore": "_ignore",
+    ".ds_store": "_ignore",
+    "thumbs.db": "_ignore",
+    "desktop.ini": "_ignore",
+    ".gitignore": "_git",
     ".gitattributes": "_git",
     ".gitmodules": "_git",
     ".gitkeep": "_git",
-    "package-lock.json": "_lock",
-    "yarn.lock": "_lock",
     "pnpm-lock.yaml": "_lock",
     "bun.lockb": "_lock",
     "composer.lock": "_lock",
-    "package.json": "_package",
     "tsconfig.json": "_tsconfig",
     "tsconfig.base.json": "_tsconfig",
     "jsconfig.json": "_tsconfig",
-    ".editorconfig": "_config",
-    ".prettierrc": "_config",
-    ".prettierrc.json": "_config",
-    ".prettierrc.js": "_config",
     ".babelrc": "_config",
-    ".eslintrc": "_config",
-    ".eslintrc.json": "_config",
-    ".eslintrc.js": "_config",
-    ".nvmrc": "_config",
-    ".npmrc": "_config",
-    ".yarnrc": "_config",
     "vite.config.ts": "_buildconfig",
     "vite.config.js": "_buildconfig",
     "webpack.config.js": "_buildconfig",
@@ -597,6 +772,7 @@
     "dockerfile": "_docker",
     "docker-compose.yml": "_docker",
     "docker-compose.yaml": "_docker",
+    ".dockerignore": "_docker",
     "license": "_license",
     "license.md": "_license",
     "licence": "_license",
@@ -607,12 +783,43 @@
     "changes.md": "_changelog",
     "history.md": "_changelog",
     "manifest.json": "_manifest",
+    "vtex.json": "_manifest",
+    ".vtexignore": "_manifest",
     "routes.json": "_routes",
     "routes.jsonc": "_routes",
     "blocks.json": "_blocks",
     "blocks.jsonc": "_blocks",
     "interfaces.json": "_blocks",
-    "contentschemas.json": "_blocks"
+    "contentschemas.json": "_blocks",
+    "plugins.json": "_blocks",
+    "claude.md": "_claude",
+    "agents.md": "_claude",
+    ".claudeignore": "_claude",
+    "claude.json": "_claude",
+    "package.json": "_npm",
+    "package-lock.json": "_npm",
+    ".npmrc": "_npm",
+    ".npmignore": "_npm",
+    "yarn.lock": "_yarn",
+    ".yarnrc": "_yarn",
+    ".yarnrc.yml": "_yarn",
+    ".prettierrc": "_prettier",
+    ".prettierrc.json": "_prettier",
+    ".prettierrc.js": "_prettier",
+    ".prettierrc.yml": "_prettier",
+    "prettier.config.js": "_prettier",
+    ".prettierignore": "_prettier",
+    ".eslintrc": "_eslint",
+    ".eslintrc.json": "_eslint",
+    ".eslintrc.js": "_eslint",
+    ".eslintrc.cjs": "_eslint",
+    "eslint.config.js": "_eslint",
+    "eslint.config.mjs": "_eslint",
+    ".eslintignore": "_eslint",
+    ".nvmrc": "_nodeversion",
+    ".node-version": "_nodeversion",
+    ".editorconfig": "_editorconfig",
+    "style.json": "_style"
   },
   "languageIds": {
     "json": "_json",
