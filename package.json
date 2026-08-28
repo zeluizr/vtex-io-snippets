@@ -2,7 +2,7 @@
   "name": "vtex-io-intellisense",
   "displayName": "inmmerce for VTEX",
   "description": "Tema, snippets e IntelliSense para quem constrói na VTEX",
-  "version": "3.2.1",
+  "version": "3.6.0",
   "publisher": "commenteme",
   "license": "MIT",
   "icon": "images/icon.png",
@@ -22,7 +22,9 @@
     "onLanguage:scss",
     "onLanguage:less",
     "onLanguage:postcss",
-    "onCommand:vtex-io-intellisense.generateTokensCss"
+    "onCommand:vtex-io-intellisense.generateTokensCss",
+    "onCommand:vtex-io-intellisense.applyComfort",
+    "onCommand:vtex-io-intellisense.undoComfort"
   ],
   "galleryBanner": {
     "color": "#1A181F",
@@ -64,6 +66,14 @@
       {
         "command": "vtex-io-intellisense.generateTokensCss",
         "title": "VTEX: Gerar tokens.css"
+      },
+      {
+        "command": "vtex-io-intellisense.applyComfort",
+        "title": "VTEX: Aplicar ajustes de conforto do Puelche"
+      },
+      {
+        "command": "vtex-io-intellisense.undoComfort",
+        "title": "VTEX: Desfazer ajustes de conforto"
       }
     ],
     "configurationDefaults": {

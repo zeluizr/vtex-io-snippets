@@ -198,14 +198,11 @@ test('rolesDeep é exatamente a mistura declarada, papel por papel', () => {
 })
 
 /**
- * O piso de contraste marca/placa, papel por papel. Não é 3:1 em todo mundo:
- * com a mistura de 0.6, `sage` sai a 3.55:1 e `punct` — o cinza mais escuro da
- * paleta, e o papel de 21 arquivos e 5 pastas — a 2.67:1, abaixo do piso de
- * 3:1 para elemento gráfico. Medido a 16px reais, a marca ainda lê nas placas
- * cinzas; é o pior caso do conjunto e está registrado aqui em vez de escondido.
- * Se alguém mexer na paleta ou na mistura, o número muda e o teste conta.
+ * O piso de contraste marca/placa: 3:1, o mínimo para elemento gráfico. Com a
+ * mistura de 0.7 nenhum papel reprova — o pior caso é `punct` a 3.17:1. Com a
+ * mistura de 0.6, que valia antes, cinco papéis ficavam abaixo disso.
  */
-const PISO_CONTRASTE = 2.65
+const PISO_CONTRASTE = 3.0
 
 test('a marca escura se separa da placa em todos os papéis', () => {
   const fracos = []
@@ -216,11 +213,106 @@ test('a marca escura se separa da placa em todos os papéis', () => {
   assert.deepEqual(fracos, [], `abaixo do piso de ${PISO_CONTRASTE}:1 entre placa e marca`)
 })
 
-test('toda placa passa 4.5:1 sobre o fundo do editor', () => {
+/** ΔE76 entre dois hex — mesma métrica que test/theme.test.js usa na paleta. */
+function deltaE76(a, b) {
+  const lab = (/** @type {string} */ hex) => {
+    const [r, g, b2] = [0, 1, 2].map((i) => {
+      const v = parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16) / 255
+      return v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4
+    })
+    const X = (0.4124 * r + 0.3576 * g + 0.1805 * b2) / 0.95047
+    const Y = 0.2126 * r + 0.7152 * g + 0.0722 * b2
+    const Z = (0.0193 * r + 0.1192 * g + 0.9505 * b2) / 1.08883
+    const f = (/** @type {number} */ t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116)
+    return [116 * f(Y) - 16, 500 * (f(X) - f(Y)), 200 * (f(Y) - f(Z))]
+  }
+  const [A, B] = [lab(a), lab(b)]
+  return Math.hypot(A[0] - B[0], A[1] - B[1], A[2] - B[2])
+}
+
+/**
+ * A trava que faltava, e a que teria pegado o problema mais antigo da paleta:
+ * `comment` e `punct` conviveram por meses a ΔE76 6.1 — a olho nu, a pasta
+ * `docs` e a pasta `dist` eram exatamente a mesma cor. O tema de cor já cobrava
+ * esse piso; a paleta de ícones não cobrava.
+ */
+test('nenhum par de papéis abaixo de ΔE76 10', () => {
+  const papeis = Object.entries(MAP.roles)
+  const perto = []
+  for (let i = 0; i < papeis.length; i++) {
+    for (let j = i + 1; j < papeis.length; j++) {
+      const d = deltaE76(String(papeis[i][1]), String(papeis[j][1]))
+      if (d < 10) perto.push(`${papeis[i][0]} e ${papeis[j][0]}: ΔE76 ${d.toFixed(1)}`)
+    }
+  }
+  assert.deepEqual(perto, [], 'dois papéis que dividem a árvore são a mesma cor a olho nu')
+})
+
+/**
+ * Uma cor por família. O papel não é escolhido caso a caso — é a família a que
+ * a entrada pertence, e é isso que faz a árvore ler como bloco em vez de
+ * mosaico. A tabela vive aqui de propósito: é regra de design, não dado de
+ * geração, e uma atribuição solta em data/icons.json tem que falhar.
+ *
+ * A exceção declarada são as marcas de terceiro, que levam o papel mais próximo
+ * da cor da própria marca.
+ */
+const FAMILIAS_PASTA = {
+  purple: ['store', 'blocks', 'templates', 'messages', 'pixel', 'admin', 'checkout', 'masterdata', 'sitemap'],
+  lavender: ['home', 'product', 'search', 'landing', 'header', 'footer', 'cart', 'account'],
+  pink: ['react', 'components'],
+  green: ['node', 'graphql', 'clients', 'hooks'],
+  cyan: ['src', 'types', 'schemas', 'snippets', 'data', 'utils'],
+  aqua: ['scripts'],
+  yellow: ['styles'],
+  orange: ['assets', 'images', 'fonts', 'iconpacks', 'claude'],
+  parchment: ['docs'],
+  mint: ['test'],
+  dim: ['dist', 'modules', 'config', 'github'],
+}
+
+const FAMILIAS_ARQUIVO = {
+  purple: ['manifest', 'routes', 'blocks', 'style', 'eslint'],
+  pink: ['tsx', 'html', 'npm'],
+  mint: ['vue', 'svelte', 'test', 'nodeversion'],
+  green: ['javascript', 'jsx', 'graphql', 'shell', 'python'],
+  cyan: ['json', 'jsonc', 'typescript', 'prisma', 'sql', 'yaml', 'toml', 'tsconfig', 'xml', 'yarn', 'docker'],
+  yellow: ['css', 'sass', 'prettier'],
+  orange: ['image', 'vector', 'font', 'archive', 'video', 'audio', 'claude', 'git'],
+  parchment: ['markdown', 'readme', 'changelog', 'license', 'text', 'pdf'],
+  aqua: ['buildconfig', 'editorconfig', 'config'],
+  dim: ['ignore', 'lock', 'env'],
+}
+
+for (const [lista, tabela] of [['folders', FAMILIAS_PASTA], ['files', FAMILIAS_ARQUIVO]]) {
+  test(`toda entrada de ${lista} usa o papel da sua família`, () => {
+    /** @type {Record<string, string>} */
+    const esperado = {}
+    for (const [papel, ids] of Object.entries(tabela)) for (const id of ids) esperado[id] = papel
+    const fora = []
+    const semFamilia = []
+    for (const entry of MAP[lista]) {
+      if (!(entry.id in esperado)) semFamilia.push(entry.id)
+      else if (entry.role !== esperado[entry.id]) fora.push(`${entry.id}: ${entry.role} (família diz ${esperado[entry.id]})`)
+    }
+    assert.deepEqual(semFamilia, [], 'entrada sem família declarada na tabela deste teste')
+    assert.deepEqual(fora, [], 'papel escolhido caso a caso em vez de pela família')
+    const orfas = Object.keys(esperado).filter((id) => !MAP[lista].some((/** @type {any} */ e) => e.id === id))
+    assert.deepEqual(orfas, [], 'a tabela cita id que não existe mais em data/icons.json')
+  })
+}
+
+/**
+ * A placa é objeto gráfico, não texto: o piso é 3:1, não 4.5:1. O papel `dim`
+ * — o que recua de propósito, das pastas geradas e de infraestrutura — sai a
+ * 3.74:1 e é o pior caso. Subir esse piso obrigaria `dist` e `node_modules` a
+ * ter a mesma presença de `store`, que é o contrário do que eles significam.
+ */
+test('toda placa passa 3:1 sobre o fundo do editor', () => {
   const fracas = []
   for (const [papel, hex] of Object.entries(MAP.roles)) {
     const r = contraste(String(hex), BG)
-    if (r < 4.5) fracas.push(`${papel}: ${r.toFixed(2)}:1`)
+    if (r < 3) fracas.push(`${papel}: ${r.toFixed(2)}:1`)
   }
   assert.deepEqual(fracas, [], 'papel que não separa da própria árvore')
 })
@@ -247,10 +339,12 @@ test('todo SVG é placa preenchida mais marca traçada — nunca traço na raiz'
 
 /**
  * O teto de elementos por marca. Na placa e dentro da pasta a marca sai com
- * ~8px de lado; a partir do quarto elemento o desenho vira uma mancha e duas
+ * ~8px de lado; a partir do terceiro elemento o desenho vira uma mancha e duas
  * marcas vizinhas na árvore deixam de se distinguir. Ver docs/traco-puelche.md.
  */
-test('nenhuma marca passa de 3 elementos', () => {
+const TETO_ELEMENTOS = 2
+
+test('nenhuma marca passa de 2 elementos', () => {
   const gordas = []
   const conta = (/** @type {string} */ markup) =>
     (markup.match(/<(path|rect|circle|ellipse|line|polygon|polyline)\b/g) || []).length
@@ -259,7 +353,7 @@ test('nenhuma marca passa de 3 elementos', () => {
   for (const entry of MAP.folders) marcas.set(`${entry.shape}Badge`, markShape(entry.shape, 'Badge'))
   for (const [nome, markup] of marcas) {
     const n = conta(markup)
-    if (n > 3) gordas.push(`${nome}: ${n}`)
+    if (n > TETO_ELEMENTOS) gordas.push(`${nome}: ${n}`)
   }
   assert.deepEqual(gordas, [], 'marca com elementos demais para os ~8px em que ela é desenhada')
 })

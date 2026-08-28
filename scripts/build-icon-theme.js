@@ -46,14 +46,15 @@ const STROKE = 2
 const BG = '#1A181F'
 
 /**
- * Quanto do fundo entra no tom escuro da marca. A 0.6 a marca fica a ~3:1 da
- * placa na maioria dos papéis, que é o piso para elemento gráfico. Mais que
- * isso vira buraco preto; menos, some dentro da placa.
+ * Quanto do fundo entra no tom escuro da marca. Mais que isso vira buraco
+ * preto; menos, a marca some dentro da placa.
  *
- * O piso real medido está travado em test/icons.test.js: o `punct` (#8A8496,
- * o cinza mais escuro da paleta) sai a 2.70:1 e é o pior caso do conjunto.
+ * Foi 0.6 e não bastava: cinco papéis ficavam abaixo do piso de 3:1 para
+ * elemento gráfico, com `punct` a 2.67:1 — e `punct` é o papel mais frequente
+ * da árvore. A 0.7 o pior caso sobe para 3.17:1 e nenhum papel reprova mais.
+ * O piso está travado em test/icons.test.js.
  */
-const DEEP_MIX = 0.6
+const DEEP_MIX = 0.7
 
 const canal = (/** @type {string} */ hex, /** @type {number} */ i) =>
   parseInt(hex.slice(1 + i * 2, 3 + i * 2), 16)
@@ -104,22 +105,22 @@ const anchor = (cx, cy, scale) => ({ x: round(cx - 12 * scale), y: round(cy - 12
  * - passar disso não compra nada: acima do teto a tinta da marca encosta na
  *   parede da placa e a silhueta some — vira uma mancha cheia.
  *
- * CLOSED: o corpo da pasta tem 5.7..21.6 em y livres — 15.9u. A marca preenche
- * essa altura menos ~1.75u de cada lado e fica centrada no corpo, não na caixa
+ * CLOSED: o corpo da pasta tem 5.4..22 em y livres — 16.6u. A marca preenche
+ * essa altura menos ~1.85u de cada lado e fica centrada no corpo, não na caixa
  * de 24.
  *
  * OPEN: a faixa inclinada deixa menos altura livre. Aqui a marca sangra um
  * pouco sobre as bordas da faixa de propósito: perder um pedaço da borda custa
  * menos que perder o desenho inteiro.
  *
- * PLATE: o corpo da página tem 3.5..20.5 em x e 1..23 em y, menos a orelha no
- * canto superior direito. A marca desce para (12, 14.4) para passar por baixo
+ * PLATE: o corpo da página tem 3..21 em x e 0.5..23.5 em y, menos a orelha no
+ * canto superior direito. A marca desce para (12, 14.8) para passar por baixo
  * dela. A escala é irmã da da pasta de propósito — uma marca que sobrevive
  * dentro da pasta sobrevive na placa, e as duas usam a mesma biblioteca.
  */
-const CLOSED = anchor(12, 13.65, fit(12.4))
-const OPEN = anchor(12.6, 15.9, fit(10.4))
-const PLATE = anchor(12, 14.4, fit(12.8))
+const CLOSED = anchor(12, 13.7, fit(12.9))
+const OPEN = anchor(12.6, 16.3, fit(10.2))
+const PLATE = anchor(12, 14.8, fit(13.4))
 
 /**
  * Embrulha as camadas num SVG completo, já colorido.

@@ -6,6 +6,10 @@
 [![instalaciones](https://badgen.net/vs-marketplace/d/commenteme.vtex-io-intellisense?label=instalaciones&color=F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
 [![licencia](https://badgen.net/github/license/zeluizr/vtex-io-snippets?label=licencia&color=F71963)](./LICENSE)
 
+Los colores de sintaxis son los de **[Dracula](https://draculatheme.com/)**, sobre el fondo
+más oscuro del Puelche: ahí cada color gana ~24% de contraste sobre el tema de origen, así
+que el código se lee de un vistazo.
+
 Extensión de VS Code con todo lo que necesita un tema de **VTEX IO Store Framework**:
 snippets de bloques y props (con enums y validación) en `store/blocks`, rutas y
 contentSchemas, validación de JSON, autocompletado de las variables CSS del VTEX Style, y
@@ -55,6 +59,20 @@ formato del `style.json` nativo): `var(--emphasis)`, `var(--spacing-2)`,
 `tokens.json` en la raíz del workspace, y si no hay ninguno cae a un `tokens.json` embebido
 en la extensión con los valores por defecto de VTEX. Los cambios en cualquier `tokens.json`
 se recargan solos.
+
+**Comando `VTEX: Aplicar ajustes de conforto del Puelche`** (paleta de comandos): escribe en
+tus ajustes de usuario la fuente recomendada, las ligaduras, el tamaño, la altura de línea y
+los tres temas del Puelche, después de mostrarte `valor actual → valor nuevo` clave por
+clave. Si la fuente no está instalada, te avisa y te copia el comando de instalación en vez
+de apuntar a una fuente inexistente. `VTEX: Deshacer ajustes de conforto` vuelve atrás.
+
+La fuente recomendada es **[Google Sans Code](https://fonts.google.com/specimen/Google+Sans+Code)**,
+con sus ejes variables activados. No trae ligaduras —su tabla GSUB no tiene `liga` ni
+`calt`—, pero el preset deja `fontLigatures` activo por si entra otra fuente en la pila.
+
+```bash
+brew install --cask font-google-sans-code
+```
 
 **Comando `VTEX: Gerar tokens.css`** (paleta de comandos, `Cmd/Ctrl + Shift + P`): exporta un
 `:root { ... }` con **todas** las variables generadas, guardado junto al JSON de origen.

@@ -39,6 +39,7 @@ lib/blocks.js         regex/heurística de ids de bloco e arquivos de tema (puro
 lib/context.js        contexto JSON sob o cursor: define/referencia/none (puro)
 lib/snippets.js       leitura do catálogo .code-snippets (puro, usa fs)
 lib/tokens.js         gerador de CSS custom properties do VTEX Style (puro)
+lib/comfort.js        preset de conforto: fonte, ligature, respiro (puro)
 assets/tokens.json    JSON de tokens VTEX Style default (embutido, fallback)
 themes/               tema de cores (à mão) + icon theme, product icon theme e
                       puelche-product.woff (gerados) — todos publicados
@@ -100,7 +101,13 @@ default de tokens, o código e a camada de tema precisam ir junto).
   separados pelo itálico, não pela cor), os três `CompletionItemKind` que esta
   extensão de fato emite distinguíveis entre si, `symbolIcon.*` inteiro na paleta,
   corpo de Markdown sem cor nem estilo, itálico/negrito só nas regras da spec, e o
-  tema registrado em `contributes.themes`. Mudou paleta ou regra? Atualize a spec
+  tema registrado em `contributes.themes`.
+- **Regra por linguagem existe, mas não colore por linguagem.** As sete regras no fim de
+  `tokenColors` dão mais RESOLUÇÃO dentro da linguagem — componente React em cor de tipo
+  contra tag em cor de estrutura, a chave do JSX marcando a fronteira, `$variável` do
+  GraphQL deixando de ser função, `this`/`super`/`self` no mesmo papel. Todas usam a
+  paleta de papéis; nenhuma inventa cor. No VS Code a ÚLTIMA regra que casa vence, então
+  elas ficam no fim do arquivo de propósito. Mudou paleta ou regra? Atualize a spec
   no topo do teste — ela é o documento, o JSON é só o artefato.
 - **`docs/traco-puelche.md` é a spec de desenho** e manda nas duas grades. Vai
   desenhar? Leia a spec antes. O resumo: espessura de marca **2** e raio de canto
@@ -113,9 +120,22 @@ default de tokens, o código e a camada de tema precisam ir junto).
   traço de 1.33px não — é a mesma escolha do Material Icon Theme. Só o glifo do
   product icon theme continua monoline, porque fonte não carrega duas cores.
 - **O tom escuro é derivado, não escolhido.** `data/icons.json → rolesDeep` é cada
-  papel misturado a **60% com `#1A181F`**, e o gerador recusa valor diferente
-  disso. Pior caso medido: `punct` a 2.67:1 entre placa e marca, travado em
-  `test/icons.test.js`.
+  papel misturado a **70% com `#1A181F`**, e o gerador recusa valor diferente
+  disso. Pior caso medido: `dim` a 3.35:1 entre placa e marca, travado em
+  `test/icons.test.js`. **O sistema tem piso de luminância**: placa escura demais
+  não deixa espaço para a marca — foi o que barrou usar o `#6272A4` do Dracula.
+- **UMA COR POR FAMÍLIA.** O papel não é escolhido caso a caso — é a família a que
+  a entrada pertence (VTEX, vitrine, frontend, backend, código compartilhado,
+  ferramenta, estilo, recurso, documento, teste, gerado). A tabela de famílias
+  vive em `test/icons.test.js` e é cobrada por teste; atribuição solta falha.
+  A exceção são as marcas de terceiro, que levam o papel mais próximo da cor da
+  própria marca. São **11 papéis**, com piso de ΔE76 10 entre eles — o par mais
+  próximo é `green` × `mint` a 11.3.
+- **A paleta é a do Dracula**, tema de cor e ícones. As 15 cores dele estão todas
+  acima de ΔE76 10 entre si, e é isso que faz o conjunto ler de relance. Os nomes
+  de papel são o nome da matiz (`purple`, `pink`, `cyan`…) porque com essa paleta
+  os antigos viravam mentira. Duas cores não são do Dracula e a razão está em
+  `docs/traco-puelche.md`: `parchment` e `dim`.
 - **Icon theme é GERADO, não editado à mão.** Fonte: `data/icons.json` (mapa
   id → forma/papel/`ext`/`names`/`langs` + `roles`/`rolesDeep`) +
   `scripts/icon-shapes.js` (geometria SVG numa grade 24x24; tokens `@c` = cor da
@@ -138,10 +158,11 @@ default de tokens, o código e a camada de tema precisam ir junto).
   denominador da escala. **O teto é proporção, não escala**: a marca ocupa ~78%
   do vão livre do corpo; acima de ~85% a tinta encosta na parede e a pasta deixa
   de ler como pasta.
-- **A placa ocupa 1..23, não a caixa de conteúdo 2..22.** A caixa é a régua do
-  traço, e com o traço de 2 centrado nela a tinta ia a 1 e 23 de qualquer jeito.
-  Preenchida, a silhueta ocupa direto essa extensão — mesmo tamanho de tinta que
-  o contorno tinha.
+- **A placa ocupa 0.5..23.5, não a caixa de conteúdo 2..22.** A caixa é a régua do
+  traço; a placa é área e não obedece a ela. O VS Code trava o ícone em 16px, e
+  depois disso quanto da caixa de 24 o desenho ocupa é a única alavanca de
+  tamanho que sobra.
+- **Teto de 2 elementos por marca**, cobrado pelo CI.
 - Regenerar com `npm run icons:build`; `npm run icons:check` roda o build e falha no
   `git diff` se o commitado não for exatamente o que o gerador produz. O gerador é
   determinístico: mesma entrada → mesmos bytes.

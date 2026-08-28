@@ -42,20 +42,20 @@
 
 /**
  * A placa de página: a silhueta que TODO ícone de arquivo usa por baixo da
- * marca. Retângulo 3.5..20.5 x 1..23, cantos de raio 2, canto superior direito
- * cortado em 45° a partir de (14, 1).
+ * marca. Retângulo 3..21 x 0.5..23.5, cantos de raio 2, canto superior direito
+ * cortado em 45° a partir de (14, 0.5).
  *
- * Por que a placa vai até 1 e 23 e não até a caixa de conteúdo 2..22: a caixa é
- * a régua do TRAÇO, e com o traço centrado nela a tinta chegava a 1 e 23 de
- * qualquer jeito. Preenchida, a silhueta ocupa direto essa extensão — é o mesmo
- * tamanho de tinta que o contorno tinha, não um ícone maior por capricho.
+ * A placa é ÁREA, não traço, então ela não obedece à caixa de conteúdo 2..22 —
+ * essa caixa é a régua do traço. A silhueta vai a 0.5 e 23.5, quase sangria
+ * total: o VS Code trava o ícone em 16px, e quanto da caixa ele ocupa é a única
+ * alavanca de tamanho que sobra depois disso.
  *
  * A orelha é o triângulo que falta no canto cortado, preenchida no tom escuro
  * (`@d`) — é a dobra da página, e é o único lugar da placa com cor própria.
  */
 const PLATE =
-  '<path d="M14 1H5.5a2 2 0 0 0-2 2v18a2 2 0 0 0 2 2h13a2 2 0 0 0 2-2V7.5z"/>' +
-  '<path d="M14 1v4.5a2 2 0 0 0 2 2h4.5z" fill="@d"/>'
+  '<path d="M14 .5H5a2 2 0 0 0-2 2v19a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7.5z"/>' +
+  '<path d="M14 .5v5a2 2 0 0 0 2 2h5z" fill="@d"/>'
 
 /** Escudo — base de `license` e `shield`. Ápice em (12, 2.5), base em (12, 21.7). */
 const SHIELD =
@@ -146,10 +146,10 @@ const SHAPES = {
     '<path d="M11.2 2.6 17.4 12.4H5z"/>' +
     '<circle cx="16.6" cy="17" r="4.4"/>',
   font: '<path d="M4 20.5 12 3.5l8 17"/><path d="M7.3 14.5h9.4"/>',
+  // sem o trinco: a 8px ele é um traço de meio pixel no meio da caixa.
   archive:
     '<rect x="2.5" y="2.8" width="19" height="5.4" rx="2"/>' +
-    '<path d="M4.6 8.2v11a2 2 0 0 0 2 2h10.8a2 2 0 0 0 2-2v-11"/>' +
-    '<path d="M9.9 12.4h4.2"/>',
+    '<path d="M4.6 8.2v11a2 2 0 0 0 2 2h10.8a2 2 0 0 0 2-2v-11"/>',
   play: '<circle cx="12" cy="12" r="9.5"/><path d="M10 8.6 16.4 12 10 15.4z"/>',
   audio:
     '<path d="M9.4 17.2V4.4L20.2 2.2v12"/>' +
@@ -163,9 +163,9 @@ const SHAPES = {
   lock:
     '<rect x="3" y="10" width="18" height="11.4" rx="2"/>' +
     '<path d="M7 10V6.6a5 5 0 0 1 10 0V10"/>',
-  key:
-    '<circle cx="7.8" cy="16.2" r="4.3"/><path d="M10.8 13.2 21 3"/>' +
-    '<path d="M17.4 6.6 19.2 8.4M14.8 9.2 16.6 11"/>',
+  // um dente só: a 8px os dois ficam a 1px um do outro e viram um borrão sobre
+  // a haste. Anel mais diagonal já é a silhueta da chave.
+  key: '<circle cx="7.8" cy="16.2" r="4.3"/><path d="M10.8 13.2 21 3M17.4 6.6 19.2 8.4"/>',
   // sem moldura: o terminal do Lucide é só o prompt e a linha de comando.
   terminal: '<path d="M3 5 10.5 12 3 19"/><path d="M13 19h8"/>',
   wrench:
@@ -203,10 +203,11 @@ const SHAPES = {
   graph:
     '<path d="M12 2.4 20.6 7.4v9.2L12 21.6 3.4 16.6V7.4z"/>' +
     '<path d="M12 8.8 15.8 15.4H8.2z"/>',
+  // sem a divisória do meio: a 8px ela fica a menos de 1px do tampo e as duas
+  // curvas viram uma faixa grossa só.
   database:
     '<ellipse cx="12" cy="5.4" rx="8.6" ry="3.4"/>' +
-    '<path d="M3.4 5.4v13.2c0 1.9 3.9 3.4 8.6 3.4s8.6-1.5 8.6-3.4V5.4"/>' +
-    '<path d="M3.4 12c0 1.9 3.9 3.4 8.6 3.4s8.6-1.5 8.6-3.4"/>',
+    '<path d="M3.4 5.4v13.2c0 1.9 3.9 3.4 8.6 3.4s8.6-1.5 8.6-3.4V5.4"/>',
   cloud: '<path d="M7 20a4.6 4.6 0 0 1-.5-9.2 6.2 6.2 0 0 1 11.8 1.5 3.9 3.9 0 0 1-.6 7.7z"/>',
   hex: '<path d="M12 2.3 20.6 7.3v9.4L12 21.7 3.4 16.7V7.3z"/><path d="M9 15.8V8.6l6 6.8V8.2"/>',
 
@@ -224,9 +225,11 @@ const SHAPES = {
   shield:
     SHIELD +
     '<circle cx="12" cy="10.4" r="2.3"/><path d="M8.1 17.4c.7-2.2 2.2-3.5 3.9-3.5s3.2 1.3 3.9 3.5"/>',
+  // um nó só, na origem, e o cotovelo terminando em seta. Dois círculos iguais
+  // nas pontas são duas manchas idênticas a 8px e não dizem direção.
   route:
-    '<circle cx="5.4" cy="5.4" r="3"/><circle cx="18.6" cy="18.6" r="3"/>' +
-    '<path d="M5.4 8.4v8.2a2 2 0 0 0 2 2h8.2"/>',
+    '<circle cx="5.4" cy="5.4" r="3"/>' +
+    '<path d="M5.4 8.4v8.6a2 2 0 0 0 2 2h11.2M15.4 15.2 19.2 19l-3.8 3.8"/>',
   // o V duplo da marca Vue
   vue: '<path d="M2.6 4.4h4.4L12 13.2l5-8.8h4.4L12 21.2z"/><path d="M8.8 4.4 12 9.8l3.2-5.4"/>',
 
@@ -284,20 +287,21 @@ const SHAPES = {
 
   // --- placas (preenchidas, cor do papel) ---
   plate: PLATE,
-  // pasta sólida em 1..23 x 2.4..21.6, pela mesma conta da placa: preenchida,
-  // a silhueta ocupa a extensão de tinta que o contorno traçado tinha.
+  // pasta sólida em 0.5..23.5 x 2..22, pela mesma conta da placa: área não
+  // obedece à caixa do traço, e o que sobra de alavanca de tamanho é ocupar
+  // mais da caixa de 24.
   folder:
-    '<path d="M1 19.6V4.4a2 2 0 0 1 2-2h5.6l2.9 3.3H21a2 2 0 0 1 2 2v11.9' +
-    'a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z"/>',
+    '<path d="M.5 20V4a2 2 0 0 1 2-2h5.8l3 3.4H21.5a2 2 0 0 1 2 2v12.6' +
+    'a2 2 0 0 1-2 2H2.5a2 2 0 0 1-2-2z"/>',
   // pasta aberta: a parede de trás no tom escuro e a faixa da frente na cor do
   // papel. Duas manchas da MESMA cor não leem como aberta — a silhueta sozinha
   // vira uma pasta mordida. O que separa as duas é o tom, não o contorno: a
   // parede fica na sombra e a faixa vem para a frente.
   folderOpen:
-    '<path d="M1 19.6V4.4a2 2 0 0 1 2-2h5.6l2.9 3.3H21a2 2 0 0 1 2 2v11.9' +
-    'a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2z" fill="@d"/>' +
-    '<path d="M3.7 21.6a2 2 0 0 1-1.9-2.6l2.7-7.8A2 2 0 0 1 6.4 9.8h14a2 2 0 0 1 1.9 2.6' +
-    'l-2.7 7.8a2 2 0 0 1-1.9 1.4z"/>',
+    '<path d="M.5 20V4a2 2 0 0 1 2-2h5.8l3 3.4H21.5a2 2 0 0 1 2 2v12.6' +
+    'a2 2 0 0 1-2 2H2.5a2 2 0 0 1-2-2z" fill="@d"/>' +
+    '<path d="M3.4 22a2 2 0 0 1-1.9-2.6l2.6-7.6A2 2 0 0 1 6 10.4h14.6a2 2 0 0 1 1.9 2.6' +
+    'l-2.6 7.6a2 2 0 0 1-1.9 1.4z"/>',
 
   // -------------------------------------------------------------------------
   // Marcas de terceiro
@@ -437,10 +441,11 @@ const SHAPES = {
   // o desenho de arquivo, é o caso puro de simetria central.
   // O ponto é um círculo TRAÇADO, não preenchido: dentro da pasta a caneta tem
   // 4.3u de largura e um disco de raio 1.1 sumiria debaixo dela.
+  // sem a fonte: um disco de raio 1.2 sai com meio pixel e some debaixo do
+  // arco de dentro. Os dois arcos concêntricos já apontam para o mesmo canto.
   pixelBadge:
-    '<path d="M4.6 12a7.4 7.4 0 0 1 7.4 7.4"/>' +
-    '<path d="M4.6 5.2a14.2 14.2 0 0 1 14.2 14.2"/>' +
-    '<circle cx="4.9" cy="19.1" r="1.2"/>',
+    '<path d="M4.6 12.4a7 7 0 0 1 7 7"/>' +
+    '<path d="M4.6 5.4a14 14 0 0 1 14 14"/>',
   // `admin`: cadeado. O escudo tem contorno curvo em volta inteira e a 7px
   // arredonda para um seixo; nem a ponta de baixo sobrevive. Tentei antes a
   // pessoa (cabeça + ombros): a cabeça e o arco se encostam e o conjunto lê
@@ -483,8 +488,8 @@ const SHAPES = {
   // um miolo minúsculo e vira mancha. A diagonal é a "\", ao contrário da "/"
   // de `styles` e `utils` — a 7px o sentido da diagonal é informação legível.
   graphBadge:
-    '<circle cx="5.8" cy="5.8" r="2.6"/><circle cx="18.2" cy="18.2" r="2.6"/>' +
-    '<path d="M8.3 8.3 15.7 15.7"/>',
+    '<circle cx="5.8" cy="5.8" r="2.8"/>' +
+    '<path d="M8.3 8.3 21 21"/>',
   // `test`: o visto. O frasco tem gargalo estreito sobre corpo cônico e a 7px
   // as duas diagonais convergem: sai um triângulo com haste, que é a mesma
   // mancha do "A" de `fonts` (conferido lado a lado, ampliado). Alarguei o

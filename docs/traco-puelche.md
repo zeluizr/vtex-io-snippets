@@ -37,16 +37,15 @@ A raiz do SVG carrega a cor do papel; a placa herda e não declara pintura. Só 
 orelha da página tem cor própria dentro da placa, pelo token `@d`.
 
 **O tom escuro é derivado, não escolhido.** `rolesDeep[papel]` é o papel
-misturado a **60% com o fundo do editor `#1A181F`**, e o gerador recusa qualquer
+misturado a **70% com o fundo do editor `#1A181F`**, e o gerador recusa qualquer
 valor que não seja exatamente isso. Fica em família com o tema e, sobre o fundo
 do Puelche, parece um recorte — mas é cor explícita, então o ícone continua certo
 sobre qualquer fundo.
 
-A conta de contraste entre placa e marca: `sage` sai a 3.55:1 e `punct` — o cinza
-mais escuro da paleta, e o papel de 21 arquivos e 5 pastas — a **2.67:1**, abaixo
-do piso de 3:1 para elemento gráfico. Medido a 16px reais, a marca ainda lê nas
-placas cinzas. O número está travado em `test/icons.test.js` em vez de escondido:
-mexeu na paleta ou na mistura, o teste conta o que aconteceu.
+A mistura foi 0.6 e não bastava. A 0.7 nenhum papel reprova o piso de 3:1 para
+elemento gráfico: o pior caso é `dim` a **3.35:1**, e ele é o pior justamente por
+ser a placa mais escura — o sistema tem um piso de luminância, ver abaixo. O piso
+está travado em `test/icons.test.js`.
 
 ## Constantes
 
@@ -55,15 +54,15 @@ mexeu na paleta ou na mistura, o teste conta o que aconteceu.
 | espessura da marca | **2** | **1.35** |
 | raio de canto | **2** | **1.35** |
 | caixa de conteúdo da marca | **2 a 22** | **1.5 a 14.5** |
-| extensão da placa | **1 a 23** | não tem |
+| extensão da placa | **0.5 a 23.5** | não tem |
 | ponta e junção | redonda | redonda |
 | placa | sólida, cor do papel | não tem: é fonte, tudo é contorno |
 
 A caixa de conteúdo é a régua do **traço**: uma forma desenhada de 2 a 22, com o
-traço de 2 centrado, põe tinta de 1 a 23. A placa é **área**, não traço, então
-ela ocupa direto essa mesma extensão de 1 a 23. As duas réguas descrevem o mesmo
-tamanho de tinta — é por isso que a placa não parece maior que o contorno que ela
-substituiu.
+traço de 2 centrado, põe tinta de 1 a 23. A placa é **área**, não traço, e por
+isso não obedece a essa régua: ela vai a 0.5 e 23.5, quase sangria total. O VS
+Code trava o ícone em 16px, e depois disso a única alavanca de tamanho que sobra
+é quanto da caixa de 24 o desenho ocupa.
 
 A grade 16 é a grade 24 dividida por 12/8: `2 × 16/24 = 1.333`, arredondado para
 1.35. É a mesma razão de traço.
@@ -91,9 +90,13 @@ e o traço dela é dividido pela escala para sair na mesma espessura aparente.
 **Respiro nas bordas.** A marca vive dentro da caixa de conteúdo; a placa, dentro
 da extensão de tinta. Nenhuma das duas encosta na parede do viewBox.
 
-**Máximo de três elementos por marca.** Na placa e dentro da pasta a marca sai
-com ~8px de lado. A partir do quarto elemento o desenho vira uma mancha e duas
-marcas vizinhas na árvore deixam de se distinguir. `test/icons.test.js` cobra.
+**Máximo de dois elementos por marca.** Na placa e dentro da pasta a marca sai
+com ~8px de lado. A partir do terceiro elemento o desenho vira uma mancha e duas
+marcas vizinhas na árvore deixam de se distinguir. O teto foi 3 enquanto seis
+marcas ainda tinham o terceiro elemento — o trinco da caixa, a divisória do
+cilindro, o segundo dente da chave, o segundo nó da rota, o segundo nó do grafo e
+a fonte do pixel. Todas perderam esse elemento, e o teto virou 2.
+`test/icons.test.js` cobra.
 
 **Densidade comparável.** Duas formas vizinhas na árvore não podem ter peso de
 tinta muito diferente. Se um desenho precisa de cinco elementos para se explicar
@@ -102,8 +105,8 @@ conjunto.
 
 ## As placas
 
-**`plate`** é a página de todo arquivo: retângulo 3.5..20.5 × 1..23, cantos de raio
-2, canto superior direito cortado em 45° a partir de (14, 1). O triângulo que falta
+**`plate`** é a página de todo arquivo: retângulo 3..21 × 0.5..23.5, cantos de raio
+2, canto superior direito cortado em 45° a partir de (14, 0.5). O triângulo que falta
 nesse canto é a **orelha**, preenchida no tom escuro — é a dobra da página, e é o
 único lugar da placa com cor própria.
 
@@ -112,8 +115,7 @@ moldura virou a placa. Foi por isso que `javascript`, `typescript` e `image`
 perderam o retângulo de 19×19 e `doc` e `markdown` perderam a página — página
 dentro de página não lê.
 
-**`folder`** é a pasta sólida em 1..23 × 2.4..21.6, pela mesma conta: preenchida,
-a silhueta ocupa a extensão de tinta que o contorno traçado tinha.
+**`folder`** é a pasta sólida em 0.5..23.5 × 2..22, pela mesma conta.
 
 **`folderOpen`** é a parede de trás no tom escuro mais a faixa da frente na cor
 do papel. Duas manchas da mesma cor não leem como pasta aberta — a silhueta
@@ -127,9 +129,9 @@ A marca é a mesma biblioteca de formas dos dois lados da árvore, escalada por
 
 | destino | centro | altura de tinta | vão livre do corpo | escala |
 | --- | --- | --- | --- | --- |
-| placa de arquivo | (12, 14.4) | 12.8 | 16.0 | 0.54 |
-| pasta fechada | (12, 13.65) | 12.4 | 15.9 | 0.52 |
-| pasta aberta | (12.6, 15.9) | 10.4 | 11.8 | 0.42 |
+| placa de arquivo | (12, 14.8) | 13.4 | 17.0 | 0.57 |
+| pasta fechada | (12, 13.7) | 12.9 | 16.6 | 0.55 |
+| pasta aberta | (12.6, 16.3) | 10.2 | 11.6 | 0.41 |
 
 As escalas de arquivo e pasta fechada são irmãs de propósito: uma marca que
 sobrevive dentro da pasta sobrevive na placa, e as duas usam a mesma biblioteca.
@@ -211,9 +213,59 @@ Restrições que o lint de `test/icons.test.js` impõe e o motor respeita: só
 `M`, `L`, `Q`, `A` e `Z` absolutos, só `<path>`, nada de `transform`, nenhum
 subcaminho com área ~0, e toda coordenada dentro de 0..16.
 
+## Uma cor por família
+
+O papel de cor não é escolhido caso a caso: é a **família** a que a entrada
+pertence. É isso que faz a árvore ler como bloco em vez de mosaico.
+
+| papel | hex | família |
+| --- | --- | --- |
+| `purple` | `#BD93F9` | VTEX — o vocabulário da plataforma |
+| `lavender` | `#D6ACFF` | Vitrine — as páginas da loja |
+| `pink` | `#FF79C6` | Frontend |
+| `green` | `#50FA7B` | Backend |
+| `cyan` | `#8BE9FD` | Código compartilhado |
+| `aqua` | `#A4FFFF` | Ferramenta |
+| `yellow` | `#F1FA8C` | Estilo |
+| `orange` | `#FFB86C` | Recurso |
+| `parchment` | `#B8AE9E` | Documento |
+| `mint` | `#69FF94` | Teste |
+| `dim` | `#808DB4` | Gerado / não é seu código |
+
+**A exceção são as marcas de terceiro**, que levam o papel mais próximo da cor da
+própria marca: `claude` e `git` em orange, `npm` em pink, `eslint` em purple,
+`yarn` e `docker` em cyan.
+
+**A paleta é a do Dracula.** As 15 cores dele estão todas acima de ΔE76 10 entre
+si — é o que faz o conjunto ler de relance, e é a razão da troca: a paleta
+dessaturada de antes vivia entre ΔE 10 e 15, no limite do piso. Duas cores não
+vieram de lá e a razão está medida:
+
+- **`parchment` `#B8AE9E`** para documento. O branco `#F8F8F2` do Dracula é a cor
+  mais clara da paleta e transformava `docs`, `README` e `CHANGELOG` na coisa mais
+  luminosa da árvore — documento não deve dominar. O bege é neutro e recua.
+- **`dim` `#808DB4`** para o gerado. O `#6272A4` do Dracula era o candidato óbvio,
+  mas o sistema de duas camadas tem um **piso de luminância** que ninguém tinha
+  medido: com a mistura de 0.7, uma placa escura demais não deixa espaço para a
+  marca. O `#6272A4` entrega 2.64:1 entre placa e marca, abaixo do piso de 3:1.
+  O `#808DB4` é o mesmo azul clareado até o ponto exato em que a conta fecha —
+  3.35:1 — e ainda é a placa mais apagada do conjunto, que é o que `dist` e
+  `node_modules` têm que ser.
+
+O cinza passa a significar alguma coisa. Antes ele era o depósito de tudo que não
+tinha cor óbvia; agora só recua o que é gerado ou infraestrutura, e `utils` subiu
+para steel porque é código seu.
+
+A paleta era de 9 papéis e `comment` × `punct` estavam a **ΔE76 6.1** — a olho nu,
+a pasta `docs` e a pasta `dist` eram a mesma cor. `comment` saiu da paleta de
+ícones (segue no tema de cor, pintando comentário de código, que é o trabalho
+dele) e o documento ganhou `parchment`. O par mais próximo dos 11 hoje é
+`sage` × `added` a ΔE76 11.0, e `test/icons.test.js` passou a cobrar o piso de 10
+— a trava que faltava.
+
 ## O que não muda
 
-A paleta de 9 papéis e a atribuição papel → ícone em `data/icons.json`. A
+A atribuição forma → ícone em `data/icons.json`. A
 precedência do VS Code (`fileNames` > `fileExtensions` > `languageIds`). O
 sistema de pasta com marca inscrita. A cobertura parcial do chrome, que deixa o
 não coberto cair no codicon nativo de propósito.

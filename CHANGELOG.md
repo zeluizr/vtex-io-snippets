@@ -7,6 +7,144 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [3.6.0] - 2026-08-28
+
+### Cambiado
+- **El vocabulario del archivo deja de ser todo blanco.** Medido sobre un `.tsx` real: 16
+  identificadores —`classNames`, `useCssHandles`, `CSS_HANDLES`, `handles`,
+  `productContext`, `product`, `raw`, `attributes`, `rows`…, el vocabulario entero del
+  archivo— salían del mismo blanco. El tema coloreaba lo que el token **es**
+  gramaticalmente (palabra clave, tipo, llamada, cadena) y dejaba sin color todo nombre
+  que el autor había escrito. Dracula tiene la misma propiedad; aquí se pidió más.
+  - **Dónde nace un nombre** va en lavanda `#D6ACFF`; **el uso** se queda en el color de
+    texto. Es el contraste entre los dos el que hace la lectura: se ve la definición sin
+    buscarla.
+  - **Lo que viene de fuera** —el nombre importado— va en cian claro `#A4FFFF` en cursiva,
+    así el bloque de `import` se lee como lo que es: la superficie externa del archivo.
+  - **El parámetro pasa a naranja en cursiva**, que es lo que Dracula hace. Estaba en
+    `#D2D2CC`, casi indistinguible del texto común: una desviación nuestra que costaba
+    color justo donde más se necesita.
+- `lavender` y `aqua` suben de extras de terminal a papeles de sintaxis. Son dos de los
+  brillantes de la tabla ANSI de Dracula, y ninguno queda por debajo de ΔE76 10 contra el
+  resto de lo que comparte pantalla.
+- Tres pruebas nuevas fijan las distinciones: que declaración y uso no salgan del mismo
+  color, que el parámetro no vuelva a ser un blanco de segunda, y que el nombre importado
+  no empate ni con el texto común ni con el color de tipo.
+
+### Corregido
+- **El preset de conforto cambia de fuente: Victor Mono sale, entra Google Sans Code.** La
+  recomendación era por su cursiva, pero resultó difícil de leer en sesión larga —el trazo
+  es fino y la cursiva, que es su gracia, cansa cuando aparece a la vez en comentario,
+  parámetro, atributo e import—. El preset ahora activa `editor.fontVariations` para usar
+  los ejes variables, y por eso ya no fija `fontWeight`. Google Sans Code **no tiene
+  ligaduras** (su tabla GSUB trae `aalt ccmp locl ss01`, sin `liga` ni `calt`); el preset
+  deja `fontLigatures` activo igualmente, inofensivo y listo para el día que entre una
+  fuente que sí las tenga.
+
+## [3.5.0] - 2026-08-28
+
+### Añadido
+- **Reglas de resaltado específicas por lenguaje**, siete. No dan un color a cada lenguaje
+  —eso rompería la regla fundacional del tema, colorear por papel y no por lenguaje—: dan
+  más **resolución dentro** del lenguaje, separando ámbitos que compartían regla y salían
+  del mismo color:
+  - **React: un componente ya no tiene el color de una etiqueta.** `<ProductCard>` pasa a
+    cian, el color de tipo, y `<div>` se queda en naranja, el de estructura con nombre.
+    Compartían regla, así que en un `.tsx` no había forma de distinguirlos de un vistazo.
+  - **React: la llave que abre JavaScript dentro del markup** (`{`…`}`) es rosa, para que
+    la frontera entre JSX y expresión se vea. Antes caía en la puntuación común y
+    desaparecía.
+  - **GraphQL: `$variable` dejó de pintarse como una llamada a función.** Estaba en la
+    regla de funciones y salía en verde; ahora lleva el color de parámetro, en cursiva.
+  - **`this`, `super`, `self` y `cls` son el mismo papel en todos los lenguajes**: morado
+    en cursiva, el valor que da el lenguaje. `this` estaba entre las palabras clave, que es
+    lo que no es, y `self` de Python tenía regla propia con otro color.
+  - **`async` y `await` en cursiva.** Siguen siendo palabra clave en color; lo que los
+    separa es la cursiva, no un color nuevo — la misma decisión que el tema ya toma para
+    `import`, los parámetros y los atributos.
+  - **Regex: ancla, grupo y clase de caracteres** en naranja, dentro de la cadena morada.
+  - **Los signos de la etiqueta** (`<`, `/`, `>`) bajan a color de puntuación, para que el
+    nombre del componente sea lo que se lee.
+- Seis pruebas nuevas fijan esas distinciones, porque son fallos que solo se ven leyendo
+  código: que el componente no comparta color con la etiqueta, que la llave del JSX no
+  caiga en la puntuación, que `$variable` no sea una función, que `this`/`super`/`self`
+  salgan los tres del mismo papel, y que ninguna regla nueva invente un color.
+
+## [3.4.0] - 2026-08-28
+
+### Cambiado
+- **La paleta de sintaxis pasa a ser la de Dracula.** El motivo del cambio se pidió con
+  una razón concreta —"necesito entender solo de mirar"— y la paleta desaturada fallaba
+  justo en eso: sus nueve papeles vivían entre ΔE76 10 y 15, en el límite del mínimo. Las
+  15 colores de Dracula están **todas** por encima de ΔE76 10 entre sí, con holgura. Las
+  palabras clave son rosa, los tipos y clases cian, las funciones verde, las cadenas
+  amarillo, los números y constantes morado, la estructura con nombre naranja.
+- **El fondo sigue siendo el `#1A181F` del Puelche**, más oscuro que el `#282A36` de
+  Dracula. No es descuido: sobre él cada color gana ~24% de contraste sobre el tema de
+  origen —verde 12.81:1 contra 10.38:1, rojo 5.60:1 contra 4.53:1—. Pedir más destaque y
+  quedarse con el fondo oscuro da todavía más destaque.
+- **Los iconos siguen la misma paleta**, para que el explorador y el editor no hablen dos
+  idiomas de color. Los once papeles de familia adoptan los colores de Dracula y pasan a
+  llamarse por su matiz (`purple`, `pink`, `cyan`…), porque con esta paleta los nombres
+  antiguos eran mentira: `clay` guardaba un morado.
+- **El terminal usa los valores ANSI exactos de Dracula**, los 16, normales y brillantes.
+
+### Corregido
+- El **comentario** no es el `#6272A4` de Dracula: sobre este fondo da 3.74:1, por debajo
+  del mínimo de 5.7:1 que este tema exige desde siempre, con la razón escrita en la
+  especificación —un comentario que no se lee es un comentario que no se escribe—. Va
+  aclarado un 30% hacia el texto: `#8F9ABB`, 6.29:1.
+- Dos colores de icono tampoco son de Dracula, y la medición dice por qué. El blanco
+  `#F8F8F2` convertía `docs`, `README` y `CHANGELOG` en lo más luminoso del árbol —un
+  documento no debe dominar—, así que documento se queda en `parchment` `#B8AE9E`. Y el
+  `#6272A4` para lo generado chocó con un **piso de luminancia del sistema de dos capas**
+  que nadie había medido: una placa demasiado oscura no deja sitio para la marca, y daba
+  2.64:1. `dim` `#808DB4` es ese mismo azul aclarado hasta el punto exacto en que la
+  cuenta cierra, 3.35:1, y sigue siendo la placa más apagada del conjunto.
+
+## [3.3.0] - 2026-08-28
+
+### Añadido
+- **Comando "VTEX: Aplicar ajustes de conforto del Puelche"** (y su
+  "VTEX: Deshacer ajustes de conforto"). Escribe en TUS ajustes de usuario la fuente
+  recomendada, las ligaduras, el tamaño, la altura de línea y los tres temas del Puelche
+  —color, iconos e interfaz—, después de un diálogo que lista `valor actual → valor nuevo`
+  clave por clave. Antes de aplicar busca la fuente en el disco: si no está, avisa y ofrece
+  copiar el comando de instalación en vez de apuntar a una fuente que no existe, que es el
+  fallo silencioso clásico. El deshacer devuelve cada clave a su valor anterior, y una
+  clave que no existía antes vuelve a **no existir**.
+- Es un comando y no `configurationDefaults` a propósito: que una extensión de tema cambie
+  la fuente de quien la instala es invasivo.
+- La fuente recomendada es **Victor Mono**, elegida por la cursiva. El tema usa cursiva en
+  12 claves y la especificación cambia color extra por cursiva —es la única del grupo con
+  cursiva de verdad, no una simple inclinación.
+
+### Cambiado
+- **Un color por familia.** El papel de color deja de elegirse caso por caso y pasa a ser
+  la familia a la que pertenece la entrada, para que el árbol se lea por bloques y no como
+  un mosaico: VTEX, escaparate, frontend, backend, código compartido, herramienta, estilo,
+  recurso, documento, prueba y generado. La excepción son las marcas de terceros, que
+  llevan el papel más cercano a su propio color.
+- **La paleta pasa de 9 a 11 papeles.** `comment` y `punct` convivían a **ΔE76 6.1** —a
+  simple vista, la carpeta `docs` y la carpeta `dist` eran el mismo color—. `comment` sale
+  de la paleta de iconos (sigue en el tema de color, pintando comentarios) y entran
+  `periwinkle` para el escaparate, `teal` para las herramientas y `parchment` para los
+  documentos. El par más cercano de los 11 queda en ΔE76 11.0.
+- **La marca oscura pasa del 60% al 70%** de mezcla con el fondo. Con el 60% cinco papeles
+  quedaban por debajo del mínimo de 3:1 para elemento gráfico, con `punct` en 2.67:1. Ahora
+  el peor caso es 3.17:1 y ninguno reprueba.
+- **La silueta ocupa más caja**: de `1..23` a `0.5..23.5` de las 24 unidades. VS Code fija
+  el icono en 16px, así que cuánto de la caja ocupa el dibujo es la única palanca de tamaño
+  que queda. La marca creció en la misma proporción.
+- **Seis marcas bajaron a dos elementos** —el cierre de la caja, la división del cilindro,
+  el segundo diente de la llave, el segundo nodo de la ruta, el segundo nodo del grafo y la
+  fuente del píxel—. El techo del CI baja de 3 a **2**: la regla pasa a cobrarse.
+
+### Corregido
+- `test/icons.test.js` gana la traba que faltaba: **ningún par de papeles por debajo de
+  ΔE76 10**. Es la métrica que el tema de color ya exigía y que la paleta de iconos nunca
+  tuvo — y es la que habría detectado el `comment` × `punct` hace meses.
+
 ## [3.2.1] - 2026-08-28
 
 ### Añadido

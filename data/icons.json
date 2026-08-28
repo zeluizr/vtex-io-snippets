@@ -4,44 +4,52 @@
     "role = papel de cor da paleta Puelche; shape = forma em scripts/icon-shapes.js.",
     "Precedência do VS Code: names > ext > langs. Nomes completos ganham da extensão,",
     "por isso manifest.json/package.json/tsconfig.json têm ícone próprio e não caem no .json genérico.",
-    "sand e warning estavam a ΔE 5.29 (mesma cor aos olhos): test foi para added e env para clay, e warning saiu dos ícones.",
-    "roles pinta a silhueta sólida; rolesDeep pinta a marca inscrita — é o mesmo papel misturado a 60% com o fundo #1A181F."
+    "UMA COR POR FAMÍLIA: o papel não é escolhido caso a caso, é a família a que a entrada",
+    "pertence. A tabela de famílias vive em test/icons.test.js e é cobrada por teste.",
+    "A exceção são as marcas de terceiro, que levam o papel mais próximo da cor da própria",
+    "marca — claude/git em clay, npm em rose, eslint em violet, yarn/docker em steel.",
+    "A paleta é a do Dracula: as 15 cores dele estão todas acima de ΔE76 10 entre si, que é o que faz o conjunto ler de relance.",
+    "roles pinta a silhueta sólida; rolesDeep pinta a marca inscrita — é o mesmo papel misturado a 70% com o fundo #1A181F."
   ],
   "roles": {
-    "steel": "#86AECB",
-    "rose": "#C4788F",
-    "sage": "#7FC3AE",
-    "sand": "#C4A47C",
-    "clay": "#C08A6B",
-    "violet": "#A78BC7",
-    "comment": "#9A91A8",
-    "punct": "#8A8496",
-    "added": "#7FAE8E"
+    "purple": "#BD93F9",
+    "lavender": "#D6ACFF",
+    "pink": "#FF79C6",
+    "green": "#50FA7B",
+    "cyan": "#8BE9FD",
+    "aqua": "#A4FFFF",
+    "yellow": "#F1FA8C",
+    "orange": "#FFB86C",
+    "parchment": "#B8AE9E",
+    "mint": "#69FF94",
+    "dim": "#808DB4"
   },
   "rolesDeep": {
-    "steel": "#455464",
-    "rose": "#5E3E4C",
-    "sage": "#425C58",
-    "sand": "#5E5044",
-    "clay": "#5C463D",
-    "violet": "#524662",
-    "comment": "#4D4856",
-    "punct": "#47434F",
-    "added": "#42544B"
+    "purple": "#4B3D60",
+    "lavender": "#524462",
+    "pink": "#5F3551",
+    "green": "#2A5C3B",
+    "cyan": "#3C5762",
+    "aqua": "#435D62",
+    "yellow": "#5B5C40",
+    "orange": "#5F4836",
+    "parchment": "#494545",
+    "mint": "#325D42",
+    "dim": "#393B4C"
   },
   "defaults": {
     "file": {
-      "role": "punct"
+      "role": "dim"
     },
     "folder": {
-      "role": "punct"
+      "role": "dim"
     }
   },
   "files": [
     {
       "id": "json",
       "shape": "braces",
-      "role": "steel",
+      "role": "cyan",
       "ext": [
         "json"
       ],
@@ -52,7 +60,7 @@
     {
       "id": "jsonc",
       "shape": "braces",
-      "role": "steel",
+      "role": "cyan",
       "ext": [
         "jsonc",
         "json5"
@@ -64,7 +72,7 @@
     {
       "id": "typescript",
       "shape": "typescript",
-      "role": "steel",
+      "role": "cyan",
       "ext": [
         "ts",
         "mts",
@@ -77,7 +85,7 @@
     {
       "id": "tsx",
       "shape": "react",
-      "role": "rose",
+      "role": "pink",
       "ext": [
         "tsx"
       ],
@@ -88,7 +96,7 @@
     {
       "id": "javascript",
       "shape": "javascript",
-      "role": "sage",
+      "role": "green",
       "ext": [
         "js",
         "mjs",
@@ -101,7 +109,7 @@
     {
       "id": "jsx",
       "shape": "react",
-      "role": "sage",
+      "role": "green",
       "ext": [
         "jsx"
       ],
@@ -112,7 +120,7 @@
     {
       "id": "html",
       "shape": "angles",
-      "role": "rose",
+      "role": "pink",
       "ext": [
         "html",
         "htm"
@@ -124,7 +132,7 @@
     {
       "id": "vue",
       "shape": "vue",
-      "role": "added",
+      "role": "mint",
       "ext": [
         "vue"
       ]
@@ -132,7 +140,7 @@
     {
       "id": "svelte",
       "shape": "angles",
-      "role": "added",
+      "role": "mint",
       "ext": [
         "svelte"
       ]
@@ -140,7 +148,7 @@
     {
       "id": "xml",
       "shape": "angles",
-      "role": "punct",
+      "role": "cyan",
       "ext": [
         "xml",
         "plist"
@@ -152,7 +160,7 @@
     {
       "id": "css",
       "shape": "brush",
-      "role": "sand",
+      "role": "yellow",
       "ext": [
         "css",
         "pcss",
@@ -166,7 +174,7 @@
     {
       "id": "sass",
       "shape": "droplet",
-      "role": "sand",
+      "role": "yellow",
       "ext": [
         "scss",
         "sass",
@@ -182,7 +190,7 @@
     {
       "id": "markdown",
       "shape": "markdown",
-      "role": "comment",
+      "role": "parchment",
       "ext": [
         "md",
         "mdx",
@@ -195,7 +203,7 @@
     {
       "id": "text",
       "shape": "doc",
-      "role": "punct",
+      "role": "parchment",
       "ext": [
         "txt",
         "log"
@@ -208,7 +216,7 @@
     {
       "id": "image",
       "shape": "image",
-      "role": "clay",
+      "role": "orange",
       "ext": [
         "png",
         "jpg",
@@ -223,7 +231,7 @@
     {
       "id": "vector",
       "shape": "vector",
-      "role": "clay",
+      "role": "orange",
       "ext": [
         "svg"
       ]
@@ -231,7 +239,7 @@
     {
       "id": "font",
       "shape": "font",
-      "role": "clay",
+      "role": "orange",
       "ext": [
         "woff",
         "woff2",
@@ -243,7 +251,7 @@
     {
       "id": "archive",
       "shape": "archive",
-      "role": "clay",
+      "role": "orange",
       "ext": [
         "zip",
         "tar",
@@ -256,7 +264,7 @@
     {
       "id": "video",
       "shape": "play",
-      "role": "clay",
+      "role": "orange",
       "ext": [
         "mp4",
         "webm",
@@ -268,7 +276,7 @@
     {
       "id": "audio",
       "shape": "audio",
-      "role": "clay",
+      "role": "orange",
       "ext": [
         "mp3",
         "wav",
@@ -279,7 +287,7 @@
     {
       "id": "pdf",
       "shape": "doc",
-      "role": "clay",
+      "role": "parchment",
       "ext": [
         "pdf"
       ]
@@ -287,7 +295,7 @@
     {
       "id": "graphql",
       "shape": "graph",
-      "role": "sage",
+      "role": "green",
       "ext": [
         "graphql",
         "gql"
@@ -299,7 +307,7 @@
     {
       "id": "prisma",
       "shape": "database",
-      "role": "steel",
+      "role": "cyan",
       "ext": [
         "prisma"
       ],
@@ -310,7 +318,7 @@
     {
       "id": "sql",
       "shape": "database",
-      "role": "steel",
+      "role": "cyan",
       "ext": [
         "sql"
       ],
@@ -321,7 +329,7 @@
     {
       "id": "yaml",
       "shape": "list",
-      "role": "steel",
+      "role": "cyan",
       "ext": [
         "yml",
         "yaml"
@@ -333,7 +341,7 @@
     {
       "id": "toml",
       "shape": "table",
-      "role": "steel",
+      "role": "cyan",
       "ext": [
         "toml",
         "ini",
@@ -347,7 +355,7 @@
     {
       "id": "shell",
       "shape": "terminal",
-      "role": "sage",
+      "role": "green",
       "ext": [
         "sh",
         "bash",
@@ -361,7 +369,7 @@
     {
       "id": "python",
       "shape": "python",
-      "role": "sage",
+      "role": "green",
       "ext": [
         "py",
         "pyi"
@@ -373,7 +381,7 @@
     {
       "id": "test",
       "shape": "flask",
-      "role": "added",
+      "role": "mint",
       "ext": [
         "test.ts",
         "test.tsx",
@@ -386,7 +394,7 @@
     {
       "id": "env",
       "shape": "key",
-      "role": "clay",
+      "role": "dim",
       "names": [
         ".env",
         ".env.local",
@@ -399,7 +407,7 @@
     {
       "id": "ignore",
       "shape": "slash",
-      "role": "punct",
+      "role": "dim",
       "names": [
         ".vscodeignore",
         ".DS_Store",
@@ -410,7 +418,7 @@
     {
       "id": "git",
       "shape": "git",
-      "role": "clay",
+      "role": "orange",
       "names": [
         ".gitignore",
         ".gitattributes",
@@ -421,7 +429,7 @@
     {
       "id": "lock",
       "shape": "lock",
-      "role": "punct",
+      "role": "dim",
       "names": [
         "pnpm-lock.yaml",
         "bun.lockb",
@@ -431,7 +439,7 @@
     {
       "id": "tsconfig",
       "shape": "gear",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "tsconfig.json",
         "tsconfig.base.json",
@@ -441,7 +449,7 @@
     {
       "id": "config",
       "shape": "gear",
-      "role": "punct",
+      "role": "aqua",
       "names": [
         ".babelrc"
       ]
@@ -449,7 +457,7 @@
     {
       "id": "buildconfig",
       "shape": "wrench",
-      "role": "punct",
+      "role": "aqua",
       "names": [
         "vite.config.ts",
         "vite.config.js",
@@ -463,7 +471,7 @@
     {
       "id": "docker",
       "shape": "docker",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "Dockerfile",
         "dockerfile",
@@ -479,7 +487,7 @@
     {
       "id": "license",
       "shape": "license",
-      "role": "comment",
+      "role": "parchment",
       "names": [
         "LICENSE",
         "LICENSE.md",
@@ -490,7 +498,7 @@
     {
       "id": "readme",
       "shape": "book",
-      "role": "comment",
+      "role": "parchment",
       "names": [
         "README.md",
         "readme.md",
@@ -500,7 +508,7 @@
     {
       "id": "changelog",
       "shape": "history",
-      "role": "comment",
+      "role": "parchment",
       "names": [
         "CHANGELOG.md",
         "CHANGES.md",
@@ -510,7 +518,7 @@
     {
       "id": "manifest",
       "shape": "vtex",
-      "role": "rose",
+      "role": "purple",
       "names": [
         "manifest.json",
         "vtex.json",
@@ -520,7 +528,7 @@
     {
       "id": "routes",
       "shape": "route",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "routes.json",
         "routes.jsonc"
@@ -529,7 +537,7 @@
     {
       "id": "blocks",
       "shape": "blocks",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "blocks.json",
         "blocks.jsonc",
@@ -541,7 +549,7 @@
     {
       "id": "claude",
       "shape": "claude",
-      "role": "clay",
+      "role": "orange",
       "names": [
         "CLAUDE.md",
         "AGENTS.md",
@@ -552,7 +560,7 @@
     {
       "id": "npm",
       "shape": "npm",
-      "role": "rose",
+      "role": "pink",
       "names": [
         "package.json",
         "package-lock.json",
@@ -563,7 +571,7 @@
     {
       "id": "yarn",
       "shape": "yarn",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "yarn.lock",
         ".yarnrc",
@@ -573,7 +581,7 @@
     {
       "id": "prettier",
       "shape": "prettier",
-      "role": "sand",
+      "role": "yellow",
       "names": [
         ".prettierrc",
         ".prettierrc.json",
@@ -586,7 +594,7 @@
     {
       "id": "eslint",
       "shape": "eslint",
-      "role": "violet",
+      "role": "purple",
       "names": [
         ".eslintrc",
         ".eslintrc.json",
@@ -600,7 +608,7 @@
     {
       "id": "nodeversion",
       "shape": "hex",
-      "role": "added",
+      "role": "mint",
       "names": [
         ".nvmrc",
         ".node-version"
@@ -609,7 +617,7 @@
     {
       "id": "editorconfig",
       "shape": "gear",
-      "role": "punct",
+      "role": "aqua",
       "names": [
         ".editorconfig"
       ]
@@ -617,7 +625,7 @@
     {
       "id": "style",
       "shape": "brush",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "style.json"
       ]
@@ -627,7 +635,7 @@
     {
       "id": "store",
       "shape": "vtex",
-      "role": "rose",
+      "role": "purple",
       "names": [
         "store"
       ]
@@ -635,7 +643,7 @@
     {
       "id": "react",
       "shape": "react",
-      "role": "rose",
+      "role": "pink",
       "names": [
         "react"
       ]
@@ -643,7 +651,7 @@
     {
       "id": "node",
       "shape": "hex",
-      "role": "added",
+      "role": "green",
       "names": [
         "node"
       ]
@@ -651,7 +659,7 @@
     {
       "id": "graphql",
       "shape": "graph",
-      "role": "sage",
+      "role": "green",
       "names": [
         "graphql"
       ]
@@ -659,7 +667,7 @@
     {
       "id": "styles",
       "shape": "brush",
-      "role": "sand",
+      "role": "yellow",
       "names": [
         "styles",
         "style",
@@ -671,7 +679,7 @@
     {
       "id": "messages",
       "shape": "message",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "messages",
         "locales",
@@ -683,7 +691,7 @@
     {
       "id": "pixel",
       "shape": "pixel",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "pixel"
       ]
@@ -691,7 +699,7 @@
     {
       "id": "admin",
       "shape": "shield",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "admin"
       ]
@@ -699,7 +707,7 @@
     {
       "id": "assets",
       "shape": "layers",
-      "role": "clay",
+      "role": "orange",
       "names": [
         "assets",
         "static",
@@ -709,7 +717,7 @@
     {
       "id": "images",
       "shape": "image",
-      "role": "clay",
+      "role": "orange",
       "names": [
         "images",
         "img",
@@ -719,7 +727,7 @@
     {
       "id": "fonts",
       "shape": "font",
-      "role": "clay",
+      "role": "orange",
       "names": [
         "fonts",
         "font"
@@ -728,7 +736,7 @@
     {
       "id": "docs",
       "shape": "book",
-      "role": "comment",
+      "role": "parchment",
       "names": [
         "docs",
         "doc",
@@ -738,7 +746,7 @@
     {
       "id": "test",
       "shape": "flask",
-      "role": "added",
+      "role": "mint",
       "names": [
         "test",
         "tests",
@@ -750,7 +758,7 @@
     {
       "id": "scripts",
       "shape": "terminal",
-      "role": "sage",
+      "role": "aqua",
       "names": [
         "scripts",
         "bin",
@@ -760,7 +768,7 @@
     {
       "id": "src",
       "shape": "box",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "src",
         "source",
@@ -770,7 +778,7 @@
     {
       "id": "dist",
       "shape": "archive",
-      "role": "punct",
+      "role": "dim",
       "names": [
         "dist",
         "build",
@@ -783,7 +791,7 @@
     {
       "id": "components",
       "shape": "grid",
-      "role": "rose",
+      "role": "pink",
       "names": [
         "components",
         "component"
@@ -792,7 +800,7 @@
     {
       "id": "hooks",
       "shape": "route",
-      "role": "sage",
+      "role": "green",
       "names": [
         "hooks",
         "middlewares",
@@ -802,7 +810,7 @@
     {
       "id": "utils",
       "shape": "wrench",
-      "role": "punct",
+      "role": "cyan",
       "names": [
         "utils",
         "util",
@@ -814,7 +822,7 @@
     {
       "id": "config",
       "shape": "gear",
-      "role": "punct",
+      "role": "dim",
       "names": [
         "config",
         "configs",
@@ -827,7 +835,7 @@
     {
       "id": "github",
       "shape": "github",
-      "role": "punct",
+      "role": "dim",
       "names": [
         ".github",
         ".git"
@@ -836,7 +844,7 @@
     {
       "id": "modules",
       "shape": "box",
-      "role": "punct",
+      "role": "dim",
       "names": [
         "node_modules",
         "vendor"
@@ -845,7 +853,7 @@
     {
       "id": "data",
       "shape": "database",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "data",
         "db",
@@ -857,7 +865,7 @@
     {
       "id": "schemas",
       "shape": "table",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "schemas",
         "schema"
@@ -866,7 +874,7 @@
     {
       "id": "snippets",
       "shape": "braces",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "snippets"
       ]
@@ -874,7 +882,7 @@
     {
       "id": "types",
       "shape": "typescript",
-      "role": "steel",
+      "role": "cyan",
       "names": [
         "types",
         "typings",
@@ -885,7 +893,7 @@
     {
       "id": "clients",
       "shape": "cloud",
-      "role": "sage",
+      "role": "green",
       "names": [
         "clients",
         "services",
@@ -895,7 +903,7 @@
     {
       "id": "claude",
       "shape": "claude",
-      "role": "clay",
+      "role": "orange",
       "names": [
         ".claude",
         ".agents"
@@ -904,7 +912,7 @@
     {
       "id": "checkout",
       "shape": "receipt",
-      "role": "sage",
+      "role": "purple",
       "names": [
         "checkout-ui-custom",
         "checkout-ui-settings",
@@ -914,7 +922,7 @@
     {
       "id": "sitemap",
       "shape": "sitemap",
-      "role": "sage",
+      "role": "purple",
       "names": [
         "sitemap"
       ]
@@ -922,7 +930,7 @@
     {
       "id": "masterdata",
       "shape": "database",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "masterdata"
       ]
@@ -930,7 +938,7 @@
     {
       "id": "blocks",
       "shape": "blocks",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "blocks"
       ]
@@ -938,7 +946,7 @@
     {
       "id": "templates",
       "shape": "table",
-      "role": "violet",
+      "role": "purple",
       "names": [
         "templates",
         "template",
@@ -948,7 +956,7 @@
     {
       "id": "iconpacks",
       "shape": "vector",
-      "role": "clay",
+      "role": "orange",
       "names": [
         "iconpacks",
         "iconpack"
@@ -957,7 +965,7 @@
     {
       "id": "home",
       "shape": "home",
-      "role": "rose",
+      "role": "lavender",
       "names": [
         "home",
         "homepage"
@@ -966,7 +974,7 @@
     {
       "id": "product",
       "shape": "tag",
-      "role": "rose",
+      "role": "lavender",
       "names": [
         "product",
         "pdp"
@@ -975,7 +983,7 @@
     {
       "id": "search",
       "shape": "search",
-      "role": "rose",
+      "role": "lavender",
       "names": [
         "search",
         "plp",
@@ -986,7 +994,7 @@
     {
       "id": "header",
       "shape": "header",
-      "role": "steel",
+      "role": "lavender",
       "names": [
         "header",
         "headers",
@@ -997,7 +1005,7 @@
     {
       "id": "footer",
       "shape": "footer",
-      "role": "steel",
+      "role": "lavender",
       "names": [
         "footer",
         "footers"
@@ -1006,7 +1014,7 @@
     {
       "id": "cart",
       "shape": "cart",
-      "role": "sage",
+      "role": "lavender",
       "names": [
         "cart",
         "minicart"
@@ -1015,7 +1023,7 @@
     {
       "id": "account",
       "shape": "person",
-      "role": "sage",
+      "role": "lavender",
       "names": [
         "account",
         "login",
@@ -1026,7 +1034,7 @@
     {
       "id": "landing",
       "shape": "megaphone",
-      "role": "rose",
+      "role": "lavender",
       "names": [
         "landing",
         "landings",
