@@ -3,152 +3,185 @@
 
 /**
  * Conjunto B da geometria do product icon theme — abas/editor, paineis, acoes
- * comuns e feedback. Par do conjunto A (`product-shapes-a.js`); os dois formam
- * um desenho so e compartilham a mesma espessura aparente (~1.4) e o mesmo raio
- * de canto (~1).
+ * comuns e feedback. Par do conjunto A (`product-shapes-a.js`).
  *
- * Estas formas viram fonte woff via `svgicons2svgfont`, que le apenas a
- * geometria e joga fora qualquer atributo de pintura. Por isso as regras abaixo
- * nao sao estilo, sao requisito:
+ * ## Como estas formas nascem
  *
- * - Grade 16x16 (1 unidade = 1 pixel na caixa de codicon do VS Code), com ~1 de
- *   respiro nas bordas: o conteudo vive entre 1 e 15.
- * - So `<path>` preenchido. Nada de `stroke`, `fill-rule`, `transform`,
- *   `<rect>`, `<circle>` ou `<g>`: um path com `stroke` vira glifo vazio e um
- *   path fechado com `fill="none"` vira borrao solido, ambos sem aviso.
- * - Monoline preenchido: cada "linha" e um retangulo/contorno fechado de ~1.3 a
- *   1.5 de espessura, nunca um traco.
- * - A fonte usa winding *nonzero*. Todo furo (miolo de engrenagem, interior de
- *   uma moldura, olho do `eye`) e uma subpath rebobinada no sentido contrario
- *   ao do contorno externo — contorno horario, furo anti-horario — e mora na
- *   MESMA `d` do contorno. Separar contorno e furo em dois `<path>` faz o furo
- *   sumir.
- * - Formas que so se somam (barras sobre uma moldura, por exemplo) ficam todas
- *   no sentido horario: winding 2 continua preenchido.
+ * O desenho NAO e mais tracado a mao como contorno preenchido. Ele e declarado
+ * em primitivas de traco (`line`, `arc`, `ring`, `dot`, `rect`, `fill`) e
+ * convertido por `scripts/stroke-outline.js`, que devolve o `d` de um unico
+ * `<path>` preenchido com winding nonzero — pontas e junçoes redondas de graça.
+ * O contrato do arquivo continua o mesmo: `PRODUCT_SHAPES[id]` e markup
+ * `<path d="..."/>`, que e o que `scripts/build-product-font.js` consome.
  *
- * As coordenadas foram geradas por helpers de winding controlado e conferidas
- * numa folha de contato renderizada em 16, 20 e 32 px.
+ * Motivo: a fonte nao tem traço. O `svgicons2svgfont` le apenas geometria e
+ * descarta todo atributo de pintura — um `stroke` viraria glifo vazio e um
+ * `fill="none"` viraria borrao solido. Tracar a mao o contorno de uma polyline
+ * com ponta redonda e inviavel; por isso o motor.
+ *
+ * ## Constantes (docs/traco-puelche.md, grade de produto)
+ *
+ * - grade 16x16 (1 unidade = 1 pixel na caixa de codicon do VS Code)
+ * - espessura do traço 1.35 e raio de canto 1.35 (raio = espessura, sempre)
+ * - caixa de conteudo 1.5 a 14.5; com o traço centrado a tinta chega a ~0.83 e
+ *   ~15.18, que e o que o lint de `test/icons.test.js` aceita
+ * - teto de 3 elementos visuais por glifo: a 16px nada alem disso le
+ * - preenchimento solido so onde a forma E solida (o triangulo de `play` e de
+ *   `run-all`, o disco de `circle-filled`)
+ *
+ * ## O que ainda e markup cru
+ *
+ * Os 11 glifos aprovados na auditoria de traço (`gear`, `settings-gear`,
+ * `account`, `lightbulb`, `loading`, `history`, `eye`, `ellipsis`,
+ * `kebab-vertical`, `circle-filled`, `add`) ficaram com a geometria intocada:
+ * ja estao na espessura 1.35 e redesenha-los so introduziria risco. Eles seguem
+ * como string literal, com o winding escrito a mao (contorno horario, furo
+ * anti-horario, no MESMO `d`).
+ *
+ * ## Regra de estabilidade
+ *
+ * Nao renomeie, nao remova e nao acrescente id. `data/product-codepoints.json`
+ * e append-only e trava id -> codepoint: um id novo consome numero novo e um id
+ * sumido quebra `data/product-icons.json`. Redesenhar o desenho de um id
+ * existente e seguro.
  */
+
+const { outline } = require('./stroke-outline')
+
+/** Espessura do traço na grade de produto. */
+const W = 1.35
+/** Raio de canto: igual a espessura, por regra da spec. */
+const R = 1.35
+
+/**
+ * Converte primitivas de traço no markup final de um glifo.
+ * @param {import('./stroke-outline').Primitive[]} prims
+ * @returns {string}
+ */
+const p = (prims) => `<path d="${outline(prims, { w: W })}"/>`
+
+/**
+ * Triangulo apontando para a direita, SOLIDO e de cantos arredondados: o
+ * contorno tracado (junçoes redondas) unido ao miolo preenchido. O miolo vai
+ * como `fill` cru e precisa sair no sentido HORARIO na tela — winding nonzero
+ * nao perdoa o contrario.
+ * @param {number} x  ponta esquerda (x)
+ * @param {number} yTop
+ * @param {number} yBottom
+ * @param {number} tip x da ponta direita
+ * @returns {import('./stroke-outline').Primitive[]}
+ */
+function solidTriangle(x, yTop, yBottom, tip) {
+  const yMid = (yTop + yBottom) / 2
+  return [
+    { line: [x, yTop, tip, yMid, x, yBottom], close: true },
+    { fill: `M ${x} ${yTop} L ${tip} ${yMid} L ${x} ${yBottom} Z` }
+  ]
+}
 
 /** @type {Record<string, string>} */
 const PRODUCT_SHAPES = {
   // --- abas e editor ---
-  // X de duas barras cruzadas
-  close:
-    '<path d="M4.71 3.69L12.31 11.29L11.29 12.31L3.69 4.71Z' +
-    'M12.31 4.71L4.71 12.31L3.69 11.29L11.29 3.69Z"/>',
-  // disco solido (aba suja)
+
+  // X: duas retas cruzadas; a interseçao se funde sozinha (tudo horario)
+  close: p([{ line: [4.2, 4.2, 11.8, 11.8] }, { line: [11.8, 4.2, 4.2, 11.8] }]),
+
+  // disco solido (aba suja) — aprovado na auditoria, geometria intocada
   'circle-filled': '<path d="M3.7 8A4.3 4.3 0 1 1 12.3 8A4.3 4.3 0 1 1 3.7 8Z"/>',
-  // moldura com divisoria vertical
-  'split-horizontal':
-    '<path d="M3 1.6L13 1.6A2 2 0 0 1 15 3.6L15 12.4A2 2 0 0 1 13 14.4L3 14.4A2 2 0 0 1 1 12.4' +
-    'L1 3.6A2 2 0 0 1 3 1.6Z' +
-    'M3 3A0.6 0.6 0 0 0 2.4 3.6L2.4 12.4A0.6 0.6 0 0 0 3 13L13 13A0.6 0.6 0 0 0 13.6 12.4' +
-    'L13.6 3.6A0.6 0.6 0 0 0 13 3ZM7.3 3L8.7 3L8.7 13L7.3 13Z"/>',
-  // moldura com barra de titulo, linhas e bloco
-  preview:
-    '<path d="M3 1.6L13 1.6A2 2 0 0 1 15 3.6L15 12.4A2 2 0 0 1 13 14.4L3 14.4A2 2 0 0 1 1 12.4' +
-    'L1 3.6A2 2 0 0 1 3 1.6Z' +
-    'M3 3A0.6 0.6 0 0 0 2.4 3.6L2.4 12.4A0.6 0.6 0 0 0 3 13L13 13A0.6 0.6 0 0 0 13.6 12.4' +
-    'L13.6 3.6A0.6 0.6 0 0 0 13 3Z' +
-    'M3.8 3.9L12.2 3.9A0.4 0.4 0 0 1 12.6 4.3L12.6 5.2A0.4 0.4 0 0 1 12.2 5.6' +
-    'L3.8 5.6A0.4 0.4 0 0 1 3.4 5.2L3.4 4.3A0.4 0.4 0 0 1 3.8 3.9Z' +
-    'M4 7.2L6.6 7.2A0.6 0.6 0 0 1 7.2 7.8L7.2 7.8A0.6 0.6 0 0 1 6.6 8.4L4 8.4A0.6 0.6 0 0 1 3.4 7.8' +
-    'L3.4 7.8A0.6 0.6 0 0 1 4 7.2Z' +
-    'M4 9.4L6.6 9.4A0.6 0.6 0 0 1 7.2 10L7.2 10A0.6 0.6 0 0 1 6.6 10.6L4 10.6A0.6 0.6 0 0 1 3.4 10' +
-    'L3.4 10A0.6 0.6 0 0 1 4 9.4Z' +
-    'M4 11.6L6.6 11.6A0.6 0.6 0 0 1 7.2 12.2L7.2 12.2A0.6 0.6 0 0 1 6.6 12.8' +
-    'L4 12.8A0.6 0.6 0 0 1 3.4 12.2L3.4 12.2A0.6 0.6 0 0 1 4 11.6Z' +
-    'M9.2 7.2L12.6 7.2A0.6 0.6 0 0 1 13.2 7.8L13.2 12.2A0.6 0.6 0 0 1 12.6 12.8' +
-    'L9.2 12.8A0.6 0.6 0 0 1 8.6 12.2L8.6 7.8A0.6 0.6 0 0 1 9.2 7.2Z' +
-    'M9.8 11.6L12 11.6L12 8.4L9.8 8.4Z"/>',
-  // pagina com canto dobrado e seta
-  'go-to-file':
-    '<path d="M3.2 1.4L9 1.4L12.8 5.2L12.8 14.6L3.2 14.6Z' +
-    'M4.6 13.2L11.4 13.2L11.4 5.78L8.42 2.8L4.6 2.8Z' +
-    'M5.35 9.35L9.15 9.35A0.65 0.65 0 0 1 9.8 10L9.8 10A0.65 0.65 0 0 1 9.15 10.65' +
-    'L5.35 10.65A0.65 0.65 0 0 1 4.7 10L4.7 10A0.65 0.65 0 0 1 5.35 9.35Z' +
-    'M8.16 7L11.39 10L8.16 13L7.24 12L9.41 10L7.24 8Z"/>',
-  // disquete: obturador em cima, etiqueta embaixo
-  save:
-    '<path d="M3.2 1.4L12.8 1.4A1.8 1.8 0 0 1 14.6 3.2L14.6 12.8A1.8 1.8 0 0 1 12.8 14.6' +
-    'L3.2 14.6A1.8 1.8 0 0 1 1.4 12.8L1.4 3.2A1.8 1.8 0 0 1 3.2 1.4Z' +
-    'M3.2 2.8A0.4 0.4 0 0 0 2.8 3.2L2.8 12.8A0.4 0.4 0 0 0 3.2 13.2L12.8 13.2A0.4 0.4 0 0 0 13.2 12.8' +
-    'L13.2 3.2A0.4 0.4 0 0 0 12.8 2.8Z' +
-    'M5.6 2.4L10.4 2.4A0.4 0.4 0 0 1 10.8 2.8L10.8 5.4A0.4 0.4 0 0 1 10.4 5.8' +
-    'L5.6 5.8A0.4 0.4 0 0 1 5.2 5.4L5.2 2.8A0.4 0.4 0 0 1 5.6 2.4Z' +
-    'M4.9 8.2L11.1 8.2A0.5 0.5 0 0 1 11.6 8.7L11.6 12.7A0.5 0.5 0 0 1 11.1 13.2' +
-    'L4.9 13.2A0.5 0.5 0 0 1 4.4 12.7L4.4 8.7A0.5 0.5 0 0 1 4.9 8.2Z' +
-    'M5.7 11.9L10.3 11.9L10.3 9.5L5.7 9.5Z"/>',
-  // disquete com um segundo empilhado atras
-  'save-all':
-    '<path d="M4.6 1L15 1L15 11.2L13.7 11.2L13.7 2.3L4.6 2.3Z' +
-    'M2.4 3.6L10.8 3.6A1.6 1.6 0 0 1 12.4 5.2L12.4 13.6A1.6 1.6 0 0 1 10.8 15.2' +
-    'L2.4 15.2A1.6 1.6 0 0 1 0.8 13.6L0.8 5.2A1.6 1.6 0 0 1 2.4 3.6Z' +
-    'M2.4 4.9A0.3 0.3 0 0 0 2.1 5.2L2.1 13.6A0.3 0.3 0 0 0 2.4 13.9L10.8 13.9A0.3 0.3 0 0 0 11.1 13.6' +
-    'L11.1 5.2A0.3 0.3 0 0 0 10.8 4.9Z' +
-    'M4.55 4.4L8.45 4.4A0.35 0.35 0 0 1 8.8 4.75L8.8 6.95A0.35 0.35 0 0 1 8.45 7.3' +
-    'L4.55 7.3A0.35 0.35 0 0 1 4.2 6.95L4.2 4.75A0.35 0.35 0 0 1 4.55 4.4Z' +
-    'M3.9 9.4L9.3 9.4A0.4 0.4 0 0 1 9.7 9.8L9.7 13.5A0.4 0.4 0 0 1 9.3 13.9' +
-    'L3.9 13.9A0.4 0.4 0 0 1 3.5 13.5L3.5 9.8A0.4 0.4 0 0 1 3.9 9.4Z' +
-    'M4.7 12.7L8.5 12.7L8.5 10.6L4.7 10.6Z"/>',
+
+  // janela com divisoria vertical no centro: dois paineis iguais.
+  // A moldura e a MESMA de `layout-panel` e `layout-sidebar-*` (conjunto A):
+  // os quatro sao a familia "layout do editor" e o que os distingue e ONDE a
+  // divisoria cai — centro aqui, coluna estreita nos sidebars, faixa baixa no
+  // panel. Moldura diferente entre irmaos seria inconsistencia, nao distincao.
+  'split-horizontal': p([
+    { rect: { x: 1.8, y: 2.5, w: 12.4, h: 11, r: R } },
+    { line: [8, 2.5, 8, 13.5] }
+  ]),
+
+  // Preview ao lado: a MESMA moldura e divisoria central de `split-horizontal`,
+  // mais uma linha de CONTEUDO no painel da direita. E o conteudo que separa os
+  // dois — `split-horizontal` abre dois paineis vazios, `preview` mostra algo
+  // num deles. Sem essa linha os dois sao o mesmo desenho, e com a barra de
+  // titulo que estava aqui antes ele lia como mais um seletor de layout.
+  preview: p([
+    { rect: { x: 1.8, y: 2.5, w: 12.4, h: 11, r: R } },
+    { line: [8, 2.5, 8, 13.5] },
+    { line: [9.9, 8, 12.3, 8] }
+  ]),
+
+  // pagina de canto cortado + seta que ATRAVESSA a borda direita. A seta
+  // precisa desse comprimento: encurtada para dentro da pagina, a 16px ela
+  // virava um tracinho gordo sem cabeca
+  'go-to-file': p([
+    { line: [2.6, 1.8, 7.4, 1.8, 10.4, 4.8, 10.4, 14.2, 2.6, 14.2], close: true },
+    { line: [5.8, 9.5, 13.8, 9.5] },
+    { line: [11.5, 7.2, 13.8, 9.5, 11.5, 11.8] }
+  ]),
+
+  // disquete: moldura + obturador (U para cima) + etiqueta (U para baixo)
+  save: p([
+    { rect: { x: 2, y: 2, w: 12, h: 12, r: R } },
+    { line: [5.4, 2, 5.4, 5.6, 10.6, 5.6, 10.6, 2] },
+    { line: [4.6, 14, 4.6, 9.4, 11.4, 9.4, 11.4, 14] }
+  ]),
+
+  // disquete com a folha de tras insinuada por um L
+  'save-all': p([
+    { line: [5, 1.8, 14.2, 1.8, 14.2, 11] },
+    { rect: { x: 1.6, y: 4.4, w: 10, h: 10, r: R } },
+    { line: [3.8, 14.4, 3.8, 10.6, 9.4, 10.6, 9.4, 14.4] }
+  ]),
 
   // --- paineis ---
-  // moldura com prompt > e underscore
-  terminal:
-    '<path d="M3 2.2L13 2.2A2 2 0 0 1 15 4.2L15 11.8A2 2 0 0 1 13 13.8L3 13.8A2 2 0 0 1 1 11.8' +
-    'L1 4.2A2 2 0 0 1 3 2.2Z' +
-    'M3 3.6A0.6 0.6 0 0 0 2.4 4.2L2.4 11.8A0.6 0.6 0 0 0 3 12.4L13 12.4A0.6 0.6 0 0 0 13.6 11.8' +
-    'L13.6 4.2A0.6 0.6 0 0 0 13 3.6ZM4.64 5.22L7.66 8L4.64 10.78L3.76 9.82L5.74 8L3.76 6.18Z' +
-    'M8.35 10.1L11.15 10.1A0.65 0.65 0 0 1 11.8 10.75L11.8 10.75A0.65 0.65 0 0 1 11.15 11.4' +
-    'L8.35 11.4A0.65 0.65 0 0 1 7.7 10.75L7.7 10.75A0.65 0.65 0 0 1 8.35 10.1Z"/>',
-  // moldura com tres linhas de log
-  output:
-    '<path d="M3 2.2L13 2.2A2 2 0 0 1 15 4.2L15 11.8A2 2 0 0 1 13 13.8L3 13.8A2 2 0 0 1 1 11.8' +
-    'L1 4.2A2 2 0 0 1 3 2.2Z' +
-    'M3 3.6A0.6 0.6 0 0 0 2.4 4.2L2.4 11.8A0.6 0.6 0 0 0 3 12.4L13 12.4A0.6 0.6 0 0 0 13.6 11.8' +
-    'L13.6 4.2A0.6 0.6 0 0 0 13 3.6Z' +
-    'M4.6 5.4L11.4 5.4A0.6 0.6 0 0 1 12 6L12 6A0.6 0.6 0 0 1 11.4 6.6L4.6 6.6A0.6 0.6 0 0 1 4 6' +
-    'L4 6A0.6 0.6 0 0 1 4.6 5.4Z' +
-    'M4.6 7.9L11.4 7.9A0.6 0.6 0 0 1 12 8.5L12 8.5A0.6 0.6 0 0 1 11.4 9.1L4.6 9.1A0.6 0.6 0 0 1 4 8.5' +
-    'L4 8.5A0.6 0.6 0 0 1 4.6 7.9Z' +
-    'M4.6 10.4L8.6 10.4A0.6 0.6 0 0 1 9.2 11L9.2 11A0.6 0.6 0 0 1 8.6 11.6' +
-    'L4.6 11.6A0.6 0.6 0 0 1 4 11L4 11A0.6 0.6 0 0 1 4.6 10.4Z"/>',
-  // moldura com prompt > e ponto de breakpoint
-  'debug-console':
-    '<path d="M3 2.2L13 2.2A2 2 0 0 1 15 4.2L15 11.8A2 2 0 0 1 13 13.8L3 13.8A2 2 0 0 1 1 11.8' +
-    'L1 4.2A2 2 0 0 1 3 2.2Z' +
-    'M3 3.6A0.6 0.6 0 0 0 2.4 4.2L2.4 11.8A0.6 0.6 0 0 0 3 12.4L13 12.4A0.6 0.6 0 0 0 13.6 11.8' +
-    'L13.6 4.2A0.6 0.6 0 0 0 13 3.6ZM4.35 5.23L7.24 8L4.35 10.77L3.45 9.83L5.36 8L3.45 6.17Z' +
-    'M8.7 8A1.7 1.7 0 1 1 12.1 8A1.7 1.7 0 1 1 8.7 8Z"/>',
-  // triangulo solido + lista de itens
-  'run-all':
-    '<path d="M2.2 3.6L7.4 8L2.2 12.4Z' +
-    'M9.65 4.6L13.95 4.6A0.65 0.65 0 0 1 14.6 5.25L14.6 5.25A0.65 0.65 0 0 1 13.95 5.9' +
-    'L9.65 5.9A0.65 0.65 0 0 1 9 5.25L9 5.25A0.65 0.65 0 0 1 9.65 4.6Z' +
-    'M9.65 7.35L13.95 7.35A0.65 0.65 0 0 1 14.6 8L14.6 8A0.65 0.65 0 0 1 13.95 8.65' +
-    'L9.65 8.65A0.65 0.65 0 0 1 9 8L9 8A0.65 0.65 0 0 1 9.65 7.35Z' +
-    'M9.65 10.1L13.95 10.1A0.65 0.65 0 0 1 14.6 10.75L14.6 10.75A0.65 0.65 0 0 1 13.95 11.4' +
-    'L9.65 11.4A0.65 0.65 0 0 1 9 10.75L9 10.75A0.65 0.65 0 0 1 9.65 10.1Z"/>',
+
+  // prompt sem moldura: chevron + underscore (silhueta solta, ao contrario dos
+  // dois vizinhos deste grupo, que sao janelas)
+  terminal: p([
+    { line: [3.2, 4, 7, 8, 3.2, 12] },
+    { line: [8.6, 12, 13.4, 12] }
+  ]),
+
+  // painel deitado com duas linhas de log
+  output: p([
+    { rect: { x: 1.6, y: 3.4, w: 12.8, h: 9.2, r: R } },
+    { line: [4.2, 6.6, 11.8, 6.6] },
+    { line: [4.2, 9.4, 9, 9.4] }
+  ]),
+
+  // painel deitado com prompt: chevron + underscore
+  'debug-console': p([
+    { rect: { x: 1.6, y: 3.4, w: 12.8, h: 9.2, r: R } },
+    { line: [4.3, 5.8, 6.4, 8, 4.3, 10.2] },
+    { line: [8.2, 10.2, 11.6, 10.2] }
+  ]),
+
+  // play solido + lista (duas linhas; a terceira caiu pelo teto de 3 elementos)
+  'run-all': p([
+    ...solidTriangle(3, 3.4, 12.6, 7.2),
+    { line: [9.6, 5.4, 14, 5.4] },
+    { line: [9.6, 10.6, 14, 10.6] }
+  ]),
 
   // --- acoes comuns ---
-  // cruz
+
+  // cruz — aprovado na auditoria, geometria intocada
   add:
     '<path d="M3.3 7.3L12.7 7.3A0.7 0.7 0 0 1 13.4 8L13.4 8A0.7 0.7 0 0 1 12.7 8.7' +
     'L3.3 8.7A0.7 0.7 0 0 1 2.6 8L2.6 8A0.7 0.7 0 0 1 3.3 7.3Z' +
     'M8 2.6L8 2.6A0.7 0.7 0 0 1 8.7 3.3L8.7 12.7A0.7 0.7 0 0 1 8 13.4L8 13.4A0.7 0.7 0 0 1 7.3 12.7' +
     'L7.3 3.3A0.7 0.7 0 0 1 8 2.6Z"/>',
-  // tres pontos na horizontal
+  // tres pontos na horizontal — aprovado na auditoria, geometria intocada
   ellipsis:
     '<path d="M2.35 8A1.15 1.15 0 1 1 4.65 8A1.15 1.15 0 1 1 2.35 8Z' +
     'M6.85 8A1.15 1.15 0 1 1 9.15 8A1.15 1.15 0 1 1 6.85 8Z' +
     'M11.35 8A1.15 1.15 0 1 1 13.65 8A1.15 1.15 0 1 1 11.35 8Z"/>',
-  // tres pontos na vertical
+  // tres pontos na vertical — aprovado na auditoria, geometria intocada
   'kebab-vertical':
     '<path d="M6.85 3.5A1.15 1.15 0 1 1 9.15 3.5A1.15 1.15 0 1 1 6.85 3.5Z' +
     'M6.85 8A1.15 1.15 0 1 1 9.15 8A1.15 1.15 0 1 1 6.85 8Z' +
     'M6.85 12.5A1.15 1.15 0 1 1 9.15 12.5A1.15 1.15 0 1 1 6.85 12.5Z"/>',
-  // engrenagem de 8 dentes, miolo grande
+  // engrenagem de 8 dentes, miolo grande — aprovado na auditoria
   'settings-gear':
     '<path d="M14.94 7.07A7 7 0 0 1 14.94 8.93L12.55 9.17A4.7 4.7 0 0 1 12.05 10.39' +
     'L13.56 12.25A7 7 0 0 1 12.25 13.56L10.39 12.05A4.7 4.7 0 0 1 9.17 12.55' +
@@ -158,7 +191,7 @@ const PRODUCT_SHAPES = {
     'L5.61 3.95A4.7 4.7 0 0 1 6.83 3.45L7.07 1.06A7 7 0 0 1 8.93 1.06' +
     'L9.17 3.45A4.7 4.7 0 0 1 10.39 3.95L12.25 2.44A7 7 0 0 1 13.56 3.75' +
     'L12.05 5.61A4.7 4.7 0 0 1 12.55 6.83ZM5 8A3 3 0 1 0 11 8A3 3 0 1 0 5 8Z"/>',
-  // engrenagem de 6 dentes, miolo pequeno
+  // engrenagem de 6 dentes, miolo pequeno — aprovado na auditoria
   gear:
     '<path d="M14.2 6.88A6.3 6.3 0 0 1 14.2 9.12L12.06 9.41A4.3 4.3 0 0 1 11.26 10.81' +
     'L12.07 12.81A6.3 6.3 0 0 1 10.13 13.93L8.81 12.22A4.3 4.3 0 0 1 7.19 12.22' +
@@ -167,7 +200,7 @@ const PRODUCT_SHAPES = {
     'L3.93 3.19A6.3 6.3 0 0 1 5.87 2.07L7.19 3.78A4.3 4.3 0 0 1 8.81 3.78' +
     'L10.13 2.07A6.3 6.3 0 0 1 12.07 3.19L11.26 5.19A4.3 4.3 0 0 1 12.06 6.59Z' +
     'M6 8A2 2 0 1 0 10 8A2 2 0 1 0 6 8Z"/>',
-  // anel com cabeca e ombros (ombros = lente entre dois discos)
+  // anel com cabeca e ombros — aprovado na auditoria, geometria intocada
   account:
     '<path d="M1.4 8A6.6 6.6 0 1 1 14.6 8A6.6 6.6 0 1 1 1.4 8Z' +
     'M2.75 8A5.25 5.25 0 1 0 13.25 8A5.25 5.25 0 1 0 2.75 8Z' +
@@ -176,46 +209,50 @@ const PRODUCT_SHAPES = {
     'L6.43 13.01L5.93 12.82L5.45 12.59L5 12.31L4.58 11.98L4.87 11.43L5.24 10.93L5.69 10.51L6.21 10.16' +
     'L6.78 9.91L7.38 9.75L8 9.7L8.62 9.75L9.22 9.91L9.79 10.16L10.31 10.51L10.76 10.93L11.13 11.43' +
     'L11.42 11.98Z"/>',
-  // lapis: contorno externo + nucleo invertido + virola
-  edit:
-    '<path d="M3.12 10.05L9.35 3.82L12.18 6.65L5.95 12.88L2.7 13.3Z' +
-    'M4.27 11.73L5.32 11.6L10.27 6.65L9.35 5.73L4.4 10.68Z' +
-    'M6.15 12.68L3.32 9.85L4.2 8.97L7.03 11.8Z"/>',
-  // alca, tampa, cesto em U e dois riscos
-  trash:
-    '<path d="M6 3.4L6 1.4L10 1.4L10 3.4L8.7 3.4L8.7 2.7L7.3 2.7L7.3 3.4Z' +
-    'M2.8 3.4L13.2 3.4A0.6 0.6 0 0 1 13.8 4L13.8 4.2A0.6 0.6 0 0 1 13.2 4.8' +
-    'L2.8 4.8A0.6 0.6 0 0 1 2.2 4.2L2.2 4A0.6 0.6 0 0 1 2.8 3.4Z' +
-    'M5.5 4.8L5.5 13.1L10.5 13.1L10.5 4.8L11.8 4.8L11.8 14.4L4.2 14.4L4.2 4.8Z' +
-    'M7.1 6.8L7.1 6.8A0.55 0.55 0 0 1 7.65 7.35L7.65 10.85A0.55 0.55 0 0 1 7.1 11.4' +
-    'L7.1 11.4A0.55 0.55 0 0 1 6.55 10.85L6.55 7.35A0.55 0.55 0 0 1 7.1 6.8Z' +
-    'M8.9 6.8L8.9 6.8A0.55 0.55 0 0 1 9.45 7.35L9.45 10.85A0.55 0.55 0 0 1 8.9 11.4' +
-    'L8.9 11.4A0.55 0.55 0 0 1 8.35 10.85L8.35 7.35A0.55 0.55 0 0 1 8.9 6.8Z"/>',
-  // funil vazado
-  filter:
-    '<path d="M1.8 2.9L14.2 2.9L9.95 8.9L9.95 14.1L6.05 11.9L6.05 8.9Z' +
-    'M7.4 8.47L7.4 11.11L8.6 11.79L8.6 8.47L11.59 4.25L4.41 4.25Z"/>',
-  // tres barras centradas decrescentes
-  'list-filter':
-    '<path d="M3.2 3.6L12.8 3.6A0.7 0.7 0 0 1 13.5 4.3L13.5 4.3A0.7 0.7 0 0 1 12.8 5' +
-    'L3.2 5A0.7 0.7 0 0 1 2.5 4.3L2.5 4.3A0.7 0.7 0 0 1 3.2 3.6Z' +
-    'M5 7.3L11 7.3A0.7 0.7 0 0 1 11.7 8L11.7 8A0.7 0.7 0 0 1 11 8.7L5 8.7A0.7 0.7 0 0 1 4.3 8' +
-    'L4.3 8A0.7 0.7 0 0 1 5 7.3Z' +
-    'M6.9 11L9.1 11A0.7 0.7 0 0 1 9.8 11.7L9.8 11.7A0.7 0.7 0 0 1 9.1 12.4' +
-    'L6.9 12.4A0.7 0.7 0 0 1 6.2 11.7L6.2 11.7A0.7 0.7 0 0 1 6.9 11Z"/>',
-  // haste + ponta chanfrada
-  'arrow-left':
-    '<path d="M3.3 7.3L13.3 7.3A0.7 0.7 0 0 1 14 8L14 8A0.7 0.7 0 0 1 13.3 8.7' +
-    'L3.3 8.7A0.7 0.7 0 0 1 2.6 8L2.6 8A0.7 0.7 0 0 1 3.3 7.3Z' +
-    'M7.52 3.91L3.51 8L7.52 12.09L6.48 13.11L1.49 8L6.48 2.89Z"/>',
-  // haste + ponta chanfrada
-  'arrow-right':
-    '<path d="M2.7 7.3L12.7 7.3A0.7 0.7 0 0 1 13.4 8L13.4 8A0.7 0.7 0 0 1 12.7 8.7' +
-    'L2.7 8.7A0.7 0.7 0 0 1 2 8L2 8A0.7 0.7 0 0 1 2.7 7.3Z' +
-    'M9.52 2.89L14.51 8L9.52 13.11L8.48 12.09L12.49 8L8.48 3.91Z"/>',
+
+  // lapis vazado na diagonal + virola
+  edit: p([
+    { line: [9.26, 3.77, 12.23, 6.74, 6.15, 12.82, 2.9, 13.1, 3.18, 9.85], close: true },
+    { line: [7.43, 5.6, 10.4, 8.57] }
+  ]),
+
+  // lixeira: tampa, alca e cesto de fundo arredondado (os riscos internos
+  // caíram: a 16px viravam ruido dentro do cesto)
+  trash: p([
+    { line: [2.2, 4.6, 13.8, 4.6] },
+    { line: [5.4, 4.6, 5.4, 2.6, 10.6, 2.6, 10.6, 4.6] },
+    { line: [4.2, 4.6, 4.2, 12.4, 5.4, 13.6, 10.6, 13.6, 11.8, 12.4, 11.8, 4.6] }
+  ]),
+
+  // funil vazado; a ponta do cone sai arredondada em w/2, sem virar agulha
+  filter: p([
+    {
+      line: [2.2, 3.2, 13.8, 3.2, 9.4, 8.4, 9.4, 13.6, 6.6, 11.9, 6.6, 8.4],
+      close: true
+    }
+  ]),
+
+  // barras centradas com queda forte: a silhueta e um triangulo para baixo, e
+  // nao mais "tres linhas horizontais" como `menu` e `three-bars`
+  'list-filter': p([
+    { line: [2.6, 4, 13.4, 4] },
+    { line: [4.8, 8, 11.2, 8] },
+    { line: [7, 12, 9, 12] }
+  ]),
+
+  // haste + chevron
+  'arrow-left': p([
+    { line: [3, 8, 13, 8] },
+    { line: [7.6, 3.4, 3, 8, 7.6, 12.6] }
+  ]),
+  'arrow-right': p([
+    { line: [3, 8, 13, 8] },
+    { line: [8.4, 3.4, 13, 8, 8.4, 12.6] }
+  ]),
 
   // --- feedback ---
-  // bulbo anelado + duas barras de base
+
+  // bulbo anelado + duas barras de base — aprovado na auditoria
   lightbulb:
     '<path d="M3.5 6.3A4.5 4.5 0 1 1 12.5 6.3A4.5 4.5 0 1 1 3.5 6.3Z' +
     'M4.85 6.3A3.15 3.15 0 1 0 11.15 6.3A3.15 3.15 0 1 0 4.85 6.3Z' +
@@ -223,25 +260,29 @@ const PRODUCT_SHAPES = {
     'L6.55 12.4A0.65 0.65 0 0 1 5.9 11.75L5.9 11.75A0.65 0.65 0 0 1 6.55 11.1Z' +
     'M7.25 13.2L8.75 13.2A0.65 0.65 0 0 1 9.4 13.85L9.4 13.85A0.65 0.65 0 0 1 8.75 14.5' +
     'L7.25 14.5A0.65 0.65 0 0 1 6.6 13.85L6.6 13.85A0.65 0.65 0 0 1 7.25 13.2Z"/>',
-  // amendoa anelada (curvas Q) + pupila solida
+  // amendoa anelada (curvas Q) + pupila solida — aprovado na auditoria
   eye:
     '<path d="M1.2 8Q8 2.4 14.8 8Q8 13.6 1.2 8ZM3.15 8Q8 11.7 12.85 8Q8 4.3 3.15 8Z' +
     'M6.25 8A1.75 1.75 0 1 1 9.75 8A1.75 1.75 0 1 1 6.25 8Z"/>',
-  // triangulo vazado
-  play: '<path d="M4.4 2.6L13.6 8L4.4 13.4ZM5.75 11.04L10.93 8L5.75 4.96Z"/>',
-  // faixa anelar com folga no quadrante superior direito
+
+  // triangulo solido de cantos arredondados (forma solida por natureza)
+  play: p(solidTriangle(4.3, 2.8, 13.2, 13)),
+
+  // faixa anelar com folga no quadrante superior direito — aprovado na auditoria
   loading: '<path d="M13.46 4.85A6.3 6.3 0 1 1 8 1.7L8 3.05A4.95 4.95 0 1 0 12.29 5.52Z"/>',
-  // dois baloes com rabicho
-  'comment-discussion':
-    '<path d="M2.5 1.2L8.9 1.2A1.5 1.5 0 0 1 10.4 2.7L10.4 5.3A1.5 1.5 0 0 1 8.9 6.8' +
-    'L2.5 6.8A1.5 1.5 0 0 1 1 5.3L1 2.7A1.5 1.5 0 0 1 2.5 1.2Z' +
-    'M2.5 2.5A0.2 0.2 0 0 0 2.3 2.7L2.3 5.3A0.2 0.2 0 0 0 2.5 5.5L8.9 5.5A0.2 0.2 0 0 0 9.1 5.3' +
-    'L9.1 2.7A0.2 0.2 0 0 0 8.9 2.5ZM4.7 6.6L3 8.3L3 6.6Z' +
-    'M7.1 7.8L13.5 7.8A1.5 1.5 0 0 1 15 9.3L15 11.7A1.5 1.5 0 0 1 13.5 13.2' +
-    'L7.1 13.2A1.5 1.5 0 0 1 5.6 11.7L5.6 9.3A1.5 1.5 0 0 1 7.1 7.8Z' +
-    'M7.1 9.1A0.2 0.2 0 0 0 6.9 9.3L6.9 11.7A0.2 0.2 0 0 0 7.1 11.9L13.5 11.9A0.2 0.2 0 0 0 13.7 11.7' +
-    'L13.7 9.3A0.2 0.2 0 0 0 13.5 9.1ZM9.3 13L7.6 14.7L7.6 13Z"/>',
-  // seta circular + ponteiros de relogio
+
+  // dois baloes sobrepostos na diagonal, o da frente com rabicho longo. Duas
+  // travas de leitura a 16px: (1) as caixas sao DEITADAS (9.2 x 5.2), senao o
+  // glifo vira o mesmo "dois quadrados sobrepostos" de `files` e `collapse-all`
+  // do conjunto A; (2) o deslocamento poe os quatro tracos para se CRUZAREM em
+  // vez de encostarem — traco encostando em traco vira borrao
+  'comment-discussion': p([
+    { rect: { x: 1.6, y: 1.6, w: 9.2, h: 5.2, r: R } },
+    { rect: { x: 5.2, y: 5, w: 9.2, h: 5.2, r: R } },
+    { line: [7, 10.2, 6.2, 13.4, 9.6, 10.2] }
+  ]),
+
+  // seta circular + ponteiros de relogio — aprovado na auditoria
   history:
     '<path d="M6.71 2.24A6.2 6.2 0 1 1 1.89 7.22L3.22 7.46A4.85 4.85 0 1 0 6.99 3.56Z' +
     'M4.41 3.44L6.81 0.78L7.68 4.89Z' +
