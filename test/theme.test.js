@@ -24,7 +24,8 @@ const PALETTE = {
   bg: '#1A181F',
   'bg-deep': '#131117',
   'bg-lift': '#221F29',
-  'bg-line': '#201D27',
+  // linha atual: a #201D27 ficava a 1.060 de razão sobre o fundo — invisível.
+  'bg-line': '#282332',
   selection: '#2E2A3C',
   border: '#221F29',
   'border-soft': '#2A2633',
@@ -39,12 +40,19 @@ const PALETTE = {
   sand: '#C4A47C',
   clay: '#C08A6B',
   rose: '#C4788F',
-  'rose-dim': '#B07A8C',
   accent: '#C25E86',
-  error: '#C4707E',
-  warning: '#C4A472',
+  // accent puro reprova a 3.46:1 sobre a linha focada da lista: existe só para
+  // o realce de match sobreviver ao fundo de seleção sem trocar de família.
+  'accent-lift': '#DA84B4',
+  error: '#CE6B78',
   added: '#7FAE8E',
 }
+
+// Saíram da paleta:
+// - `warning` #C4A472 foi absorvido por `sand` #C4A47C (estavam a ΔE76 5.29,
+//   o mesmo número que a casa já recusou nos ícones — manter seriam dois pesos).
+// - `rose-dim` #B07A8C foi absorvido por `rose`: a ΔE76 9.28 a "hierarquia"
+//   entre h1/h2 e h3–h6 não existia a olho nu; tamanho e negrito já a dão.
 
 // Utilitários de interface autorizados pela spec, fora da paleta de papéis.
 const UI_EXTRAS = new Set([
@@ -55,23 +63,26 @@ const UI_EXTRAS = new Set([
   '#E4E0EC', // markup.bold do Markdown
   '#B0AABE', // branco do terminal
   // variantes bright do terminal: a paleta clareada em ~10%
-  '#38353E', '#CA7E8B', '#8CB699', '#CAAD89', '#92B6D0', '#CA869A', '#8CC9B6', '#B8B3C5',
+  '#38353E', '#D37A86', '#8CB699', '#CAAD89', '#92B6D0', '#CA869A', '#8CC9B6', '#B8B3C5',
 ])
 
-// As ÚNICAS chaves onde accent pode aparecer — todas de chrome, nenhuma de texto de código.
+// As 12 chaves de chrome que carregam a identidade accent — nenhuma de texto de
+// código. Dez usam o accent puro; duas usam `accent-lift` porque o accent puro
+// reprova em contraste sobre o fundo de seleção (ver os testes de contraste).
 const ACCENT_KEYS = [
   'activityBar.activeBorder',
   'activityBarBadge.background',
+  'activityBarTop.activeBorder', // mesmo papel de activityBar.activeBorder
   'button.background',
   'editorCursor.foreground',
-  'editorSuggestWidget.highlightForeground',
-  'list.highlightForeground',
   'panelTitle.activeBorder',
   'peekView.border',
   'progressBar.background',
   'tab.activeBorderTop',
   'terminalCursor.foreground',
 ]
+
+const ACCENT_LIFT_KEYS = ['editorSuggestWidget.highlightForeground', 'list.highlightForeground']
 
 // Regras autorizadas a usar itálico. A spec proíbe itálico fora desta lista.
 const ITALIC_RULES = new Set([
@@ -104,6 +115,34 @@ function contrast(a, b) {
   return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05)
 }
 
+/** CIE L*a*b* (iluminante D65) de um hex. @param {string} hex */
+function lab(hex) {
+  const n = parseInt(hex.slice(1, 7), 16)
+  const inv = (v) => {
+    const c = v / 255
+    return c <= 0.04045 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)
+  }
+  const r = inv((n >> 16) & 255)
+  const g = inv((n >> 8) & 255)
+  const b = inv(n & 255)
+  const f = (t) => (t > 0.008856 ? Math.cbrt(t) : 7.787 * t + 16 / 116)
+  const x = f((r * 0.4124564 + g * 0.3575761 + b * 0.1804375) / 0.95047)
+  const y = f(r * 0.2126729 + g * 0.7151522 + b * 0.072175)
+  const z = f((r * 0.0193339 + g * 0.119192 + b * 0.9503041) / 1.08883)
+  return [116 * y - 16, 500 * (x - y), 200 * (y - z)]
+}
+
+/**
+ * Distância de cor CIE76. É a métrica que a casa já usava informalmente — o
+ * comentário de `data/icons.json` cita "ΔE 5.29" para sand/warning, que é o
+ * CIE76 desse par. Manter a mesma métrica para o número continuar comparável.
+ */
+function deltaE76(a, b) {
+  const [l1, a1, b1] = lab(a)
+  const [l2, a2, b2] = lab(b)
+  return Math.hypot(l1 - l2, a1 - a2, b1 - b2)
+}
+
 /** Todos os escopos citados em tokenColors, achatados. */
 function allScopes() {
   return THEME.tokenColors.flatMap((r) => (Array.isArray(r.scope) ? r.scope : [r.scope]))
@@ -127,7 +166,7 @@ test('nenhum hex fora da paleta declarada', () => {
   assert.deepEqual([...foraDaPaleta], [], 'cores inventadas encontradas no arquivo')
 })
 
-test('accent só aparece nas 11 chaves de chrome declaradas', () => {
+test('accent só aparece nas 10 chaves de chrome declaradas', () => {
   const usando = Object.entries(THEME.colors)
     .filter(([, v]) => v === PALETTE.accent)
     .map(([k]) => k)
@@ -135,12 +174,26 @@ test('accent só aparece nas 11 chaves de chrome declaradas', () => {
   assert.deepEqual(usando, [...ACCENT_KEYS].sort())
 })
 
+test('accent-lift só aparece nas 2 chaves de realce de match', () => {
+  const usando = Object.entries(THEME.colors)
+    .filter(([, v]) => v === PALETTE['accent-lift'])
+    .map(([k]) => k)
+    .sort()
+  assert.deepEqual(usando, [...ACCENT_LIFT_KEYS].sort())
+})
+
+test('a identidade accent cobre 12 chaves de chrome, nenhuma de texto', () => {
+  assert.equal(ACCENT_KEYS.length + ACCENT_LIFT_KEYS.length, 12)
+})
+
 test('accent nunca colore texto de código', () => {
-  for (const rule of THEME.tokenColors) {
-    assert.notEqual(rule.settings.foreground, PALETTE.accent, `regra "${rule.name}" usa accent`)
-  }
-  for (const [, s] of Object.entries(THEME.semanticTokenColors)) {
-    if (s && typeof s === 'object') assert.notEqual(s.foreground, PALETTE.accent)
+  for (const cor of [PALETTE.accent, PALETTE['accent-lift']]) {
+    for (const rule of THEME.tokenColors) {
+      assert.notEqual(rule.settings.foreground, cor, `regra "${rule.name}" usa ${cor}`)
+    }
+    for (const [, s] of Object.entries(THEME.semanticTokenColors)) {
+      if (s && typeof s === 'object') assert.notEqual(s.foreground, cor)
+    }
   }
 })
 
@@ -159,6 +212,90 @@ test('os 9 papéis de sintaxe passam 4.5:1 sobre o fundo do editor', () => {
 test('comentários ficam acima do mínimo de acessibilidade (não são apagados)', () => {
   const r = contrast(PALETTE.comment, PALETTE.bg)
   assert.ok(r >= 5.7, `comentário tem ${r.toFixed(2)}:1`)
+})
+
+test('accent-lift é legível nos dois fundos onde o realce de match cai', () => {
+  // A razão de a cor existir. O realce de match aparece sobre a linha focada da
+  // lista (selection) e sobre o fundo do suggest widget (bg-lift); o accent puro
+  // dava 3.46:1 e 4.04:1 nesses dois fundos.
+  const sobreSelecao = contrast(PALETTE['accent-lift'], PALETTE.selection)
+  const sobreWidget = contrast(PALETTE['accent-lift'], PALETTE['bg-lift'])
+  assert.ok(sobreSelecao >= 4.5, `accent-lift na linha focada tem ${sobreSelecao.toFixed(2)}:1`)
+  assert.ok(sobreWidget >= 4.5, `accent-lift no suggest widget tem ${sobreWidget.toFixed(2)}:1`)
+})
+
+test('o rótulo dos botões e badges é legível sobre o accent', () => {
+  const botao = contrast(THEME.colors['button.foreground'], THEME.colors['button.background'])
+  const badge = contrast(
+    THEME.colors['activityBarBadge.foreground'],
+    THEME.colors['activityBarBadge.background']
+  )
+  assert.ok(botao >= 4.5, `button.foreground tem ${botao.toFixed(2)}:1 sobre o accent`)
+  assert.ok(badge >= 4.5, `activityBarBadge.foreground tem ${badge.toFixed(2)}:1 sobre o accent`)
+})
+
+test('a linha atual é visível sem virar seleção', () => {
+  const r = contrast(PALETTE['bg-line'], PALETTE.bg)
+  assert.ok(r >= 1.12, `a linha atual tem razão ${r.toFixed(3)} — indistinguível do fundo`)
+  assert.ok(r < contrast(PALETTE.selection, PALETTE.bg), 'a linha atual não pode competir com a seleção')
+})
+
+test('nenhum par de cores que dividem a tela abaixo de ΔE76 10', () => {
+  // Critério que a casa já aplicou de fato quando separou sand/warning (ΔE76
+  // 5.29): duas cores abaixo de ~10 viram a mesma cor a olho nu.
+  const naTela = [
+    'violet', 'sage', 'steel', 'sand', 'clay', 'rose', 'error', 'added',
+    'accent', 'accent-lift', 'fg', 'fg-param', 'fg-punct', 'comment', 'fg-faint',
+  ]
+  // Isentos: pares em que o itálico — não a cor — é o que separa os dois papéis.
+  // Colorir mais seria trocar uma distinção que já funciona por ruído.
+  const ISENTOS = new Set(['fg|fg-param', 'comment|fg-punct'])
+  for (let i = 0; i < naTela.length; i++) {
+    for (let j = i + 1; j < naTela.length; j++) {
+      const [a, b] = [naTela[i], naTela[j]]
+      if (ISENTOS.has(`${a}|${b}`) || ISENTOS.has(`${b}|${a}`)) continue
+      const d = deltaE76(PALETTE[a], PALETTE[b])
+      assert.ok(d >= 10, `${a} e ${b} estão a ΔE76 ${d.toFixed(2)} — mesma cor a olho nu`)
+    }
+  }
+})
+
+test('os ícones do suggest widget usam a paleta, não o laranja/azul do vs-dark', () => {
+  const chaves = Object.keys(THEME.colors).filter((k) => k.startsWith('symbolIcon.'))
+  assert.ok(chaves.length >= 30, `só ${chaves.length} chaves symbolIcon definidas`)
+  for (const k of chaves) {
+    assert.ok(ALLOWED_BASE.has(THEME.colors[k].toUpperCase()), `${k} usa cor fora da paleta`)
+  }
+  // O ícone tem que ter a cor da palavra que ele insere.
+  assert.equal(THEME.colors['symbolIcon.classForeground'], PALETTE.steel)
+  assert.equal(THEME.colors['symbolIcon.functionForeground'], PALETTE.sage)
+  assert.equal(THEME.colors['symbolIcon.keywordForeground'], PALETTE.violet)
+  assert.equal(THEME.colors['symbolIcon.stringForeground'], PALETTE.sand)
+  assert.equal(THEME.colors['symbolIcon.numberForeground'], PALETTE.clay)
+})
+
+test('os três tipos de completion que ESTA extensão emite se distinguem', () => {
+  // `extension.js` só produz quatro CompletionItemKind: Reference (id de bloco),
+  // Snippet (bloco inteiro), Variable e Color (tokens CSS). São as únicas cores
+  // de symbolIcon que o usuário desta extensão chega a ver — se elas forem
+  // iguais entre si, as outras 30 chaves são enfeite e o autocomplete de blocos
+  // fica cinza. Violeta é o papel da identidade VTEX no conjunto de ícones
+  // (manifest, routes, blocks), então id de bloco herda violeta.
+  const emitidas = {
+    'symbolIcon.referenceForeground': PALETTE.violet,
+    'symbolIcon.snippetForeground': PALETTE.sage,
+    'symbolIcon.variableForeground': PALETTE.steel,
+  }
+  for (const [chave, esperado] of Object.entries(emitidas)) {
+    assert.equal(THEME.colors[chave], esperado, `${chave} saiu do papel declarado`)
+  }
+  const cores = Object.values(emitidas)
+  for (let i = 0; i < cores.length; i += 1) {
+    for (let j = i + 1; j < cores.length; j += 1) {
+      const d = deltaE76(cores[i], cores[j])
+      assert.ok(d >= 10, `dois tipos emitidos a ΔE76 ${d.toFixed(2)} — indistinguíveis na lista`)
+    }
+  }
 })
 
 test('o corpo de texto do Markdown não recebe cor', () => {
