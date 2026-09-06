@@ -7,6 +7,24 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+### Eliminado
+
+- **Salen los snippets `container` y `department-carousel`.** Eran del vendor
+  `construplazaqa` — una cuenta de un cliente — y viajaban en una extensión pública del
+  Marketplace, con ese nombre a la vista en la descripción. Los otros 385 bloques son todos
+  `vtex.*`.
+
+### Corregido
+
+- **La CI vuelve a verde después de cinco semanas.** El check «regenerar y fallar si el
+  commiteado derivó» estaba rojo en `main` desde el 2026-08-01: aquellos dos snippets se
+  habían agregado a mano al archivo **generado** (`snippets/vtex-io.code-snippets`) sin pasar
+  por `data/blocks.json`, así que cada corrida del generador los borraba y el `git diff`
+  acusaba. Tampoco tenían entrada en `schemas/`, o sea que nunca se validaron.
+
+  Es exactamente el modo de falla contra el que existe ese check. Editar la salida en vez de
+  la fuente no se sostiene: el generador es determinista y siempre gana.
+
 ## [3.7.0] - 2026-08-28
 
 ### Cambiado
