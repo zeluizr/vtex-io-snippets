@@ -7,9 +7,9 @@ snippets de bloques y props con enums y validación en `store/blocks`, rutas y
 contentSchemas; validación de JSON; autocompletado de las variables CSS del VTEX Style; y
 un tema de color con sus iconos de archivo y de interfaz.
 
-[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.vtex-io-intellisense?color=F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
-[![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.vtex-io-intellisense)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
-[![licencia](https://badgen.net/github/license/zeluizr/vtex-io-snippets)](./LICENSE)
+[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.vtex-io-intellisense?label=marketplace&color=F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
+[![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.vtex-io-intellisense?label=instalaciones)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
+[![licencia](https://badgen.net/github/license/zeluizr/vtex-io-snippets?label=licencia)](./LICENSE)
 
 ![El tema Puelche con sus iconos de archivo y de interfaz](./images/preview.png)
 
@@ -40,7 +40,7 @@ code --install-extension commenteme.vtex-io-intellisense
 3. Las props se autocompletan con sus enums y se validan contra el esquema de bloques
    (`blocks.json`, `store/blocks/**/*.json`, `store/**/*.jsonc`).
 
-El catálogo trae **387 snippets** de bloques del Store Framework.
+El catálogo trae **385 snippets** de bloques del Store Framework.
 
 Las sugerencias son sensibles al contexto: el bloque completo sólo aparece en la raíz del
 archivo, donde de verdad se define; dentro de `children` / `blocks` / `before` / `after` /
@@ -205,13 +205,16 @@ aparezca: ahí sólo caben propiedades.
 .
 ├── extension.js       # activate()/deactivate(), providers y comandos
 ├── lib/               # lógica pura, sin la API vscode (testeable con node:test)
-├── data/blocks.json   # catálogo de bloques del Store Framework — la fuente
+├── data/              # las fuentes de todo lo que se genera
+│   ├── blocks.json            # catálogo de bloques del Store Framework
+│   ├── icons.json             # mapa del icon theme
+│   ├── product-icons.json     # mapa del product icon theme
+│   └── product-codepoints.json  # codepoints de la fuente (append-only)
 ├── snippets/          # .code-snippets (generado desde data/blocks.json)
 ├── schemas/           # JSON Schema de los bloques (generado)
-├── assets/tokens.json # tokens del VTEX Style por defecto (fallback embebido)
 ├── themes/            # tema de color (a mano) + icon theme y product icon theme (generados)
 ├── icons/             # SVGs del icon theme (generados y commiteados)
-├── data/              # también los mapas de iconos y los codepoints de la fuente
+├── assets/tokens.json # tokens del VTEX Style por defecto (fallback embebido)
 ├── scripts/           # generadores: schema, geometría, icon theme, fuente, preview
 ├── docs/              # traco-puelche.md, la spec de dibujo
 └── test/              # node:test
