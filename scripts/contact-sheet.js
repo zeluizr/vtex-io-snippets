@@ -26,11 +26,11 @@ const ROOT = path.resolve(__dirname, '..')
 // Saída fora do repositório por padrão: isto é diagnóstico, não artefato.
 const OUT_DIR = process.argv[2] || path.join(require('os').tmpdir(), 'puelche-contact')
 
-const BG = '#17162A' // editor.background do tema Puelche
-const GRID_LINE = '#2A2732'
-const LABEL = '#8A8496'
-const TITLE = '#D6D2DF'
-const PRODUCT_FG = '#D6D2DF' // os glifos da UI não trazem cor própria
+const BG = '#131F29' // editor.background do tema Puelche
+const GRID_LINE = '#26313D'
+const LABEL = '#9C9890'
+const TITLE = '#D6D1C8'
+const PRODUCT_FG = '#D6D1C8' // os glifos da UI não trazem cor própria
 
 /** Extrai o miolo do SVG e os atributos de apresentação da raiz. */
 function readSvg(file) {
@@ -130,7 +130,7 @@ const PARES = [
   ['image', 'image', '<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>'],
   ['config', 'settings', '<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/>'],
   ['lock', 'lock', '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'],
-  ['package', 'package', '<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>'],
+  ['folder-modules', 'package', '<path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/>'],
   ['sql', 'database', '<ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5V19A9 3 0 0 0 21 19V5"/><path d="M3 12A9 3 0 0 0 21 12"/>'],
   ['shell', 'terminal', '<path d="m4 17 6-6-6-6"/><path d="M12 19h8"/>'],
   ['blocks', 'layers', '<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/>'],
@@ -139,12 +139,20 @@ const PARES = [
 ]
 
 async function lucideSheet(out) {
+  // Par que aponta para um SVG que não existe mais avisa e sai da folha: esta é
+  // uma ferramenta de diagnóstico, e derrubar as três folhas por causa de um id
+  // renomeado é o pior negócio possível.
+  const pares = PARES.filter(([nosso]) => {
+    const existe = fs.existsSync(path.join(ROOT, 'icons', `${nosso}.svg`))
+    if (!existe) console.error(`par ignorado: icons/${nosso}.svg não existe`)
+    return existe
+  })
   const CELL_W = 300
   const CELL_H = 150
   const PAD = 28
   const TOP = 84
   const cols = 3
-  const rows = Math.ceil(PARES.length / cols)
+  const rows = Math.ceil(pares.length / cols)
   const W = PAD * 2 + cols * CELL_W
   const H = TOP + rows * CELL_H + PAD
 
@@ -154,14 +162,14 @@ async function lucideSheet(out) {
     text(
       PAD,
       58,
-      'esquerda = nosso (placa cheia + marca) / direita = Lucide monoline — 48 e 16 px. ' +
-        'Compara a MARCA, não a placa: a silhueta sólida é escolha nossa.',
+      'esquerda = nosso (placa cheia + marca cheia) / direita = Lucide monoline — 48 e 16 px. ' +
+        'Compara o GESTO, não a pintura: as duas camadas sólidas são escolha nossa.',
       LABEL,
       12,
     ),
   )
 
-  PARES.forEach(([meu, nomeLucide, d], i) => {
+  pares.forEach(([meu, nomeLucide, d], i) => {
     const c = i % cols
     const r = Math.floor(i / cols)
     const x0 = PAD + c * CELL_W

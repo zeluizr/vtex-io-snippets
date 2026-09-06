@@ -19,8 +19,8 @@
  *   placa   silhueta fechada, `fill` na cor do papel — a pasta ou a página
  *   marca   o símbolo inscrito, traçado no tom escuro do mesmo papel
  *
- * A 16px do Explorer o traço de 1.33px some; mancha sólida não. É a mesma
- * escolha do Material Icon Theme e é o que substituiu o monoline de antes.
+ * A 16px do Explorer o traço de 1.33px some; mancha sólida não — foi o que
+ * substituiu o monoline de antes.
  *
  * Escape de marca, por lado da árvore:
  *   pasta   `SHAPES[nome + 'Badge']` se existir, senão `SHAPES[nome]`
@@ -45,21 +45,21 @@ const STROKE = 2
 /**
  * Fundo do editor no Puelche — o outro extremo da mistura que dá o tom escuro.
  *
- * É o índigo-noite da inmmerce. Foi #1A181F até a identidade da marca entrar:
- * as duas cores estavam a ΔE76 9.7, praticamente a mesma, então a troca não
- * mexeu em nenhum contraste. Se este valor mudar, TODOS os 138 ícones mudam —
- * o tom da marca é derivado dele, não escolhido.
+ * É o azul-noite da casa: a âncora #3C9CD7 levada a croma baixo e L* baixo
+ * (h 262, C 9). Sucedeu o índigo-noite #17162A, que era da marca mas não saía
+ * da paleta. Se este valor mudar, TODOS os 138 ícones mudam — o tom da marca é
+ * derivado dele, não escolhido.
  */
-const BG = '#17162A'
+const BG = '#131F29'
 
 /**
  * Quanto do fundo entra no tom escuro da marca. Mais que isso vira buraco
  * preto; menos, a marca some dentro da placa.
  *
  * Foi 0.6 e não bastava: cinco papéis ficavam abaixo do piso de 3:1 para
- * elemento gráfico, com `punct` a 2.67:1 — e `punct` é o papel mais frequente
- * da árvore. A 0.7 o pior caso sobe para 3.17:1 e nenhum papel reprova mais.
- * O piso está travado em test/icons.test.js.
+ * elemento gráfico. A 0.7 nenhum papel reprova — o pior caso é `dim` a 3.25:1,
+ * e ele é o pior justamente por ser a placa mais escura; o sistema tem um piso
+ * de luminância. O piso está travado em test/icons.test.js.
  */
 const DEEP_MIX = 0.7
 
@@ -116,9 +116,11 @@ const anchor = (cx, cy, scale) => ({ x: round(cx - 12 * scale), y: round(cy - 12
  * essa altura menos ~1.85u de cada lado e fica centrada no corpo, não na caixa
  * de 24.
  *
- * OPEN: a faixa inclinada deixa menos altura livre. Aqui a marca sangra um
- * pouco sobre as bordas da faixa de propósito: perder um pedaço da borda custa
- * menos que perder o desenho inteiro.
+ * A pasta ABERTA usa a mesma âncora da fechada. Ela teve a sua por um tempo,
+ * menor, porque a faixa inclinada deixa menos altura livre — mas duas âncoras
+ * significam duas escalas, e com a marca preenchida a espessura escala junto:
+ * a mesma forma sairia mais magra na pasta aberta do que na fechada. Uma
+ * âncora só, e a marca sangra um pouco sobre a faixa, que custa menos.
  *
  * PLATE: o corpo da página tem 3..21 em x e 0.5..23.5 em y, menos a orelha no
  * canto superior direito. A marca desce para (12, 14.8) para passar por baixo
@@ -126,7 +128,6 @@ const anchor = (cx, cy, scale) => ({ x: round(cx - 12 * scale), y: round(cy - 12
  * dentro da pasta sobrevive na placa, e as duas usam a mesma biblioteca.
  */
 const CLOSED = anchor(12, 13.7, fit(12.9))
-const OPEN = anchor(12.6, 16.3, fit(10.2))
 const PLATE = anchor(12, 14.8, fit(13.4))
 
 /**
@@ -151,15 +152,20 @@ function plateLayer(markup, color, deep) {
 }
 
 /**
- * Camada de marca: escalada, posicionada e traçada no tom escuro.
- * O `<g>` reinjeta `stroke-width = STROKE / scale` para a espessura aparente
- * sair 2 depois da escala. Dentro dela `@c` é a cor da camada — o tom escuro.
+ * Camada de marca: escalada, posicionada e PREENCHIDA no tom escuro.
+ *
+ * A marca era traçada e o `<g>` reinjetava `stroke-width = STROKE / scale` para
+ * a espessura aparente sair 2 depois da escala. Não reinjeta mais nada: a marca
+ * é área, e área escala junto com a forma sem precisar de compensação.
+ *
+ * A 16px do Explorer um fio de 1.33px é quase nada — mancha é o que lê, e é por
+ * isso que a placa já era sólida desde o começo. Agora a marca também é. Dentro
+ * do `<g>` o token `@c` é a cor da camada: o tom escuro.
  */
 function markLayer(markup, pos, deep) {
   const { x, y, scale } = pos
   return (
-    `<g transform="translate(${x} ${y}) scale(${scale})" fill="none" stroke="${deep}" ` +
-    `stroke-width="${round(STROKE / scale)}" stroke-linecap="round" stroke-linejoin="round">` +
+    `<g transform="translate(${x} ${y}) scale(${scale})" fill="${deep}" stroke="none">` +
     markup.replace(/@c/g, deep) +
     '</g>'
   )
@@ -184,7 +190,7 @@ function folderSvg(shapeName, color, deep, expanded) {
   const base = plateLayer(expanded ? SHAPES.folderOpen : SHAPES.folder, color, deep)
   if (!shapeName) return svg(base, color)
   const mark = markShape(shapeName, 'Badge')
-  return svg(base + markLayer(mark, expanded ? OPEN : CLOSED, deep), color)
+  return svg(base + markLayer(mark, CLOSED, deep), color)
 }
 
 /** Placa de página com a marca do tipo inscrita. `shapeName` nulo = sem marca. */
@@ -315,7 +321,6 @@ module.exports = {
   DEEP_MIX,
   STROKE,
   CLOSED,
-  OPEN,
   PLATE,
   THEME_OUT,
   ICONS_DIR,

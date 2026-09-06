@@ -20,6 +20,7 @@ const path = require('path')
 const zlib = require('zlib')
 const { execFileSync } = require('child_process')
 const { mixHex, markShape, BG, DEEP_MIX } = require('../scripts/build-icon-theme')
+const { PRIM_COUNT } = require('../scripts/icon-shapes')
 
 const ROOT = path.join(__dirname, '..')
 const MAP_PATH = path.join(ROOT, 'data', 'icons.json')
@@ -199,7 +200,7 @@ test('rolesDeep é exatamente a mistura declarada, papel por papel', () => {
 
 /**
  * O piso de contraste marca/placa: 3:1, o mínimo para elemento gráfico. Com a
- * mistura de 0.7 nenhum papel reprova — o pior caso é `punct` a 3.17:1. Com a
+ * mistura de 0.7 nenhum papel reprova — o pior caso é `dim` a 3.25:1. Com a
  * mistura de 0.6, que valia antes, cinco papéis ficavam abaixo disso.
  */
 const PISO_CONTRASTE = 3.0
@@ -232,7 +233,7 @@ function deltaE76(a, b) {
 
 /**
  * A trava que faltava, e a que teria pegado o problema mais antigo da paleta:
- * `comment` e `punct` conviveram por meses a ΔE76 6.1 — a olho nu, a pasta
+ * dois papéis conviveram por meses a ΔE76 6.1 — a olho nu, a pasta
  * `docs` e a pasta `dist` eram exatamente a mesma cor. O tema de cor já cobrava
  * esse piso; a paleta de ícones não cobrava.
  */
@@ -258,29 +259,29 @@ test('nenhum par de papéis abaixo de ΔE76 10', () => {
  * da cor da própria marca.
  */
 const FAMILIAS_PASTA = {
-  purple: ['store', 'blocks', 'templates', 'messages', 'pixel', 'admin', 'checkout', 'masterdata', 'sitemap'],
-  lavender: ['home', 'product', 'search', 'landing', 'header', 'footer', 'cart', 'account'],
-  pink: ['react', 'components'],
-  green: ['node', 'graphql', 'clients', 'hooks'],
-  cyan: ['src', 'types', 'schemas', 'snippets', 'data', 'utils'],
-  aqua: ['scripts'],
-  yellow: ['styles'],
-  orange: ['assets', 'images', 'fonts', 'iconpacks', 'claude'],
-  parchment: ['docs'],
-  mint: ['test'],
+  lilas: ['store', 'blocks', 'templates', 'messages', 'pixel', 'admin', 'checkout', 'masterdata', 'sitemap'],
+  indigo: ['home', 'product', 'search', 'landing', 'header', 'footer', 'cart', 'account'],
+  coral: ['react', 'components'],
+  teal: ['node', 'graphql', 'clients', 'hooks'],
+  azul: ['src', 'types', 'schemas', 'snippets', 'data', 'utils'],
+  mint: ['scripts'],
+  creme: ['styles'],
+  ambar: ['assets', 'images', 'fonts', 'iconpacks', 'claude'],
+  papel: ['docs'],
+  verde: ['test'],
   dim: ['dist', 'modules', 'config', 'github'],
 }
 
 const FAMILIAS_ARQUIVO = {
-  purple: ['manifest', 'routes', 'blocks', 'style', 'eslint'],
-  pink: ['tsx', 'html', 'npm'],
-  mint: ['vue', 'svelte', 'test', 'nodeversion'],
-  green: ['javascript', 'jsx', 'graphql', 'shell', 'python'],
-  cyan: ['json', 'jsonc', 'typescript', 'prisma', 'sql', 'yaml', 'toml', 'tsconfig', 'xml', 'yarn', 'docker'],
-  yellow: ['css', 'sass', 'prettier'],
-  orange: ['image', 'vector', 'font', 'archive', 'video', 'audio', 'claude', 'git'],
-  parchment: ['markdown', 'readme', 'changelog', 'license', 'text', 'pdf'],
-  aqua: ['buildconfig', 'editorconfig', 'config'],
+  lilas: ['manifest', 'routes', 'blocks', 'style', 'eslint'],
+  coral: ['tsx', 'html', 'npm'],
+  verde: ['vue', 'svelte', 'test', 'nodeversion'],
+  teal: ['javascript', 'jsx', 'graphql', 'shell', 'python'],
+  azul: ['json', 'jsonc', 'typescript', 'prisma', 'sql', 'yaml', 'toml', 'tsconfig', 'xml', 'yarn', 'docker'],
+  creme: ['css', 'sass', 'prettier'],
+  ambar: ['image', 'vector', 'font', 'archive', 'video', 'audio', 'claude', 'git'],
+  papel: ['markdown', 'readme', 'changelog', 'license', 'text', 'pdf'],
+  mint: ['buildconfig', 'editorconfig', 'config'],
   dim: ['ignore', 'lock', 'env'],
 }
 
@@ -305,7 +306,7 @@ for (const [lista, tabela] of [['folders', FAMILIAS_PASTA], ['files', FAMILIAS_A
 /**
  * A placa é objeto gráfico, não texto: o piso é 3:1, não 4.5:1. O papel `dim`
  * — o que recua de propósito, das pastas geradas e de infraestrutura — sai a
- * 3.74:1 e é o pior caso. Subir esse piso obrigaria `dist` e `node_modules` a
+ * 5.27:1 e é o pior caso. Subir esse piso obrigaria `dist` e `node_modules` a
  * ter a mesma presença de `store`, que é o contrário do que eles significam.
  */
 test('toda placa passa 3:1 sobre o fundo do editor', () => {
@@ -317,7 +318,7 @@ test('toda placa passa 3:1 sobre o fundo do editor', () => {
   assert.deepEqual(fracas, [], 'papel que não separa da própria árvore')
 })
 
-test('todo SVG é placa preenchida mais marca traçada — nunca traço na raiz', () => {
+test('todo SVG é placa preenchida mais marca preenchida — nunca traço', () => {
   const papeis = new Set(Object.values(MAP.roles).map((/** @type {any} */ c) => String(c)))
   const fundos = new Set(Object.values(MAP.rolesDeep).map((/** @type {any} */ c) => String(c)))
   for (const arquivo of listarSvgs(ICONS_DIR)) {
@@ -325,15 +326,19 @@ test('todo SVG é placa preenchida mais marca traçada — nunca traço na raiz'
     const raiz = raw.match(/<svg([^>]*)>/)[1]
     const fill = (raiz.match(/\sfill="([^"]+)"/) || [])[1]
     assert.ok(papeis.has(String(fill)), `${arquivo}: raiz sem fill de um papel (veio "${fill}")`)
-    assert.match(raiz, /\sstroke="none"/, `${arquivo}: a raiz ainda traça — a era do monoline acabou`)
+    assert.match(raiz, /\sstroke="none"/, `${arquivo}: a raiz traça`)
 
     const marcas = raw.match(/<g\b[^>]*>/g) || []
     assert.ok(marcas.length <= 1, `${arquivo}: mais de uma camada de marca`)
     for (const g of marcas) {
-      const stroke = (g.match(/\sstroke="([^"]+)"/) || [])[1]
-      assert.ok(fundos.has(String(stroke)), `${arquivo}: marca fora de rolesDeep (veio "${stroke}")`)
-      assert.match(g, /\sfill="none"/, `${arquivo}: marca preenchida — marca é traço`)
+      const fillMarca = (g.match(/\sfill="([^"]+)"/) || [])[1]
+      assert.ok(fundos.has(String(fillMarca)), `${arquivo}: marca fora de rolesDeep (veio "${fillMarca}")`)
+      assert.match(g, /\sstroke="none"/, `${arquivo}: marca traçada — a era do monoline acabou`)
     }
+    // Nenhum `stroke` de cor sobrou em lugar nenhum: o conjunto inteiro é área.
+    const traços = raw.match(/\sstroke="(?!none)[^"]+"/g) || []
+    assert.deepEqual(traços, [], `${arquivo}: ainda tem traço de cor`)
+    assert.doesNotMatch(raw, /stroke-width/, `${arquivo}: espessura de traço sobrou`)
   }
 })
 
@@ -346,13 +351,24 @@ const TETO_ELEMENTOS = 2
 
 test('nenhuma marca passa de 2 elementos', () => {
   const gordas = []
-  const conta = (/** @type {string} */ markup) =>
-    (markup.match(/<(path|rect|circle|ellipse|line|polygon|polyline)\b/g) || []).length
+  /**
+   * Forma declarada em primitivas sai como UM `<path>` só — contar tag ali não
+   * mede nada. Quem sabe quantos elementos visuais a marca tem é a declaração,
+   * e é ela que responde primeiro. O resto (silhueta escrita direto em markup)
+   * continua sendo contado por tag.
+   */
+  const conta = (/** @type {string} */ markup, /** @type {string} */ nome) => {
+    const base = nome.replace(/(Mark|Badge)$/, '')
+    for (const chave of [nome, base]) {
+      if (typeof PRIM_COUNT[chave] === 'number') return PRIM_COUNT[chave]
+    }
+    return (markup.match(/<(path|rect|circle|ellipse|line|polygon|polyline)\b/g) || []).length
+  }
   const marcas = new Map()
   for (const entry of MAP.files) marcas.set(entry.shape, markShape(entry.shape, 'Mark'))
   for (const entry of MAP.folders) marcas.set(`${entry.shape}Badge`, markShape(entry.shape, 'Badge'))
   for (const [nome, markup] of marcas) {
-    const n = conta(markup)
+    const n = conta(markup, nome)
     if (n > TETO_ELEMENTOS) gordas.push(`${nome}: ${n}`)
   }
   assert.deepEqual(gordas, [], 'marca com elementos demais para os ~8px em que ela é desenhada')
@@ -392,6 +408,8 @@ test('rodar o gerador de novo produz exatamente os mesmos bytes', () => {
     fs.mkdirSync(path.join(tmp, 'data'), { recursive: true })
     fs.copyFileSync(path.join(ROOT, 'scripts', 'build-icon-theme.js'), path.join(tmp, 'scripts', 'build-icon-theme.js'))
     fs.copyFileSync(path.join(ROOT, 'scripts', 'icon-shapes.js'), path.join(tmp, 'scripts', 'icon-shapes.js'))
+    // As formas lineares nascem do conversor de traço para contorno preenchido.
+    fs.copyFileSync(path.join(ROOT, 'scripts', 'stroke-outline.js'), path.join(tmp, 'scripts', 'stroke-outline.js'))
     fs.copyFileSync(MAP_PATH, path.join(tmp, 'data', 'icons.json'))
 
     execFileSync(process.execPath, [path.join(tmp, 'scripts', 'build-icon-theme.js')], { stdio: 'pipe' })

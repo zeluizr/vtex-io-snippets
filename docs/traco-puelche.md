@@ -1,7 +1,7 @@
 # O traço Puelche
 
 Spec de desenho do conjunto de ícones. Vale para as duas grades: os ícones de
-arquivo e pasta (24×24, placa sólida com marca traçada) e os glifos do product
+arquivo e pasta (24×24, placa sólida com marca sólida) e os glifos do product
 icon theme (16×16, contorno preenchido para virar fonte).
 
 Quem desenha segue este documento. Quem revisa cobra por ele.
@@ -13,16 +13,34 @@ com raio. O que era nosso e continua nosso é o **vocabulário** — a cor por p
 semântico, a pasta que carrega a marca do que guarda, e as formas que só existem
 no mundo VTEX (vitrine, pixel, blocos, rota, manifest).
 
-O que mudou: **a silhueta de arquivo e pasta deixou de ser traçada e passou a ser
-sólida.** O motivo é o tamanho. A 16px do Explorer, um traço de 2 unidades sai
-com 1.33px; uma pasta traçada com uma marca traçada dentro vira uma malha de
-linhas finas que some no fundo escuro e não distingue vizinho de vizinho. Mancha
-lê nesse tamanho, linha não. É a mesma escolha do Material Icon Theme, e é o que
-o conjunto precisava depois de medido a 16px reais.
+O que mudou: **arquivo e pasta deixaram de ser traçados e passaram a ser
+sólidos** — primeiro a silhueta, depois a marca. O motivo é o tamanho. A 16px do
+Explorer, um traço de 2 unidades sai com 1.33px; uma pasta traçada com uma marca
+traçada dentro vira uma malha de linhas finas que some no fundo escuro e não
+distingue vizinho de vizinho. Mancha lê nesse tamanho, linha não.
 
-O idioma de traço não morreu: ele foi para dentro. A **marca** continua monoline,
-com a mesma espessura e o mesmo raio de canto. O que virou área é a silhueta que
-segura a marca.
+A silhueta virou sólida primeiro e a marca continuou monoline por um tempo, o que
+era meio caminho: o fio de 1.33px dentro da placa tinha exatamente o problema que
+a placa já tinha resolvido. Hoje as duas camadas são área.
+
+**Sobre o Material Icon Theme.** Este documento afirmava que a placa sólida com
+marca traçada era "a mesma escolha do Material Icon Theme". Não era: nos SVGs do
+Material não existe **uma única** ocorrência de `stroke` ou `stroke-width` — ele
+é `fill` do começo ao fim, glifo monocromático nos arquivos e dois tons na pasta.
+A parte certa da frase era o diagnóstico (mancha lê, linha não); a comparação
+estava errada, e foi ela que ficou de pé mais tempo do que devia.
+
+O que NÃO copiamos dele é o contraste. Os pares reais de pasta do Material —
+`#4caf50`×`#c8e6c9`, `#8bc34a`×`#dcedc8`, `#8d6e63`×`#d7ccc8` — dão **2.07:1**,
+**1.70:1** e **2.94:1** entre silhueta e motivo: os três reprovariam o piso de
+3:1 que esta casa cobra. Ele compensa com motivo grande, descentralizado, que
+sangra para fora do canvas. Aqui o piso fica, e o motivo continua contido.
+
+O idioma de traço não morreu: ele foi para o **desenho**, não para a pintura. A
+marca continua monoline no gesto — mesma espessura aparente, mesmo raio, mesma
+ponta redonda —, mas chega ao SVG como contorno preenchido, pelo
+`scripts/stroke-outline.js`. É o mesmo caminho que os glifos do product icon
+theme já usavam, e pela mesma razão: fonte não carrega traço.
 
 ## As duas camadas
 
@@ -31,19 +49,19 @@ Todo ícone de arquivo e pasta é montado por `scripts/build-icon-theme.js` assi
 | camada | pintura | quem é |
 | --- | --- | --- |
 | **placa** | `fill` na cor do papel, `stroke="none"` | `folder`, `folderOpen` ou `plate` |
-| **marca** | `fill="none"`, `stroke` no tom escuro, espessura aparente 2 | qualquer outra forma |
+| **marca** | `fill` no tom escuro, `stroke="none"` | qualquer outra forma |
 
 A raiz do SVG carrega a cor do papel; a placa herda e não declara pintura. Só a
 orelha da página tem cor própria dentro da placa, pelo token `@d`.
 
 **O tom escuro é derivado, não escolhido.** `rolesDeep[papel]` é o papel
-misturado a **70% com o fundo do editor `#17162A`**, e o gerador recusa qualquer
+misturado a **70% com o fundo do editor `#131F29`**, e o gerador recusa qualquer
 valor que não seja exatamente isso. Fica em família com o tema e, sobre o fundo
 do Puelche, parece um recorte — mas é cor explícita, então o ícone continua certo
 sobre qualquer fundo.
 
 A mistura foi 0.6 e não bastava. A 0.7 nenhum papel reprova o piso de 3:1 para
-elemento gráfico: o pior caso é `dim` a **3.35:1**, e ele é o pior justamente por
+elemento gráfico: o pior caso é `dim` a **3.25:1**, e ele é o pior justamente por
 ser a placa mais escura — o sistema tem um piso de luminância, ver abaixo. O piso
 está travado em `test/icons.test.js`.
 
@@ -51,15 +69,23 @@ está travado em `test/icons.test.js`.
 
 | eixo | grade 24×24 (arquivo e pasta) | grade 16×16 (produto) |
 | --- | --- | --- |
-| espessura da marca | **2** | **1.35** |
+| espessura da marca | **3.7** na declaração, ~2 na tela | **1.35** |
 | raio de canto | **2** | **1.35** |
 | caixa de conteúdo da marca | **2 a 22** | **1.5 a 14.5** |
 | extensão da placa | **0.5 a 23.5** | não tem |
 | ponta e junção | redonda | redonda |
 | placa | sólida, cor do papel | não tem: é fonte, tudo é contorno |
+| marca | sólida, tom escuro do papel | sólida, uma cor só |
 
-A caixa de conteúdo é a régua do **traço**: uma forma desenhada de 2 a 22, com o
-traço de 2 centrado, põe tinta de 1 a 23. A placa é **área**, não traço, e por
+A espessura tem dois números porque a marca é escalada antes de chegar ao SVG.
+Ela é declarada com **3.7** na grade 24 e sai com ~2 na tela, que é a mesma
+presença que o monoline tinha — antes a conta era feita ao contrário, reinjetando
+`stroke-width` dividido pela escala. Com área não há o que reinjetar, e foi por
+isso que a pasta aberta perdeu a âncora própria: duas escalas dariam duas
+espessuras para a mesma forma.
+
+A caixa de conteúdo é a régua do **gesto**: uma forma desenhada de 2 a 22, com a
+espessura centrada, põe tinta de 1 a 23. A placa é **área** e por
 isso não obedece a essa régua: ela vai a 0.5 e 23.5, quase sangria total. O VS
 Code trava o ícone em 16px, e depois disso a única alavanca de tamanho que sobra
 é quanto da caixa de 24 o desenho ocupa.
@@ -78,14 +104,22 @@ da tabela. Ângulo agudo de forma orgânica (bico do funil, ponta do lápis, dob
 da página) fica, porque o Lucide também os tem: a regra é sobre retângulo, não
 sobre desenho.
 
-**Sólido é da placa, traço é da marca.** A marca não tem preenchimento, com duas
-exceções. A primeira: um disco de raio ≤ 1.1 na grade 24 (≤ 0.75 na 16) quando a
-forma pede um ponto e o anel some — na prática o disco quase não sobrevive, sai
-com meio pixel dentro da marca e vale mais tirar. A segunda são as **marcas de
-terceiro**, abaixo. Quadrado sólido decorativo não existe.
+**Sólido é a regra.** Placa e marca são área. Forma que é naturalmente área — a
+página, a caixa, o balão, o escudo — é silhueta cheia; forma que é naturalmente
+linear — a chave, o chevron, a seta, a letra — é declarada em primitivas de traço
+e sai como contorno preenchido pelo `stroke-outline.js`. Nada declara `stroke`.
 
-**Espessura única.** Nenhuma forma declara espessura própria. A marca é escalada,
-e o traço dela é dividido pela escala para sair na mesma espessura aparente.
+**O detalhe interno é FURO, não segunda cor.** Dentro da marca só existe um tom,
+então o que era uma linha por cima (a lombada do livro, as arestas da caixa, o
+triângulo do play) hoje é um vão vazado. Furo se declara com
+`fill-rule="evenodd"`, não confiando no sentido do subcaminho — acertar winding à
+mão em cada `d` é como se erra.
+
+**Piso de tamanho para o vão.** Furo escala junto com a forma: **1.6u** na grade
+24 é o mínimo que sobrevive a 16px, e disco abaixo de **raio 3.4** some.
+
+**Espessura única.** Nenhuma forma declara espessura própria: ela vive no `W` de
+`scripts/icon-shapes.js`.
 
 **Respiro nas bordas.** A marca vive dentro da caixa de conteúdo; a placa, dentro
 da extensão de tinta. Nenhuma das duas encosta na parede do viewBox.
@@ -175,11 +209,11 @@ do VS Code — que ganha da extensão — que permite isso. Hoje têm marca pró
 Claude (`CLAUDE.md`, `AGENTS.md`, pasta `.claude`), npm, yarn, Prettier, ESLint,
 Docker, Git, GitHub e VTEX.
 
-**Logo é sólido, não traçado.** É a segunda exceção à regra de preenchimento.
-Um sunburst ou um wordmark em monoline a ~8px vira teia de aranha; a mancha
-sobrevive. Cada marca declara `fill="@c" stroke="none"` e, quando tem furo,
-`fill-rule="evenodd"` — sempre num `<path>` só, para caber no teto de três
-elementos.
+**Logo é sólido, não traçado.** Elas foram as primeiras a ser sólidas, quando o
+resto da marca ainda era monoline: um sunburst ou um wordmark em fio a ~8px vira
+teia de aranha. Hoje deixaram de ser exceção — o conjunto todo alcançou o que
+elas já faziam. Cada uma declara `fill="@c" stroke="none"` e, quando tem furo,
+`fill-rule="evenodd"`, sempre num `<path>` só.
 
 **Não são o asset oficial.** São interpretações redesenhadas para os ~8px em que
 o Explorer desenha, e fidelidade que não sobrevive a esse tamanho foi trocada por
@@ -220,56 +254,75 @@ pertence. É isso que faz a árvore ler como bloco em vez de mosaico.
 
 | papel | hex | família |
 | --- | --- | --- |
-| `purple` | `#BD93F9` | VTEX — o vocabulário da plataforma |
-| `lavender` | `#D6ACFF` | Vitrine — as páginas da loja |
-| `pink` | `#FF79C6` | Frontend |
-| `green` | `#50FA7B` | Backend |
-| `cyan` | `#8BE9FD` | Código compartilhado |
-| `aqua` | `#A4FFFF` | Ferramenta |
-| `yellow` | `#F1FA8C` | Estilo |
-| `orange` | `#FFB86C` | Recurso |
-| `parchment` | `#B8AE9E` | Documento |
-| `mint` | `#69FF94` | Teste |
-| `dim` | `#808DB4` | Gerado / não é seu código |
+| `lilas` | `#AA91E0` | VTEX — o vocabulário da plataforma |
+| `indigo` | `#8C98E9` | Vitrine — as páginas da loja |
+| `coral` | `#FF6E61` | Frontend |
+| `teal` | `#4EB7AC` | Backend |
+| `azul` | `#3C9CD7` | Código compartilhado |
+| `mint` | `#4EC59A` | Ferramenta |
+| `creme` | `#FCE2A1` | Estilo |
+| `ambar` | `#FFB84D` | Recurso |
+| `papel` | `#C9BFA8` | Documento |
+| `verde` | `#7DBB69` | Teste |
+| `dim` | `#8592A1` | Gerado / não é seu código |
 
 **A exceção são as marcas de terceiro**, que levam o papel mais próximo da cor da
-própria marca: `claude` e `git` em orange, `npm` em pink, `eslint` em purple,
-`yarn` e `docker` em cyan.
+própria marca: `claude` e `git` em ambar, `npm` em coral, `eslint` em lilas,
+`yarn` e `docker` em azul.
 
-**A paleta é a do Dracula.** As 15 cores dele estão todas acima de ΔE76 10 entre
-si — é o que faz o conjunto ler de relance, e é a razão da troca: a paleta
-dessaturada de antes vivia entre ΔE 10 e 15, no limite do piso. Duas cores não
-vieram de lá e a razão está medida:
+## De onde vem a paleta
 
-- **`parchment` `#B8AE9E`** para documento. O branco `#F8F8F2` do Dracula é a cor
-  mais clara da paleta e transformava `docs`, `README` e `CHANGELOG` na coisa mais
-  luminosa da árvore — documento não deve dominar. O bege é neutro e recua.
-> **A paleta de superfície é a da inmmerce.** O fundo, as superfícies e o acento
-> vêm do sistema da marca — índigo-noite `#17162a`, família slate-púrpura e o
-> dourado `#f6c92d`. As matizes de **sintaxe e de ícone** continuam sendo as do
-> Dracula, e isso é decisão, não inércia: a marca tem dois acentos e o realce
-> precisa de sete matizes separadas. Forçar tudo para o dourado devolveria
-> exatamente o problema que motivou a troca para o Dracula — não dar para
-> entender só de olhar.
+**A paleta é da casa.** Ela vinha pronta de um tema de terceiro, e isso era
+dependência de identidade num produto que é da inmmerce — o motivo da troca não
+foi estético, foi esse. A base são **cinco cores dadas**, com hex intocado:
 
-- **`dim` `#808DB4`** para o gerado. O `#6272A4` do Dracula era o candidato óbvio,
-  mas o sistema de duas camadas tem um **piso de luminância** que ninguém tinha
-  medido: com a mistura de 0.7, uma placa escura demais não deixa espaço para a
-  marca. O `#6272A4` entrega 2.64:1 entre placa e marca, abaixo do piso de 3:1.
-  O `#808DB4` é o mesmo azul clareado até o ponto exato em que a conta fecha —
-  3.35:1 — e ainda é a placa mais apagada do conjunto, que é o que `dist` e
-  `node_modules` têm que ser.
+```
+#FF6E61   #FFB84D   #FCE2A1   #4EB7AC   #3C9CD7
+```
 
-O cinza passa a significar alguma coisa. Antes ele era o depósito de tudo que não
-tinha cor óbvia; agora só recua o que é gerado ou infraestrutura, e `utils` subiu
-para steel porque é código seu.
+Cinco não cobrem o sistema: são 11 papéis de ícone, todos com piso de ΔE76 10
+entre si. As cinco âncoras deixam **dois arcos de matiz vazios** — 96° de verde
+(entre o creme a 90° e o teal a 186°) e 136° de roxo/rosa (entre o azul a 257° e
+o coral a 33°). O que falta é derivado ali dentro, em LCh, com L\* e croma na
+faixa das próprias âncoras (L\* 61–91, croma 33–65):
 
-A paleta era de 9 papéis e `comment` × `punct` estavam a **ΔE76 6.1** — a olho nu,
-a pasta `docs` e a pasta `dist` eram a mesma cor. `comment` saiu da paleta de
-ícones (segue no tema de cor, pintando comentário de código, que é o trabalho
-dele) e o documento ganhou `parchment`. O par mais próximo dos 11 hoje é
-`sage` × `added` a ΔE76 11.0, e `test/icons.test.js` passou a cobrar o piso de 10
-— a trava que faltava.
+| derivada | LCh de origem |
+| --- | --- |
+| `verde` `#7DBB69` | L70 C50 h135 |
+| `mint` `#4EC59A` | L70 C50 h165 |
+| `lilas` `#AA91E0` | L65 C45 h305 |
+| `indigo` `#8C98E9` | L65 C45 h290 |
+
+Cada uma tem coordenada. Nenhuma foi escolhida a olho, e é isso que mantém o
+conjunto legível de relance: o par mais próximo dos 11 é `lilas` × `indigo` a
+**ΔE76 11.4**, com folga sobre o piso.
+
+Duas ficam fora do arco porque não são matiz, são neutro — e a razão de cada uma
+está medida:
+
+- **`papel` `#C9BFA8`** para documento. O branco do editor é a cor mais clara do
+  conjunto e transformaria `docs`, `README` e `CHANGELOG` na coisa mais luminosa
+  da árvore — documento não deve dominar. O bege quente é neutro e recua, e fica
+  do lado do creme, que é de onde ele veio.
+
+- **`dim` `#8592A1`** para o gerado, e ele é o caso que prova a regra da casa: **o
+  sistema de duas camadas tem um piso de luminância.** Com a mistura de 0.7, uma
+  placa escura demais não deixa espaço para a marca. O primeiro candidato,
+  `#7D8A99`, entregava 3.05:1 entre placa e marca — passava no piso de 3:1 e
+  passava raspando, sem folga nenhuma para arredondamento. O `#8592A1` é o mesmo
+  azul-cinza clareado até a conta fechar com margem — **3.25:1** — e ainda é a
+  placa mais apagada do conjunto, que é o que `dist` e `node_modules` têm que ser.
+
+> **O fundo e o acento.** O fundo é derivado da mesma paleta: a âncora `#3C9CD7`
+> levada a croma baixo e L\* baixo (h 262, C 9) dá o azul-noite `#131F29`, que
+> sucedeu o índigo-noite `#17162A`. O **acento continua sendo o dourado
+> `#F6C92D` da inmmerce** — ele é identidade de marca, não matiz de sintaxe, e
+> por isso sobrevive à troca. Sobrevive também à vizinhança quente do âmbar, que
+> era o risco óbvio: os dois estão a ΔE76 19.9.
+
+O cinza significa alguma coisa. Ele não é o depósito de tudo que não tem cor
+óbvia: só recua o que é gerado ou infraestrutura. `utils` é azul porque é código
+seu.
 
 ## O que não muda
 
@@ -280,16 +333,23 @@ não coberto cair no codicon nativo de propósito.
 
 ## As contas que ficam abertas
 
-**As duas grades deixaram de ser um conjunto só.** O arquivo e a pasta são placa
-sólida com marca; o glifo de produto é monoline. É escolha, não descuido: fonte
-não carrega duas cores, então a barra lateral e a paleta de comandos não têm como
-receber o mesmo tratamento. As duas famílias dividem o léxico e o raio de canto,
-não a pintura.
+**As duas grades voltaram a se parecer.** Arquivo, pasta e glifo de produto são
+hoje contorno preenchido, e os três passam pelo mesmo `stroke-outline.js`. O que
+continua separando as famílias é a COR, não a pintura: o ícone de árvore tem duas
+camadas em dois tons do mesmo papel, e o glifo de produto tem uma só, porque
+fonte não carrega duas cores. A barra lateral e a paleta de comandos seguem sem
+poder receber o tratamento de placa.
 
-**O `punct` está no limite.** 2.67:1 entre placa e marca é o pior caso do
-conjunto e é também o papel mais frequente da árvore. Se um dia a paleta abrir,
-o certo é dar cor própria a `dist`, `utils`, `config`, `.github` e `node_modules`
-em vez de subir só a mistura desse papel.
+**O `dim` está no limite.** 3.25:1 entre placa e marca é o pior caso do conjunto,
+e ele é o pior de propósito — é a placa que recua. Se um dia a paleta abrir, o
+certo é dar cor própria a `dist`, `config`, `.github` e `node_modules` em vez de
+subir só a mistura desse papel.
+
+**Os furos são o novo lugar onde o tamanho morde.** Com a marca preenchida, o
+detalhe que era um traço virou um vão — e vão escala junto. Um buraco de 0.8u na
+grade 24 sai com 0.3px a 16px, ou seja, nada: foi o que aconteceu com as arestas
+da caixa e com o triângulo do `play` na primeira passada. O mínimo medido é
+**~1.6u**, e discos abaixo de raio **~3.4** também somem.
 
 **A espessura do produto.** A 16px o nosso glifo de produto sai com 1.35 de tinta
 e o codicon nativo com ~1.1. Lado a lado na mesma barra, o nosso lê um pouco mais

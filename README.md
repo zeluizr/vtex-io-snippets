@@ -88,10 +88,17 @@ brew install --cask font-google-sans-code
 
 ## El tema Puelche
 
-Un tema oscuro y de baja saturación, pensado para sesiones largas: la identidad de la
-extensión vive en el *chrome* de la interfaz (cursor, pestaña activa, badges), no en el
-resaltado de sintaxis, que se queda tranquilo para que puedas leer código durante horas.
-El fondo es el índigo nocturno `#17162A`; el acento de chrome, el dorado `#F6C92D`.
+Un tema oscuro pensado para sesiones largas: la identidad de la extensión vive en el
+*chrome* de la interfaz (cursor, pestaña activa, badges), no en el resaltado de sintaxis.
+
+La paleta es **propia**. Parte de cinco colores ancla, con el hex intacto —
+`#FF6E61`, `#FFB84D`, `#FCE2A1`, `#4EB7AC`, `#3C9CD7` — y todo lo que falta se deriva
+de ellos en LCh, dentro de los dos arcos de tono que las cinco dejan vacíos: el verde
+y el morado. Cada color derivado tiene coordenada; ninguno se eligió a ojo.
+
+El fondo también se deriva: el ancla azul llevada a croma bajo da el azul nocturno
+`#131F29`. El acento de chrome sigue siendo el dorado `#F6C92D` de inmmerce, porque es
+identidad de marca y no un tono de sintaxis.
 
 Actívalo con `Cmd/Ctrl + K` seguido de `Cmd/Ctrl + T` y elige **Puelche** en la lista.
 
@@ -103,21 +110,21 @@ de Prisma, una directiva de GraphQL y un título de Markdown reciben el mismo co
 todos son «estructura con nombre». Aprendes el mapa una vez y sirve para todos los
 archivos.
 
-| papel | color |
-|---|---|
-| Palabras clave | `#A78BC7` |
-| Funciones y campos | `#7FC3AE` |
-| Tipos y propiedades | `#86AECB` |
-| Strings | `#C4A47C` |
-| Números y constantes | `#C08A6B` |
-| Estructura con nombre | `#C4788F` |
-| Variables y prosa | `#D6D2DF` |
-| Puntuación | `#8A8496` |
-| Comentarios | `#9A91A8` |
+| papel | color | contraste sobre el fondo |
+|---|---|---|
+| Palabras clave | `#FF6E61` | 6.10:1 |
+| Funciones y campos | `#4EB7AC` | 6.92:1 |
+| Tipos y propiedades | `#3C9CD7` | 5.52:1 |
+| Strings | `#FCE2A1` | 13.17:1 |
+| Números y constantes | `#AA91E0` | 6.24:1 |
+| Estructura con nombre | `#FFB84D` | 9.73:1 |
+| Variables y prosa | `#F4F0E9` | 14.72:1 |
+| Puntuación | `#9C9890` | 5.82:1 |
+| Comentarios | `#91A3B1` | 6.43:1 |
 
 ### Legibilidad
 
-- Los comentarios no están apagados: quedan en 5.85:1 de contraste, por encima del mínimo
+- Los comentarios no están apagados: quedan en 6.43:1 de contraste, por encima del mínimo
   de accesibilidad. Un comentario que no se lee es un comentario que no se escribe.
 - El cuerpo de texto de Markdown se queda sin color, para que un README siga leyéndose como
   prosa y no como código.
@@ -135,11 +142,15 @@ ningún par de colores que comparten pantalla por debajo de ΔE76 10.
 tema, así que el explorador y el editor hablan el mismo idioma visual.
 
 Cada icono son dos capas: una silueta sólida — la carpeta, o la hoja de papel — con el
-color del papel semántico, y encima la marca de lo que contiene, trazada en un tono oscuro
-del mismo color. La razón es el tamaño real: en el explorador el icono se dibuja a 16px, y
-ahí un trazo de 1.33px se pierde sobre el fondo oscuro mientras que una mancha sólida se
-lee de un vistazo. El tono oscuro no se elige a ojo: es el mismo color del papel mezclado
-al 70% con el fondo del editor.
+color del papel semántico, y encima la marca de lo que contiene, **también sólida**, en un
+tono oscuro del mismo color. La razón es el tamaño real: en el explorador el icono se
+dibuja a 16px, y ahí un trazo de 1.33px se pierde sobre el fondo oscuro mientras que una
+mancha se lee de un vistazo. Eso vale para la silueta y vale para la marca: en el conjunto
+no queda un solo `stroke`. Lo que era una línea encima ahora es un hueco calado.
+
+El tono oscuro no se elige a ojo: es el mismo color del papel mezclado al 70% con el fondo
+del editor. El peor caso del conjunto queda en 3.25:1 entre silueta y marca, por encima
+del mínimo de 3:1 para elemento gráfico.
 
 Actívalos desde la paleta de comandos (`Cmd/Ctrl + Shift + P`) con
 **`Preferences: File Icon Theme`** → **Puelche**.
@@ -163,7 +174,7 @@ oficial: a ese tamaño la fidelidad se pierde y lo que queda es la silueta.
 ## Iconos de la interfaz
 
 El *product icon theme* reemplaza los iconos de la propia UI de VS Code por un conjunto
-propio, monoline: 58 glifos dibujados a mano que cubren la barra de actividad, el layout y
+propio: 58 glifos dibujados a mano que cubren la barra de actividad, el layout y
 la barra de título, la barra de estado, el árbol del explorador, pestañas y editor, paneles,
 acciones comunes y feedback. Se sirven como 93 entradas, porque 35 codicons distintos
 comparten dibujo con otro.

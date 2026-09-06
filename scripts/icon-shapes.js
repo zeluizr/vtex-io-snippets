@@ -20,9 +20,15 @@
  *
  * Regras (docs/traco-puelche.md), valem para toda forma daqui:
  *
- * - **Espessura única.** Nenhuma forma declara `stroke-width` próprio. Também
- *   nenhuma usa `scale`, que escalaria o traço junto — só o embrulho da marca
- *   escala, e lá a espessura é dividida de volta.
+ * - **A marca é ÁREA, não traço.** O `<g>` da marca preenche; nada aqui declara
+ *   `stroke`. Forma que é naturalmente área (a página, a caixa, o balão) é
+ *   silhueta cheia; forma que é naturalmente linear (a chave, o chevron, a
+ *   seta) é declarada em primitivas de traço e `scripts/stroke-outline.js`
+ *   devolve o contorno preenchido — o mesmo caminho que a fonte do product icon
+ *   theme já usava, porque fonte também não carrega traço.
+ * - **Espessura única.** Ela vive no `W` daqui, não em atributo de forma. Como
+ *   a marca agora escala junto com a espessura, a pasta aberta passou a usar a
+ *   mesma âncora da fechada — duas escalas dariam duas espessuras.
  * - **Caixa de conteúdo 2 a 22.** O desenho ocupa 20 das 24 unidades. Com o
  *   traço centrado, a tinta chega a 1 e 23.
  * - **Raio de canto 2 em toda esquina de 90°** de contorno fechado, escrito
@@ -31,14 +37,74 @@
  *   visualmente não conta. Ângulo agudo de forma orgânica (bico do funil, ponta
  *   do lápis, dobra da página) fica — a regra é sobre retângulo.
  * - **Círculo com raio ≥ 2.5**, senão some a 16px.
- * - **A marca não tem preenchimento sólido**, exceto disco de raio ≤ 1.1
- *   (`python`). Sólido é assunto da placa. Quadrado sólido não existe.
+ * - **Sólido é a regra, não a exceção.** Era o contrário enquanto a marca era
+ *   monoline: a 16px do Explorer um fio de 1.33px é quase nada, e mancha lê. A
+ *   placa já era sólida por essa razão desde o começo.
  * - **Máximo de 3 elementos por marca.** Na placa e dentro da pasta a marca sai
  *   com ~8px de lado, e desenho de quatro elementos vira borrão nesse tamanho.
  *   `test/icons.test.js` cobra.
  * - **Vão mínimo de ~1.5u entre traços vizinhos.** Dois traços a 2u de
  *   distância se encostam: cada um cresce 1u para cada lado.
  */
+
+const { outline } = require('./stroke-outline')
+
+/**
+ * Espessura do traço na grade 24, para as formas que são declaradas em
+ * primitivas. Não é a espessura final: a marca é escalada por ~0.55 antes de
+ * chegar ao SVG, então na tela ela sai em torno de 2 unidades da grade 24 — a
+ * mesma presença que o monoline tinha, agora como área.
+ */
+const W = 3.7
+
+/**
+ * Primitivas de traço -> markup de UM `<path>` preenchido. Aceita `{ fill }`
+ * com um `d` cru, que é como uma silhueta sólida entra no mesmo caminho.
+ * @param {Record<string, any>[]} prims
+ */
+const p = (prims) => `<path d="${outline(prims, { w: W })}"/>`
+
+/**
+ * Silhueta sólida com FURO, em `fill-rule="evenodd"`.
+ *
+ * O caminho normal (`p`) preenche com winding nonzero, que é o que faz traços
+ * sobrepostos se unirem sozinhos — e é exatamente por isso que ele não serve
+ * para furo: um subcaminho interno só vira buraco se estiver rebobinado ao
+ * contrário, e acertar o sentido à mão em cada `d` é como se erra. Com evenodd
+ * qualquer subcaminho de dentro é furo, sem depender do sentido.
+ *
+ * Só para forma que é área pura. Não misture com primitivas de traço: ali a
+ * sobreposição é aditiva de propósito.
+ * @param {string} nome
+ * @param {string} d
+ */
+const furado = (nome, d) => {
+  PRIM_COUNT[nome] = 1
+  return `<path fill-rule="evenodd" d="${d}"/>`
+}
+
+/**
+ * Contagem de elementos VISUAIS por forma declarada em primitivas. O markup sai
+ * sempre como um `<path>` só, então contar tag não mede mais nada — quem sabe
+ * quantos elementos a marca tem é a declaração. `test/icons.test.js` cobra o
+ * teto por aqui.
+ * @type {Record<string, number>}
+ */
+const PRIM_COUNT = {}
+
+/**
+ * Declara uma forma em primitivas, registrando quantos ELEMENTOS VISUAIS ela
+ * tem. Nem toda primitiva é um elemento: o "T" do TypeScript são duas linhas e
+ * uma letra só, a seta são haste e ponta e uma seta só. Quando os dois números
+ * divergem, `elementos` vem explícito — e é ele que o teto cobra.
+ * @param {string} nome
+ * @param {Record<string, any>[]} prims
+ * @param {number} [elementos]
+ */
+const decl = (nome, prims, elementos) => {
+  PRIM_COUNT[nome] = typeof elementos === 'number' ? elementos : prims.length
+  return p(prims)
+}
 
 /**
  * A placa de página: a silhueta que TODO ícone de arquivo usa por baixo da
@@ -90,146 +156,100 @@ function burst(angulos, raio, meiaPonta, meiaBase) {
 /** @type {Record<string, string>} */
 const SHAPES = {
   // --- estrutura e dados ---
-  braces:
-    '<path d="M8.6 2.6h-1a2 2 0 0 0-2 2v4.8a2.6 2.6 0 0 1-2.6 2.6 2.6 2.6 0 0 1 2.6 2.6v4.8a2 2 0 0 0 2 2h1"/>' +
-    '<path d="M15.4 2.6h1a2 2 0 0 1 2 2v4.8a2.6 2.6 0 0 0 2.6 2.6 2.6 2.6 0 0 0-2.6 2.6v4.8a2 2 0 0 1-2 2h-1"/>',
-  angles: '<path d="M9 5.5 2.5 12 9 18.5"/><path d="M15 5.5 21.5 12 15 18.5"/>',
+  braces: decl('braces', [{ line: [9, 3.2, 6.6, 3.2, 6.6, 10.2, 3.9, 12, 6.6, 13.8, 6.6, 20.8, 9, 20.8] }, { line: [15, 3.2, 17.4, 3.2, 17.4, 10.2, 20.1, 12, 17.4, 13.8, 17.4, 20.8, 15, 20.8] }]),
+  angles: decl('angles', [{ line: [9, 5.6, 3.2, 12, 9, 18.4] }, { line: [15, 5.6, 20.8, 12, 15, 18.4] }]),
   // uma órbita só. Três elipses e o núcleo davam quatro elementos concêntricos
   // que a 8px viram um disco; duas cruzadas viram uma lente sólida no meio.
   // Sobra a inclinada — é a metade do átomo que ainda diz React.
-  react: '<ellipse cx="12" cy="12" rx="9.6" ry="5.6" transform="rotate(-28 12 12)"/>',
+  react: decl('react', [{ dot: { cx: 12, cy: 12, r: 2.7 } }, { ring: { cx: 12, cy: 12, r: 8.4 } }]),
   // TS e JS perderam a moldura de 19x19: a moldura virou a placa. Sobram as
   // duas letras, ocupando a caixa inteira — a 8px cada letra tem ~4px e é o
   // limite do que dá para ler. O que separa .ts de .js na árvore é a cor.
-  typescript:
-    '<path d="M2.4 4.8h11.2M8 4.8v14.4"/>' +
-    '<path d="M21.2 5.6c-3-1.3-6-.2-6 2 0 3.6 6.4 2.5 6.4 6.1 0 2.7-3.2 3.8-6.4 2.1"/>',
-  javascript:
-    '<path d="M11.6 3.8v11.6c0 3-2 4.8-4.8 4.8-2.3 0-4-1.1-4.9-2.9"/>' +
-    '<path d="M21.2 5.6c-3-1.3-6-.2-6 2 0 3.6 6.4 2.5 6.4 6.1 0 2.7-3.2 3.8-6.4 2.1"/>',
+  typescript: decl('typescript', [{ line: [3.6, 5.4, 20.4, 5.4] }, { line: [12, 5.4, 12, 20.4] }], 1),
+  javascript: decl('javascript', [{ line: [17.4, 4.4, 17.4, 15.6, 15, 20, 10, 20, 6.6, 17.4] }], 1),
   python:
     '<path d="M14 2.6c-4.1 0-5.4 1.6-5.4 4.1v2.7h5.7v1.2H6.7c-2.5 0-4.2 1.6-4.2 5.4s1.8 5.4 4.2 5.4h1.9v-3.5' +
     'c0-2.6 1.9-4.5 4.5-4.5h4.6c2.2 0 3.8-1.6 3.8-3.8V6.6c0-2.5-1.9-4.1-5.4-4.1z"/>' +
     '<circle cx="11.1" cy="6.4" r="1.1" fill="@c" stroke="none"/>',
 
   // --- estilo ---
-  brush:
-    '<path d="M4.5 15.8 16 4.3a3.2 3.2 0 0 1 4.5 4.5L9 20.3"/>' +
-    '<path d="M4.5 15.8c-2 2-1.3 5-1.3 5s3 .7 5-1.3"/>',
+  brush: decl('brush', [{ line: [11.4, 11.2, 19.6, 3.6], stroke: 4.8 }, { fill: 'M3.4 21.2c-.3-4 1.2-6.9 4.1-7.7l4.2 4.2c-1 2.9-4 4-8.3 3.5z' }]),
   droplet: '<path d="M12 2.6c0 0 7 7.6 7 11.8a7 7 0 0 1-14 0c0-4.2 7-11.8 7-11.8z"/>',
 
   // --- documentos ---
   // linhas de texto, sem a página em volta: a página já é a placa. A última
   // linha é mais curta — é a assimetria que faz a marca ler a 8px.
-  doc: '<path d="M3 5.4h18M3 12h18M3 18.6h11.4"/>',
+  doc: decl('doc', [{ line: [3.6, 6, 20.4, 6] }, { line: [3.6, 12, 20.4, 12] }, { line: [3.6, 18, 14.4, 18] }], 1),
   // a seta do logo do Markdown, dentro da página. O "M" ao lado dela cabe a
   // 32px e vira borrão a 16 — sobra a seta, que é a metade memorável da marca.
-  markdown: '<path d="M12 3.6v11.6M6 9.8 12 15.8l6-6"/>',
+  markdown: decl('markdown', [{ line: [12, 3.8, 12, 15.4] }, { line: [6.4, 10, 12, 15.6, 17.6, 10] }], 1),
   // as quatro quinas externas do livro eram os únicos 90° vivos que sobraram
   // fora dos retângulos: viraram arco de raio 2 como o resto do conjunto.
   // livro fechado, com a lombada arredondada à esquerda. O livro ABERTO — duas
   // folhas mais o vinco no meio — tem três verticais quase iguais e na placa
   // vira "|||". A lombada é a assimetria que faz a marca ler.
-  book:
-    '<path d="M6 2.6h15v18.8H6a3 3 0 0 1-3-3V5.6a3 3 0 0 1 3-3z"/>' +
-    '<path d="M3 18.4A3 3 0 0 1 6 15.4h15"/>',
-  history: '<circle cx="12" cy="12" r="9.5"/><path d="M12 6.3V12l3.9 2.4"/>',
-  license: SHIELD + '<path d="M8.4 12.1 11 14.7l4.8-4.9"/>',
-
+  book: decl('book', [{ fill: 'M5.6 2.8h14a.8.8 0 0 1 .8.8v16.8a.8.8 0 0 1-.8.8h-14a2.4 2.4 0 0 1-2.4-2.4V5.2a2.4 2.4 0 0 1 2.4-2.4z M7.6 5.2 7.6 18.8 9.6 18.8 9.6 5.2z' }], 1),
+  history: decl('history', [{ ring: { cx: 12, cy: 12, r: 8.8 } }, { line: [12, 6.8, 12, 12, 15.8, 14.2] }]),
+  license: decl('license', [{ line: [12, 2.8, 19.8, 5.8, 19.8, 12, 12, 21, 4.2, 12, 4.2, 5.8, 12, 2.8], close: true }, { line: [8.4, 12, 11, 14.6, 15.8, 9.8] }]),
   // --- mídia e binário ---
-  image:
-    '<circle cx="7" cy="7" r="2.6"/>' +
-    '<path d="M2.6 20.4 10.2 12.8a2 2 0 0 1 2.8 0l8.4 8.4"/>',
+  image: decl('image', [{ dot: { cx: 7.6, cy: 7.4, r: 3.2 } }, { fill: 'M2.8 20.6 9.8 13.6a2 2 0 0 1 2.8 0l7 7z' }]),
   // triângulo + quadrado arredondado + círculo: o léxico de "formas vetoriais".
   // O antigo era um quadrado com quatro alças sólidas — dois níveis de quadrado.
-  vector:
-    '<path d="M11.2 2.6 17.4 12.4H5z"/>' +
-    '<circle cx="16.6" cy="17" r="4.4"/>',
-  font: '<path d="M4 20.5 12 3.5l8 17"/><path d="M7.3 14.5h9.4"/>',
+  vector: decl('vector', [{ fill: 'M11.2 3.2 17 12.4H5.4z' }, { ring: { cx: 16.4, cy: 17, r: 4.2 } }]),
+  font: decl('font', [{ line: [4.4, 20.4, 12, 4, 19.6, 20.4] }, { line: [7.6, 14.4, 16.4, 14.4] }], 1),
   // sem o trinco: a 8px ele é um traço de meio pixel no meio da caixa.
-  archive:
-    '<rect x="2.5" y="2.8" width="19" height="5.4" rx="2"/>' +
-    '<path d="M4.6 8.2v11a2 2 0 0 0 2 2h10.8a2 2 0 0 0 2-2v-11"/>',
-  play: '<circle cx="12" cy="12" r="9.5"/><path d="M10 8.6 16.4 12 10 15.4z"/>',
-  audio:
-    '<path d="M9.4 17.2V4.4L20.2 2.2v12"/>' +
-    '<circle cx="6.2" cy="17.2" r="3.2"/>',
-
+  archive: decl('archive', [{ fill: 'M4 3.4h16a1.6 1.6 0 0 1 1.6 1.6v2.4A1.6 1.6 0 0 1 20 9H4a1.6 1.6 0 0 1-1.6-1.6V5A1.6 1.6 0 0 1 4 3.4z' }, { fill: 'M4.8 10.8h14.4v8.4a1.8 1.8 0 0 1-1.8 1.8H6.6a1.8 1.8 0 0 1-1.8-1.8z' }]),
+  play: furado('play', 'M12 2.6a9.4 9.4 0 1 1 0 18.8 9.4 9.4 0 0 1 0-18.8z M9 6.9 9 17.1 17.6 12z'),
+  audio: decl('audio', [{ line: [9.6, 17, 9.6, 4.6, 20, 2.4, 20, 14.2] }, { dot: { cx: 6.2, cy: 17, r: 3.6 } }]),
   // --- configuração e ferramentas ---
   // dois cursores num trilho. A engrenagem de 6 dentes é o desenho certo a 24px
   // e uma bolha dentada a 8px: anel, dentes e miolo se encostam. O par de
   // trilhos com o cursor deslocado é assimétrico e diz "ajuste" no mesmo tanto.
-  gear: '<path d="M3 8.2h18M3 16.8h18"/><path d="M8.4 5.4v5.6M15.6 14v5.6"/>',
-  lock:
-    '<rect x="3" y="10" width="18" height="11.4" rx="2"/>' +
-    '<path d="M7 10V6.6a5 5 0 0 1 10 0V10"/>',
+  gear: decl('gear', [{ line: [3.4, 8.4, 20.6, 8.4] }, { line: [3.4, 16, 20.6, 16] }, { line: [8.6, 5.6, 8.6, 11.2] }, { line: [15.4, 13.2, 15.4, 18.8] }], 2),
+  lock: decl('lock', [{ fill: 'M4.6 10.6h14.8a1.8 1.8 0 0 1 1.8 1.8v7.4a1.8 1.8 0 0 1-1.8 1.8H4.6a1.8 1.8 0 0 1-1.8-1.8v-7.4a1.8 1.8 0 0 1 1.8-1.8z' }, { arc: { cx: 12, cy: 8.8, r: 4.4, from: 180, to: 360 } }]),
   // um dente só: a 8px os dois ficam a 1px um do outro e viram um borrão sobre
   // a haste. Anel mais diagonal já é a silhueta da chave.
-  key: '<circle cx="7.8" cy="16.2" r="4.3"/><path d="M10.8 13.2 21 3M17.4 6.6 19.2 8.4"/>',
+  key: decl('key', [{ ring: { cx: 7.6, cy: 16.4, r: 4 } }, { line: [10.6, 13.4, 20.4, 3.6] }, { line: [17.2, 6.8, 19.2, 8.8] }], 2),
   // sem moldura: o terminal do Lucide é só o prompt e a linha de comando.
-  terminal: '<path d="M3 5 10.5 12 3 19"/><path d="M13 19h8"/>',
+  terminal: decl('terminal', [{ line: [3.6, 5.4, 10.6, 12, 3.6, 18.6] }, { line: [13, 18.6, 20.4, 18.6] }]),
   wrench:
     '<path d="M16.8 3.4a6 6 0 0 0-7.3 7.9l-6.2 6.2a2.4 2.4 0 0 0 3.4 3.4l6.2-6.2' +
     'a6 6 0 0 0 7.9-7.3l-3.6 3.6-2.8-2.8z"/>',
-  flask:
-    '<path d="M9.2 2.8v6.6L3.6 17.6c-1 1.8.3 3.6 2.3 3.6h12.2c2 0 3.3-1.8 2.3-3.6l-5.6-8.2V2.8"/>' +
-    '<path d="M8 2.8h8M6.6 14.4h10.8"/>',
-  slash: '<circle cx="12" cy="12" r="9.5"/><path d="M5.3 5.3 18.7 18.7"/>',
-  box: '<path d="M12 2.4 21.2 7.6v8.8L12 21.6 2.8 16.4V7.6z"/><path d="M2.8 7.6 12 12.8l9.2-5.2M12 12.8v8.8"/>',
-  layers:
-    '<path d="M12 2.4 2.6 7.3 12 12.2l9.4-4.9z"/>' +
-    '<path d="M2.6 12.2 12 17.1l9.4-4.9M2.6 16.5 12 21.4l9.4-4.9"/>',
+  flask: decl('flask', [{ fill: 'M9.2 2.8h5.6v6.8l5.4 8c.9 1.4-.1 3-1.8 3H5.6c-1.7 0-2.7-1.6-1.8-3l5.4-8z' }], 1),
+  slash: decl('slash', [{ ring: { cx: 12, cy: 12, r: 8.8 } }, { line: [5.8, 5.8, 18.2, 18.2] }]),
+  box: furado('box', 'M12 2.6 21 7.8v8.4L12 21.4 3 16.2V7.8z M11.1 12.6 3.4 8.1v2L11.1 14.6v6.2h1.8v-6.2L20.6 10.1v-2L12.9 12.6z'),
+  layers: decl('layers', [{ fill: 'M12 2.4 21.4 7.3 12 12.2 2.6 7.3z' }, { line: [2.8, 12.8, 12, 17.6, 21.2, 12.8] }]),
   // grade 2x2 de peças: só a pasta de componentes usa. Blocos VTEX são
   // composição e ganharam forma própria (`blocks`).
   grid:
     '<rect x="2.8" y="2.8" width="7.2" height="7.2" rx="2"/><rect x="14" y="2.8" width="7.2" height="7.2" rx="2"/>' +
     '<rect x="2.8" y="14" width="7.2" height="7.2" rx="2"/><rect x="14" y="14" width="7.2" height="7.2" rx="2"/>',
   // dois blocos que se encaixam, um deslocado do outro: bloco VTEX é composição.
-  blocks:
-    '<rect x="2.6" y="6.6" width="14.8" height="14.8" rx="2"/>' +
-    '<rect x="12.6" y="2.6" width="8.8" height="8.8" rx="2"/>',
+  blocks: decl('blocks', [{ fill: 'M4.4 10.8h8.6a1.8 1.8 0 0 1 1.8 1.8v7.6a1.8 1.8 0 0 1-1.8 1.8H4.4a1.8 1.8 0 0 1-1.8-1.8v-7.6a1.8 1.8 0 0 1 1.8-1.8z' }, { rect: { x: 13.6, y: 3.4, w: 7.6, h: 7.6, r: 2 } }]),
   // os três discos viraram três traços curtos: disco de raio 1.1 na marca sai
   // com 1px e some, e traço curto lê como marcador do mesmo jeito.
-  list:
-    '<path d="M9.4 5.4h12M9.4 12h12M9.4 18.6h12"/>' +
-    '<path d="M2.6 5.4h2.4M2.6 12h2.4M2.6 18.6h2.4"/>',
-  table:
-    '<rect x="2.6" y="3.4" width="18.8" height="17.2" rx="2"/>' +
-    '<path d="M2.6 9.4h18.8M9.6 9.4v11.2"/>',
-
+  list: decl('list', [{ line: [9.6, 5.6, 20.4, 5.6] }, { line: [9.6, 12, 20.4, 12] }, { line: [9.6, 18.4, 20.4, 18.4] }, { dot: { cx: 4.4, cy: 5.6, r: 1.5 } }, { dot: { cx: 4.4, cy: 12, r: 1.5 } }, { dot: { cx: 4.4, cy: 18.4, r: 1.5 } }], 2),
+  table: decl('table', [{ rect: { x: 3.2, y: 4, w: 17.6, h: 16, r: 2 } }, { line: [3.2, 9.8, 20.8, 9.8] }]),
   // --- dados e rede ---
   // hexágono com o triângulo dentro: é a marca do GraphQL reduzida a dois
   // elementos. Os três nós ligados por três arestas eram quatro elementos.
-  graph:
-    '<path d="M12 2.4 20.6 7.4v9.2L12 21.6 3.4 16.6V7.4z"/>' +
-    '<path d="M12 8.8 15.8 15.4H8.2z"/>',
+  graph: decl('graph', [{ fill: 'M12 2.4 20.6 7.4v9.2L12 21.6 3.4 16.6V7.4z M12 8.8 8.2 15.4 15.8 15.4z' }], 1),
   // sem a divisória do meio: a 8px ela fica a menos de 1px do tampo e as duas
   // curvas viram uma faixa grossa só.
-  database:
-    '<ellipse cx="12" cy="5.4" rx="8.6" ry="3.4"/>' +
-    '<path d="M3.4 5.4v13.2c0 1.9 3.9 3.4 8.6 3.4s8.6-1.5 8.6-3.4V5.4"/>',
+  database: furado('database', 'M12 2.4c4.8 0 8.6 1.5 8.6 3.4v12.4c0 1.9-3.8 3.4-8.6 3.4s-8.6-1.5-8.6-3.4V5.8c0-1.9 3.8-3.4 8.6-3.4z M12 9.6c-3.5 0-6.6-.8-8.1-2v1.4c1.5 1.2 4.6 2 8.1 2s6.6-.8 8.1-2V7.6c-1.5 1.2-4.6 2-8.1 2z M12 15.4c-3.5 0-6.6-.8-8.1-2v1.4c1.5 1.2 4.6 2 8.1 2s6.6-.8 8.1-2v-1.4c-1.5 1.2-4.6 2-8.1 2z'),
   cloud: '<path d="M7 20a4.6 4.6 0 0 1-.5-9.2 6.2 6.2 0 0 1 11.8 1.5 3.9 3.9 0 0 1-.6 7.7z"/>',
-  hex: '<path d="M12 2.3 20.6 7.3v9.4L12 21.7 3.4 16.7V7.3z"/><path d="M9 15.8V8.6l6 6.8V8.2"/>',
-
+  hex: decl('hex', [{ fill: 'M12 2.3 20.6 7.3v9.4L12 21.7 3.4 16.7V7.3z' }], 1),
   // --- identidade VTEX ---
   // o toldo e o festão saem no MESMO path: eram dois traços a 0.5u um do
   // outro, e a 8px encostavam e viravam uma barra grossa.
-  message:
-    '<path d="M4.6 3.4h14.8a2 2 0 0 1 2 2v9.6a2 2 0 0 1-2 2h-8.4l-4.6 4.2v-4.2H4.6a2 2 0 0 1-2-2V5.4a2 2 0 0 1 2-2z"/>' +
-    '<path d="M7.6 10.2h8.8"/>',
+  message: decl('message', [{ fill: 'M4.6 3.4h14.8a2 2 0 0 1 2 2v9.6a2 2 0 0 1-2 2h-8.4l-4.6 4.2v-4.2H4.6a2 2 0 0 1-2-2V5.4a2 2 0 0 1 2-2z' }], 1),
   // farol de rastreamento: núcleo e duas ondas. O antigo era um tabuleiro de
   // dois quadrantes sólidos — quadrado sólido não existe neste conjunto.
-  pixel:
-    '<circle cx="12" cy="12" r="3"/>' +
-    '<path d="M8.8 20A8.6 8.6 0 0 1 8.8 4"/><path d="M15.2 4a8.6 8.6 0 0 1 0 16"/>',
-  shield:
-    SHIELD +
-    '<circle cx="12" cy="10.4" r="2.3"/><path d="M8.1 17.4c.7-2.2 2.2-3.5 3.9-3.5s3.2 1.3 3.9 3.5"/>',
+  pixel: decl('pixel', [{ dot: { cx: 12, cy: 12, r: 3.6 } }, { arc: { cx: 12, cy: 12, r: 7.8, from: 110, to: 250 } }, { arc: { cx: 12, cy: 12, r: 7.8, from: 290, to: 70 } }], 2),
+  shield: decl('shield', [{ fill: 'M12 2.5 20.2 5.5v6.4c0 4.5-3.3 8.3-8.2 9.8-4.9-1.5-8.2-5.3-8.2-9.8V5.5z' }], 1),
   // um nó só, na origem, e o cotovelo terminando em seta. Dois círculos iguais
   // nas pontas são duas manchas idênticas a 8px e não dizem direção.
-  route:
-    '<circle cx="5.4" cy="5.4" r="3"/>' +
-    '<path d="M5.4 8.4v8.6a2 2 0 0 0 2 2h11.2M15.4 15.2 19.2 19l-3.8 3.8"/>',
+  route: decl('route', [{ dot: { cx: 6, cy: 6, r: 3.6 } }, { line: [6, 10, 6, 17, 18.4, 17] }, { line: [15.2, 13.6, 18.8, 17, 15.2, 20.4] }], 2),
   // o V duplo da marca Vue
   vue: '<path d="M2.6 4.4h4.4L12 13.2l5-8.8h4.4L12 21.2z"/><path d="M8.8 4.4 12 9.8l3.2-5.4"/>',
 
@@ -247,9 +267,7 @@ const SHAPES = {
     '<path d="M4.6 7.6h14.8l-1.3 11.8a2 2 0 0 1-2 1.8H7.9a2 2 0 0 1-2-1.8z"/>' +
     '<path d="M8.8 10.4V6.6a3.2 3.2 0 0 1 6.4 0v3.8"/>',
   // Casa: telhado mais corpo. É a `home` do tema.
-  home:
-    '<path d="M2.8 10.6 12 3l9.2 7.6"/>' +
-    '<path d="M5.2 8.8v10.4a2 2 0 0 0 2 2h9.6a2 2 0 0 0 2-2V8.8"/>',
+  home: decl('home', [{ fill: 'M12 2.8 21.4 10.8v8.4a2 2 0 0 1-2 2H4.6a2 2 0 0 1-2-2v-8.4z' }], 1),
   // Etiqueta de preço — a única forma do conjunto orientada na diagonal e
   // fechada: quina reta em cima à esquerda, bico embaixo à direita. Era o badge
   // da vitrine; virou `product`, que é o que ela sempre disse.
@@ -267,32 +285,23 @@ const SHAPES = {
     '<path d="M2.8 10.4 21.2 5.2v13.6L2.8 13.6z"/>' +
     '<path d="M11.4 16.4a3.2 3.2 0 0 1-6.2-1.7"/>',
   // Lupa: a busca do tema (`search`, `plp`, `category`).
-  search: '<circle cx="10.4" cy="10.4" r="7.4"/><path d="M15.9 15.9 21.2 21.2"/>',
+  search: decl('search', [{ ring: { cx: 10.6, cy: 10.6, r: 7 } }, { line: [15.8, 15.8, 20.6, 20.6] }]),
   // Cabeçalho e rodapé: a caixa cheia marca de que lado da página a pasta mora.
   // São a mesma forma espelhada, e é o espelho que as distingue a 8px.
-  header:
-    '<rect x="2.6" y="3.4" width="18.8" height="6.6" rx="2"/>' +
-    '<path d="M2.6 14h18.8M2.6 19h12.4"/>',
-  footer:
-    '<path d="M2.6 5h18.8M2.6 10h12.4"/>' +
-    '<rect x="2.6" y="14" width="18.8" height="6.6" rx="2"/>',
+  header: decl('header', [{ fill: 'M4.8 3.8h14.4a2 2 0 0 1 2 2v2.6a2 2 0 0 1-2 2H4.8a2 2 0 0 1-2-2V5.8a2 2 0 0 1 2-2z' }, { line: [3.4, 14.6, 20.6, 14.6] }, { line: [3.4, 19.2, 15, 19.2] }], 2),
+  footer: decl('footer', [{ line: [3.4, 5, 20.6, 5] }, { line: [3.4, 9.6, 15, 9.6] }, { fill: 'M4.8 13.6h14.4a2 2 0 0 1 2 2v2.6a2 2 0 0 1-2 2H4.8a2 2 0 0 1-2-2v-2.6a2 2 0 0 1 2-2z' }], 2),
   // Pessoa: `account`, `login`, `my-account`. O cadeado já é `admin`.
-  person:
-    '<circle cx="12" cy="7.4" r="4.4"/>' +
-    '<path d="M4.2 21.2v-1.6a5 5 0 0 1 5-5h5.6a5 5 0 0 1 5 5v1.6"/>',
+  person: decl('person', [{ dot: { cx: 12, cy: 7.6, r: 4.2 } }, { fill: 'M12 13.6c4.4 0 8 2.8 8 6.2v1.4H4v-1.4c0-3.4 3.6-6.2 8-6.2z' }]),
   // Hierarquia: haste com dois braços de comprimentos diferentes. O nó em cima
   // com dois embaixo — stem mais arco — lia como a mesma letra "A" da pasta
   // `fonts`; a haste lateral tem direção e nenhuma outra marca do conjunto tem.
-  sitemap: '<path d="M6 3.4v17.2"/><path d="M6 9.4h7.4M6 16.6h11.4"/>',
-
+  sitemap: decl('sitemap', [{ line: [6.2, 3.6, 6.2, 20.4] }, { line: [6.2, 9.6, 13.6, 9.6] }, { line: [6.2, 16.4, 17.6, 16.4] }], 1),
   // --- placas (preenchidas, cor do papel) ---
   plate: PLATE,
   // pasta sólida em 0.5..23.5 x 2..22, pela mesma conta da placa: área não
   // obedece à caixa do traço, e o que sobra de alavanca de tamanho é ocupar
   // mais da caixa de 24.
-  folder:
-    '<path d="M.5 20V4a2 2 0 0 1 2-2h5.8l3 3.4H21.5a2 2 0 0 1 2 2v12.6' +
-    'a2 2 0 0 1-2 2H2.5a2 2 0 0 1-2-2z"/>',
+  folder: '<path d="M.5 20V4a2 2 0 0 1 2-2h5.8l3 3.4H21.5a2 2 0 0 1 2 2v12.6a2 2 0 0 1-2 2H2.5a2 2 0 0 1-2-2z"/>',
   // pasta aberta: a parede de trás no tom escuro e a faixa da frente na cor do
   // papel. Duas manchas da MESMA cor não leem como aberta — a silhueta sozinha
   // vira uma pasta mordida. O que separa as duas é o tom, não o contorno: a
@@ -400,9 +409,7 @@ const SHAPES = {
   // divisória + trinco — a 7px some. E para uma pasta de build a seta diz
   // melhor "saída" do que a caixa de zip. A seta encurtou e as pernas do
   // bico abriram: com 4.4u de perna o V fechava contra a haste.
-  archiveBadge:
-    '<path d="M3.2 14.4v4.2a2 2 0 0 0 2 2h13.6a2 2 0 0 0 2-2v-4.2"/>' +
-    '<path d="M12 2.6v7.8M7.4 5.8 12 10.4l4.6-4.6"/>',
+  archiveBadge: decl('archiveBadge', [{ line: [12, 2.8, 12, 10.2] }, { line: [7.4, 5.8, 12, 10.4, 16.6, 5.8] }, { line: [3.6, 14.4, 3.6, 18.6, 20.4, 18.6, 20.4, 14.4] }], 2),
   // `docs`: página com o canto dobrado grande. O livro aberto de duas folhas
   // (a versão anterior) tem três verticais quase iguais e a 7px vira um bloco
   // fechado. O corte do canto é a assimetria e por isso é exagerado: 8u de
@@ -411,17 +418,15 @@ const SHAPES = {
   bookBadge:
     '<path d="M11.4 2.8H6.6a2 2 0 0 0-2 2v14.4a2 2 0 0 0 2 2h10.8a2 2 0 0 0 2-2v-8.4z"/>',
   // `scripts`: o mesmo `>_`, ocupando a caixa inteira.
-  terminalBadge: '<path d="M2.6 3.4 13.4 12 2.6 20.6"/><path d="M14.6 20.6h6.8"/>',
+  terminalBadge: decl('terminalBadge', [{ line: [3.2, 3.8, 12.8, 12, 3.2, 20.2] }, { line: [14.8, 20.2, 20.8, 20.2] }]),
   // `schemas`: moldura com faixa de cabeçalho, sem a divisória vertical.
-  tableBadge: '<rect x="2.6" y="3.4" width="18.8" height="17.2" rx="2"/><path d="M2.6 9.4h18.8"/>',
+  tableBadge: decl('tableBadge', [{ rect: { x: 3.2, y: 4, w: 17.6, h: 16, r: 2 } }, { line: [3.2, 9.8, 20.8, 9.8] }]),
   // `images`: moldura com um pico só. O disco do sol some antes de ajudar.
-  imageBadge:
-    '<rect x="2.5" y="2.5" width="19" height="19" rx="2"/>' +
-    '<path d="M2.7 19 9.6 12.1a2.4 2.4 0 0 1 3.4 0l5.6 5.6"/>',
+  imageBadge: decl('imageBadge', [{ rect: { x: 3.2, y: 3.2, w: 17.6, h: 17.6, r: 2 } }, { fill: 'M4.8 19.4 9.8 14.4a2 2 0 0 1 2.8 0l5 5z' }]),
   // `assets`: duas camadas, as duas abertas. O losango fechado da versão
   // anterior tem 10.8u de altura e a caneta come 8.6 — sobra 2u de miolo, ou
   // seja, uma barra sólida. Duas setas em V abertas guardam o vão inteiro.
-  layersBadge: '<path d="M2.8 7.2 12 12.4l9.2-5.2"/><path d="M2.8 14.6 12 19.8l9.2-5.2"/>',
+  layersBadge: decl('layersBadge', [{ line: [3.2, 7.6, 12, 12.4, 20.8, 7.6] }, { line: [3.2, 14.8, 12, 19.6, 20.8, 14.8] }]),
   // `node`: só o hexágono. É a marca mais fraca do conjunto e está assumida
   // como tal: hexágono a 7px é um anel, e anel é a bolha do diagnóstico. Fica
   // porque é a única forma fechada e convexa que sobrou entre as 27 pastas —
@@ -434,8 +439,7 @@ const SHAPES = {
     '<rect x="13" y="13" width="8.4" height="8.4" rx="2"/>',
   // `types`: o "T" sozinho, sem moldura — a moldura é que empatava com
   // `schemas`.
-  typescriptBadge: '<path d="M3.6 6h16.8M12 6v14"/>',
-
+  typescriptBadge: decl('typescriptBadge', [{ line: [3.6, 6.2, 20.4, 6.2] }, { line: [12, 6.2, 12, 20] }], 1),
   // `pixel`: o farol deixa de emitir para os dois lados e passa a emitir de um
   // canto só — dois arcos concêntricos e a fonte. Anel + anel + núcleo, que é
   // o desenho de arquivo, é o caso puro de simetria central.
@@ -443,68 +447,58 @@ const SHAPES = {
   // 4.3u de largura e um disco de raio 1.1 sumiria debaixo dela.
   // sem a fonte: um disco de raio 1.2 sai com meio pixel e some debaixo do
   // arco de dentro. Os dois arcos concêntricos já apontam para o mesmo canto.
-  pixelBadge:
-    '<path d="M4.6 12.4a7 7 0 0 1 7 7"/>' +
-    '<path d="M4.6 5.4a14 14 0 0 1 14 14"/>',
+  pixelBadge: decl('pixelBadge', [{ arc: { cx: 4.8, cy: 19.2, r: 7, from: 270, to: 360 } }, { arc: { cx: 4.8, cy: 19.2, r: 13.4, from: 270, to: 360 } }], 2),
   // `admin`: cadeado. O escudo tem contorno curvo em volta inteira e a 7px
   // arredonda para um seixo; nem a ponta de baixo sobrevive. Tentei antes a
   // pessoa (cabeça + ombros): a cabeça e o arco se encostam e o conjunto lê
   // como um "A" — a mesma marca da pasta `fonts`. O cadeado diz o mesmo do
   // escudo (área restrita) e tem os dois pesos separados por um vão real:
   // o arco da haste em cima, o corpo embaixo.
-  shieldBadge:
-    '<rect x="3.4" y="10.4" width="17.2" height="11" rx="2.4"/>' +
-    '<path d="M7.4 10.4V7.4a4.6 4.6 0 0 1 9.2 0v3"/>',
+  shieldBadge: decl('shieldBadge', [{ fill: 'M5.2 10.8h13.6a1.8 1.8 0 0 1 1.8 1.8v6.2a1.8 1.8 0 0 1-1.8 1.8H5.2a1.8 1.8 0 0 1-1.8-1.8v-6.2a1.8 1.8 0 0 1 1.8-1.8z' }, { arc: { cx: 12, cy: 9.2, r: 4.4, from: 180, to: 360 } }]),
   tagBadge:
     '<path d="M12.6 2.6H4.6a2 2 0 0 0-2 2v8a2 2 0 0 0 .6 1.4l7.4 7.4a2.4 2.4 0 0 0 3.4 0' +
     'l6.6-6.6a2.4 2.4 0 0 0 0-3.4L14 3.2a2 2 0 0 0-1.4-.6z"/>',
   // `data`: três barras em escada. O cilindro é elipse sobre elipse — simetria
   // central com miolo de 1.5px, o retrato do borrão. A escada tem direção
   // (sobe para a direita) e continua dizendo "dado".
-  databaseBadge: '<path d="M4.4 20.4V13M12 20.4V7.8M19.6 20.4V3.6"/>',
+  databaseBadge: decl('databaseBadge', [{ line: [4.6, 20.4, 4.6, 13.4] }, { line: [12, 20.4, 12, 8] }, { line: [19.4, 20.4, 19.4, 3.8] }], 1),
   // `src` e `modules`: a metade assimétrica de `</>`. O cubo isométrico é um
   // hexágono, e hexágono a 7px é anel — ainda por cima o mesmo anel de `node`.
   // As duas pastas compartilham a forma em data/icons.json, então a marca tem
   // de servir às duas: "código empacotado" serve.
-  boxBadge: '<path d="M9.4 5.6 2.8 12l6.6 6.4"/><path d="M19.8 4.4 13.2 19.6"/>',
+  boxBadge: decl('boxBadge', [{ line: [9.4, 5.8, 3.4, 12, 9.4, 18.2] }, { line: [19.2, 4.8, 13.6, 19.2] }]),
   // `snippets`: uma chave só, ocupando a caixa inteira. `{}` espelhado é
   // simétrico e, pior, as duas chaves se fecham no meio. E a chave precisa de
   // 5.6u de reentrância para a barriga aparecer — com os 2.4u do desenho de
   // arquivo ela vira um "C". Os arcos são elípticos (5.6 x 3) justamente
   // porque a reentrância tem de ser larga sem gastar altura, e as hastes retas
   // de 3.6u são o que separa a chave do "<" de `src`.
-  bracesBadge:
-    '<path d="M15.6 3h-1.4a2.4 2.4 0 0 0-2.4 2.4v3.6a5.6 3 0 0 1-5.6 3 5.6 3 0 0 1 5.6 3' +
-    'v3.6a2.4 2.4 0 0 0 2.4 2.4h1.4"/>',
+  bracesBadge: decl('bracesBadge', [{ line: [15.4, 3.4, 13.4, 3.4, 13.4, 10.2, 10.6, 12, 13.4, 13.8, 13.4, 20.6, 15.4, 20.6] }], 1),
   // `messages`: bandeira. O balão de fala não sobrevive: com 13u de altura o
   // miolo tem 1.2px e a cauda, que é toda a assimetria, some como um entalhe
   // no canto — testei balão oval, balão com cauda grande e envelope, e os três
   // leem como "retângulo com um furo". A bandeira é a convenção de
   // `locales`/`i18n` e tem silhueta de um lado só: mastro à esquerda, pano à
   // direita, com o rabo de andorinha recortado.
-  messageBadge:
-    '<path d="M5.2 3.4v18"/><path d="M5.2 4.4h14.2l-3.4 4.8 3.4 4.8H5.2z"/>',
+  messageBadge: decl('messageBadge', [{ line: [5.4, 3.4, 5.4, 20.6] }, { fill: 'M5.4 4.6h13.8l-3.2 4.6 3.2 4.6H5.4z' }]),
   // `graphql`: dois nós e a aresta entre eles. O triângulo de três nós fecha
   // um miolo minúsculo e vira mancha. A diagonal é a "\", ao contrário da "/"
   // de `styles` e `utils` — a 7px o sentido da diagonal é informação legível.
-  graphBadge:
-    '<circle cx="5.8" cy="5.8" r="2.8"/>' +
-    '<path d="M8.3 8.3 21 21"/>',
+  graphBadge: decl('graphBadge', [{ dot: { cx: 6.4, cy: 6.4, r: 4 } }, { line: [9.4, 9.4, 20.4, 20.4] }]),
   // `test`: o visto. O frasco tem gargalo estreito sobre corpo cônico e a 7px
   // as duas diagonais convergem: sai um triângulo com haste, que é a mesma
   // mancha do "A" de `fonts` (conferido lado a lado, ampliado). Alarguei o
   // gargalo para 6u e ainda lia como "A". O visto é o que a pasta guarda —
   // prova que passou — e é a única diagonal quebrada do conjunto.
-  flaskBadge: '<path d="M3.4 12.6 9.4 18.6 20.6 6.4"/>',
+  flaskBadge: decl('flaskBadge', [{ line: [3.6, 12.6, 9.4, 18.4, 20.4, 6.6] }], 1),
   // `hooks`: o caminho que dobra, agora com bico. Os dois nós do `route` viram
   // dois pontos e o percurso entre eles some; a ponta de seta diz sozinha que
   // aquilo é passagem, e diz para onde.
-  routeBadge:
-    '<path d="M4.8 3.6v9.6a3.6 3.6 0 0 0 3.6 3.6h11"/><path d="M15.4 12.8 19.8 17.2 15.4 21.6"/>',
+  routeBadge: decl('routeBadge', [{ line: [5, 3.8, 5, 13.4, 18.6, 13.4] }, { line: [15.2, 10, 18.6, 13.4, 15.2, 16.8] }], 1),
   // `clients`: a mesma nuvem, esticada para ocupar a caixa inteira. Ela já era
   // de um elemento só e assimétrica; o que faltava era altura — com 14u de
   // altura o miolo tinha 1.5px e fechava.
   cloudBadge: '<path d="M7 20.6a5.4 5.4 0 0 1-.6-10.8 7.4 7.4 0 0 1 14 2 4.6 4.6 0 0 1-1.8 8.8z"/>',
 }
 
-module.exports = { SHAPES }
+module.exports = { SHAPES, PRIM_COUNT }

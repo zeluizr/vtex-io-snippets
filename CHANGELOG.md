@@ -25,6 +25,64 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
   Es exactamente el modo de falla contra el que existe ese check. Editar la salida en vez de
   la fuente no se sostiene: el generador es determinista y siempre gana.
 
+## [4.0.0] - 2026-09-06
+
+Dos cambios de fondo a la vez, y los dos se ven apenas abrís el editor: la paleta pasa a
+ser propia, y la marca de los iconos deja de ser trazo.
+
+### Cambiado
+
+- **La paleta ahora es de la casa.** Venía prestada de un tema de terceros, y eso era una
+  dependencia de identidad en un producto que es de inmmerce. El motivo del cambio no fue
+  estético, fue ese. La base son **cinco colores dados, con el hex intacto**: `#FF6E61`,
+  `#FFB84D`, `#FCE2A1`, `#4EB7AC` y `#3C9CD7`.
+- **Lo que falta se deriva, no se inventa.** Cinco colores no alcanzan para 9 papeles de
+  sintaxis más 11 de icono, todos con piso de ΔE76 10 entre sí. Las cinco anclas dejan
+  **dos arcos de tono vacíos** — 96° de verde y 136° de morado/rosa — y los colores que
+  faltaban se derivaron ahí adentro, en LCh, con L\* y croma dentro del rango de las
+  propias anclas. Cada uno tiene coordenada.
+- **El fondo también se deriva.** El ancla azul llevada a croma bajo y L\* bajo da el azul
+  nocturno `#131F29`, que sucede al índigo `#17162A`. Superficies, líneas y selección
+  salen de la misma familia.
+- **Los 16 colores ANSI de la terminal** eran el punto de mayor concentración de color
+  prestado del archivo. Ahora salen de las anclas por una regla única: el *bright* es la
+  base mezclada un 22% hacia el color de texto.
+- **El acento no cambia.** El dorado `#F6C92D` de inmmerce sigue en las mismas 12 claves
+  de chrome, porque es identidad de marca y no un tono de sintaxis. Sobrevive también a la
+  vecindad del ámbar, que era el riesgo obvio: están a ΔE76 19.9.
+- **Los nombres de papel** pasan a ser el nombre del tono (`coral`, `teal`, `azul`,
+  `creme`, `lilas`, `ambar`, `indigo`, `mint`, `verde`, `papel`, `dim`).
+
+### Cambiado — los iconos
+
+- **La marca de los iconos deja de ser trazada y pasa a ser sólida.** La silueta ya era
+  sólida desde la 3.5.0, por una razón medida: a los 16px del explorador un trazo de
+  1.33px se pierde y una mancha se lee. La marca adentro tenía exactamente ese mismo
+  problema y siguió siendo un hilo. Ahora **en todo el conjunto no queda un solo
+  `stroke`**.
+- **Las formas lineales pasan por `stroke-outline.js`**, el mismo conversor de trazo a
+  contorno relleno que ya armaba la fuente del *product icon theme* — y por la misma
+  razón: una fuente tampoco puede llevar trazo. Las dos rejillas volvieron a parecerse.
+- **El detalle interno ahora es un hueco calado**, no una segunda línea encima: la lomera
+  del libro, las aristas de la caja, el triángulo del play. Se declara con
+  `fill-rule="evenodd"`.
+- **La carpeta abierta usa el mismo anclaje que la cerrada.** Tenía uno propio, más chico,
+  porque la franja inclinada deja menos altura libre; con la marca rellena eso significaba
+  dos escalas y por lo tanto dos grosores para la misma forma.
+- **Apareció un piso de tamaño nuevo:** el hueco escala junto con la forma. Menos de 1.6u
+  en la rejilla de 24 no sobrevive a 16px, y un disco por debajo de radio 3.4 desaparece.
+
+### Corregido
+
+- **La documentación afirmaba algo falso sobre el Material Icon Theme.** En tres lugares
+  se leía que la placa sólida con marca trazada era «la misma elección del Material Icon
+  Theme». No lo era: en sus SVG no hay **una sola** aparición de `stroke`. El diagnóstico
+  era correcto (la mancha se lee, la línea no); la comparación estaba mal.
+- Lo que **no** se copió de él es el contraste: sus pares reales de carpeta dan 2.07:1,
+  1.70:1 y 2.94:1 entre silueta y motivo, y los tres reprobarían el piso de 3:1 que esta
+  casa cobra. Él lo compensa con un motivo grande que se sale del lienzo.
+- La tabla de colores del README listaba una paleta que ya no existía hacía dos versiones.
+
 ## [3.7.0] - 2026-08-28
 
 ### Cambiado

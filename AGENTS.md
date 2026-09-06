@@ -1,4 +1,4 @@
-# AGENTS.md
+# CLAUDE.md
 
 Guia para trabalhar neste repositório. É a extensão de VS Code **"inmmerce for
 VTEX"** (publisher `commenteme`, id `commenteme.vtex-io-intellisense`).
@@ -94,9 +94,8 @@ default de tokens, o código e a camada de tema precisam ir junto).
   código; corpo de Markdown sem cor; itálico no lugar de cores extras.
 - **Validado por `test/theme.test.js`** — a spec virou asserção, porque essas regras
   só falham "visualmente": nenhum hex fora da paleta declarada, a identidade accent
-  em 12 chaves de chrome e nenhuma de texto (10 de `accent` puro + 2 de
-  `accent-lift`, que existe porque o accent puro reprova a 3.46:1 sobre a linha
-  focada), os 9 papéis ≥ 4.5:1 sobre o fundo do editor (comentário ≥ 5.7:1),
+  em 12 chaves de chrome e nenhuma de texto, os 9 papéis ≥ 4.5:1 sobre o fundo do
+  editor (comentário ≥ 5.7:1),
   **nenhum par de cores que dividem a tela abaixo de ΔE76 10** (com as isenções
   declaradas no próprio código — `fg`/`fg-param` e `comment`/`fg-punct` são
   separados pelo itálico, não pela cor), os três `CompletionItemKind` que esta
@@ -111,37 +110,51 @@ default de tokens, o código e a camada de tema precisam ir junto).
   elas ficam no fim do arquivo de propósito. Mudou paleta ou regra? Atualize a spec
   no topo do teste — ela é o documento, o JSON é só o artefato.
 - **`docs/traco-puelche.md` é a spec de desenho** e manda nas duas grades. Vai
-  desenhar? Leia a spec antes. O resumo: espessura de marca **2** e raio de canto
-  **2** na grade 24, **1.35** e **1.35** na grade 16, caixa de conteúdo 2–22 e
+  desenhar? Leia a spec antes. O resumo: espessura de marca **3.7** na declaração
+  (~2 na tela, depois da escala) e raio de canto **2** na grade 24, **1.35** e **1.35** na grade 16, caixa de conteúdo 2–22 e
   1.5–14.5, ponta e junção redondas, e **no máximo 3 elementos por marca**. A
-  regra que amarra: **raio de canto = espessura do traço**.
-- **Arquivo e pasta são DUAS CAMADAS, não monoline.** A placa (`plate`, `folder`,
-  `folderOpen`) é silhueta sólida com `fill` na cor do papel; a marca inscrita é
-  traçada por cima no **tom escuro** do mesmo papel. Mancha lê a 16px do Explorer,
-  traço de 1.33px não — é a mesma escolha do Material Icon Theme. Só o glifo do
-  product icon theme continua monoline, porque fonte não carrega duas cores.
+  regra que amarra: **raio de canto = espessura do traço**. Furo tem piso próprio:
+  **1.6u** na grade 24, e disco abaixo de **raio 3.4** some a 16px.
+- **Arquivo e pasta são DUAS CAMADAS, e as duas são ÁREA.** A placa (`plate`,
+  `folder`, `folderOpen`) é silhueta sólida com `fill` na cor do papel; a marca
+  inscrita é preenchida por cima no **tom escuro** do mesmo papel. Mancha lê a
+  16px do Explorer, traço de 1.33px não — vale para a placa e vale para a marca.
+  **Nada no conjunto declara `stroke`**: forma linear é declarada em primitivas de
+  traço e sai como contorno preenchido pelo `scripts/stroke-outline.js`, o mesmo
+  caminho dos glifos de produto. Detalhe interno é **furo** com
+  `fill-rule="evenodd"`, nunca segunda cor.
+  Cuidado com a comparação fácil: o Material Icon Theme **não** usa traço em lugar
+  nenhum, e o contraste interno dele (1.70:1 a 2.94:1 entre silhueta e motivo)
+  reprovaria o piso de 3:1 desta casa. Pegamos o preenchimento, não o piso dele.
 - **O tom escuro é derivado, não escolhido.** `data/icons.json → rolesDeep` é cada
-  papel misturado a **70% com `#17162A`**, e o gerador recusa valor diferente
-  disso. Pior caso medido: `dim` a 3.35:1 entre placa e marca, travado em
+  papel misturado a **70% com `#131F29`**, e o gerador recusa valor diferente
+  disso. Pior caso medido: `dim` a 3.25:1 entre placa e marca, travado em
   `test/icons.test.js`. **O sistema tem piso de luminância**: placa escura demais
-  não deixa espaço para a marca — foi o que barrou usar o `#6272A4` do Dracula.
+  não deixa espaço para a marca — foi o que barrou o primeiro `dim`, `#7D8A99`,
+  que passava raspando a 3.05:1.
 - **UMA COR POR FAMÍLIA.** O papel não é escolhido caso a caso — é a família a que
   a entrada pertence (VTEX, vitrine, frontend, backend, código compartilhado,
   ferramenta, estilo, recurso, documento, teste, gerado). A tabela de famílias
   vive em `test/icons.test.js` e é cobrada por teste; atribuição solta falha.
   A exceção são as marcas de terceiro, que levam o papel mais próximo da cor da
   própria marca. São **11 papéis**, com piso de ΔE76 10 entre eles — o par mais
-  próximo é `green` × `mint` a 11.3.
-- **A paleta é a do Dracula**, tema de cor e ícones. As 15 cores dele estão todas
-  acima de ΔE76 10 entre si, e é isso que faz o conjunto ler de relance. Os nomes
-  de papel são o nome da matiz (`purple`, `pink`, `cyan`…) porque com essa paleta
-  os antigos viravam mentira. Duas cores não são do Dracula e a razão está em
-  `docs/traco-puelche.md`: `parchment` e `dim`.
+  próximo é `lilas` × `indigo` a 11.4.
+- **A paleta é DA CASA**, tema de cor e ícones. Cinco âncoras dadas, com hex
+  intocado — `#FF6E61` `#FFB84D` `#FCE2A1` `#4EB7AC` `#3C9CD7` —, e o que falta é
+  derivado nos dois arcos de matiz que elas deixam vazios: 96° de verde e 136° de
+  roxo/rosa, em LCh, com L* e croma na faixa das âncoras. Cada derivada tem
+  coordenada; nenhuma foi escolhida a olho. Os nomes de papel são o nome da matiz
+  (`coral`, `teal`, `azul`…). Duas ficam fora do arco por serem neutro, e a razão
+  está em `docs/traco-puelche.md`: `papel` e `dim`. **O fundo também é derivado**
+  (a âncora azul a croma baixo dá `#131F29`); **o accent `#F6C92D` não é**, porque
+  é marca da inmmerce e não matiz de sintaxe.
 - **Icon theme é GERADO, não editado à mão.** Fonte: `data/icons.json` (mapa
   id → forma/papel/`ext`/`names`/`langs` + `roles`/`rolesDeep`) +
   `scripts/icon-shapes.js` (geometria SVG numa grade 24x24; tokens `@c` = cor da
   camada e `@d` = tom escuro dentro da placa). A pintura vive só no
   `build-icon-theme.js` — **nenhuma forma declara `stroke-width` nem `stroke`**.
+  Formas lineares usam `decl()`/`p()`, que passam por `stroke-outline.js`; as de
+  área, `furado()` quando têm buraco.
   Saída **commitada e publicada**: `icons/*.svg` + `themes/puelche-icon-theme.json`.
 - **Marca de terceiro é SÓLIDA** (`claude`, `npm`, `yarn`, `prettier`, `eslint`,
   `docker`, `git`, `github`, `vtex`): logo em monoline a 8px vira teia. Declara
@@ -163,7 +176,11 @@ default de tokens, o código e a camada de tema precisam ir junto).
   traço; a placa é área e não obedece a ela. O VS Code trava o ícone em 16px, e
   depois disso quanto da caixa de 24 o desenho ocupa é a única alavanca de
   tamanho que sobra.
-- **Teto de 2 elementos por marca**, cobrado pelo CI.
+- **Teto de 2 elementos por marca**, cobrado por teste. Forma declarada em
+  primitivas sai como UM `<path>`, então contar tag não mede mais nada: quem
+  responde é `PRIM_COUNT`, preenchido pelo `decl()` de `scripts/icon-shapes.js`.
+  Quando primitiva e elemento visual divergem — o "T" são duas linhas e uma letra
+  só —, `decl()` recebe a contagem explícita.
 - Regenerar com `npm run icons:build`; `npm run icons:check` roda o build e falha no
   `git diff` se o commitado não for exatamente o que o gerador produz. O gerador é
   determinístico: mesma entrada → mesmos bytes.
