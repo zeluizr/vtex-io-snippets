@@ -2,6 +2,7 @@
 .claude/**
 .github/**
 CLAUDE.md
+CONTRIBUTING.md
 docs/**
 data/**
 scripts/**
