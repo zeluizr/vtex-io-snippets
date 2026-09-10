@@ -5,6 +5,20 @@ Todos los cambios notables de este proyecto se documentan en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/)
 y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
+## [No publicado]
+
+### Añadido
+
+- **`CONTRIBUTING.md`.** El repositorio no tenía guía de contribución, así que GitHub no
+  ofrecía ninguna al abrir un issue o un PR y la única fuente era la wiki. Ahora la guía
+  está en el repositorio, con lo operativo, y la wiki queda para el detalle.
+
+  Trae dos cosas que la página de la wiki decía al revés: la rama de trabajo **sale de
+  `dev`** y el PR va contra `dev`, no contra `main`; y los checks de iconos **ya corren en
+  la CI**, no sólo en local.
+
+  Queda fuera del `.vsix`: no le sirve a quien instala la extensión.
+
 ## [4.2.2] - 2026-09-10
 
 ### Cambiado

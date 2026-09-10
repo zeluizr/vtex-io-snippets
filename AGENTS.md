@@ -62,7 +62,8 @@ test/*.test.js        testes com node:test
 ```
 
 `.vscodeignore` mantém fora do pacote: `test/`, `scripts/`, `data/`, `docs/`,
-`.github/`, `.claude/**`, `CLAUDE.md`, `AGENTS.md`, `.guilda/**`, `.DS_Store` e
+`.github/`, `.claude/**`, `CLAUDE.md`, `AGENTS.md`, `CONTRIBUTING.md`, `.guilda/**`,
+`.DS_Store` e
 `package-lock.json`. **`assets/`, `lib/`, `themes/` e `icons/` SÃO publicados** (o
 default de tokens, o código e a camada de tema precisam ir junto).
 
