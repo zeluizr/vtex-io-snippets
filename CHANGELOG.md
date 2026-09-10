@@ -5,6 +5,23 @@ Todos los cambios notables de este proyecto se documentan en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/)
 y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
+## [4.2.1] - 2026-09-10
+
+### Corregido
+
+- **Las cuatro actions de la CI suben de major.** `actions/checkout` y
+  `actions/setup-node` van de v4 a v7, `actions/upload-artifact` de v4 a v7 y
+  `softprops/action-gh-release` de v2 a v3. Todas esas majors son la misma cosa: el
+  runtime de la action pasa a Node 24 y pide una versión mínima de runner. Acá todo
+  corre en `ubuntu-latest`, que ya la trae.
+
+  El único cambio de comportamiento real es que `checkout` v7 **bloquea el checkout de
+  PR de fork** en los disparadores `pull_request_target` y `workflow_run`. Ningún
+  workflow de este repositorio usa esos disparadores.
+
+  No cambia nada dentro del `.vsix`: los workflows no viajan en el paquete. Esta
+  versión existe para que el número publicado y el árbol no queden desalineados.
+
 ## [4.2.0] - 2026-09-10
 
 ### Cambiado
