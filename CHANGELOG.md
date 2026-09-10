@@ -9,6 +9,11 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Cambiado
 
+- **El Dependabot ahora apunta a `dev`.** Sin `dependabot.yml` apuntaba a la rama default,
+  que acá es `main` — o sea producción. Pasó con el PR #5, el bump de `sharp` a 0.35.4:
+  entró directo en `main` y dejó la línea torcida, con `main` por delante de `qa` y de
+  `dev`. Con `target-branch: dev` los PR de dependencia nacen donde nace todo lo demás y
+  suben por la promoción normal. Se agrega también el ecosistema `github-actions`.
 - **La extensión pasa a llamarse «VTEXIO Snippets by commente.me»** (antes «inmmerce for
   VTEX»). Cambia el `displayName`, el título del README y la línea de identidad del
   `CLAUDE.md` y del `AGENTS.md`.
