@@ -16,3 +16,6 @@ node_modules/
 # SVGs de trabalho do product icon theme: derivados de scripts/product-shapes-*.js,
 # não publicados no .vsix. O determinismo do .woff já cobre a regeneração deles.
 icons/product/
+
+# Registro local de eventos de sessao dos agentes. Nao e conteudo da extensao.
+.guilda/
