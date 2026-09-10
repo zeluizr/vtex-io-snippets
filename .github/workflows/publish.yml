@@ -1,7 +1,18 @@
-name: Publish Extension
+name: Release
 
-# Publica no VS Code Marketplace ao enviar uma tag de versao (ex.: v2.0.0).
-# Requer o secret VSCE_PAT (Azure DevOps PAT, escopo Marketplace > Manage).
+# Empacota o .vsix ao enviar uma tag de versao (ex.: v4.2.1) e o anexa a Release
+# do GitHub.
+#
+# NAO publica no Marketplace, e isso e deliberado: a publicacao aqui e sempre
+# manual, com `vsce login commenteme` seguido de `vsce publish`. O passo de envio
+# existia neste arquivo e NUNCA completou — falhava com `TF400813` desde as tags
+# v2.2.3 e v2.2.4, de julho de 2026, porque o secret `VSCE_PAT` esta com token
+# vencido. Toda tag acusava falha sem que nada estivesse errado.
+#
+# Se um dia a publicacao voltar a ser automatica, o passo e
+# `npx --yes @vscode/vsce publish --no-dependencies -p "$VSCE_PAT"`, e o secret
+# precisa de um PAT do Azure DevOps com organizacao "All accessible" e escopo
+# Marketplace > Manage.
 
 on:
   push:
@@ -9,7 +20,7 @@ on:
       - 'v*'
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -22,17 +33,13 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Package (.vsix)
+      - name: Empacotar o .vsix
         run: npx --yes @vscode/vsce package --no-dependencies
 
-      - name: Publish to VS Code Marketplace
-        run: npx --yes @vscode/vsce publish --no-dependencies -p "$VSCE_PAT"
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-
-      - name: Upload .vsix to GitHub Release
+      - name: Anexar o .vsix a Release do GitHub
         uses: softprops/action-gh-release@v3
         with:
           files: '*.vsix'
+          generate_release_notes: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -9,6 +9,18 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Cambiado
 
+- **El workflow de la tag deja de intentar publicar.** Pasa a hacer una cosa sola:
+  empaquetar el `.vsix` y adjuntarlo a la Release de GitHub. La publicación en el
+  Marketplace acá **siempre fue manual**, con `vsce login` y `vsce publish`.
+
+  El paso de envío existía en el archivo y **nunca completó**: fallaba con `TF400813`
+  desde las tags `v2.2.3` y `v2.2.4`, de julio de 2026, porque el secret `VSCE_PAT`
+  quedó con el token vencido. O sea que cada tag acusaba una falla sin que hubiera nada
+  roto, y ninguna Release se generó desde entonces — por eso `v4.1.0` y `v4.2.0` tienen
+  tag y no tienen Release.
+
+  Cómo volver atrás está escrito en el propio archivo, junto con los dos ajustes poco
+  obvios que el PAT necesita.
 - **El badge del Marketplace deja de mostrar la versión.** Pasa a ser un badge fijo,
   `marketplace | instalar`, que apunta al mismo lugar de siempre.
 
