@@ -1,4 +1,4 @@
-# inmmerce for VTEX
+# VTEXIO Snippets by commente.me
 
 **Tema, iconos, snippets e IntelliSense para quien construye en VTEX.**
 
@@ -21,7 +21,7 @@ la solución de problemas, y cómo se genera y se publica todo esto.
 
 ## Instalación
 
-Desde el VS Code Marketplace: busca **«inmmerce for VTEX»**, o instálala desde Quick Open
+Desde el VS Code Marketplace: busca **«VTEXIO Snippets by commente.me»**, o instálala desde Quick Open
 (`Cmd/Ctrl + P`):
 
 ```

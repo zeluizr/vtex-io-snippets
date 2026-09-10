@@ -5,6 +5,25 @@ Todos los cambios notables de este proyecto se documentan en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/)
 y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
+## [No publicado]
+
+### Cambiado
+
+- **La extensión pasa a llamarse «VTEXIO Snippets by commente.me»** (antes «inmmerce for
+  VTEX»). Cambia el `displayName`, el título del README y la línea de identidad del
+  `CLAUDE.md` y del `AGENTS.md`.
+
+  **El `name` y el `publisher` NO cambian**, y eso es deliberado: el id sigue siendo
+  `commenteme.vtex-io-intellisense`. Para el Marketplace, `publisher.name` **es** la
+  identidad de la extensión — cambiarlo publica otra extensión distinta, con URL nueva,
+  cero instalaciones y sin ruta de actualización para quien ya la tiene. El nombre que
+  se ve en la tienda y en la lista de extensiones es el `displayName`, y es el que
+  cambió.
+
+  Las menciones a **inmmerce** que quedan en el repo no son el nombre del producto: son
+  el origen de la paleta (el dorado `#F6C92D` y el fondo `#131F29`). Esas se quedan,
+  porque documentan de dónde salieron los colores.
+
 ## [4.1.0] - 2026-09-10
 
 ### Eliminado

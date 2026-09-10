@@ -1,7 +1,9 @@
 # CLAUDE.md
 
-Guia para trabalhar neste repositório. É a extensão de VS Code **"inmmerce for
-VTEX"** (publisher `commenteme`, id `commenteme.vtex-io-intellisense`).
+Guia para trabalhar neste repositório. É a extensão de VS Code **"VTEXIO Snippets by
+commente.me"** (publisher `commenteme`, id `commenteme.vtex-io-intellisense`).
+O nome visível mudou em 10/09/2026; o id **não** muda, porque trocá-lo cria outra
+extensão no Marketplace.
 
 ## O que a extensão faz
 
