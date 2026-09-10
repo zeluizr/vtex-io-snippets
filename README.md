@@ -7,7 +7,7 @@ snippets de bloques y props con enums y validación en `store/blocks`, rutas y
 contentSchemas; validación de JSON; autocompletado de las variables CSS del VTEX Style; y
 un tema de color con sus iconos de archivo y de interfaz.
 
-[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.vtex-io-intellisense?label=marketplace&color=F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
+[![marketplace](https://badgen.net/badge/marketplace/instalar/F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
 [![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.vtex-io-intellisense?label=instalaciones)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
 [![licencia](https://badgen.net/github/license/zeluizr/vtex-io-snippets?label=licencia)](./LICENSE)
 
