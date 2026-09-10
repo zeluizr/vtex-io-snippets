@@ -2,9 +2,9 @@ name: test
 
 on:
   push:
-    branches: [main]
+    branches: [main, qa, dev]
   pull_request:
-    branches: [main]
+    branches: [main, qa, dev]
 
 jobs:
   test:
@@ -14,10 +14,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      # Sem dependências de runtime/teste: usa só o test runner nativo do Node.
-      - name: Regenerate schema + snippets (deve ser determinístico)
+          cache: npm
+      # A extensão não tem dependência de runtime, mas os geradores de ícone e de
+      # fonte precisam das de desenvolvimento (`sharp`, `svg2ttf`, `@vscode/codicons`).
+      # Sem elas 15 testes se auto-pulam e os dois checks de drift não rodam.
+      - name: Instalar dependências
+        run: npm ci
+      - name: Regerar schema + snippets (deve ser determinístico)
         run: node scripts/generate-schema.js
-      - name: Fail if generated files drifted from committed
+      - name: Falhar se o gerado derivou do commitado
         run: git diff --exit-code schemas/ snippets/
-      - name: Run tests
+      - name: Falhar se os ícones derivaram do gerador
+        run: npm run icons:check
+      - name: Falhar se o product icon theme derivou do gerador
+        run: npm run product:check
+      - name: Rodar testes
         run: node --test

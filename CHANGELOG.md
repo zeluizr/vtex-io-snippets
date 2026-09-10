@@ -16,6 +16,19 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Corregido
 
+- **La CI ahora cubre los iconos y la fuente.** El workflow `test` regeneraba el schema y
+  los snippets y fallaba si derivaban, pero nunca corría `icons:check` ni `product:check`,
+  que son los dos checks que el guía del proyecto declara como los de CI. Un SVG o el
+  `.woff` podían divergir del generador sin que nadie se enterara. Ahora los dos corren en
+  cada push y cada PR.
+- **La CI instala las dependencias de desarrollo.** Sin ellas, 15 pruebas se auto-saltaban
+  —las que dependen de `sharp` y de `@vscode/codicons`, o sea la validación de la fuente y
+  del contorno de los trazos— y los dos checks de drift ni siquiera podían correr. Con
+  `npm ci` la suite pasa entera: 149 de 149.
+- **La CI corre en `dev` y en `qa`, no solo en `main`.** Las tres ramas de larga vida ya
+  existen en este repositorio y la promoción para aquí es `dev` → `qa` → `main`.
+- **`vsce` se invoca con `--no-dependencies`,** como manda el `CLAUDE.md`. El workflow de
+  publicación lo omitía en el empaquetado y en el publish.
 - **La CI vuelve a verde después de cinco semanas.** El check «regenerar y fallar si el
   commiteado derivó» estaba rojo en `main` desde el 2026-08-01: aquellos dos snippets se
   habían agregado a mano al archivo **generado** (`snippets/vtex-io.code-snippets`) sin pasar
