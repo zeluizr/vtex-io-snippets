@@ -13,6 +13,10 @@ un tema de color con sus iconos de archivo y de interfaz.
 
 ![El tema Puelche con sus iconos de archivo y de interfaz](./images/preview.png)
 
+La documentación completa está en la
+**[wiki](https://github.com/zeluizr/vtex-io-snippets/wiki)**: cada feature con su detalle,
+la solución de problemas, y cómo se genera y se publica todo esto.
+
 ---
 
 ## Instalación
