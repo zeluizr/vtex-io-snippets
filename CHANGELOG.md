@@ -5,6 +5,22 @@ Todos los cambios notables de este proyecto se documentan en este archivo.
 El formato se basa en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/)
 y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
+## [No publicado]
+
+### Cambiado
+
+- **El badge del Marketplace deja de mostrar la versión.** Pasa a ser un badge fijo,
+  `marketplace | instalar`, que apunta al mismo lugar de siempre.
+
+  El de versión era correcto en el origen y aun así se veía viejo en GitHub: el proxy de
+  imágenes de GitHub guarda su propia copia y la sirve por su cuenta. Se comprobó el
+  2026-09-10, con la 4.2.1 ya publicada: el mismo README mostraba `v4.2.1` en VS Code y
+  `v3.6.0` en GitHub. Esa copia no se puede purgar desde afuera, porque el proxy rechaza
+  cualquier pedido directo.
+
+  Un badge sin número no envejece. La versión ya se ve en la página del Marketplace y en
+  la pestaña de la extensión en VS Code, que es donde se mira antes de instalar.
+
 ## [4.2.1] - 2026-09-10
 
 ### Corregido
