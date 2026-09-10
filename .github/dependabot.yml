@@ -1,0 +1,25 @@
+# O Dependabot aponta para a branch default quando ninguém diz o contrário, e a
+# default aqui é `main`, que é produção. Foi o que aconteceu com o PR #5: o bump
+# do `sharp` entrou direto em `main` e deixou a linha torta, com `main` à frente
+# de `qa` e de `dev`.
+#
+# A esteira deste repositório é `dev` → `qa` → `main`, e nada nasce em `main`.
+# `target-branch` faz os PRs de dependência nascerem em `dev`, como qualquer
+# outro trabalho, e subirem pela promoção normal.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore(deps)
+      prefix-development: chore(deps-dev)
+  - package-ecosystem: github-actions
+    directory: /
+    target-branch: dev
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: chore(ci)
