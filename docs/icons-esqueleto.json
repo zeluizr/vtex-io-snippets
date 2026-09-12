@@ -1,0 +1,656 @@
+{
+  "_comment": [
+    "ESQUELETO — ponto de partida para um icon theme próprio.",
+    "Este arquivo NÃO é lido por scripts/build-icon-theme.js, que abre data/icons.json",
+    "por caminho fixo. Copie para data/icons.json (ou aponte o gerador para cá) quando",
+    "quiser que ele valha.",
+    "",
+    "COMO USAR",
+    "1. shape = chave em scripts/icon-shapes.js. Os nomes abaixo são os do conjunto",
+    "   Puelche; desenhe a sua versão sob a mesma chave ou troque a chave.",
+    "2. role = papel de cor, escolhido PELA FAMÍLIA da entrada e nunca caso a caso.",
+    "   A tabela de famílias é cobrada por test/icons.test.js.",
+    "3. rolesDeep é DERIVADO: cada papel misturado a 70% com o fundo #131F29. Mexeu em",
+    "   roles? Recalcule rolesDeep, senão o gerador recusa.",
+    "4. Rode npm run icons:build. Nunca edite themes/puelche-icon-theme.json à mão.",
+    "",
+    "PRECEDÊNCIA DO VS CODE: names > ext > langs. Nome completo ganha da extensão, e é",
+    "por isso que blocks.json não cai no ícone genérico de JSON.",
+    "",
+    "LIMITES DE DESENHO (docs/traco-puelche.md manda): placa e marca são ÁREA, nunca",
+    "traço; no máximo 2 elementos por marca; julgue o resultado a 16px reais, que é o",
+    "tamanho em que o Explorer desenha.",
+    "",
+    "OS DOIS MAIS VISTOS SÃO OS DEFAULTS. O ícone genérico de arquivo e o de pasta",
+    "pegam tudo que você não mapeou. Desenhe-os primeiro."
+  ],
+  "roles": {
+    "lilas": "#AA91E0",
+    "indigo": "#8C98E9",
+    "coral": "#FF6E61",
+    "teal": "#4EB7AC",
+    "azul": "#3C9CD7",
+    "mint": "#4EC59A",
+    "creme": "#FCE2A1",
+    "ambar": "#FFB84D",
+    "papel": "#C9BFA8",
+    "verde": "#7DBB69",
+    "dim": "#8592A1"
+  },
+  "rolesDeep": {
+    "lilas": "#404160",
+    "indigo": "#374363",
+    "coral": "#5A373A",
+    "teal": "#254D50",
+    "azul": "#1F455D",
+    "mint": "#25514B",
+    "creme": "#595A4D",
+    "ambar": "#5A4D34",
+    "papel": "#4A4F4F",
+    "verde": "#334E3C",
+    "dim": "#35424D"
+  },
+  "defaults": {
+    "file": {
+      "role": "dim"
+    },
+    "folder": {
+      "role": "dim"
+    }
+  },
+  "files": [
+    {
+      "id": "json",
+      "shape": "braces",
+      "role": "azul",
+      "ext": [
+        "json"
+      ],
+      "langs": [
+        "json"
+      ]
+    },
+    {
+      "id": "jsonc",
+      "shape": "braces",
+      "role": "azul",
+      "ext": [
+        "jsonc",
+        "json5"
+      ],
+      "langs": [
+        "jsonc"
+      ]
+    },
+    {
+      "id": "typescript",
+      "shape": "typescript",
+      "role": "azul",
+      "ext": [
+        "ts",
+        "mts",
+        "cts"
+      ],
+      "langs": [
+        "typescript"
+      ]
+    },
+    {
+      "id": "tsx",
+      "shape": "react",
+      "role": "coral",
+      "ext": [
+        "tsx"
+      ],
+      "langs": [
+        "typescriptreact"
+      ]
+    },
+    {
+      "id": "jsx",
+      "shape": "react",
+      "role": "teal",
+      "ext": [
+        "jsx"
+      ],
+      "langs": [
+        "javascriptreact"
+      ]
+    },
+    {
+      "id": "javascript",
+      "shape": "javascript",
+      "role": "teal",
+      "ext": [
+        "js",
+        "mjs",
+        "cjs"
+      ],
+      "langs": [
+        "javascript"
+      ]
+    },
+    {
+      "id": "css",
+      "shape": "brush",
+      "role": "creme",
+      "ext": [
+        "css",
+        "pcss",
+        "postcss"
+      ],
+      "langs": [
+        "css",
+        "postcss"
+      ]
+    },
+    {
+      "id": "sass",
+      "shape": "droplet",
+      "role": "creme",
+      "ext": [
+        "scss",
+        "sass",
+        "less",
+        "styl"
+      ],
+      "langs": [
+        "scss",
+        "sass",
+        "less"
+      ]
+    },
+    {
+      "id": "markdown",
+      "shape": "markdown",
+      "role": "papel",
+      "ext": [
+        "md",
+        "mdx",
+        "markdown"
+      ],
+      "langs": [
+        "markdown"
+      ]
+    },
+    {
+      "id": "image",
+      "shape": "image",
+      "role": "ambar",
+      "ext": [
+        "png",
+        "jpg",
+        "jpeg",
+        "gif",
+        "webp",
+        "avif",
+        "bmp",
+        "ico"
+      ]
+    },
+    {
+      "id": "vector",
+      "shape": "vector",
+      "role": "ambar",
+      "ext": [
+        "svg"
+      ]
+    },
+    {
+      "id": "yaml",
+      "shape": "list",
+      "role": "azul",
+      "ext": [
+        "yml",
+        "yaml"
+      ],
+      "langs": [
+        "yaml"
+      ]
+    },
+    {
+      "id": "graphql",
+      "shape": "graph",
+      "role": "teal",
+      "ext": [
+        "graphql",
+        "gql"
+      ],
+      "langs": [
+        "graphql"
+      ]
+    },
+    {
+      "id": "manifest",
+      "shape": "vtex",
+      "role": "lilas",
+      "names": [
+        "manifest.json",
+        "vtex.json",
+        ".vtexignore"
+      ]
+    },
+    {
+      "id": "blocks",
+      "shape": "blocks",
+      "role": "lilas",
+      "names": [
+        "blocks.json",
+        "blocks.jsonc",
+        "interfaces.json",
+        "contentSchemas.json",
+        "plugins.json"
+      ]
+    },
+    {
+      "id": "routes",
+      "shape": "route",
+      "role": "lilas",
+      "names": [
+        "routes.json",
+        "routes.jsonc"
+      ]
+    },
+    {
+      "id": "style",
+      "shape": "brush",
+      "role": "lilas",
+      "names": [
+        "style.json"
+      ]
+    },
+    {
+      "id": "npm",
+      "shape": "npm",
+      "role": "coral",
+      "names": [
+        "package.json",
+        "package-lock.json",
+        ".npmrc",
+        ".npmignore"
+      ]
+    },
+    {
+      "id": "tsconfig",
+      "shape": "gear",
+      "role": "azul",
+      "names": [
+        "tsconfig.json",
+        "tsconfig.base.json",
+        "jsconfig.json"
+      ]
+    },
+    {
+      "id": "readme",
+      "shape": "book",
+      "role": "papel",
+      "names": [
+        "README.md",
+        "readme.md",
+        "README"
+      ]
+    },
+    {
+      "id": "license",
+      "shape": "license",
+      "role": "papel",
+      "names": [
+        "LICENSE",
+        "LICENSE.md",
+        "LICENCE",
+        "COPYING"
+      ]
+    },
+    {
+      "id": "changelog",
+      "shape": "history",
+      "role": "papel",
+      "names": [
+        "CHANGELOG.md",
+        "CHANGES.md",
+        "HISTORY.md"
+      ]
+    },
+    {
+      "id": "git",
+      "shape": "git",
+      "role": "ambar",
+      "names": [
+        ".gitignore",
+        ".gitattributes",
+        ".gitmodules",
+        ".gitkeep"
+      ]
+    },
+    {
+      "id": "env",
+      "shape": "key",
+      "role": "dim",
+      "names": [
+        ".env",
+        ".env.local",
+        ".env.example",
+        ".env.development",
+        ".env.production",
+        ".env.test"
+      ]
+    },
+    {
+      "id": "lock",
+      "shape": "lock",
+      "role": "dim",
+      "names": [
+        "pnpm-lock.yaml",
+        "bun.lockb",
+        "composer.lock"
+      ]
+    },
+    {
+      "id": "ignore",
+      "shape": "slash",
+      "role": "dim",
+      "names": [
+        ".vscodeignore",
+        ".DS_Store",
+        "Thumbs.db",
+        "desktop.ini"
+      ]
+    },
+    {
+      "id": "docker",
+      "shape": "docker",
+      "role": "azul",
+      "names": [
+        "Dockerfile",
+        "dockerfile",
+        "docker-compose.yml",
+        "docker-compose.yaml",
+        ".dockerignore"
+      ],
+      "langs": [
+        "dockerfile",
+        "dockercompose"
+      ]
+    },
+    {
+      "id": "test",
+      "shape": "flask",
+      "role": "verde",
+      "ext": [
+        "test.ts",
+        "test.tsx",
+        "test.js",
+        "spec.ts",
+        "spec.tsx",
+        "spec.js"
+      ]
+    },
+    {
+      "id": "shell",
+      "shape": "terminal",
+      "role": "teal",
+      "ext": [
+        "sh",
+        "bash",
+        "zsh",
+        "fish"
+      ],
+      "langs": [
+        "shellscript"
+      ]
+    }
+  ],
+  "folders": [
+    {
+      "id": "store",
+      "shape": "vtex",
+      "role": "lilas",
+      "names": [
+        "store"
+      ]
+    },
+    {
+      "id": "react",
+      "shape": "react",
+      "role": "coral",
+      "names": [
+        "react"
+      ]
+    },
+    {
+      "id": "node",
+      "shape": "hex",
+      "role": "teal",
+      "names": [
+        "node"
+      ]
+    },
+    {
+      "id": "graphql",
+      "shape": "graph",
+      "role": "teal",
+      "names": [
+        "graphql"
+      ]
+    },
+    {
+      "id": "styles",
+      "shape": "brush",
+      "role": "creme",
+      "names": [
+        "styles",
+        "style",
+        "css",
+        "sass",
+        "scss"
+      ]
+    },
+    {
+      "id": "messages",
+      "shape": "message",
+      "role": "lilas",
+      "names": [
+        "messages",
+        "locales",
+        "i18n",
+        "lang",
+        "translations"
+      ]
+    },
+    {
+      "id": "assets",
+      "shape": "layers",
+      "role": "ambar",
+      "names": [
+        "assets",
+        "static",
+        "public"
+      ]
+    },
+    {
+      "id": "docs",
+      "shape": "book",
+      "role": "papel",
+      "names": [
+        "docs",
+        "doc",
+        "documentation"
+      ]
+    },
+    {
+      "id": "test",
+      "shape": "flask",
+      "role": "verde",
+      "names": [
+        "test",
+        "tests",
+        "__tests__",
+        "spec",
+        "e2e"
+      ]
+    },
+    {
+      "id": "scripts",
+      "shape": "terminal",
+      "role": "mint",
+      "names": [
+        "scripts",
+        "bin",
+        "tools"
+      ]
+    },
+    {
+      "id": "src",
+      "shape": "box",
+      "role": "azul",
+      "names": [
+        "src",
+        "source",
+        "lib"
+      ]
+    },
+    {
+      "id": "dist",
+      "shape": "archive",
+      "role": "dim",
+      "names": [
+        "dist",
+        "build",
+        "out",
+        ".next",
+        ".cache",
+        "coverage"
+      ]
+    },
+    {
+      "id": "config",
+      "shape": "gear",
+      "role": "dim",
+      "names": [
+        "config",
+        "configs",
+        ".config",
+        "settings",
+        ".vscode",
+        "configuration"
+      ]
+    },
+    {
+      "id": "github",
+      "shape": "github",
+      "role": "dim",
+      "names": [
+        ".github",
+        ".git"
+      ]
+    },
+    {
+      "id": "blocks",
+      "shape": "blocks",
+      "role": "lilas",
+      "names": [
+        "blocks"
+      ]
+    },
+    {
+      "id": "templates",
+      "shape": "table",
+      "role": "lilas",
+      "names": [
+        "templates",
+        "template",
+        "pages"
+      ]
+    },
+    {
+      "id": "iconpacks",
+      "shape": "vector",
+      "role": "ambar",
+      "names": [
+        "iconpacks",
+        "iconpack"
+      ]
+    },
+    {
+      "id": "home",
+      "shape": "home",
+      "role": "indigo",
+      "names": [
+        "home",
+        "homepage"
+      ]
+    },
+    {
+      "id": "product",
+      "shape": "tag",
+      "role": "indigo",
+      "names": [
+        "product",
+        "pdp"
+      ]
+    },
+    {
+      "id": "search",
+      "shape": "search",
+      "role": "indigo",
+      "names": [
+        "search",
+        "plp",
+        "category",
+        "browse"
+      ]
+    },
+    {
+      "id": "header",
+      "shape": "header",
+      "role": "indigo",
+      "names": [
+        "header",
+        "headers",
+        "navbar",
+        "menu"
+      ]
+    },
+    {
+      "id": "footer",
+      "shape": "footer",
+      "role": "indigo",
+      "names": [
+        "footer",
+        "footers"
+      ]
+    },
+    {
+      "id": "cart",
+      "shape": "cart",
+      "role": "indigo",
+      "names": [
+        "cart",
+        "minicart"
+      ]
+    },
+    {
+      "id": "account",
+      "shape": "person",
+      "role": "indigo",
+      "names": [
+        "account",
+        "login",
+        "profile",
+        "my-account"
+      ]
+    },
+    {
+      "id": "landing",
+      "shape": "megaphone",
+      "role": "indigo",
+      "names": [
+        "landing",
+        "landings",
+        "campaign",
+        "campaigns",
+        "promo"
+      ]
+    }
+  ]
+}
