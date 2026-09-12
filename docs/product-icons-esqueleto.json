@@ -1,0 +1,110 @@
+{
+  "_comment": [
+    "ESQUELETO — ponto de partida para um product icon theme próprio.",
+    "Este arquivo NÃO é lido por scripts/build-product-font.js, que abre",
+    "data/product-icons.json por caminho fixo. Copie para lá quando quiser que valha.",
+    "",
+    "COMO USAR",
+    "1. id = id-base do codicon substituído. Tem que existir em",
+    "   node_modules/@vscode/codicons/src/template/mapping.json, senão o build falha.",
+    "2. shape = chave em scripts/product-shapes-a.js ou -b.js, numa grade 16x16.",
+    "3. group é só leitura humana. O build ordena por id e ignora a ordem daqui.",
+    "4. Rode npm run product:build. Nunca edite themes/puelche-product-icons.json",
+    "   nem o .woff à mão.",
+    "",
+    "GLIFO NÃO É TRAÇADO À MÃO. O svgicons2svgfont lê só geometria e descarta",
+    "pintura: stroke viraria glifo vazio e fill=\"none\" viraria borrão. Declare o",
+    "desenho em primitivas (line, arc, ring, dot, rect, fill) e deixe",
+    "scripts/stroke-outline.js devolver o contorno preenchido. É o que dá ponta e",
+    "junção redondas.",
+    "",
+    "TETO DE 3 ELEMENTOS VISUAIS POR GLIFO. A 16px nada além disso lê.",
+    "O lint de test/icons.test.js cobra: só M L Q A Z maiúsculos, só <path>, sem",
+    "transform, sem subcaminho de área ~0, coordenadas dentro de 0..16.",
+    "",
+    "DOIS IDS DO MESMO CODEPOINT DO CODICON NÃO PODEM ESTAR OS DOIS AQUI. O build",
+    "expande os apelidos sozinho (add também é plus, gist-new, repo-create) e falha",
+    "na colisão. Cobrir o id-base sem cobrir o apelido faria o usuário ver nosso",
+    "ícone ao lado do codicon nativo na mesma tela.",
+    "",
+    "NÃO EDITE data/product-codepoints.json. Ele é append-only e o build aloca",
+    "sozinho a partir de 0xE900. Um id apagado de lá reaproveitaria o número em",
+    "outro desenho, e quem tivesse a fonte em cache veria o ícone errado.",
+    "",
+    "COBERTURA PARCIAL É DE PROPÓSITO. O que não estiver aqui cai no codicon nativo,",
+    "e os dois dividem a linha de base porque a fonte usa unitsPerEm 1000,",
+    "ascender 1000 e descender 0 — a mesma razão 1.0 do codicon."
+  ],
+  "icons": [
+    {
+      "id": "files",
+      "shape": "files",
+      "group": "barra de atividade"
+    },
+    {
+      "id": "search",
+      "shape": "search",
+      "group": "barra de atividade"
+    },
+    {
+      "id": "source-control",
+      "shape": "source-control",
+      "group": "barra de atividade"
+    },
+    {
+      "id": "chevron-right",
+      "shape": "chevron-right",
+      "group": "árvore e explorer"
+    },
+    {
+      "id": "chevron-down",
+      "shape": "chevron-down",
+      "group": "árvore e explorer"
+    },
+    {
+      "id": "file",
+      "shape": "file",
+      "group": "árvore e explorer"
+    },
+    {
+      "id": "folder",
+      "shape": "folder",
+      "group": "árvore e explorer"
+    },
+    {
+      "id": "folder-opened",
+      "shape": "folder-opened",
+      "group": "árvore e explorer"
+    },
+    {
+      "id": "close",
+      "shape": "close",
+      "group": "abas e editor"
+    },
+    {
+      "id": "add",
+      "shape": "add",
+      "group": "acoes comuns"
+    },
+    {
+      "id": "settings-gear",
+      "shape": "settings-gear",
+      "group": "acoes comuns"
+    },
+    {
+      "id": "trash",
+      "shape": "trash",
+      "group": "acoes comuns"
+    },
+    {
+      "id": "check",
+      "shape": "check",
+      "group": "árvore e explorer"
+    },
+    {
+      "id": "error",
+      "shape": "error",
+      "group": "barra de status"
+    }
+  ]
+}
