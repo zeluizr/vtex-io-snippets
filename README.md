@@ -1,3 +1,5 @@
+![El tema Puelche con sus iconos de archivo y de interfaz](./images/preview.png)
+
 # VTEXIO Snippets by commente.me
 
 **Tema, iconos, snippets e IntelliSense para quien construye en VTEX.**
@@ -11,7 +13,9 @@ un tema de color con sus iconos de archivo y de interfaz.
 [![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.vtex-io-intellisense?label=instalaciones)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
 [![licencia](https://badgen.net/github/license/zeluizr/vtex-io-snippets?label=licencia)](./LICENSE)
 
-![El tema Puelche con sus iconos de archivo y de interfaz](./images/preview.png)
+Versión del código: **4.2.2**, según [package.json](package.json). Requiere
+**VS Code >= 1.60.0**. El identificador publicado se mantiene como
+`commenteme.vtex-io-intellisense`, aunque el nombre visible sea VTEXIO Snippets.
 
 La documentación completa está en la
 **[wiki](https://github.com/zeluizr/vtex-io-snippets/wiki)**: cada feature con su detalle,
