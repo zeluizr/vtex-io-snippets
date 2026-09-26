@@ -1,4 +1,8 @@
-![El tema Puelche con sus iconos de archivo y de interfaz](./images/preview.png)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/readme-header-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="./images/preview.png">
+  <img alt="VTEX IO Snippets y Puelche: bloques, IntelliSense y herramientas para el editor" src="./images/preview.png" width="100%">
+</picture>
 
 # VTEXIO Snippets by commente.me
 
