@@ -1,19 +1,20 @@
 {
   "name": "vtex-io-intellisense",
-  "displayName": "VTEXIO Snippets by commente.me",
-  "description": "Tema, snippets e IntelliSense para quem constrói na VTEX",
-  "version": "4.2.2",
+  "displayName": "VTEX IO Snippets",
+  "description": "Snippets, validación e IntelliSense para temas de VTEX IO Store Framework.",
+  "version": "5.0.0",
   "publisher": "commenteme",
   "license": "MIT",
   "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#005278",
+    "theme": "dark"
+  },
   "main": "./extension.js",
   "scripts": {
     "test": "node --test",
-    "icons:build": "node scripts/build-icon-theme.js",
-    "icons:check": "node scripts/build-icon-theme.js && git diff --exit-code -- themes/ icons/",
-    "product:build": "node scripts/build-product-font.js",
-    "product:check": "node scripts/build-product-font.js && git diff --exit-code -- themes/ data/product-codepoints.json",
-    "preview": "node scripts/make-preview.js"
+    "preview": "node scripts/gerar-preview.js",
+    "icone": "node scripts/gerar-icone.js"
   },
   "activationEvents": [
     "onLanguage:json",
@@ -22,20 +23,13 @@
     "onLanguage:scss",
     "onLanguage:less",
     "onLanguage:postcss",
-    "onCommand:vtex-io-intellisense.generateTokensCss",
-    "onCommand:vtex-io-intellisense.applyComfort",
-    "onCommand:vtex-io-intellisense.undoComfort"
+    "onCommand:vtex-io-intellisense.generateTokensCss"
   ],
-  "galleryBanner": {
-    "color": "#131F29",
-    "theme": "dark"
-  },
   "engines": {
     "vscode": "^1.60.0"
   },
   "categories": [
     "Snippets",
-    "Themes",
     "Programming Languages"
   ],
   "keywords": [
@@ -45,13 +39,7 @@
     "storefront",
     "blocks",
     "snippets",
-    "intellisense",
-    "theme",
-    "dark theme",
-    "color theme",
-    "icon theme",
-    "product icon theme",
-    "puelche"
+    "intellisense"
   ],
   "homepage": "https://github.com/zeluizr/vtex-io-snippets#readme",
   "bugs": {
@@ -66,14 +54,6 @@
       {
         "command": "vtex-io-intellisense.generateTokensCss",
         "title": "VTEX: Gerar tokens.css"
-      },
-      {
-        "command": "vtex-io-intellisense.applyComfort",
-        "title": "VTEX: Aplicar ajustes de conforto do Puelche"
-      },
-      {
-        "command": "vtex-io-intellisense.undoComfort",
-        "title": "VTEX: Desfazer ajustes de conforto"
       }
     ],
     "configurationDefaults": {
@@ -111,35 +91,9 @@
         "fileMatch": "**/store/*.jsonc",
         "url": "./schemas/vtex-blocks.schema.json"
       }
-    ],
-    "themes": [
-      {
-        "label": "Puelche",
-        "uiTheme": "vs-dark",
-        "path": "./themes/puelche-color-theme.json"
-      }
-    ],
-    "iconThemes": [
-      {
-        "id": "puelche-icons",
-        "label": "Puelche",
-        "path": "./themes/puelche-icon-theme.json"
-      }
-    ],
-    "productIconThemes": [
-      {
-        "id": "puelche-product",
-        "label": "Puelche",
-        "path": "./themes/puelche-product-icons.json"
-      }
     ]
   },
   "devDependencies": {
-    "@vscode/codicons": "^0.0.46-24",
-    "gifenc": "^1.0.3",
-    "sharp": "^0.35.5",
-    "svg2ttf": "^6.1.0",
-    "svgicons2svgfont": "^16.0.0",
-    "ttf2woff": "^3.0.0"
+    "sharp": "^0.35.5"
   }
 }
