@@ -7,6 +7,22 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [5.0.0] - 2026-10-21
+
+### Eliminado
+
+- **El tema Puelche sale de la extensión**: el tema de color, el icon theme de archivos y carpetas, el product icon
+  theme y los comandos `VTEX: Aplicar ajustes de conforto do Puelche` y `VTEX: Desfazer ajustes de conforto`. Van a
+  publicarse como una extensión aparte. Quien los usaba vuelve al tema y a los iconos por defecto de VS Code. Es lo que
+  hace de esta versión una mayor.
+
+### Cambiado
+
+- **La extensión sigue la marca de commente.me**: el ícono es el ladrillo, el banner del Marketplace va en azul, el
+  nombre visible pasa a «VTEX IO Snippets» y la descripción deja de mencionar el tema.
+- La imagen del README muestra el autocompletado de ids de bloque y la validación de props sobre el tema por defecto
+  de VS Code, y se genera con `npm run preview`.
+
 ### Añadido
 
 - **`CONTRIBUTING.md`.** El repositorio no tenía guía de contribución, así que GitHub no

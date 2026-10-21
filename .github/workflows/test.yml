@@ -15,18 +15,13 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      # A extensão não tem dependência de runtime, mas os geradores de ícone e de
-      # fonte precisam das de desenvolvimento (`sharp`, `svg2ttf`, `@vscode/codicons`).
-      # Sem elas 15 testes se auto-pulam e os dois checks de drift não rodam.
+      # A extensão não tem dependência de runtime; o `sharp` (desenvolvimento) só
+      # gera o ícone e a imagem do README, fora do CI.
       - name: Instalar dependências
         run: npm ci
       - name: Regerar schema + snippets (deve ser determinístico)
         run: node scripts/generate-schema.js
       - name: Falhar se o gerado derivou do commitado
         run: git diff --exit-code schemas/ snippets/
-      - name: Falhar se os ícones derivaram do gerador
-        run: npm run icons:check
-      - name: Falhar se o product icon theme derivou do gerador
-        run: npm run product:check
       - name: Rodar testes
         run: node --test
