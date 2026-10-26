@@ -7,15 +7,7 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
-### Cambiado
-
-- El ícono tiene las esquinas redondeadas, con el radio del ladrillo, porque el Marketplace no las redondea.
-- La cabecera del Marketplace va en el color de la plataforma, con texto oscuro, y el badge de versión del README
-  también.
-- Nuevo ícono de producto para devs del kit de marca v7: el ladrillo de commente.me con el destaque en el rosa de VTEX y
-  el glifo `</>` de snippets.
-
-## [5.0.0] - 2026-10-21
+## [5.0.0] - 2026-10-26
 
 ### Eliminado
 
@@ -26,8 +18,11 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Cambiado
 
-- **La extensión sigue la marca de commente.me**: el ícono es el ladrillo, el banner del Marketplace va en azul, el
-  nombre visible pasa a «VTEX IO Snippets» y la descripción deja de mencionar el tema.
+- **La extensión sigue la marca de commente.me**: el ícono es el de producto para devs del kit v7 (el ladrillo con el
+  destaque en el rosa de VTEX y el glifo `</>`, con las esquinas redondeadas), la cabecera del Marketplace va en el rosa
+  de VTEX con texto oscuro, el nombre visible pasa a «VTEX IO Snippets» y la descripción deja de mencionar el tema.
+- El README sigue el mismo formato que el de Shopify Snippets y el de Adobe Commerce Snippets, con los badges de
+  versión, instalaciones y licencia.
 - La imagen del README muestra el autocompletado de ids de bloque y la validación de props sobre el tema por defecto
   de VS Code, y se genera con `npm run preview`.
 
