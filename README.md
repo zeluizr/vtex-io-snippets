@@ -6,7 +6,7 @@ Extensión de VS Code para quien construye temas de VTEX IO Store Framework: sni
 la validación de `store/blocks`, rutas y contentSchemas mientras escribes, la navegación entre los ids de bloque del
 tema y el autocompletado de las variables CSS del VTEX Style.
 
-[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.vtex-io-intellisense?label=marketplace&color=005278)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
+[![marketplace](https://badgen.net/vs-marketplace/v/commenteme.vtex-io-intellisense?label=marketplace&color=F71963)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
 [![instalaciones](https://badgen.net/vs-marketplace/i/commenteme.vtex-io-intellisense?label=instalaciones)](https://marketplace.visualstudio.com/items?itemName=commenteme.vtex-io-intellisense)
 [![licencia](https://badgen.net/github/license/zeluizr/vtex-io-snippets?label=licencia)](./LICENSE)
 
