@@ -52,7 +52,7 @@ Construa uma **landing page de produto** completa, responsiva, acessível e com 
 # Estrutura da página (nesta ordem)
 
 ## 1. Header / Nav (sticky, com leve blur ao rolar)
-- Logo `</>` + texto "VTEX IO Snippets".
+- Logo `</>` + texto "Snippets for VTEX IO".
 - Âncoras: Recursos, Instalação, Como usar, Cobertura, FAQ.
 - Botão primário rosa **"Instalar no VS Code"** → Marketplace.
 - Ícone do GitHub → repo.
