@@ -12,8 +12,8 @@
  *  - Hover: mostra onde o bloco esta definido.
  *
  * Sem dependencias de runtime — usa apenas a API `vscode`. Toda a deteccao e
- * feita com um indice (id -> { defs, refs }) construido a partir dos arquivos
- * do workspace, cacheado e invalidado quando algum arquivo de tema muda.
+ * feita com um indice (id -> { defs, refs }) montado a partir de uma entrada
+ * por arquivo de tema; quando um arquivo muda, so ele e varrido de novo.
  */
 
 const fs = require('fs')
@@ -23,8 +23,8 @@ const {
   TOKEN_RE,
   isStructuralKey,
   isThemeBlockFilePath,
-  scanOccurrences,
 } = require('./lib/blocks')
+const { scanFile, mergeIndex } = require('./lib/block-index')
 const { completionContext } = require('./lib/context')
 const { loadSnippets } = require('./lib/snippets')
 const { generateTokens } = require('./lib/tokens')
@@ -39,51 +39,91 @@ function isThemeBlockFile(uri) {
   return isThemeBlockFilePath(uri.path)
 }
 
-/** @type {Promise<Map<string, { defs: import('vscode').Location[], refs: import('vscode').Location[] }>> | null} */
-let indexPromise = null
+/** @typedef {Map<string, { defs: import('vscode').Location[], refs: import('vscode').Location[] }>} BlockIndex */
 
-function getIndex() {
-  if (!indexPromise) indexPromise = buildIndex()
-  return indexPromise
+// Índice incremental: uma entrada por arquivo (`uri.toString()` -> ocorrências).
+// A varredura inicial lê todos os arquivos de store/** uma vez; depois, um
+// arquivo editado/salvo/criado só reprocessa ele mesmo.
+/** @type {Map<string, { uri: import('vscode').Uri, occurrences: import('./lib/block-index').Occurrence[] }>} */
+const fileEntries = new Map()
+/** @type {Map<string, { uri: import('vscode').Uri, doc: import('vscode').TextDocument | null }>} */
+const dirtyFiles = new Map()
+/** @type {Promise<void> | null} */
+let initialScan = null
+/** @type {BlockIndex | null} */
+let mergedIndex = null
+
+/** Texto atual do arquivo: o do editor, se estiver aberto (inclui o não salvo), senão o do disco. */
+async function readThemeFile(uri, doc) {
+  const open = doc || vscode.workspace.textDocuments.find((d) => d.uri.toString() === uri.toString())
+  if (open) return open.getText()
+  // `workspace.fs` em vez de `openTextDocument`: abrir documento dispara
+  // onDidOpenTextDocument em todas as extensões e carrega o modelo do editor.
+  const bytes = await vscode.workspace.fs.readFile(uri)
+  return Buffer.from(bytes).toString('utf8')
 }
 
-function invalidateIndex() {
-  indexPromise = null
+async function indexFile(uri, doc) {
+  try {
+    const text = await readThemeFile(uri, doc)
+    fileEntries.set(uri.toString(), { uri, occurrences: scanFile(text) })
+  } catch (_) {
+    fileEntries.delete(uri.toString())
+  }
 }
 
-async function buildIndex() {
-  /** @type {Map<string, { defs: import('vscode').Location[], refs: import('vscode').Location[] }>} */
-  const index = new Map()
+async function scanWorkspace() {
   let uris = []
   try {
     uris = await vscode.workspace.findFiles(FILE_GLOB, EXCLUDE_GLOB)
   } catch (_) {
-    return index
+    return
   }
+  await Promise.all(uris.filter(isThemeBlockFile).map((uri) => indexFile(uri, null)))
+}
 
-  for (const uri of uris) {
-    if (!isThemeBlockFile(uri)) continue
-    let doc
-    try {
-      doc = await vscode.workspace.openTextDocument(uri)
-    } catch (_) {
-      continue
-    }
-    const text = doc.getText()
-    for (const { id, isDef, index: at } of scanOccurrences(text)) {
-      const start = doc.positionAt(at + 1) // dentro das aspas
-      const end = doc.positionAt(at + 1 + id.length)
-      const loc = new vscode.Location(uri, new vscode.Range(start, end))
-
-      let entry = index.get(id)
-      if (!entry) {
-        entry = { defs: [], refs: [] }
-        index.set(id, entry)
-      }
-      ;(isDef ? entry.defs : entry.refs).push(loc)
-    }
+/** @returns {Promise<BlockIndex>} */
+async function getIndex() {
+  if (!initialScan) initialScan = scanWorkspace()
+  await initialScan
+  if (dirtyFiles.size > 0) {
+    const pending = Array.from(dirtyFiles.values())
+    dirtyFiles.clear()
+    await Promise.all(pending.map(({ uri, doc }) => indexFile(uri, doc)))
+    mergedIndex = null
   }
-  return index
+  if (!mergedIndex) {
+    /** @type {BlockIndex} */
+    const index = new Map()
+    const toLocation = (o) =>
+      new vscode.Location(o.file, new vscode.Range(o.line, o.character, o.line, o.character + o.id.length))
+    const merged = mergeIndex(Array.from(fileEntries.values(), (e) => ({ file: e.uri, occurrences: e.occurrences })))
+    for (const [id, entry] of merged) {
+      index.set(id, { defs: entry.defs.map(toLocation), refs: entry.refs.map(toLocation) })
+    }
+    mergedIndex = index
+  }
+  return mergedIndex
+}
+
+/** Marca um arquivo para ser varrido de novo na próxima consulta. */
+function markDirty(uri, doc) {
+  if (!isThemeBlockFile(uri)) return
+  dirtyFiles.set(uri.toString(), { uri, doc: doc || null })
+  mergedIndex = null
+}
+
+function forgetFile(uri) {
+  dirtyFiles.delete(uri.toString())
+  if (fileEntries.delete(uri.toString())) mergedIndex = null
+}
+
+/** Descarta tudo (ex.: pastas do workspace mudaram). */
+function resetIndex() {
+  fileEntries.clear()
+  dirtyFiles.clear()
+  initialScan = null
+  mergedIndex = null
 }
 
 /**
@@ -371,17 +411,18 @@ function activate(context) {
     vscode.languages.registerCompletionItemProvider(selector, completionProvider, '"'),
   )
 
-  // Invalida o indice quando arquivos de tema mudam.
+  // Mantém o índice em dia arquivo a arquivo, sem refazer o workspace inteiro.
   const watcher = vscode.workspace.createFileSystemWatcher(FILE_GLOB)
-  watcher.onDidCreate(invalidateIndex)
-  watcher.onDidChange(invalidateIndex)
-  watcher.onDidDelete(invalidateIndex)
+  watcher.onDidCreate((uri) => markDirty(uri))
+  watcher.onDidChange((uri) => markDirty(uri))
+  watcher.onDidDelete(forgetFile)
   context.subscriptions.push(watcher)
 
   context.subscriptions.push(
-    vscode.workspace.onDidChangeTextDocument((e) => {
-      if (isThemeBlockFile(e.document.uri)) invalidateIndex()
-    }),
+    vscode.workspace.onDidChangeTextDocument((e) => markDirty(e.document.uri, e.document)),
+    // fechou sem salvar: volta a valer o conteúdo do disco.
+    vscode.workspace.onDidCloseTextDocument((doc) => markDirty(doc.uri)),
+    vscode.workspace.onDidChangeWorkspaceFolders(resetIndex),
   )
 
   // --- CSS custom properties (tokens do VTEX Style) -------------------------
