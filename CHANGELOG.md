@@ -7,6 +7,11 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+### Cambiado
+
+- Nuevo ícono de producto para devs del kit de marca v7: el ladrillo de commente.me con el destaque en el rosa de VTEX y
+  el glifo `</>` de snippets.
+
 ## [5.0.0] - 2026-10-21
 
 ### Eliminado

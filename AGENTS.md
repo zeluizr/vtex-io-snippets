@@ -22,8 +22,8 @@ usuário em 21/10/2026: vão virar um app separado). O código ficou na tag `arc
 
 ## Marca
 
-Segue o kit de marca da commente.me (skill `marca-commente`): o ícone é o **ladrillo**
-(`images/ladrillo-commente.svg`, cópia do kit sem metadados), nenhum produto tem ícone ou cor própria, o banner do
+Segue o kit de marca da commente.me (skill `marca-commente`): o ícone é o **ladrillo de produto para devs**
+(`images/icon.svg`, cópia de `icon-snippets-vtex-io.svg` do kit v7 sem metadados): destaque em rosa VTEX `#F71963` e glifo `</>` no quarto bloco; o banner do
 Marketplace é `--azul` (`#005278`), o nome não leva "by commente.me" e o README assina "Hecho con amor y café por
 commente.me", sem citar ferramenta de IA.
 
@@ -52,14 +52,14 @@ assets/tokens.json    JSON de tokens VTEX Style default (embutido, fallback)
 snippets/             catálogo de blocos (.code-snippets) — fonte única
 schemas/              JSON Schema dos blocos (gerado por scripts/)
 data/blocks.json      catálogo de blocos (fonte do schema e dos snippets)
-images/               icon.png (o ladrillo), ladrillo-commente.svg e preview.png
+images/               icon.png (o ícone), icon.svg e preview.png
 scripts/              generate-schema, check-coverage, gerar-icone, gerar-preview
 test/*.test.js        testes com node:test
 ```
 
 `.vscodeignore` mantém fora do pacote: `test/`, `scripts/`, `data/`, `docs/`, `.github/`, `.claude/**`, `CLAUDE.md`,
 `AGENTS.md`, `CONTRIBUTING.md`, `.guilda/**`, `.DS_Store`, `package-lock.json`, `images/preview.png` e
-`images/ladrillo-commente.svg`. **`assets/` e `lib/` SÃO publicados** (o default de tokens e o código precisam ir
+`images/icon.svg`. **`assets/` e `lib/` SÃO publicados** (o default de tokens e o código precisam ir
 junto).
 
 ## Feature de tokens CSS (lib/tokens.js + extension.js)
@@ -86,7 +86,7 @@ junto).
 ```bash
 npm test                                   # node:test (todos os *.test.js)
 node scripts/generate-schema.js            # regenera schema + snippets (o CI confere o diff)
-npm run icone                              # images/icon.png a partir do ladrillo (sharp)
+npm run icone                              # images/icon.png a partir de images/icon.svg (sharp)
 npm run preview                            # images/preview.png do README
 node --check extension.js                  # sanity de sintaxe
 npx --yes @vscode/vsce package --no-dependencies   # gera o .vsix
