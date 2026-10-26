@@ -9,6 +9,8 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Cambiado
 
+- El nombre visible pasa a ser «Snippets for VTEX IO», como pide la marca de commente.me para los productos para devs. El
+  identificador no cambia: quien ya la tiene instalada no pierde nada.
 - Nuevo ícono de producto para devs del kit de marca v7: el ladrillo de commente.me con el destaque en el rosa de VTEX y
   el glifo `</>` de snippets.
 
