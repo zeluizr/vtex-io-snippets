@@ -24,8 +24,8 @@ usuário em 21/10/2026: vão virar um app separado). O código ficou na tag `arc
 
 Segue o kit de marca da commente.me (skill `marca-commente`): o ícone é o **ladrillo de produto para devs**
 (`images/icon.svg`, cópia de `icon-snippets-vtex-io.svg` do kit v7 sem metadados): destaque em rosa VTEX `#F71963` e glifo `</>` no quarto bloco; o banner do
-Marketplace é a cor da plataforma (`#F71963`, rosa VTEX) com texto branco (`theme: dark`, decisão do usuário; no verde e no laranja o branco reprova), e o ícone tem o raio do ladrillo (`rx="22"`), o nome não leva "by commente.me" e o README assina "Hecho con amor y café por
-commente.me", sem citar ferramenta de IA.
+Marketplace é a cor da plataforma (`#F71963`, rosa VTEX) com texto branco (`theme: dark`, decisão do usuário; no verde e no laranja o branco reprova), e o ícone tem o raio do ladrillo (`rx="22"`), o nome não leva "by commente.me" e o README segue o padrão v10 (header em `assets/banner.png`) e assina
+"Hecho por commente.me · hola@commente.me", sem citar ferramenta de IA.
 
 ## Convenções (importante — siga à risca)
 
@@ -58,8 +58,8 @@ test/*.test.js        testes com node:test
 ```
 
 `.vscodeignore` mantém fora do pacote: `test/`, `scripts/`, `data/`, `docs/`, `.github/`, `.claude/**`, `CLAUDE.md`,
-`AGENTS.md`, `CONTRIBUTING.md`, `.guilda/**`, `.DS_Store`, `package-lock.json`, `images/preview.png` e
-`images/icon.svg`. **`assets/` e `lib/` SÃO publicados** (o default de tokens e o código precisam ir
+`AGENTS.md`, `CONTRIBUTING.md`, `.guilda/**`, `.DS_Store`, `package-lock.json`, `images/preview.png`,
+`images/icon.svg` e `assets/*.png` (header do README). **`assets/` e `lib/` SÃO publicados** (o default de tokens e o código precisam ir
 junto).
 
 ## Feature de tokens CSS (lib/tokens.js + extension.js)
