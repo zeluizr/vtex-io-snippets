@@ -45,7 +45,8 @@ commente.me", sem citar ferramenta de IA.
 ```
 extension.js          activate()/deactivate() + todos os providers e comandos
 lib/blocks.js         regex/heurística de ids de bloco e arquivos de tema (puro)
-lib/context.js        contexto JSON sob o cursor: define/referencia/none (puro)
+lib/context.js        tokenizador JSONC tolerante + contexto sob o cursor (puro)
+lib/block-index.js    índice de blocos por arquivo: posições e merge (puro)
 lib/snippets.js       leitura do catálogo .code-snippets (puro, usa fs)
 lib/tokens.js         gerador de CSS custom properties do VTEX Style (puro)
 assets/tokens.json    JSON de tokens VTEX Style default (embutido, fallback)
