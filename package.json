@@ -2,7 +2,7 @@
   "name": "vtex-io-intellisense",
   "displayName": "Snippets for VTEX IO",
   "description": "Snippets, validación e IntelliSense para temas de VTEX IO Store Framework.",
-  "version": "5.0.2",
+  "version": "5.1.0",
   "publisher": "commenteme",
   "license": "MIT",
   "icon": "images/icon.png",
