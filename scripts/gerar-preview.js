@@ -274,7 +274,7 @@ function barraDeStatus() {
   s += ui(14, H - 7, 'dev', COR.textoFraco, 11.5)
   s += `<circle cx="52" cy="${H - 11}" r="5" fill="none" stroke="${COR.erro}" stroke-width="1.2"/>`
   s += ui(62, H - 7, '1', COR.textoFraco, 11.5)
-  s += ui(W - 14, H - 7, 'JSON with Comments    Snippets for VTEX IO', COR.textoFraco, 11.5, ' text-anchor="end"')
+  s += ui(W - 14, H - 7, 'JSON with Comments    VTEX IO Snippets', COR.textoFraco, 11.5, ' text-anchor="end"')
   return s
 }
 
