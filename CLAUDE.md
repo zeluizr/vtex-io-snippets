@@ -24,7 +24,7 @@ usuário em 21/10/2026: vão virar um app separado). O código ficou na tag `arc
 
 Segue o kit de marca da commente.me (skill `marca-commente`): o ícone é o **ladrillo de produto para devs**
 (`images/icon.svg`, cópia de `icon-snippets-vtex-io.svg` do kit v7 sem metadados): destaque em rosa VTEX `#F71963` e glifo `</>` no quarto bloco; o banner do
-Marketplace é `--azul` (`#005278`), o nome não leva "by commente.me" e o README assina "Hecho con amor y café por
+Marketplace é a cor da plataforma (`#F71963`, rosa VTEX) com texto escuro (`theme: light`), e o ícone tem o raio do ladrillo (`rx="22"`), o nome não leva "by commente.me" e o README assina "Hecho con amor y café por
 commente.me", sem citar ferramenta de IA.
 
 ## Convenções (importante — siga à risca)
