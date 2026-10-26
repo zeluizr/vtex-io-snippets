@@ -46,7 +46,7 @@ editando**:
 | | idioma |
 |---|---|
 | comentarios y mensajes del código | portugués |
-| `CLAUDE.md`, `AGENTS.md`, `docs/traco-puelche.md` | portugués |
+| `CLAUDE.md`, `AGENTS.md` | portugués |
 | `README.md`, `CHANGELOG.md`, este archivo, la wiki | español |
 
 ## Lo que la CI te va a cobrar
@@ -54,9 +54,7 @@ editando**:
 `.github/workflows/test.yml` corre en cada push y en cada PR, y falla si:
 
 - el esquema o los snippets commiteados no son **exactamente** lo que produce el generador;
-- los iconos o la fuente de la interfaz derivaron de su generador (`npm run icons:check` y
-  `npm run product:check`);
-- alguna de las 149 pruebas falla.
+- alguna de las pruebas falla.
 
 Córrelos en local antes de abrir el PR y no te vas a llevar sorpresas.
 
@@ -68,8 +66,8 @@ que ser byte a byte la que produce el script.
 | qué | con qué se regenera |
 |---|---|
 | `schemas/`, `snippets/` | `node scripts/generate-schema.js` |
-| `icons/`, `themes/puelche-icon-theme.json` | `npm run icons:build` |
-| `themes/puelche-product*.{json,woff}` | `npm run product:build` |
+| `images/icon.png` | `npm run icone` |
+| `images/preview.png` | `npm run preview` |
 
 ## Commits
 

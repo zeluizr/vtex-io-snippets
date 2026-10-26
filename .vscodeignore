@@ -17,4 +17,5 @@ AGENTS.md
 .guilda/**
 **/.DS_Store
 package-lock.json
-icons/product/**
+images/preview.png
+images/icon.svg
