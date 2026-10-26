@@ -72,11 +72,11 @@
     },
     "jsonValidation": [
       {
-        "fileMatch": "blocks.json",
+        "fileMatch": "**/store/blocks.json",
         "url": "./schemas/vtex-blocks.schema.json"
       },
       {
-        "fileMatch": "blocks.jsonc",
+        "fileMatch": "**/store/blocks.jsonc",
         "url": "./schemas/vtex-blocks.schema.json"
       },
       {
