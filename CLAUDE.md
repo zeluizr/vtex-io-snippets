@@ -24,7 +24,7 @@ usuário em 21/10/2026: vão virar um app separado). O código ficou na tag `arc
 
 Segue o kit de marca da commente.me (skill `marca-commente`): o ícone é o **ladrillo de produto para devs**
 (`images/icon.svg`, cópia de `icon-snippets-vtex-io.svg` do kit v7 sem metadados): destaque em rosa VTEX `#F71963` e glifo `</>` no quarto bloco; o banner do
-Marketplace é a cor da plataforma (`#F71963`, rosa VTEX) com texto escuro (`theme: light`), e o ícone tem o raio do ladrillo (`rx="22"`), o nome não leva "by commente.me" e o README assina "Hecho con amor y café por
+Marketplace é a cor da plataforma (`#F71963`, rosa VTEX) com texto branco (`theme: dark`, decisão do usuário; no verde e no laranja o branco reprova), e o ícone tem o raio do ladrillo (`rx="22"`), o nome não leva "by commente.me" e o README assina "Hecho con amor y café por
 commente.me", sem citar ferramenta de IA.
 
 ## Convenções (importante — siga à risca)
@@ -45,7 +45,8 @@ commente.me", sem citar ferramenta de IA.
 ```
 extension.js          activate()/deactivate() + todos os providers e comandos
 lib/blocks.js         regex/heurística de ids de bloco e arquivos de tema (puro)
-lib/context.js        contexto JSON sob o cursor: define/referencia/none (puro)
+lib/context.js        tokenizador JSONC tolerante + contexto sob o cursor (puro)
+lib/block-index.js    índice de blocos por arquivo: posições e merge (puro)
 lib/snippets.js       leitura do catálogo .code-snippets (puro, usa fs)
 lib/tokens.js         gerador de CSS custom properties do VTEX Style (puro)
 assets/tokens.json    JSON de tokens VTEX Style default (embutido, fallback)

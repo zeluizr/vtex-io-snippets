@@ -12,7 +12,7 @@ tema y el autocompletado de las variables CSS del VTEX Style.
 
 ![Autocompletado de ids de bloque y validación de props en store/blocks/home.jsonc](images/preview.png)
 
-Versión del código: **5.0.1**, según [package.json](package.json). Requiere **VS Code >= 1.60.0**. El identificador
+Versión del código: **5.1.0**, según [package.json](package.json). Requiere **VS Code >= 1.60.0**. El identificador
 publicado sigue siendo `commenteme.vtex-io-intellisense`, aunque el nombre visible sea Snippets for VTEX IO. La
 documentación detallada de cada función está en la [wiki](https://github.com/zeluizr/vtex-io-snippets/wiki).
 
