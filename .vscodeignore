@@ -19,3 +19,4 @@ AGENTS.md
 package-lock.json
 images/preview.png
 images/icon.svg
+assets/*.png
