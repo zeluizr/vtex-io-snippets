@@ -7,8 +7,8 @@
   "license": "MIT",
   "icon": "images/icon.png",
   "galleryBanner": {
-    "color": "#005278",
-    "theme": "dark"
+    "color": "#F71963",
+    "theme": "light"
   },
   "main": "./extension.js",
   "scripts": {
