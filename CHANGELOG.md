@@ -7,6 +7,13 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [5.0.1] - 2026-10-26
+
+### Cambiado
+
+- El nombre visible pasa a ser «Snippets for VTEX IO»: «VTEX IO Snippets» ya lo usan otras extensiones en el
+  Marketplace. Es la primera versión 5 publicada; la 5.0.0 quedó solo en GitHub.
+
 ## [5.0.0] - 2026-10-26
 
 ### Eliminado
