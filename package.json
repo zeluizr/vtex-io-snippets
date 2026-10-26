@@ -1,8 +1,8 @@
 {
   "name": "vtex-io-intellisense",
-  "displayName": "VTEX IO Snippets",
+  "displayName": "Snippets for VTEX IO",
   "description": "Snippets, validación e IntelliSense para temas de VTEX IO Store Framework.",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "publisher": "commenteme",
   "license": "MIT",
   "icon": "images/icon.png",
