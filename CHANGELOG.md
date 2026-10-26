@@ -7,6 +7,12 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [5.0.2] - 2026-10-26
+
+### Cambiado
+
+- La cabecera del Marketplace, en el rosa de VTEX, pasa a texto blanco.
+
 ## [5.0.1] - 2026-10-26
 
 ### Cambiado
