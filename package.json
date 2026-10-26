@@ -1,6 +1,6 @@
 {
   "name": "vtex-io-intellisense",
-  "displayName": "Snippets for VTEX IO",
+  "displayName": "VTEX IO Snippets",
   "description": "Snippets, validación e IntelliSense para temas de VTEX IO Store Framework.",
   "version": "5.0.0",
   "publisher": "commenteme",
