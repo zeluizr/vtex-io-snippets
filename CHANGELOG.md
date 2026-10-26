@@ -7,6 +7,8 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
+## [5.1.0] - 2026-10-26
+
 ### Corregido
 
 - **El índice de bloques ya no confunde props con bloques.** Antes cualquier `"clave":` del archivo contaba como
@@ -22,6 +24,7 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ### Cambiado
 
+- La cabecera del Marketplace, en el rosa de VTEX, pasa a texto blanco.
 - **El índice se actualiza archivo por archivo.** Antes cada tecla en un archivo de tema descartaba el índice entero
   y la consulta siguiente (hover, autocompletado, Go to Definition) volvía a abrir todos los archivos de `store/**`.
   Ahora solo se vuelve a leer el archivo que cambió, y la primera lectura usa el sistema de archivos en lugar de abrir
@@ -29,12 +32,6 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 - Los snippets de bloque traen el valor por defecto de la documentación: los números lo usan como placeholder
   (`displayThreshold` en 600, no en 0) y en las opciones de enum y booleanos el default aparece primero, así que
   aceptar el snippet sin tocarlo mantiene el comportamiento estándar del bloque.
-
-## [5.0.2] - 2026-10-26
-
-### Cambiado
-
-- La cabecera del Marketplace, en el rosa de VTEX, pasa a texto blanco.
 
 ## [5.0.1] - 2026-10-26
 
