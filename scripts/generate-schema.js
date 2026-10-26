@@ -344,6 +344,29 @@ function buildPropSchema(p) {
   return base
 }
 
+/**
+ * Opções de um choice de snippet com o default da doc primeiro: é a opção que o
+ * VS Code deixa selecionada, então aceitar o snippet sem mexer mantém o
+ * comportamento padrão do bloco.
+ * @param {{ enumValues?: string[], default?: string }} p
+ */
+function choicesWithDefault(p) {
+  const values = Array.from(new Set((p.enumValues || []).map(String)))
+  const def = coerceDefault('string', p.default)
+  if (def === undefined || !values.includes(String(def))) return values
+  return [String(def), ...values.filter((v) => v !== String(def))]
+}
+
+/**
+ * Placeholder de prop numérica: o default da doc quando ele é um número, senão 0.
+ * Antes era sempre 0 (`displayThreshold: 0` em vez de 600, por exemplo).
+ * @param {{ default?: string }} p
+ */
+function numberPlaceholder(p) {
+  const def = coerceDefault('number', p.default)
+  return def === undefined ? 0 : def
+}
+
 function main() {
   const raw = JSON.parse(fs.readFileSync(DATA, 'utf8'))
 
@@ -425,9 +448,9 @@ function main() {
     const propLines = propNames.slice(0, 6).map((n, i) => {
       const p = b.props[n]
       let val
-      if (p.enumValues && p.enumValues.length) val = `\\"\${${i + 2}|${p.enumValues.join(',')}|}\\"`
-      else if (p.type === 'boolean') val = `\${${i + 2}|true,false|}`
-      else if (p.type === 'number') val = `\${${i + 2}:0}`
+      if (p.enumValues && p.enumValues.length) val = `\\"\${${i + 2}|${choicesWithDefault(p).join(',')}|}\\"`
+      else if (p.type === 'boolean') val = `\${${i + 2}|${choicesWithDefault({ enumValues: ['true', 'false'], default: p.default }).join(',')}|}`
+      else if (p.type === 'number') val = `\${${i + 2}:${numberPlaceholder(p)}}`
       else if (p.type === 'array') val = `[\${${i + 2}}]`
       else if (p.type === 'object') val = `{ \${${i + 2}} }`
       else val = `\\"\${${i + 2}}\\"`
@@ -465,6 +488,6 @@ function main() {
   console.log(`OK: ${blocks.length} blocos -> schema (${Object.keys(patternProperties).length} patterns) + ${Object.keys(snippets).length} snippets`)
 }
 
-module.exports = { main, PROP_OVERRIDES, RUNTIME_INJECTED_PROPS, SCHEMA_OUT, SNIPPETS_OUT }
+module.exports = { main, choicesWithDefault, numberPlaceholder, PROP_OVERRIDES, RUNTIME_INJECTED_PROPS, SCHEMA_OUT, SNIPPETS_OUT }
 
 if (require.main === module) main()

@@ -7,11 +7,31 @@ y este proyecto sigue el [Versionado Semántico](https://semver.org/lang/es/).
 
 ## [No publicado]
 
-## [5.0.2] - 2026-10-26
+## [5.1.0] - 2026-10-26
+
+### Corregido
+
+- **El índice de bloques ya no confunde props con bloques.** Antes cualquier `"clave":` del archivo contaba como
+  definición de bloque y cualquier string como referencia, así que `blockClass`, `text` o `fullWidth` aparecían en el
+  autocompletado de `children` y el Go to Definition saltaba a nombres de props. Ahora la definición es solo la clave
+  en la raíz del archivo y la referencia es lo que está en `children`, `blocks`, `before`, `after` o `around`, o el
+  valor de un slot (prop en PascalCase dentro de `props`, como `"Icon": "icon-cart#pdp"`).
+- Los bloques que están en comentarios de JSONC (`//` o `/* */`) dejan de indexarse, y dentro de un comentario ya no
+  se sugieren bloques.
+- `store/contentSchemas.json` (el nombre que usa VTEX) queda fuera del índice, como `interfaces.json` y `routes.json`.
+- La validación de JSON deja de aplicarse a cualquier `blocks.json` del workspace: vale solo para
+  `store/blocks.json(c)` y los archivos de `store/`, sin errores falsos en proyectos que no son temas.
 
 ### Cambiado
 
 - La cabecera del Marketplace, en el rosa de VTEX, pasa a texto blanco.
+- **El índice se actualiza archivo por archivo.** Antes cada tecla en un archivo de tema descartaba el índice entero
+  y la consulta siguiente (hover, autocompletado, Go to Definition) volvía a abrir todos los archivos de `store/**`.
+  Ahora solo se vuelve a leer el archivo que cambió, y la primera lectura usa el sistema de archivos en lugar de abrir
+  cada archivo como documento del editor.
+- Los snippets de bloque traen el valor por defecto de la documentación: los números lo usan como placeholder
+  (`displayThreshold` en 600, no en 0) y en las opciones de enum y booleanos el default aparece primero, así que
+  aceptar el snippet sin tocarlo mantiene el comportamiento estándar del bloque.
 
 ## [5.0.1] - 2026-10-26
 

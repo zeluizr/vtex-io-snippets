@@ -141,3 +141,21 @@ test('o catálogo real carrega e traz corpo + prefixos', () => {
 test('normalize ignora entradas sem corpo', () => {
   assert.equal(normalize({ vazio: { prefix: 'x' } }).length, 0)
 })
+
+// --- comentários JSONC ---------------------------------------------------------
+
+test('dentro de comentário de linha não sugere bloco', () => {
+  assert.equal(kindAt('{\n  // rich-|\n}'), 'none')
+  assert.equal(kindAt('{\n  "rich-text#x": {\n    "children": [\n      // "ima|\n'), 'none')
+})
+
+test('dentro de comentário de bloco não sugere bloco', () => {
+  assert.equal(kindAt('{\n  /* rascunho\n  "rich-|\n  */\n}'), 'none')
+  assert.equal(kindAt('{\n  /* fim *|/\n}'), 'none')
+})
+
+test('depois de um comentário fechado volta a sugerir', () => {
+  assert.equal(kindAt('{\n  // comentário\n  |\n}'), 'block-definition')
+  assert.equal(kindAt('{\n  /* comentário */ |\n}'), 'block-definition')
+  assert.equal(kindAt('{\n  "a#1": { "children": [ /* x */ "|" ] }\n}'), 'block-reference')
+})

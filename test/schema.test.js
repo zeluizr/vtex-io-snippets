@@ -65,3 +65,27 @@ test('snippets gerados existem e são JSON-like (sem header quebrado)', () => {
   const snippetsPath = path.join(path.dirname(SCHEMA_OUT), '..', 'snippets', 'vtex-io.code-snippets')
   assert.ok(fs.existsSync(snippetsPath), 'arquivo de snippets ausente')
 })
+
+const { choicesWithDefault, numberPlaceholder, SNIPPETS_OUT } = require('../scripts/generate-schema')
+const { loadSnippets } = require('../lib/snippets')
+
+test('choicesWithDefault põe o default da doc como primeira opção', () => {
+  assert.deepEqual(choicesWithDefault({ enumValues: ['box', 'select'], default: 'select' }), ['select', 'box'])
+  assert.deepEqual(choicesWithDefault({ enumValues: ['true', 'false'], default: '`false`' }), ['false', 'true'])
+  // default ausente ou fora do enum: ordem da doc
+  assert.deepEqual(choicesWithDefault({ enumValues: ['a', 'b'] }), ['a', 'b'])
+  assert.deepEqual(choicesWithDefault({ enumValues: ['a', 'b'], default: 'c' }), ['a', 'b'])
+})
+
+test('numberPlaceholder usa o default numérico da doc, senão 0', () => {
+  assert.equal(numberPlaceholder({ default: '600' }), 600)
+  assert.equal(numberPlaceholder({ default: 'undefined' }), 0)
+  assert.equal(numberPlaceholder({}), 0)
+})
+
+test('snippet de back-to-top-button já traz displayThreshold 600 (default da doc)', () => {
+  const snip = loadSnippets(SNIPPETS_OUT).find((s) => s.name === 'back-to-top-button')
+  assert.ok(snip)
+  assert.match(snip.body, /"displayThreshold": \$\{\d+:600\}/)
+  assert.match(snip.body, /"display": "\$\{\d+\|button,caret-icon\|\}"/)
+})

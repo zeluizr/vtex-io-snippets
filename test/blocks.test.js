@@ -120,3 +120,56 @@ test('isThemeBlockFilePath: ignora arquivos fora de store/', () => {
   // @ts-expect-error teste defensivo
   assert.equal(isThemeBlockFilePath(null), false)
 })
+
+// --- classificação pela posição no JSON (não só pela forma da string) --------
+
+test('scanOccurrences: chaves de props não viram definição de bloco', () => {
+  const defs = scanOccurrences(HOME).filter((o) => o.isDef).map((o) => o.id)
+  // antes "blockClass", "link" e "text" entravam como blocos definidos e apareciam
+  // no autocomplete de children
+  for (const k of ['blockClass', 'link', 'text']) {
+    assert.ok(!defs.includes(k), `"${k}" é prop, não bloco`)
+  }
+  assert.deepEqual(defs.sort(), ['flex-layout.row#hero-banner', 'rich-text#title', 'store.home'])
+})
+
+test('scanOccurrences: valores de props comuns não viram referência', () => {
+  const refs = scanOccurrences(HOME).filter((o) => !o.isDef).map((o) => o.id)
+  assert.ok(!refs.includes('hero'))
+  assert.deepEqual(refs.sort(), ['flex-layout.row#hero-banner', 'image#banner', 'rich-text#title'])
+})
+
+test('scanOccurrences: slot (prop em PascalCase) é referência a bloco', () => {
+  const text = `{
+  "add-to-cart-button#pdp": {
+    "props": { "Icon": "icon-cart#pdp", "text": "Comprar" }
+  },
+  "icon-cart#pdp": { "props": { "size": 16 } }
+}`
+  const occ = scanOccurrences(text)
+  const ref = occ.find((o) => o.id === 'icon-cart#pdp' && !o.isDef)
+  assert.ok(ref, 'o valor do slot "Icon" deveria ser referência')
+  assert.equal(text.slice(ref.index + 1, ref.index + 1 + ref.id.length), 'icon-cart#pdp')
+  assert.ok(!occ.some((o) => o.id === 'Comprar'))
+  assert.ok(!occ.some((o) => o.id === 'size'))
+})
+
+test('scanOccurrences: before/after/around também são referências', () => {
+  const text = '{ "store.home": { "before": ["a#1"], "after": ["b#2"], "around": ["c#3"] } }'
+  const refs = scanOccurrences(text).filter((o) => !o.isDef).map((o) => o.id)
+  assert.deepEqual(refs, ['a#1', 'b#2', 'c#3'])
+})
+
+test('scanOccurrences: blocos em comentários JSONC são ignorados', () => {
+  const text = `{
+  // "rich-text#antigo": { "props": {} },
+  /* "children": ["image#antiga"] */
+  "rich-text#novo": { "children": ["image#nova"] }
+}`
+  const ids = scanOccurrences(text).map((o) => o.id)
+  assert.deepEqual(ids, ['rich-text#novo', 'image#nova'])
+})
+
+test('isThemeBlockFilePath: store/contentSchemas.json não é arquivo de blocos', () => {
+  assert.equal(isThemeBlockFilePath('/proj/store/contentSchemas.json'), false)
+})
