@@ -108,7 +108,7 @@ defecto.
 ├── snippets/          # .code-snippets (generado desde data/blocks.json)
 ├── schemas/           # JSON Schema de los bloques (generado)
 ├── assets/tokens.json # tokens del VTEX Style por defecto (fallback embebido)
-├── images/            # ícono, ladrillo de la marca e imagen del README
+├── images/            # ícono (PNG y SVG) e imagen del README
 ├── scripts/           # generadores: schema, cobertura, ícono e imagen del README
 └── test/              # node:test
 ```
@@ -127,7 +127,7 @@ npm install
 npm test                          # node:test
 node --check extension.js
 node scripts/generate-schema.js   # regenera schemas/ y snippets/ desde data/blocks.json
-npm run icone                     # regenera images/icon.png desde el ladrillo
+npm run icone                     # regenera images/icon.png desde images/icon.svg
 npm run preview                   # regenera images/preview.png
 
 npx --yes @vscode/vsce package --no-dependencies   # genera el .vsix
