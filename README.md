@@ -1,4 +1,4 @@
-# VTEX IO Snippets
+# Snippets for VTEX IO
 
 **Snippets, validación e IntelliSense para temas de VTEX IO Store Framework.**
 
@@ -13,7 +13,7 @@ tema y el autocompletado de las variables CSS del VTEX Style.
 ![Autocompletado de ids de bloque y validación de props en store/blocks/home.jsonc](images/preview.png)
 
 Versión del código: **5.0.0**, según [package.json](package.json). Requiere **VS Code >= 1.60.0**. El identificador
-publicado sigue siendo `commenteme.vtex-io-intellisense`, aunque el nombre visible sea VTEX IO Snippets. La
+publicado sigue siendo `commenteme.vtex-io-intellisense`, aunque el nombre visible sea Snippets for VTEX IO. La
 documentación detallada de cada función está en la [wiki](https://github.com/zeluizr/vtex-io-snippets/wiki).
 
 ---
@@ -32,7 +32,7 @@ mano:
 
 ## Instalación
 
-Desde el VS Code Marketplace: busca **«VTEX IO Snippets»**, o desde Quick Open (`Cmd/Ctrl + P`):
+Desde el VS Code Marketplace: busca **«Snippets for VTEX IO»**, o desde Quick Open (`Cmd/Ctrl + P`):
 
 ```
 ext install commenteme.vtex-io-intellisense

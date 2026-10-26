@@ -1,7 +1,7 @@
 # CLAUDE.md
 
-Guia para trabalhar neste repositório. É a extensão de VS Code **"VTEX IO Snippets"** (publisher `commenteme`, id
-`commenteme.vtex-io-intellisense`). O nome visível mudou em 10/09/2026 e de novo em 21/10/2026; o id **não** muda,
+Guia para trabalhar neste repositório. É a extensão de VS Code **"Snippets for VTEX IO"** (publisher `commenteme`, id
+`commenteme.vtex-io-intellisense`). O nome visível mudou em 10/09/2026, em 21/10/2026 e em 26/10/2026 (o padrão «Snippets for X» da marca v7); o id **não** muda,
 porque trocá-lo cria outra extensão no Marketplace.
 
 ## O que a extensão faz
